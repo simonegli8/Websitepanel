@@ -262,7 +262,7 @@ namespace WebsitePanel.Providers.HostedSolution
             return GetMailboxPermissionsInternal(organizationId, accountName, null);
         }
 
-        public void SetMailboxPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, string[] calendarAccounts, string[] contactAccounts)
+        public void SetMailboxPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, ExchangeAccount[] calendarAccounts, ExchangeAccount[] contactAccounts)
         {
             SetMailboxPermissionsInternal(organizationId, accountName, sendAsAccounts, fullAccessAccounts, onBehalfOfAccounts, calendarAccounts, contactAccounts);
         }
@@ -474,9 +474,11 @@ namespace WebsitePanel.Providers.HostedSolution
         {
             ExchangeLog.LogStart("DisableMailboxInternal");
             Runspace runSpace = null;
+            Runspace runSpaceEx = null;
             try
             {
                 runSpace = OpenRunspace();
+                runSpaceEx = OpenRunspaceEx();
 
                 Command cmd = new Command("Get-Mailbox");
                 cmd.Parameters.Add("Identity", id);
@@ -490,11 +492,7 @@ namespace WebsitePanel.Providers.HostedSolution
 
                     RemoveDevicesInternal(runSpace, id);
 
-                    cmd = new Command("Disable-Mailbox");
-                    cmd.Parameters.Add("Identity", id);
-                    cmd.Parameters.Add("Confirm", new SwitchParameter(false));
-                    ExecuteShellCommand(runSpace, cmd);
-
+                    DisableMailbox(runSpace, runSpaceEx, id);
 
                     if (addressbookPolicy == (upn + " AP"))
                     {
@@ -530,8 +528,8 @@ namespace WebsitePanel.Providers.HostedSolution
 
             finally
             {
-
                 CloseRunspace(runSpace);
+                CloseRunspaceEx(runSpaceEx);
             }
             ExchangeLog.LogEnd("DisableMailboxInternal");
         }
@@ -1613,7 +1611,7 @@ namespace WebsitePanel.Providers.HostedSolution
             ExchangeLog.LogEnd("SetMailboxOnBehalfPermissions");
         }
 
-        private void ResetMailboxFolderPermissions(Runspace runSpace, string folderPath, string[] accounts, ExchangeTransaction transaction)
+        private void ResetMailboxFolderPermissions(Runspace runSpace, string folderPath, ExchangeAccount[] accounts, ExchangeTransaction transaction)
         {
             ExchangeLog.LogStart("ResetMailboxFolderPermissions");
 
@@ -1627,15 +1625,15 @@ namespace WebsitePanel.Providers.HostedSolution
             ExchangeLog.LogEnd("ResetMailboxFolderPermissions");
         }
 
-        private void RemoveMailboxFolderPermission(Runspace runSpace, string folderPath, string account)
+        private void RemoveMailboxFolderPermission(Runspace runSpace, string folderPath, ExchangeAccount account)
         {
             Command cmd = new Command("Remove-MailboxFolderPermission");
             cmd.Parameters.Add("Identity", folderPath);
-            cmd.Parameters.Add("User", account);
+            cmd.Parameters.Add("User", account.AccountName);
             ExecuteShellCommand(runSpace, cmd);
         }
 
-        private void AddMailboxFolderPermissions(Runspace runSpace, string folderPath, string[] accounts, ExchangeTransaction transaction)
+        private void AddMailboxFolderPermissions(Runspace runSpace, string folderPath, ExchangeAccount[] accounts, ExchangeTransaction transaction)
         {
             ExchangeLog.LogStart("SetMailboxCalendarPermissions");
 
@@ -1649,12 +1647,12 @@ namespace WebsitePanel.Providers.HostedSolution
             ExchangeLog.LogEnd("SetMailboxCalendarPermissions");
         }
 
-        private void AddMailboxFolderPermission(Runspace runSpace, string folderPath, string account)
+        private void AddMailboxFolderPermission(Runspace runSpace, string folderPath, ExchangeAccount account)
         {
             Command cmd = new Command("Add-MailboxFolderPermission");
             cmd.Parameters.Add("Identity", folderPath);
-            cmd.Parameters.Add("User", account);
-            cmd.Parameters.Add("AccessRights", "Reviewer");
+            cmd.Parameters.Add("User", account.AccountName);
+            cmd.Parameters.Add("AccessRights", account.PublicFolderPermission);
 
             ExecuteShellCommand(runSpace, cmd);
         }
@@ -1746,17 +1744,17 @@ namespace WebsitePanel.Providers.HostedSolution
 
                 var accessRights = GetPSObjectProperty(current, "AccessRights") as IEnumerable;
 
-                if (accessRights != null
-                    &&
-                    accessRights.Cast<object>()
-                        .All(x => !string.Equals(x.ToString(), "none", StringComparison.InvariantCultureIgnoreCase)))
+                if (accessRights == null)
                 {
-                    ExchangeAccount account = GetOrganizationAccount(runSpace, organizationId, user);
+                    continue;
+                }
 
-                    if (account != null)
-                    {
-                        accounts.Add(account);
-                    }
+                ExchangeAccount account = GetOrganizationAccount(runSpace, organizationId, user);
+
+                if (account != null)
+                {
+                    account.PublicFolderPermission = accessRights.Cast<object>().First().ToString();
+                    accounts.Add(account);
                 }
             }
 
@@ -1904,7 +1902,7 @@ namespace WebsitePanel.Providers.HostedSolution
         }
 
 
-        private void SetMailboxPermissionsInternal(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, string[] calendarAccounts, string[] contactAccounts)
+        private void SetMailboxPermissionsInternal(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, ExchangeAccount[] calendarAccounts, ExchangeAccount[] contactAccounts)
         {
             ExchangeLog.LogStart("SetMailboxPermissionsInternal");
 
@@ -2046,7 +2044,7 @@ namespace WebsitePanel.Providers.HostedSolution
             ExchangeLog.LogEnd("SetMailboxOnBehalfOfPermissions");
         }
 
-        private void SetMailboxFolderPermissions(Runspace runSpace, ExchangeAccount[] existingAccounts, string folderPath, string[] accounts)
+        private void SetMailboxFolderPermissions(Runspace runSpace, ExchangeAccount[] existingAccounts, string folderPath, ExchangeAccount[] accounts)
         {
             ExchangeLog.LogStart("SetMailboxFolderPermissions");
 
@@ -2060,7 +2058,7 @@ namespace WebsitePanel.Providers.HostedSolution
 
             try
             {
-                SetMailboxFolderPermissions(runSpace, folderPath, existingAccounts.Select(x => x.AccountName).ToArray(), accounts, transaction);
+                SetMailboxFolderPermissions(runSpace, folderPath, existingAccounts, accounts, transaction);
             }
             catch (Exception)
             {
@@ -2071,7 +2069,7 @@ namespace WebsitePanel.Providers.HostedSolution
             ExchangeLog.LogEnd("SetMailboxFolderPermissions");
         }
 
-        private void SetMailboxFolderPermissions(Runspace runSpace, string folderPath, string[] existingAccounts, string[] newAccounts, ExchangeTransaction transaction)
+        private void SetMailboxFolderPermissions(Runspace runSpace, string folderPath, ExchangeAccount[] existingAccounts, ExchangeAccount[] newAccounts, ExchangeTransaction transaction)
         {
             ResetMailboxFolderPermissions(runSpace, folderPath, existingAccounts, transaction);
 
@@ -2184,6 +2182,9 @@ namespace WebsitePanel.Providers.HostedSolution
                 Command cmd = null;
                 Collection<PSObject> result = null;
 
+                //if (IsLitigationExist(runSpaceEx, upn))
+                //    DisableMailbox(upn);
+
                 //try to enable mail user for 10 times
                 while (true)
                 {
@@ -2228,7 +2229,7 @@ namespace WebsitePanel.Providers.HostedSolution
                     System.Threading.Thread.Sleep(1000);
                 }
 
-                transaction.RegisterEnableMailbox(id);
+                transaction.RegisterEnableMailbox(upn);
 
                 // default public folder
                 string orgCanonicalName = ConvertADPathToCanonicalName(organizationDistinguishedName);
@@ -2262,9 +2263,7 @@ namespace WebsitePanel.Providers.HostedSolution
                 cmd.Parameters.Add("RecipientLimits", ConvertInt32ToUnlimited(maxRecipients));
                 cmd.Parameters.Add("MaxSendSize", ConvertKBToUnlimited(maxSendMessageSizeKB));
                 cmd.Parameters.Add("MaxReceiveSize", ConvertKBToUnlimited(maxReceiveMessageSizeKB));
-                if (IsConsumer) cmd.Parameters.Add("HiddenFromAddressListsEnabled", true);
-                else
-                    cmd.Parameters.Add("HiddenFromAddressListsEnabled", hideFromAddressBook);
+                cmd.Parameters.Add("HiddenFromAddressListsEnabled", IsConsumer || hideFromAddressBook);
                 cmd.Parameters.Add("AddressBookPolicy", addressBookPolicy);
 
                 if (enabledLitigationHold)
@@ -2280,11 +2279,10 @@ namespace WebsitePanel.Providers.HostedSolution
                 //Litigation Hold
                 if (enabledLitigationHold)
                 {
-                    cmd = new Command("New-MailboxSearch");
-                    cmd.Parameters.Add("Name", upn);
-                    cmd.Parameters.Add("InPlaceHoldEnabled", enabledLitigationHold);
-                    cmd.Parameters.Add("SourceMailboxes", upn);
-                    ExecuteShellCommandEx(runSpaceEx, cmd);
+                    if (IsLitigationExist(runSpaceEx, upn))
+                        SetMailboxLitigation(runSpaceEx, upn, true);
+                    else
+                        CreateLitigation(runSpaceEx, upn);
                 }
 
                 //Client Access
@@ -2560,8 +2558,11 @@ namespace WebsitePanel.Providers.HostedSolution
             ExchangeLog.LogEnd("RemoveMailbox");
         }
 
-        private void DisableMailbox(Runspace runSpace, string id)
+        private void DisableMailbox(Runspace runSpace, Runspace runSpaceEx, string id)
         {
+            if (IsLitigationEnabled(runSpaceEx, id))
+                SetMailboxLitigation(runSpaceEx, id, false);
+
             ExchangeLog.LogStart("DisableMailbox");
             Command cmd = new Command("Disable-Mailbox");
             cmd.Parameters.Add("Identity", id);
@@ -3352,6 +3353,7 @@ namespace WebsitePanel.Providers.HostedSolution
                 info.MaxSize = ConvertUnlimitedToBytes((Unlimited<ByteQuantifiedSize>)GetPSObjectProperty(mailbox, "ProhibitSendReceiveQuota"));
                 DateTime? whenCreated = (DateTime?)GetPSObjectProperty(mailbox, "WhenCreated");
                 info.AccountCreated = ConvertNullableToDateTime(whenCreated);
+                info.LitigationHoldMaxSize = ConvertUnlimitedToBytes((Unlimited<ByteQuantifiedSize>)GetPSObjectProperty(mailbox, "RecoverableItemsQuota"));
 
                 //Client Access
                 Command cmd = new Command("Get-CASMailbox");
@@ -3366,15 +3368,7 @@ namespace WebsitePanel.Providers.HostedSolution
                 info.IMAPEnabled = (bool)GetPSObjectProperty(mailbox, "ImapEnabled");
 
                 //Litigation Hold
-                info.LitigationHoldEnabled = false;
-                cmd = new Command("Get-MailboxSearch");
-                cmd.Parameters.Add("Identity", id);
-                result = ExecuteShellCommandEx(runSpaceEx, cmd);
-                if ((result != null) & (result.Count > 0))
-                {
-                    mailbox = result[0];
-                    info.LitigationHoldEnabled = (bool)GetPSObjectProperty(mailbox, "InPlaceHoldEnabled");
-                }
+                info.LitigationHoldEnabled = IsLitigationEnabled(runSpaceEx, id);
                 
                 //Statistics
                 cmd = new Command("Get-MailboxStatistics");
@@ -3457,6 +3451,48 @@ namespace WebsitePanel.Providers.HostedSolution
             cmd.Parameters.Add("Identity", id);
             Collection<PSObject> result = ExecuteShellCommand(runSpace, cmd);
             return result;
+        }
+
+        private bool IsLitigationEnabled(Runspace runSpaceEx, string id)
+        {
+            var cmd = new Command("Get-MailboxSearch");
+            cmd.Parameters.Add("Identity", id);
+            var result = ExecuteShellCommandEx(runSpaceEx, cmd);
+
+            if ((result != null) && (result.Count > 0))
+            {
+                var mailbox = result[0];
+                return (bool)GetPSObjectProperty(mailbox, "InPlaceHoldEnabled");
+            }
+
+            return false;
+        }
+
+        private bool IsLitigationExist(Runspace runSpaceEx, string id)
+        {
+            var cmd = new Command("Get-MailboxSearch");
+            cmd.Parameters.Add("Identity", id);
+            var result = ExecuteShellCommandEx(runSpaceEx, cmd);
+
+            return result != null && result.Count > 0;
+        }
+
+        private void CreateLitigation(Runspace runSpaceEx, string id)
+        {
+            var cmd = new Command("New-MailboxSearch");
+            cmd.Parameters.Add("Name", id);
+            cmd.Parameters.Add("InPlaceHoldEnabled", true);
+            cmd.Parameters.Add("SourceMailboxes", id);
+            ExecuteShellCommandEx(runSpaceEx, cmd);
+        }
+
+        private void SetMailboxLitigation(Runspace runSpaceEx, string id, bool enable)
+        {
+            var cmd = new Command("Set-MailboxSearch");
+            cmd.Parameters.Add("Identity", id);
+            cmd.Parameters.Add("InPlaceHoldEnabled", enable);
+            cmd.Parameters.Add("SourceMailboxes", id);
+            ExecuteShellCommandEx(runSpaceEx, cmd);
         }
 
         #endregion
@@ -7658,17 +7694,18 @@ namespace WebsitePanel.Providers.HostedSolution
         {
             ExchangeLog.LogStart("RollbackTransaction");
             Runspace runSpace = null;
+            Runspace runSpaceEx = null;
             try
             {
                 runSpace = OpenRunspace();
-
+                runSpaceEx = OpenRunspace();
 
                 for (int i = transaction.Actions.Count - 1; i > -1; i--)
                 {
                     //reverse order
                     try
                     {
-                        RollbackAction(transaction.Actions[i], runSpace);
+                        RollbackAction(transaction.Actions[i], runSpace, runSpaceEx);
                     }
                     catch (Exception ex)
                     {
@@ -7682,13 +7719,13 @@ namespace WebsitePanel.Providers.HostedSolution
             }
             finally
             {
-
                 CloseRunspace(runSpace);
+                CloseRunspace(runSpaceEx);
             }
             ExchangeLog.LogEnd("RollbackTransaction");
         }
 
-        private void RollbackAction(TransactionAction action, Runspace runspace)
+        private void RollbackAction(TransactionAction action, Runspace runspace, Runspace runspaceEx)
         {
             ExchangeLog.LogInfo("Rollback action: {0}", action.ActionType);
             switch (action.ActionType)
@@ -7727,7 +7764,7 @@ namespace WebsitePanel.Providers.HostedSolution
                     RemoveMailbox(runspace, action.Id, false);
                     break;
                 case TransactionAction.TransactionActionTypes.EnableMailbox:
-                    DisableMailbox(runspace, action.Id);
+                    DisableMailbox(runspace, runspaceEx, action.Id);
                     break;
                 case TransactionAction.TransactionActionTypes.CreateContact:
                     RemoveContact(runspace, action.Id);
@@ -7754,10 +7791,10 @@ namespace WebsitePanel.Providers.HostedSolution
                     SetMailboxOnBehalfPermissions(runspace, action.Id, action.Accounts);
                     break;
                 case TransactionAction.TransactionActionTypes.RemoveMailboxFolderPermissions:
-                    AddMailboxFolderPermission(runspace, action.Id, action.Account);
+                    AddMailboxFolderPermission(runspace, action.Id, action.ExchangeAccount);
                     break;
                 case TransactionAction.TransactionActionTypes.AddMailboxFolderPermission:
-                    RemoveMailboxFolderPermission(runspace, action.Id, action.Account);
+                    RemoveMailboxFolderPermission(runspace, action.Id, action.ExchangeAccount);
                     break;
             }
         }

@@ -85,9 +85,9 @@ namespace WebsitePanel.EnterpriseServer
             return GetUserRootFoldersInternal(itemId, accountId, userName, displayName);
         }
 
-        public static SystemFile GetFolder(int itemId, string folderName)
+        public static SystemFile GetFolder(int itemId, string folderName, bool loadMappedDriveInfo = false)
         {
-            return GetFolderInternal(itemId, folderName);
+            return GetFolderInternal(itemId, folderName, loadMappedDriveInfo);
         }
 
         public static SystemFile GetFolder(int itemId)
@@ -123,6 +123,11 @@ namespace WebsitePanel.EnterpriseServer
         public static SystemFilesPaged GetEnterpriseFoldersPaged(int itemId, bool loadUsagesData, bool loadWebdavRules, bool loadMappedDrives, string filterValue, string sortColumn, int startRow, int maximumRows)
         {
             return GetEnterpriseFoldersPagedInternal(itemId, loadUsagesData, loadWebdavRules, loadMappedDrives, filterValue, sortColumn, startRow, maximumRows);
+        }
+
+        public static IEnumerable<SystemFile> GetEnterpriseFolders(int itemId, bool loadUsagesData = false, bool loadWebdavRules = false, bool loadMappedDrives = false)
+        {
+            return GetEnterpriseFoldersPaged(itemId, loadUsagesData, loadWebdavRules, loadMappedDrives, "", "", 0, int.MaxValue).PageItems;
         }
 
         public static ResultObject SetFolderPermission(int itemId, string folder, ESPermission[] permission)
@@ -341,7 +346,7 @@ namespace WebsitePanel.EnterpriseServer
                 }
                 else
                 {
-                    StorageSpacesController.SetStorageSpaceFolderQuota(esFolder.StorageSpaceId, esFolder.StorageSpaceFolderId.Value, quota * 1024 * 1024, quotaType);
+                    StorageSpacesController.SetStorageSpaceFolderQuota(esFolder.StorageSpaceId, esFolder.StorageSpaceFolderId.Value, (long)quota * 1024 * 1024, quotaType);
 
                     DataProvider.UpdateEnterpriseFolder(itemId, folder.Name, folder.Name, quota);
                 }
@@ -588,18 +593,6 @@ namespace WebsitePanel.EnterpriseServer
             return result;
         }
 
-        private static string GetParentUnc(string uncPath)
-        {
-            var uri = new Uri(uncPath);
-
-            if (uri.Segments.Length == 2)
-            {
-                return string.Format("\\\\{0}", uri.Host);
-            }
-
-            return Directory.GetParent(uncPath).ToString();
-        }
-
         protected static ResultObject DeleteEnterpriseStorageInternal(int packageId, int itemId)
         {
             ResultObject result = TaskManager.StartResultTask<ResultObject>("ORGANIZATION", "CLEANUP_ORGANIZATION_ENTERPRISE_STORAGE", itemId, packageId);
@@ -736,7 +729,7 @@ namespace WebsitePanel.EnterpriseServer
             }
         }
 
-        protected static SystemFile GetFolderInternal(int itemId, string folderName)
+        protected static SystemFile GetFolderInternal(int itemId, string folderName, bool loadDriveMapInfo = false)
         {
             try
             {
@@ -758,7 +751,28 @@ namespace WebsitePanel.EnterpriseServer
 
                 if (esFolder.StorageSpaceFolderId == null)
                 {
-                    return es.GetFolder(org.OrganizationId, folderName, new WebDavSetting(esFolder.LocationDrive, esFolder.HomeFolder, esFolder.Domain));
+                    var folder = es.GetFolder(org.OrganizationId, folderName, new WebDavSetting(esFolder.LocationDrive, esFolder.HomeFolder, esFolder.Domain));
+
+                    if (folder == null)
+                    {
+                        return folder;
+                    }
+
+                    if (loadDriveMapInfo)
+                    {
+                        Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
+
+                        List<MappedDrive> mappedDrives = orgProxy.GetDriveMaps(org.OrganizationId).ToList();
+
+                        var drive = GetFolderMappedDrive(mappedDrives, folder);
+
+                        if (drive != null)
+                        {
+                            folder.DriveLetter = drive.DriveLetter;
+                        }
+                    }
+
+                    return folder;
                 }
                 else
                 {
@@ -780,6 +794,20 @@ namespace WebsitePanel.EnterpriseServer
                         if (ssFolder != null)
                         {
                             folder.UncPath = ssFolder.UncPath;
+                        }
+                    }
+
+                    if (loadDriveMapInfo)
+                    {
+                        Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
+
+                        List<MappedDrive> mappedDrives = orgProxy.GetDriveMaps(org.OrganizationId).ToList();
+
+                        var drive = GetFolderMappedDrive(mappedDrives, folder);
+
+                        if (drive != null)
+                        {
+                            folder.DriveLetter = drive.DriveLetter;
                         }
                     }
 
@@ -809,6 +837,7 @@ namespace WebsitePanel.EnterpriseServer
                 }
 
                 EnterpriseStorage es = GetEnterpriseStorage(GetEnterpriseStorageServiceID(org.PackageId));
+                int esId =  GetEnterpriseStorageServiceID(org.PackageId);
 
                 var esFolder = ObjectUtils.FillObjectFromDataReader<EsFolder>(DataProvider.GetEnterpriseFolder(itemId, oldFolder));
                 var targetFolder = ObjectUtils.FillObjectFromDataReader<EsFolder>(DataProvider.GetEnterpriseFolder(itemId, newFolder));
@@ -829,7 +858,6 @@ namespace WebsitePanel.EnterpriseServer
                         es.RenameFolder(org.OrganizationId, oldFolder, newFolder, new WebDavSetting(esFolder.LocationDrive, esFolder.HomeFolder, esFolder.Domain));
                     
                         DataProvider.UpdateEnterpriseFolder(itemId, oldFolder, newFolder, ConvertMegaBytesToGB(ConvertBytesToMB(esFolder.FsrmQuotaSizeBytes)));
-
                     }
                     else
                     {
@@ -844,22 +872,18 @@ namespace WebsitePanel.EnterpriseServer
 
                         DeleteWebDavDirectory(org.PackageId, esFolder.Domain, string.Format("{0}/{1}", org.OrganizationId, esFolder.FolderName));
 
-                        CreateEnterpriseStorageVirtualFolderInternal(org.PackageId, itemId, newFolder, esFolder.UncPath);
+                        CreateEnterpriseStorageVirtualFolderInternal(org.PackageId, itemId, newFolder, CheckIfSsAndEsOnSameServer(esId,esFolder.StorageSpaceId) ? esFolder.Path : esFolder.UncPath);
 
                         DataProvider.UpdateEnterpriseFolder(itemId, oldFolder, newFolder, ConvertBytesToMB(esFolder.FsrmQuotaSizeBytes));
-
-                        folder = GetFolder(itemId, newFolder);
 
                         SetFolderWebDavRulesInternal(itemId, newFolder, ConvertToESPermission(itemId, rules));
 
                         StorageSpacesController.SetFolderNtfsPermissions(esFolder.StorageSpaceId, esFolder.Path, ConvertToUserPermissions(rules), true, false);
                     }
 
-                    Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
+                    UpdateFolderDriveMapPath(itemId, folder,newFolder );
 
-                    orgProxy.ChangeDriveMapFolderPath(org.OrganizationId, oldFolder, newFolder);
-
-                    return folder;
+                    return GetFolder(itemId, newFolder);
                 }
 
                 return null;
@@ -868,6 +892,14 @@ namespace WebsitePanel.EnterpriseServer
             {
                 throw ex;
             }
+        }
+
+        private static bool CheckIfSsAndEsOnSameServer(int esId, int ssId)
+        {
+            var storage = StorageSpacesController.GetStorageSpaceById(ssId);
+            var esService = ServerController.GetServiceInfo(esId);
+
+            return storage.ServerId == esService.ServerId;
         }
 
         protected static ResultObject CreateFolderInternal(int itemId, string folderName, int quota, QuotaType quotaType, bool addDefaultGroup, bool rootFolder = false)
@@ -904,8 +936,16 @@ namespace WebsitePanel.EnterpriseServer
 
                     if (UsingStorageSpaces(esId) && !rootFolder)
                     {
+                        var storageSpaceId = StorageSpacesController.FindBestStorageSpaceService(new EnterpriseStorageSpaceSelector(esId), 
+                            ResourceGroups.EnterpriseStorage, quotaInBytses);
+
+                        if (!storageSpaceId.IsSuccess)
+                        {
+                            throw new Exception(storageSpaceId.ErrorCodes.First());
+                        }
+
                         var storageSpaceFolderResult =
-                            StorageSpacesController.CreateStorageSpaceFolder(ResourceGroups.EnterpriseStorage,
+                            StorageSpacesController.CreateStorageSpaceFolder(storageSpaceId.Value, ResourceGroups.EnterpriseStorage,
                                 org.OrganizationId, folderName, quotaInBytses, quotaType);
 
                         if (!storageSpaceFolderResult.IsSuccess)
@@ -922,7 +962,9 @@ namespace WebsitePanel.EnterpriseServer
 
                         DataProvider.AddEntepriseFolder(itemId, folderName, quota, null, null, esSesstings["UsersDomain"], storageSpaceFolderResult.Value);
 
-                        CreateEnterpriseStorageVirtualFolderInternal(org.PackageId, itemId, folderName, folder.UncPath);
+                        CreateEnterpriseStorageVirtualFolderInternal(org.PackageId, itemId, folderName, CheckIfSsAndEsOnSameServer(esId, folder.StorageSpaceId) ? folder.Path : folder.UncPath);
+
+                        StorageSpacesController.SetStorageSpaceFolderAbeStatus(folder.Id, true);
                     }
                     else
                     {
@@ -994,6 +1036,43 @@ namespace WebsitePanel.EnterpriseServer
             return result;
         }
 
+        protected static void ChangeDriveMapFolderPath(int itemId, string oldPath, string newPath )
+        {
+            // load organization
+            Organization org = OrganizationController.GetOrganization(itemId);
+            if (org == null)
+            {
+                return;
+            }
+
+            Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
+
+            orgProxy.ChangeDriveMapFolderPath(org.OrganizationId, oldPath, newPath);
+        }
+
+        private static void UpdateFolderDriveMapPath(int itemId, SystemFile folder, string newFolder)
+        {
+            // load organization
+            Organization org = OrganizationController.GetOrganization(itemId);
+            if (org == null)
+            {
+                return;
+            }
+
+            Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
+
+            var mappedDrive = GetFolderMappedDrive(orgProxy.GetDriveMaps(org.OrganizationId), folder);
+
+            if (mappedDrive != null)
+            {
+                var oldFolderDriveMapPath = mappedDrive.Path;
+                var newPath = GetDriveMapPath(itemId, org.OrganizationId, newFolder);
+
+                ChangeDriveMapFolderPath(itemId, oldFolderDriveMapPath, newPath);
+            }
+        }
+
+
         protected static void SetFRSMQuotaOnFolderInternal(int itemId, string folderName, int quota, QuotaType quotaType)
         {
             ResultObject result = TaskManager.StartResultTask<ResultObject>("ENTERPRISE_STORAGE", "SET_FRSM_QUOTA");
@@ -1052,6 +1131,8 @@ namespace WebsitePanel.EnterpriseServer
 
                 var esFolder = ObjectUtils.FillObjectFromDataReader<EsFolder>(DataProvider.GetEnterpriseFolder(itemId, folderName));
 
+                DeleteMappedDriveInternal(itemId, folderName);
+
                 if (esFolder.StorageSpaceFolderId == null)
                 {
                     es.DeleteFolder(org.OrganizationId, folderName, new WebDavSetting(esFolder.LocationDrive,esFolder.HomeFolder,esFolder.Domain));
@@ -1062,12 +1143,6 @@ namespace WebsitePanel.EnterpriseServer
 
                     StorageSpacesController.DeleteStorageSpaceFolder(esFolder.StorageSpaceId, esFolder.StorageSpaceFolderId.Value);
                 }
-
-                string path = string.Format(@"\\{0}@SSL\{1}\{2}", esFolder.Domain.Split('.')[0], org.OrganizationId, folderName);
-
-                Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
-
-                orgProxy.DeleteMappedDriveByPath(org.OrganizationId, path);
 
                 DataProvider.DeleteEnterpriseFolder(itemId, folderName);
             }
@@ -1160,14 +1235,13 @@ namespace WebsitePanel.EnterpriseServer
 
                         List<MappedDrive> mappedDrives = orgProxy.GetDriveMaps(org.OrganizationId).ToList();
 
-                        foreach (MappedDrive drive in mappedDrives)
+                        foreach (SystemFile folder in folders)
                         {
-                            foreach (SystemFile folder in folders)
+                            var drive = GetFolderMappedDrive(mappedDrives, folder);
+
+                            if (drive != null)
                             {
-                                if (drive.Path.Split('\\').Last() == folder.Name)
-                                {
-                                    folder.DriveLetter = drive.DriveLetter;
-                                }
+                                folder.DriveLetter = drive.DriveLetter;
                             }
                         }
                     }
@@ -1207,7 +1281,9 @@ namespace WebsitePanel.EnterpriseServer
                     return result;
                 }
 
-                EnterpriseStorage es = GetEnterpriseStorage(GetEnterpriseStorageServiceID(org.PackageId));
+                var esId = GetEnterpriseStorageServiceID(org.PackageId);
+
+                EnterpriseStorage es = GetEnterpriseStorage(esId);
 
                 esFolder = ObjectUtils.FillObjectFromDataReader<EsFolder>(DataProvider.GetEnterpriseFolder(itemId, folderName));
 
@@ -1225,8 +1301,16 @@ namespace WebsitePanel.EnterpriseServer
 
                 long quotaInBytses = ((long)systemFile.FRSMQuotaMB) * 1024 * 1024;
 
+                var storageSpaceId = StorageSpacesController.FindBestStorageSpaceService(new EnterpriseStorageSpaceSelector(esId),
+                           ResourceGroups.EnterpriseStorage, quotaInBytses);
+
+                if (!storageSpaceId.IsSuccess)
+                {
+                    throw new Exception(storageSpaceId.ErrorCodes.First());
+                }
+
                 var storageFolderResult =
-                    StorageSpacesController.CreateStorageSpaceFolder(ResourceGroups.EnterpriseStorage,
+                    StorageSpacesController.CreateStorageSpaceFolder(storageSpaceId.Value, ResourceGroups.EnterpriseStorage,
                         org.OrganizationId, folderName, quotaInBytses, systemFile.FsrmQuotaType);
 
                 if (!storageFolderResult.IsSuccess)
@@ -1241,7 +1325,7 @@ namespace WebsitePanel.EnterpriseServer
 
                 storageFolder = StorageSpacesController.GetStorageSpaceFolderById(storageFolderResult.Value);
 
-                virDirectoryResult = CreateEnterpriseStorageVirtualFolderInternal(org.PackageId, itemId, folderName, storageFolder.UncPath);
+                virDirectoryResult = CreateEnterpriseStorageVirtualFolderInternal(org.PackageId, itemId, folderName, CheckIfSsAndEsOnSameServer(esId, storageFolder.StorageSpaceId) ? storageFolder.Path : storageFolder.UncPath);
 
                 if (!virDirectoryResult.IsSuccess)
                 {
@@ -1275,6 +1359,8 @@ namespace WebsitePanel.EnterpriseServer
                 //es.MoveFolder(systemFile.FullName, storageFolder.UncPath);
 
                 DataProvider.UpdateEntepriseFolderStorageSpaceFolder(itemId, folderName, storageFolderResult.Value);
+
+                UpdateFolderDriveMapPath(itemId, systemFile, folderName);
             }
             catch (Exception exception)
             {
@@ -1323,6 +1409,42 @@ namespace WebsitePanel.EnterpriseServer
             int esId = PackageController.GetPackageServiceId(org.PackageId, ResourceGroups.EnterpriseStorage);
 
             return esId;
+        }
+
+        public static void SetEsFolderShareSettings(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled)
+        {
+            SetEsFolderShareSettingsInternal(itemId, folderName, abeIsEnabled, edaIsEnabled);
+        }
+
+        private static void SetEsFolderShareSettingsInternal(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled)
+        {
+           TaskManager.StartTask("ENTERPRISE_STORAGE", "SET_ES_FOLDER_SHARE_SETTINGS");
+
+            try
+            {
+                var  esFolder = ObjectUtils.FillObjectFromDataReader<EsFolder>(DataProvider.GetEnterpriseFolder(itemId, folderName));
+
+                if (esFolder == null)
+                {
+                    throw new Exception("Folder not found");
+                }
+
+                if (esFolder.StorageSpaceFolderId == null)
+                {
+                    throw new Exception("Folder is not Storage Space folder");
+                }
+
+                StorageSpacesController.SetStorageSpaceFolderAbeStatus(esFolder.StorageSpaceFolderId.Value, abeIsEnabled);
+                StorageSpacesController.SetStorageSpaceFolderEncryptDataAccessStatus(esFolder.StorageSpaceFolderId.Value, edaIsEnabled);
+            }
+            catch (Exception exception)
+            {
+                TaskManager.WriteError(exception);
+            }
+            finally
+            {
+               TaskManager.CompleteTask();
+            }
         }
 
         #region WebDav
@@ -1434,7 +1556,9 @@ namespace WebsitePanel.EnterpriseServer
 
                 es.SetFolderWebDavRules(org.OrganizationId, folder, webDavSetting, rules);
 
-                EnterpriseStorageController.SetDriveMapsTargetingFilter(org, permission, folder);
+                var path = GetDriveMapPath(itemId, org.OrganizationId, folder);
+
+                EnterpriseStorageController.SetDriveMapsTargetingFilter(org, permission, path);
             }
             catch (Exception ex)
             {
@@ -1559,7 +1683,9 @@ namespace WebsitePanel.EnterpriseServer
             folder.IsDirectory = true;
             folder.Url = string.Format("https://{0}/{1}/{2}", esfolder.Domain, organizationId, esfolder.FolderName);
             folder.FRSMQuotaMB = esfolder.FolderQuota;
+            folder.UncPath = esfolder.UncPath;
             folder.FRSMQuotaGB = ConvertMegaBytesToGB(esfolder.FolderQuota);
+            folder.StorageSpaceFolderId = esfolder.StorageSpaceFolderId;
 
             return folder;
         }
@@ -1997,7 +2123,7 @@ namespace WebsitePanel.EnterpriseServer
 
                 if (byOrganization)
                 {
-                    SystemFile[] folders = GetEnterpriseFoldersPaged(itemId, true, false, false, "", "", 0, int.MaxValue).PageItems;
+                    SystemFile[] folders = GetEnterpriseFoldersPaged(itemId, false, false, false, "", "", 0, int.MaxValue).PageItems;
 
                     stats.CreatedEnterpriseStorageFolders = folders.Count();
 
@@ -2033,8 +2159,8 @@ namespace WebsitePanel.EnterpriseServer
 
                 // allocated quotas
                 PackageContext cntx = PackageController.GetPackageContext(org.PackageId);
-                stats.AllocatedEnterpriseStorageSpace = cntx.Quotas[Quotas.ENTERPRISESTORAGE_DISKSTORAGESPACE].QuotaAllocatedValue;
-                stats.AllocatedEnterpriseStorageFolders = cntx.Quotas[Quotas.ENTERPRISESTORAGE_FOLDERS].QuotaAllocatedValue;
+                stats.AllocatedEnterpriseStorageSpace = cntx.Quotas[Quotas.ENTERPRISESTORAGE_DISKSTORAGESPACE].GetQuotaAllocatedValue(byOrganization);
+                stats.AllocatedEnterpriseStorageFolders = cntx.Quotas[Quotas.ENTERPRISESTORAGE_FOLDERS].GetQuotaAllocatedValue(byOrganization);
 
                 return stats;
             }
@@ -2078,15 +2204,15 @@ namespace WebsitePanel.EnterpriseServer
                 {
                     StringDictionary esSesstings = ServerController.GetServiceSettings(esServiceId);
 
-                    string path = string.Format(@"\\{0}@SSL\{1}\{2}", esSesstings["UsersDomain"].Split('.')[0], org.OrganizationId, folderName);
-
                     Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
+
+                    var path = GetDriveMapPath(itemId, org.OrganizationId,folderName);
 
                     if (orgProxy.CreateMappedDrive(org.OrganizationId, driveLetter, labelAs, path) == 0)
                     {
                         var folder = GetFolder(itemId, folderName);
 
-                        EnterpriseStorageController.SetDriveMapsTargetingFilter(org, ConvertToESPermission(itemId, folder.Rules), folderName);
+                        EnterpriseStorageController.SetDriveMapsTargetingFilter(org, ConvertToESPermission(itemId, folder.Rules), path);
                     }
                     else
                     {
@@ -2114,6 +2240,15 @@ namespace WebsitePanel.EnterpriseServer
             return result;
         }
 
+        private static string GetDriveMapPath(int itemId, string organizatinoId, string folderName)
+        {
+            var esFolder = ObjectUtils.FillObjectFromDataReader<EsFolder>(DataProvider.GetEnterpriseFolder(itemId, folderName));
+
+            return esFolder.StorageSpaceFolderId == null
+                ? string.Format(@"\\{0}@SSL\{1}\{2}", esFolder.Domain.Split('.')[0], organizatinoId, folderName)
+                : esFolder.UncPath;
+        }
+
         public static ResultObject DeleteMappedDrive(int itemId, string folderName)
         {
             return DeleteMappedDriveInternal(itemId, folderName);
@@ -2134,9 +2269,7 @@ namespace WebsitePanel.EnterpriseServer
                     return result;
                 }
 
-                var webDavSetting = ObjectUtils.FillObjectFromDataReader<WebDavSetting>(DataProvider.GetEnterpriseFolder(itemId, folderName));
-
-                string path = string.Format(@"\\{0}@SSL\{1}\{2}", webDavSetting.Domain.Split('.')[0], org.OrganizationId, folderName);
+                string path = GetDriveMapPath(itemId, org.OrganizationId, folderName);
 
                 Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
 
@@ -2180,22 +2313,20 @@ namespace WebsitePanel.EnterpriseServer
                     return null;
                 }
 
-                List<SystemFile> folders = GetEnterpriseFoldersPaged(itemId,false,false, false,"","",0 , int.MaxValue).PageItems.ToList();
+                List<SystemFile> folders = GetEnterpriseFolders(itemId).ToList();
 
                 Organizations orgProxy = OrganizationController.GetOrganizationProxy(org.ServiceId);
 
                 List<MappedDrive> mappedDrives = orgProxy.GetDriveMaps(org.OrganizationId).Where(x => x.LabelAs.Contains(filterValue)).ToList();
-                List<MappedDrive> resultItems = new List<MappedDrive>();
+                var resultItems = new List<MappedDrive>();
 
-                foreach (MappedDrive drive in mappedDrives)
+                foreach (var folder in folders)
                 {
-                    foreach (SystemFile folder in folders)
+                    var drive = GetFolderMappedDrive(mappedDrives, folder);
+
+                    if (drive != null)
                     {
-                        if (drive.Path.Split('\\').Last() == folder.Name)
-                        {
-                            drive.Folder = folder;
-                            resultItems.Add(drive);
-                        }
+                        resultItems.Add(drive);
                     }
                 }
 
@@ -2218,6 +2349,23 @@ namespace WebsitePanel.EnterpriseServer
             catch (Exception ex) { throw ex; }
 
             return result;
+        }
+
+        private static MappedDrive GetFolderMappedDrive(IEnumerable<MappedDrive> drives, SystemFile folder)
+        {
+            foreach (MappedDrive drive in drives)
+            {
+                var name = folder.StorageSpaceFolderId == null ? folder.Name : folder.UncPath.Split('\\').Last();
+
+                if (drive.Path.Split('\\').Last() == name)
+                {
+                    drive.Folder = folder;
+
+                    return drive;
+                }
+            }
+
+            return null;
         }
 
         public static string[] GetUsedDriveLetters(int itemId)
@@ -2275,17 +2423,7 @@ namespace WebsitePanel.EnterpriseServer
 
                     List<MappedDrive> drives = orgProxy.GetDriveMaps(org.OrganizationId).ToList();
 
-                    foreach (MappedDrive drive in drives)
-                    {
-                        foreach (SystemFile folder in folders)
-                        {
-                            if (drive.Path.Split('\\').Last() == folder.Name)
-                            {
-                                folders.Remove(folder);
-                                break;
-                            }
-                        }
-                    }
+                    folders = folders.Where(x => GetFolderMappedDrive(drives, x) == null).ToList();
                 }
             }
             catch (Exception ex) { throw ex; }

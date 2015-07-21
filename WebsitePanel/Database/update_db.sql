@@ -12194,15 +12194,45 @@ CREATE PROCEDURE [dbo].[GetSearchObject]
 	@StartRow int,
 	@MaximumRows int = 0,
 	@Recursive bit,
-	@ColType nvarchar(50) = '',
+	@ColType nvarchar(500) = '',
 	@FullType nvarchar(50) = '',
 	@OnlyFind bit
 )
 AS
 
-IF dbo.CheckActorUserRights(@ActorID, @UserID) = 0
+IF @ColType IS NULL
+	SET @ColType = ''
+	
+DECLARE @HasUserRights bit
+SET @HasUserRights = dbo.CheckActorUserRights(@ActorID, @UserID)
+
+IF @HasUserRights = 0
 RAISERROR('You are not allowed to access this account', 16, 1)
 
+DECLARE @curAll CURSOR
+DECLARE @curUsers CURSOR
+DECLARE @ItemID int
+DECLARE @TextSearch nvarchar(500)
+DECLARE @ColumnType nvarchar(50)
+DECLARE @FullTypeAll nvarchar(50)
+DECLARE @PackageID int
+DECLARE @AccountID int
+DECLARE @Username nvarchar(50)
+DECLARE @Fullname nvarchar(50)
+DECLARE @ItemsAll TABLE
+ (
+  ItemID int,
+  TextSearch nvarchar(500),
+  ColumnType nvarchar(50),
+  FullType nvarchar(50),
+  PackageID int,
+  AccountID int,
+  Username nvarchar(50),
+  Fullname nvarchar(50)
+ )
+DECLARE @sql nvarchar(4000)
+
+/*------------------------------------------------Users---------------------------------------------------------------*/
 DECLARE @columnUsername nvarchar(20)  
 SET @columnUsername = 'Username'
 
@@ -12215,49 +12245,46 @@ SET @columnCompanyName = 'CompanyName'
 DECLARE @columnFullName nvarchar(20)  
 SET @columnFullName = 'FullName'
 
-DECLARE @curUsers cursor
-DECLARE @curSpace cursor
-
-DECLARE @sqlSpace nvarchar(3000)
-DECLARE @sqlUsers nvarchar(2000)
-DECLARE @sqlReturn nvarchar(4000)
-
 IF @FilterColumn = '' AND @FilterValue <> ''
 SET @FilterColumn = 'TextSearch'
 
-SET @sqlUsers = '
-DECLARE @HasUserRights bit
-SET @HasUserRights = dbo.CheckActorUserRights(@ActorID, @UserID)
+SET @sql = '
 DECLARE @Users TABLE
 (
-	ItemPosition int IDENTITY(0,1),
-	UserID int
+ ItemPosition int IDENTITY(0,1),
+ UserID int,
+ Username nvarchar(50),
+ Fullname nvarchar(50)
 )
-INSERT INTO @Users (UserID)
+INSERT INTO @Users (UserID, Username, Fullname)
 SELECT 
-	U.UserID
+ U.UserID,
+ U.Username,
+ U.FirstName + '' '' + U.LastName as Fullname
 FROM UsersDetailed AS U
 WHERE 
-	U.UserID <> @UserID AND U.IsPeer = 0 AND
-	(
-		(@Recursive = 0 AND OwnerID = @UserID) OR
-		(@Recursive = 1 AND dbo.CheckUserParent(@UserID, U.UserID) = 1)
-	)
-	AND ((@StatusID = 0) OR (@StatusID > 0 AND U.StatusID = @StatusID))
-	AND ((@RoleID = 0) OR (@RoleID > 0 AND U.RoleID = @RoleID))
-	AND @HasUserRights = 1  
-SET @curValue = cursor local for
+ U.UserID <> @UserID AND U.IsPeer = 0 AND
+ (
+  (@Recursive = 0 AND OwnerID = @UserID) OR
+  (@Recursive = 1 AND dbo.CheckUserParent(@UserID, U.UserID) = 1)
+ )
+ AND ((@StatusID = 0) OR (@StatusID > 0 AND U.StatusID = @StatusID))
+ AND ((@RoleID = 0) OR (@RoleID > 0 AND U.RoleID = @RoleID))
+ AND ' + CAST((@HasUserRights) AS varchar(12)) + ' = 1
+ SET @curValue = cursor local for
 SELECT '
 
 IF @OnlyFind = 1
-SET @sqlUsers = @sqlUsers + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+	SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
 
-SET @sqlUsers = @sqlUsers + 'U.ItemID,
-	U.TextSearch,
-	U.ColumnType,
-	''Users'' as FullType,
-	0 as PackageID,
-	0 as AccountID
+SET @sql = @sql + 'U.ItemID,
+ U.TextSearch,
+ U.ColumnType,
+ ''AccountHome'' as FullType,
+ 0 as PackageID,
+ 0 as AccountID,
+ TU.Username,
+ TU.Fullname
 FROM @Users AS TU
 INNER JOIN 
 (
@@ -12278,220 +12305,631 @@ WHERE TextSearch<>'' '' OR ISNULL(TextSearch, 0) > 0
 )
  AS U ON TU.UserID = U.ItemID'
 IF @FilterValue <> ''
-	SET @sqlUsers = @sqlUsers + ' WHERE TextSearch LIKE ''' + @FilterValue + ''''
-SET @sqlUsers = @sqlUsers + ' ORDER BY TextSearch'
+ SET @sql = @sql + ' WHERE TextSearch LIKE ''' + @FilterValue + ''''
+SET @sql = @sql + ' ORDER BY TextSearch'
 
-SET @sqlUsers = @sqlUsers + ' open @curValue'
+SET @sql = @sql + ';open @curValue'
 
-exec sp_executesql @sqlUsers, N'@UserID int, @FilterValue nvarchar(50), @ActorID int, @Recursive bit, @StatusID int, @RoleID int, @columnUsername nvarchar(20), @columnEmail nvarchar(20), @columnCompanyName nvarchar(20), @columnFullName nvarchar(20), @curValue cursor output',
-@UserID, @FilterValue, @ActorID, @Recursive, @StatusID, @RoleID, @columnUsername, @columnEmail, @columnCompanyName, @columnFullName, @curValue=@curUsers output
+exec sp_executesql @sql, N'@UserID int, @FilterValue nvarchar(50), @Recursive bit, @StatusID int, @RoleID int, @columnUsername nvarchar(20), @columnEmail nvarchar(20), @columnCompanyName nvarchar(20), @columnFullName nvarchar(20), @curValue cursor output',
+@UserID, @FilterValue, @Recursive, @StatusID, @RoleID, @columnUsername, @columnEmail, @columnCompanyName, @columnFullName, @curUsers output
 
-SET @sqlSpace = '
-	DECLARE @ItemsService TABLE
-	(
-		ItemID int
-	)
-	INSERT INTO @ItemsService (ItemID)
-	SELECT
-		SI.ItemID
-	FROM ServiceItems AS SI
-	INNER JOIN Packages AS P ON P.PackageID = SI.PackageID
-	INNER JOIN UsersDetailed AS U ON P.UserID = U.UserID
-	WHERE
-		dbo.CheckUserParent(@UserID, P.UserID) = 1
-	DECLARE @ItemsDomain TABLE
-	(
-		ItemID int
-	)
-	INSERT INTO @ItemsDomain (ItemID)
-	SELECT
-		D.DomainID
-	FROM Domains AS D
-	INNER JOIN Packages AS P ON P.PackageID = D.PackageID
-	INNER JOIN UsersDetailed AS U ON P.UserID = U.UserID
-	WHERE
-		dbo.CheckUserParent(@UserID, P.UserID) = 1
-		
+/*--------------------------------------------Space----------------------------------------------------------*/
+DECLARE @sqlNameAccountType nvarchar(4000)
+SET @sqlNameAccountType = '
+WHEN 1 THEN ''Mailbox''
+WHEN 2 THEN ''Contact''
+WHEN 3 THEN ''DistributionList''
+WHEN 4 THEN ''PublicFolder''
+WHEN 5 THEN ''Room''
+WHEN 6 THEN ''Equipment''
+WHEN 7 THEN ''User''
+WHEN 8 THEN ''SecurityGroup''
+WHEN 9 THEN ''DefaultSecurityGroup''
+WHEN 10 THEN ''SharedMailbox''
+WHEN 11 THEN ''DeletedUser''
+'
+
+SET @sql = '
+ DECLARE @ItemsService TABLE
+ (
+  ItemID int,
+  Username nvarchar(50),
+  Fullname nvarchar(50)
+ )
+ INSERT INTO @ItemsService (ItemID, Username, Fullname)
+ SELECT
+  SI.ItemID,
+  U.Username,
+  U.FirstName + '' '' + U.LastName as Fullname
+ FROM ServiceItems AS SI
+ INNER JOIN Packages AS P ON P.PackageID = SI.PackageID
+ INNER JOIN UsersDetailed AS U ON P.UserID = U.UserID
+ WHERE
+  dbo.CheckUserParent(@UserID, P.UserID) = 1
+ DECLARE @ItemsDomain TABLE
+ (
+  ItemID int,
+  Username nvarchar(50),
+  Fullname nvarchar(50)
+ )
+ INSERT INTO @ItemsDomain (ItemID, Username, Fullname)
+ SELECT
+  D.DomainID,
+  U.Username,
+  U.FirstName + '' '' + U.LastName as Fullname
+ FROM Domains AS D
+ INNER JOIN Packages AS P ON P.PackageID = D.PackageID
+ INNER JOIN UsersDetailed AS U ON P.UserID = U.UserID
+ WHERE
+  dbo.CheckUserParent(@UserID, P.UserID) = 1
+  
+ SET @curValue = cursor local for
+ SELECT '
+
+IF @OnlyFind = 1
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+SET @sql = @sql + '
+  SI.ItemID as ItemID,
+  SI.ItemName as TextSearch,
+  STYPE.DisplayName as ColumnType,
+  STYPE.DisplayName as FullType,
+  SI.PackageID as PackageID,
+  0 as AccountID,
+  I.Username,
+  I.Fullname
+ FROM @ItemsService AS I
+ INNER JOIN ServiceItems AS SI ON I.ItemID = SI.ItemID
+ INNER JOIN ServiceItemTypes AS STYPE ON SI.ItemTypeID = STYPE.ItemTypeID
+ WHERE (STYPE.Searchable = 1
+ AND STYPE.ItemTypeID <> 200 AND STYPE.ItemTypeID <> 201)'
+IF @FilterValue <> ''
+ SET @sql = @sql + ' AND (SI.ItemName LIKE ''' + @FilterValue + ''')'
+SET @sql = @sql + '
+ UNION (
+ SELECT '
+
+IF @OnlyFind = 1
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+SET @sql = @sql + '
+  D.DomainID AS ItemID,
+  D.DomainName as TextSearch,
+  ''Domain'' as ColumnType,
+  ''Domains'' as FullType,
+  D.PackageID as PackageID,
+  0 as AccountID,
+  I.Username,
+  I.Fullname
+ FROM @ItemsDomain AS I
+ INNER JOIN Domains AS D ON I.ItemID = D.DomainID
+ WHERE (D.IsDomainPointer=0)'
+IF @FilterValue <> ''
+ SET @sql = @sql + ' AND (D.DomainName LIKE ''' + @FilterValue + ''')'
+SET @sql = @sql + '
+ UNION
+ SELECT '
+
+IF @OnlyFind = 1
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+SET @sql = @sql + '
+  EA.ItemID AS ItemID,
+  EA.DisplayName as TextSearch,
+  ''ExchangeAccount'' as ColumnType,
+  FullType = CASE EA.AccountType ' + @sqlNameAccountType + ' ELSE CAST(EA.AccountType AS varchar(12)) END,
+  SI2.PackageID as PackageID,
+  EA.AccountID as AccountID,
+  I2.Username,
+  I2.Fullname
+ FROM @ItemsService AS I2
+ INNER JOIN ServiceItems AS SI2 ON I2.ItemID = SI2.ItemID
+ INNER JOIN ExchangeAccounts AS EA ON I2.ItemID = EA.ItemID'
+IF @FilterValue <> ''
+ SET @sql = @sql + ' WHERE (EA.DisplayName LIKE ''' + @FilterValue + ''')'
+SET @sql = @sql + '
+ UNION
+ SELECT '
+
+IF @OnlyFind = 1
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+SET @sql = @sql + '
+  EA4.ItemID AS ItemID,
+  EA4.PrimaryEmailAddress as TextSearch,
+  ''ExchangeAccount'' as ColumnType,
+  FullType = CASE EA4.AccountType ' + @sqlNameAccountType + ' ELSE CAST(EA4.AccountType AS varchar(12)) END,
+  SI4.PackageID as PackageID,
+  EA4.AccountID as AccountID,
+  I4.Username,
+  I4.Fullname
+ FROM @ItemsService AS I4
+ INNER JOIN ServiceItems AS SI4 ON I4.ItemID = SI4.ItemID
+ INNER JOIN ExchangeAccounts AS EA4 ON I4.ItemID = EA4.ItemID'
+IF @FilterValue <> ''
+ SET @sql = @sql + ' WHERE (EA4.PrimaryEmailAddress LIKE ''' + @FilterValue + ''')'
+SET @sql = @sql + '
+ UNION
+ SELECT '
+
+IF @OnlyFind = 1
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+SET @sql = @sql + '
+  I3.ItemID AS ItemID,
+  EAEA.EmailAddress as TextSearch,
+  ''ExchangeAccount'' as ColumnType,
+  ''Mailbox'' as FullType,
+  SI3.PackageID as PackageID,
+  EAEA.AccountID as AccountID,
+  I3.Username,
+  I3.Fullname
+ FROM @ItemsService AS I3
+ INNER JOIN ServiceItems AS SI3 ON I3.ItemID = SI3.ItemID
+ INNER JOIN ExchangeAccountEmailAddresses AS EAEA ON I3.ItemID = EAEA.AccountID'
+IF @FilterValue <> ''
+ SET @sql = @sql + ' WHERE (EAEA.EmailAddress LIKE ''' + @FilterValue + ''')'
+ SET @sql = @sql + ')'
+IF @OnlyFind = 1
+	SET @sql = @sql + ' ORDER BY TextSearch';
+ 
+SET @sql = @sql + ';open @curValue'
+
+exec sp_executesql @sql, N'@UserID int, @FilterValue nvarchar(50), @curValue cursor output',
+@UserID, @FilterValue, @curAll output
+
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+WHILE @@FETCH_STATUS = 0
+BEGIN
+INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+END
+
+/*-------------------------------------------Lync-----------------------------------------------------*/
+DECLARE @IsAdmin bit
+SET @IsAdmin = dbo.CheckIsUserAdmin(@ActorID)
+
+SET @sql = '
+SET @curValue = cursor local for
+ SELECT '
+
+IF @OnlyFind = 1
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+SET @sql = @sql + '
+  SI.ItemID as ItemID,
+  ea.AccountName as TextSearch,
+  ''LyncAccount'' as ColumnType,
+  ''LyncUsers'' as FullType,
+  SI.PackageID as PackageID,
+  ea.AccountID as AccountID,
+  U.Username,
+  U.FirstName + '' '' + U.LastName as Fullname
+ FROM 
+  ExchangeAccounts as ea 
+ INNER JOIN 
+  LyncUsers as LU
+ INNER JOIN
+  LyncUserPlans as lp
+  ON
+  LU.LyncUserPlanId = lp.LyncUserPlanId    
+ ON 
+  ea.AccountID = LU.AccountID
+ INNER JOIN
+  ServiceItems AS SI ON ea.ItemID = SI.ItemID
+ INNER JOIN
+  Packages AS P ON SI.PackageID = P.PackageID
+ INNER JOIN
+  Users AS U ON U.UserID = P.UserID
+WHERE ' + CAST((@HasUserRights) AS varchar(12)) + ' = 1 
+  AND (' + CAST((@IsAdmin) AS varchar(12)) + ' = 1 OR P.UserID = @UserID)'
+IF @FilterValue <> ''
+ SET @sql = @sql + ' AND ea.AccountName LIKE ''' + @FilterValue + ''''
+IF @OnlyFind = 1
+	SET @sql = @sql + ' ORDER BY TextSearch'
+SET @sql = @sql + ' ;open @curValue'
+
+CLOSE @curAll
+DEALLOCATE @curAll
+exec sp_executesql @sql, N'@UserID int, @curValue cursor output', @UserID, @curAll output
+
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+WHILE @@FETCH_STATUS = 0
+BEGIN
+INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+END
+
+/*------------------------------------RDS------------------------------------------------*/
+IF @IsAdmin = 1
+BEGIN
+	SET @sql = '
 	SET @curValue = cursor local for
-	SELECT '
+	 SELECT '
+
+	IF @OnlyFind = 1
+	SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+	SET @sql = @sql + '
+	  RDSCol.ItemID as ItemID,
+	  RDSCol.Name as TextSearch,
+	  ''RDSCollection'' as ColumnType,
+	  ''RDSCollections'' as FullType,
+	  P.PackageID as PackageID,
+	  RDSCol.ID as AccountID,
+	  U.Username,
+	  U.FirstName + '' '' + U.LastName as Fullname
+	 FROM
+	  RDSCollections AS RDSCol
+	 INNER JOIN
+	  ServiceItems AS SI ON RDSCol.ItemID = SI.ItemID
+	 INNER JOIN
+	  Packages AS P ON SI.PackageID = P.PackageID
+	 INNER JOIN
+	  Users AS U ON U.UserID = P.UserID
+	 WHERE ' + CAST((@HasUserRights) AS varchar(12)) + ' = 1
+	 AND (' + CAST((@IsAdmin) AS varchar(12)) + ' = 1 OR P.UserID = @UserID)'
+	IF @FilterValue <> ''
+		SET @sql = @sql + ' AND RDSCol.Name LIKE ''' + @FilterValue + ''''
+	IF @OnlyFind = 1
+		SET @sql = @sql + ' ORDER BY TextSearch'
+	SET @sql = @sql + ' ;open @curValue'
+
+	CLOSE @curAll
+	DEALLOCATE @curAll
+	exec sp_executesql @sql, N'@UserID int, @curValue cursor output', @UserID, @curAll output
+
+	FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+	INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+	VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+	FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+	END
+END
+
+/*------------------------------------CRM------------------------------------------------*/
+SET @sql = '
+SET @curValue = cursor local for
+ SELECT '
 
 IF @OnlyFind = 1
-SET @sqlSpace = @sqlSpace + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
 
-SET @sqlSpace = @sqlSpace +	'
-		SI.ItemID as ItemID,
-		SI.ItemName as TextSearch,
-		STYPE.DisplayName as ColumnType,
-		STYPE.DisplayName as FullType,
-		SI.PackageID as PackageID,
-		0 as AccountID
-	FROM @ItemsService AS I
-	INNER JOIN ServiceItems AS SI ON I.ItemID = SI.ItemID
-	INNER JOIN ServiceItemTypes AS STYPE ON SI.ItemTypeID = STYPE.ItemTypeID
-	WHERE (STYPE.Searchable = 1)'
+SET @sql = @sql + '
+  @UserID as ItemID,
+  ea.AccountName as TextSearch,
+  ''CRMSite'' as ColumnType,
+  ''CRMSites'' as FullType,
+  SI.PackageID as PackageID,
+  ea.AccountID as AccountID,
+  U.Username,
+  U.FirstName + '' '' + U.LastName as Fullname
+ FROM 
+  ExchangeAccounts as ea 
+ INNER JOIN 
+  CRMUsers AS CRMU ON ea.AccountID = CRMU.AccountID
+ INNER JOIN
+  ServiceItems AS SI ON ea.ItemID = SI.ItemID
+ INNER JOIN
+  Packages AS P ON SI.PackageID = P.PackageID
+ INNER JOIN
+  Users AS U ON U.UserID = P.UserID
+ WHERE ' + CAST((@HasUserRights) AS varchar(12)) + ' = 1
+  AND (' + CAST((@IsAdmin) AS varchar(12)) + ' = 1 OR P.UserID = @UserID)'
 IF @FilterValue <> ''
-	SET @sqlSpace = @sqlSpace + ' AND (SI.ItemName LIKE ''' + @FilterValue + ''')'
-SET @sqlSpace = @sqlSpace + '
-	UNION (
-	SELECT '
+	SET @sql = @sql + ' AND ea.AccountName LIKE ''' + @FilterValue + ''''
+IF @OnlyFind = 1
+	SET @sql = @sql + ' ORDER BY TextSearch'
+SET @sql = @sql + ' ;open @curValue'
+
+CLOSE @curAll
+DEALLOCATE @curAll
+exec sp_executesql @sql, N'@UserID int, @curValue cursor output', @UserID, @curAll output
+
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+WHILE @@FETCH_STATUS = 0
+BEGIN
+INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+END
+
+/*------------------------------------VirtualServer------------------------------------------------*/
+IF @IsAdmin = 1
+BEGIN
+	SET @sql = '
+	SET @curValue = cursor local for
+	 SELECT '
+
+	IF @OnlyFind = 1
+	SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+
+	SET @sql = @sql + '
+	  @UserID as ItemID,
+	  S.ServerName as TextSearch,
+	  ''VirtualServer'' as ColumnType,
+	  ''VirtualServers'' as FullType,
+	  (SELECT MIN(PackageID) FROM Packages WHERE UserID = @UserID) as PackageID,
+	  0 as AccountID,
+	  U.Username,
+	  U.FirstName + '' '' + U.LastName as Fullname
+	 FROM 
+	  Servers AS S
+	 INNER JOIN
+      Packages AS P ON P.ServerID = S.ServerID
+     INNER JOIN
+      Users AS U ON U.UserID = P.UserID
+	 WHERE
+	  VirtualServer = 1'
+	IF @FilterValue <> ''
+		SET @sql = @sql + ' AND S.ServerName LIKE ''' + @FilterValue + ''''
+	IF @OnlyFind = 1
+		SET @sql = @sql + ' ORDER BY TextSearch'
+	SET @sql = @sql + ' ;open @curValue'
+
+	CLOSE @curAll
+	DEALLOCATE @curAll
+	exec sp_executesql @sql, N'@UserID int, @curValue cursor output', @UserID, @curAll output
+
+	FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+	INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+	VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+	FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+	END
+END
+
+/*------------------------------------WebDAVFolder------------------------------------------------*/
+SET @sql = '
+SET @curValue = cursor local for
+ SELECT '
 
 IF @OnlyFind = 1
-SET @sqlSpace = @sqlSpace + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
 
-SET @sqlSpace = @sqlSpace +	'
-		D.DomainID AS ItemID,
-		D.DomainName as TextSearch,
-		''Domain'' as ColumnType,
-		''Domain'' as FullType,
-		D.PackageID as PackageID,
-		0 as AccountID
-	FROM @ItemsDomain AS I
-	INNER JOIN Domains AS D ON I.ItemID = D.DomainID
-	WHERE (D.IsDomainPointer=0)'
+SET @sql = @sql + '
+  EF.ItemID as ItemID,
+  EF.FolderName as TextSearch,
+  ''WebDAVFolder'' as ColumnType,
+  ''Folders'' as FullType,
+  P.PackageID as PackageID,
+  EF.EnterpriseFolderID as AccountID,
+  U.Username,
+  U.FirstName + '' '' + U.LastName as Fullname
+ FROM 
+  EnterpriseFolders as EF
+ INNER JOIN
+  ServiceItems AS SI ON EF.ItemID = SI.ItemID
+ INNER JOIN
+  Packages AS P ON SI.PackageID = P.PackageID
+ INNER JOIN
+  Users AS U ON U.UserID = P.UserID
+ WHERE ' + CAST((@HasUserRights) AS varchar(12)) + ' = 1
+  AND (' + CAST((@IsAdmin) AS varchar(12)) + ' = 1 OR P.UserID = @UserID)'
 IF @FilterValue <> ''
-	SET @sqlSpace = @sqlSpace + ' AND (D.DomainName LIKE ''' + @FilterValue + ''')'
-SET @sqlSpace = @sqlSpace + '
-	UNION
-	SELECT '
+	SET @sql = @sql + ' AND EF.FolderName LIKE ''' + @FilterValue + ''''
+IF @OnlyFind = 1
+	SET @sql = @sql + ' ORDER BY TextSearch'
+SET @sql = @sql + ';open @curValue'
+
+CLOSE @curAll
+DEALLOCATE @curAll
+exec sp_executesql @sql, N'@UserID int, @curValue cursor output', @UserID, @curAll output
+
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+WHILE @@FETCH_STATUS = 0
+BEGIN
+INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+END
+
+/*------------------------------------SharePoint------------------------------------------------*/
+SET @sql = '
+SET @curValue = cursor local for
+ SELECT '
 
 IF @OnlyFind = 1
-SET @sqlSpace = @sqlSpace + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+SET @sql = @sql + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
 
-SET @sqlSpace = @sqlSpace +	'
-		EA.ItemID AS ItemID,
-		EA.DisplayName as TextSearch,
-		''ExchangeAccount'' as ColumnType,
-		''ExchangeAccount'' as FullType,
-		SI2.PackageID as PackageID,
-		EA.AccountID as AccountID
-	FROM @ItemsService AS I2
-	INNER JOIN ServiceItems AS SI2 ON I2.ItemID = SI2.ItemID
-	INNER JOIN ExchangeAccounts AS EA ON I2.ItemID = EA.ItemID'
+SET @sql = @sql + '
+  SIP.PropertyValue as ItemID,
+  T.PropertyValue as TextSearch,
+  SIT.DisplayName as ColumnType,
+  ''SharePointSiteCollections'' as FullType,
+  P.PackageID as PackageID,
+  SI.ItemID as AccountID,
+  U.Username,
+  U.FirstName + '' '' + U.LastName as Fullname
+FROM ServiceItems AS SI
+INNER JOIN ServiceItemTypes AS SIT ON SI.ItemTypeID = SIT.ItemTypeID
+INNER JOIN Packages AS P ON SI.PackageID = P.PackageID
+INNER JOIN Users AS U ON U.UserID = P.UserID
+INNER JOIN ServiceItemProperties AS SIP ON SIP.ItemID = SI.ItemID
+RIGHT JOIN ServiceItemProperties AS T ON T.ItemID = SIP.ItemID
+WHERE ' + CAST((@HasUserRights) AS varchar(12)) + ' = 1
+AND (' + CAST((@IsAdmin) AS varchar(12)) + ' = 1 OR P.UserID = @UserID)
+AND (SIT.DisplayName = ''SharePointFoundationSiteCollection''
+	OR SIT.DisplayName = ''SharePointEnterpriseSiteCollection'')
+AND SIP.PropertyName = ''OrganizationId''
+AND T.PropertyName = ''PhysicalAddress'''
 IF @FilterValue <> ''
-	SET @sqlSpace = @sqlSpace + ' WHERE (EA.DisplayName LIKE ''' + @FilterValue + ''')'
-SET @sqlSpace = @sqlSpace + '
-	UNION
-	SELECT '
-
+	SET @sql = @sql + ' AND T.PropertyValue LIKE ''' + @FilterValue + ''''
 IF @OnlyFind = 1
-SET @sqlSpace = @sqlSpace + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+	SET @sql = @sql + ' ORDER BY TextSearch'
+SET @sql = @sql + ';open @curValue'
 
-SET @sqlSpace = @sqlSpace +	'
-		EA4.ItemID AS ItemID,
-		EA4.PrimaryEmailAddress as TextSearch,
-		''ExchangeAccount'' as ColumnType,
-		''ExchangeAccount'' as FullType,
-		SI4.PackageID as PackageID,
-		EA4.AccountID as AccountID
-	FROM @ItemsService AS I4
-	INNER JOIN ServiceItems AS SI4 ON I4.ItemID = SI4.ItemID
-	INNER JOIN ExchangeAccounts AS EA4 ON I4.ItemID = EA4.ItemID'
-IF @FilterValue <> ''
-	SET @sqlSpace = @sqlSpace + ' WHERE (EA4.PrimaryEmailAddress LIKE ''' + @FilterValue + ''')'
-SET @sqlSpace = @sqlSpace + '
-	UNION
-	SELECT '
+CLOSE @curAll
+DEALLOCATE @curAll
+exec sp_executesql @sql, N'@UserID int, @curValue cursor output', @UserID, @curAll output
 
-IF @OnlyFind = 1
-SET @sqlSpace = @sqlSpace + 'TOP ' + CAST(@MaximumRows AS varchar(12)) + ' '
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+WHILE @@FETCH_STATUS = 0
+BEGIN
+INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+VALUES(@ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname)
+FETCH NEXT FROM @curAll INTO @ItemID, @TextSearch, @ColumnType, @FullTypeAll, @PackageID, @AccountID, @Username, @Fullname
+END
 
-SET @sqlSpace = @sqlSpace +	'
-		I3.ItemID AS ItemID,
-		EAEA.EmailAddress as TextSearch,
-		''ExchangeAccount'' as ColumnType,
-		''ExchangeAccount'' as FullType,
-		SI3.PackageID as PackageID,
-		0 as AccountID
-	FROM @ItemsService AS I3
-	INNER JOIN ServiceItems AS SI3 ON I3.ItemID = SI3.ItemID
-	INNER JOIN ExchangeAccountEmailAddresses AS EAEA ON I3.ItemID = EAEA.AccountID'
-IF @FilterValue <> ''
-	SET @sqlSpace = @sqlSpace + ' WHERE (EAEA.EmailAddress LIKE ''' + @FilterValue + ''')'
-SET @sqlSpace = @sqlSpace + ') ORDER BY TextSearch';
-	
-SET @sqlSpace = @sqlSpace + ' open @curValue'
+/*-------------------------------------------@curAll-------------------------------------------------------*/
+CLOSE @curAll
+DEALLOCATE @curAll
+SET @curAll = CURSOR LOCAL FOR
+ SELECT 
+	ItemID,
+	TextSearch,
+	ColumnType,
+	FullType,
+	PackageID,
+	AccountID,
+	Username,
+	Fullname
+ FROM @ItemsAll
+OPEN @curAll
 
-exec sp_executesql @sqlSpace, N'@UserID int, @FilterValue nvarchar(50),  @ActorID int, @curValue cursor output',
-@UserID, @FilterValue, @ActorID, @curValue=@curSpace output
+/*-------------------------------------------Return-------------------------------------------------------*/
+IF @SortColumn = ''
+	SET @SortColumn = 'TextSearch'
 
-SET @sqlReturn = '
+SET @sql = '
 DECLARE @ItemID int
-DECLARE	@TextSearch nvarchar(500)
-DECLARE	@ColumnType nvarchar(50)
-DECLARE	@FullType nvarchar(50)
+DECLARE @TextSearch nvarchar(500)
+DECLARE @ColumnType nvarchar(50)
+DECLARE @FullType nvarchar(50)
 DECLARE @PackageID int
 DECLARE @AccountID int
 DECLARE @EndRow int
-SET @EndRow = @StartRow + @MaximumRows
-DECLARE @ItemsAll TABLE
+DECLARE @Username nvarchar(50)
+DECLARE @Fullname nvarchar(50)
+SET @EndRow = @StartRow + @MaximumRows'
+
+IF (@ColType = '' OR @ColType IN ('AccountHome'))
+BEGIN
+	SET @sql = @sql + '
+	DECLARE @ItemsUser TABLE
 	(
-		ItemPosition int IDENTITY(1,1),
 		ItemID int,
 		TextSearch nvarchar(500),
 		ColumnType nvarchar(50),
 		FullType nvarchar(50),
 		PackageID int,
-		AccountID int
+		AccountID int,
+		Username nvarchar(50),
+		Fullname nvarchar(50)
 	)
 
-FETCH NEXT FROM @curUsersValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID
-WHILE @@FETCH_STATUS = 0
-BEGIN
-INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID)
-VALUES(@ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID)
-FETCH NEXT FROM @curUsersValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID
+	FETCH NEXT FROM @curUsersValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID, @Username, @Fullname
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		IF (1 = 1)'
+
+	IF @FullType <> ''
+		SET @sql = @sql + ' AND @FullType = ''' + @FullType + '''';
+
+	SET @sql = @sql + '
+		BEGIN
+			INSERT INTO @ItemsUser(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+			VALUES(@ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID, @Username, @Fullname)
+		END
+		FETCH NEXT FROM @curUsersValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID, @Username, @Fullname
+	END'
 END
 
-FETCH NEXT FROM @curSpaceValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID
+SET @sql = @sql + '
+DECLARE @ItemsFilter TABLE
+ (
+  ItemID int,
+  TextSearch nvarchar(500),
+  ColumnType nvarchar(50),
+  FullType nvarchar(50),
+  PackageID int,
+  AccountID int,
+  Username nvarchar(50),
+  Fullname nvarchar(50)
+ )
+
+FETCH NEXT FROM @curAllValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID, @Username, @Fullname
 WHILE @@FETCH_STATUS = 0
 BEGIN
-INSERT INTO @ItemsAll(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID)
-VALUES(@ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID)
-FETCH NEXT FROM @curSpaceValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID
+	IF (1 = 1)'
+
+IF @ColType <> ''
+SET @sql = @sql + ' AND @ColumnType in ( ' + @ColType + ' ) ';
+
+IF @FullType <> ''
+SET @sql = @sql + ' AND @FullType = ''' + @FullType + '''';
+
+SET @sql = @sql + '
+	BEGIN
+		INSERT INTO @ItemsFilter(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+		VALUES(@ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID, @Username, @Fullname)
+	END
+	FETCH NEXT FROM @curAllValue INTO @ItemID, @TextSearch, @ColumnType, @FullType, @PackageID, @AccountID, @Username, @Fullname
 END
 
 DECLARE @ItemsReturn TABLE
-	(
-		ItemPosition int IDENTITY(1,1),
-		ItemID int,
-		TextSearch nvarchar(500),
-		ColumnType nvarchar(50),
-		FullType nvarchar(50),
-		PackageID int,
-		AccountID int
-	)
-INSERT INTO @ItemsReturn(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID)	
-SELECT ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID
-FROM @ItemsAll AS IA WHERE (1 = 1) '
+ (
+  ItemPosition int IDENTITY(1,1),
+  ItemID int,
+  TextSearch nvarchar(500),
+  ColumnType nvarchar(50),
+  FullType nvarchar(50),
+  PackageID int,
+  AccountID int,
+  Username nvarchar(50),
+  Fullname nvarchar(50)
+ )'
 
+IF (@ColType = '' OR @ColType IN ('AccountHome'))
+BEGIN
+	SET @sql = @sql + '
+		INSERT INTO '
+	IF @SortColumn = 'TextSearch'
+		SET @sql = @sql + '@ItemsReturn'
+	ELSE
+		SET @sql = @sql + '@ItemsFilter'
+	SET @sql = @sql + ' (ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+		SELECT ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname
+		FROM @ItemsUser'
+END
 
-IF @ColType <> ''
-SET @sqlReturn = @sqlReturn + ' AND IA.ColumnType in ( ' + @ColType + ' ) ';
+SET @sql = @sql + '
+INSERT INTO @ItemsReturn(ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname)
+SELECT 
+	ItemID,
+	TextSearch,
+	ColumnType,
+	FullType,
+	PackageID,
+	AccountID,
+	Username,
+	Fullname
+FROM @ItemsFilter'
+SET @sql = @sql + ' ORDER BY ' +  @SortColumn
 
-IF @FullType <> ''
-SET @sqlReturn = @sqlReturn + ' AND IA.FullType = ''' + @FullType + '''';
-
-SET @sqlReturn = @sqlReturn + '
+SET @sql = @sql + ';
 SELECT COUNT(ItemID) FROM @ItemsReturn;
-SELECT DISTINCT(ColumnType) FROM @ItemsReturn WHERE (1 = 1) ';
+SELECT DISTINCT(ColumnType) FROM @ItemsReturn';
 IF @FullType <> ''
-SET @sqlReturn = @sqlReturn + ' AND FullType = ''' + @FullType + '''';
-SET @sqlReturn = @sqlReturn + '; ';
-SET @sqlReturn = @sqlReturn + '
-SELECT ItemPosition, ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID
-FROM @ItemsReturn AS IR WHERE (1 = 1)
-'
+	SET @sql = @sql + ' WHERE FullType = ''' + @FullType + '''';
+
+SET @sql = @sql + ';
+SELECT ItemPosition, ItemID, TextSearch, ColumnType, FullType, PackageID, AccountID, Username, Fullname
+FROM @ItemsReturn AS IR'
 
 IF  @MaximumRows > 0
-SET @sqlReturn = @sqlReturn + ' AND IR.ItemPosition BETWEEN @StartRow AND @EndRow';
+	SET @sql = @sql + ' WHERE IR.ItemPosition BETWEEN @StartRow AND @EndRow';
 
-exec sp_executesql @sqlReturn, N'@StartRow int, @MaximumRows int, @FilterValue nvarchar(50), @curSpaceValue cursor, @curUsersValue cursor',
-@StartRow, @MaximumRows, @FilterValue, @curSpace, @curUsers
+exec sp_executesql @sql, N'@StartRow int, @MaximumRows int, @FilterValue nvarchar(50), @curUsersValue cursor, @curAllValue cursor',
+	@StartRow, @MaximumRows, @FilterValue, @curUsers, @curAll
 
-CLOSE @curSpace
-DEALLOCATE @curSpace
-CLOSE @curUsers
-DEALLOCATE @curUsers
+CLOSE @curAll
+DEALLOCATE @curAll
+
 RETURN
 
 
@@ -12971,6 +13409,12 @@ BEGIN
 	)
 END
 
+IF NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'StorageSpaces' AND COLUMN_NAME = 'IsDisabled')
+BEGIN
+	ALTER TABLE [dbo].[StorageSpaces]
+		ADD IsDisabled BIT NOT NULL DEFAULT(0)
+END
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE type = 'F' AND name = 'FK_StorageSpaces_ServiceId')
 BEGIN
@@ -13042,6 +13486,7 @@ SELECT
 		CR.FsrmQuotaType,
 		CR.FsrmQuotaSizeBytes,
 		CR.IsShared,
+		CR.IsDisabled,
 		CR.UncPath,
 		ISNULL((SELECT SUM(SSF.FsrmQuotaSizeBytes) FROM StorageSpaceFolders AS SSF WHERE SSF.StorageSpaceId = CR.Id), 0) UsedSizeBytes
 FROM @Spaces AS C
@@ -13076,6 +13521,7 @@ SELECT
 		SS.FsrmQuotaSizeBytes,
 		SS.IsShared,
 		SS.UncPath,
+		SS.IsDisabled,
 		ISNULL((SELECT SUM(SSF.FsrmQuotaSizeBytes) FROM StorageSpaceFolders AS SSF WHERE SSF.StorageSpaceId = SS.Id), 0) UsedSizeBytes
 FROM StorageSpaces AS SS
 INNER JOIN StorageSpaceLevels AS SSL
@@ -13105,6 +13551,7 @@ AS
 		SS.FsrmQuotaSizeBytes,
 		SS.IsShared,
 		SS.UncPath,
+		SS.IsDisabled,
 		ISNULL((SELECT SUM(SSF.FsrmQuotaSizeBytes) FROM StorageSpaceFolders AS SSF WHERE SSF.StorageSpaceId = SS.Id), 0) UsedSizeBytes
 	FROM [dbo].[StorageSpaces] AS SS
 	WHERE SS.Id = @Id
@@ -13126,11 +13573,12 @@ CREATE PROCEDURE UpdateStorageSpace
 	@FsrmQuotaType INT,
 	@FsrmQuotaSizeBytes BIGINT,
 	@IsShared BIT,
+	@IsDisabled BIT,
 	@UncPath varchar(max)
 )
 AS
 	UPDATE StorageSpaces
-	SET Name = @Name, ServiceId = @ServiceId,ServerId=@ServerId,LevelId=@LevelId, Path=@Path,FsrmQuotaType=@FsrmQuotaType,FsrmQuotaSizeBytes=@FsrmQuotaSizeBytes,IsShared=@IsShared,UncPath=@UncPath
+	SET Name = @Name, ServiceId = @ServiceId,ServerId=@ServerId,LevelId=@LevelId, Path=@Path,FsrmQuotaType=@FsrmQuotaType,FsrmQuotaSizeBytes=@FsrmQuotaSizeBytes,IsShared=@IsShared,UncPath=@UncPath,IsDisabled=@IsDisabled
 	WHERE ID = @ID
 GO
 
@@ -13149,6 +13597,7 @@ CREATE PROCEDURE InsertStorageSpace
 	@FsrmQuotaType INT,
 	@FsrmQuotaSizeBytes BIGINT,
 	@IsShared BIT,
+	@IsDisabled BIT,
 	@UncPath varchar(max)
 )
 AS
@@ -13163,7 +13612,8 @@ INSERT INTO StorageSpaces
 	FsrmQuotaType,
 	FsrmQuotaSizeBytes,
 	IsShared,
-	UncPath
+	UncPath,
+	IsDisabled
 )
 VALUES 
 (
@@ -13175,7 +13625,8 @@ VALUES
 	@FsrmQuotaType,
 	@FsrmQuotaSizeBytes,
 	@IsShared,
-	@UncPath
+	@UncPath,
+	@IsDisabled
 )
 
 SET @ID = SCOPE_IDENTITY()
@@ -13214,6 +13665,9 @@ SELECT
 		SS.Path,
 		SS.FsrmQuotaType,
 		SS.FsrmQuotaSizeBytes,
+		SS.IsShared,
+		SS.UncPath,
+		SS.IsDisabled,
 		ISNULL((SELECT SUM(SSF.FsrmQuotaSizeBytes) FROM StorageSpaceFolders AS SSF WHERE SSF.StorageSpaceId = SS.Id), 0) UsedSizeBytes
 FROM StorageSpaces AS SS
 INNER JOIN StorageSpaceLevelResourceGroups AS SSLRG ON SSLRG.LevelId = SS.LevelId
@@ -13239,6 +13693,9 @@ SELECT TOP 1
 		SS.Path,
 		SS.FsrmQuotaType,
 		SS.FsrmQuotaSizeBytes,
+		SS.IsShared,
+		SS.UncPath,
+		SS.IsDisabled,
 		ISNULL((SELECT SUM(SSF.FsrmQuotaSizeBytes) FROM StorageSpaceFolders AS SSF WHERE SSF.StorageSpaceId = SS.Id), 0) UsedSizeBytes
 FROM StorageSpaces AS SS
 WHERE SS.ServerId = @ServerId AND SS.Path = @Path
@@ -14469,4 +14926,580 @@ GO
 /****** Object:  View [dbo].[ContractsInvoicesDetailed]    Script Date: 6/16/2015 6:26:54 AM ******/
 IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[dbo].[ContractsInvoicesDetailed]'))
 DROP VIEW [dbo].[ContractsInvoicesDetailed]
+GO
+
+
+
+ALTER PROCEDURE [dbo].[GetExchangeAccountByMailboxPlanId] 
+(
+	@ItemID int,
+	@MailboxPlanId int
+)
+AS
+
+IF (@MailboxPlanId < 0)
+BEGIN
+SELECT
+	E.AccountID,
+	E.ItemID,
+	E.AccountType,
+	E.AccountName,
+	E.DisplayName,
+	E.PrimaryEmailAddress,
+	E.MailEnabledPublicFolder,
+	E.MailboxManagerActions,
+	E.SamAccountName,
+	E.MailboxPlanId,
+	P.MailboxPlan,
+	E.SubscriberNumber,
+	E.UserPrincipalName,
+	E.ArchivingMailboxPlanId, 
+	AP.MailboxPlan as 'ArchivingMailboxPlan',
+	E.EnableArchiving
+FROM
+	ExchangeAccounts AS E
+LEFT OUTER JOIN ExchangeMailboxPlans AS P ON E.MailboxPlanId = P.MailboxPlanId	
+LEFT OUTER JOIN ExchangeMailboxPlans AS AP ON E.ArchivingMailboxPlanId = AP.MailboxPlanId
+WHERE
+	E.ItemID = @ItemID AND
+	E.MailboxPlanId IS NULL AND
+	E.AccountType IN (1,5,6,10) 
+RETURN
+
+END
+ELSE
+IF (@ItemId = 0)
+BEGIN
+SELECT
+	E.AccountID,
+	E.ItemID,
+	E.AccountType,
+	E.AccountName,
+	E.DisplayName,
+	E.PrimaryEmailAddress,
+	E.MailEnabledPublicFolder,
+	E.MailboxManagerActions,
+	E.SamAccountName,
+	E.MailboxPlanId,
+	P.MailboxPlan,
+	E.SubscriberNumber,
+	E.UserPrincipalName,
+	E.ArchivingMailboxPlanId, 
+	AP.MailboxPlan as 'ArchivingMailboxPlan',
+	E.EnableArchiving
+FROM
+	ExchangeAccounts AS E
+LEFT OUTER JOIN ExchangeMailboxPlans AS P ON E.MailboxPlanId = P.MailboxPlanId	
+LEFT OUTER JOIN ExchangeMailboxPlans AS AP ON E.ArchivingMailboxPlanId = AP.MailboxPlanId
+WHERE
+	E.MailboxPlanId = @MailboxPlanId AND
+	E.AccountType IN (1,5,6,10) 
+END
+ELSE
+BEGIN
+SELECT
+	E.AccountID,
+	E.ItemID,
+	E.AccountType,
+	E.AccountName,
+	E.DisplayName,
+	E.PrimaryEmailAddress,
+	E.MailEnabledPublicFolder,
+	E.MailboxManagerActions,
+	E.SamAccountName,
+	E.MailboxPlanId,
+	P.MailboxPlan,
+	E.SubscriberNumber,
+	E.UserPrincipalName,
+	E.ArchivingMailboxPlanId, 
+	AP.MailboxPlan as 'ArchivingMailboxPlan',
+	E.EnableArchiving
+FROM
+	ExchangeAccounts AS E
+LEFT OUTER JOIN ExchangeMailboxPlans AS P ON E.MailboxPlanId = P.MailboxPlanId	
+LEFT OUTER JOIN ExchangeMailboxPlans AS AP ON E.ArchivingMailboxPlanId = AP.MailboxPlanId
+WHERE
+	E.ItemID = @ItemID AND
+	E.MailboxPlanId = @MailboxPlanId AND
+	E.AccountType IN (1,5,6,10) 
+RETURN
+END
+Go
+
+
+
+
+ALTER FUNCTION [dbo].[CalculateQuotaUsage]
+(
+	@PackageID int,
+	@QuotaID int
+)
+RETURNS int
+AS
+	BEGIN
+
+		DECLARE @QuotaTypeID int
+		DECLARE @QuotaName nvarchar(50)
+		SELECT @QuotaTypeID = QuotaTypeID, @QuotaName = QuotaName FROM Quotas
+		WHERE QuotaID = @QuotaID
+
+		IF @QuotaTypeID <> 2
+			RETURN 0
+
+		DECLARE @Result int
+
+		IF @QuotaID = 52 -- diskspace
+			SET @Result = dbo.CalculatePackageDiskspace(@PackageID)
+		ELSE IF @QuotaID = 51 -- bandwidth
+			SET @Result = dbo.CalculatePackageBandwidth(@PackageID)
+		ELSE IF @QuotaID = 53 -- domains
+			SET @Result = (SELECT COUNT(D.DomainID) FROM PackagesTreeCache AS PT
+				INNER JOIN Domains AS D ON D.PackageID = PT.PackageID
+				WHERE IsSubDomain = 0 AND IsInstantAlias = 0 AND IsDomainPointer = 0 AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 54 -- sub-domains
+			SET @Result = (SELECT COUNT(D.DomainID) FROM PackagesTreeCache AS PT
+				INNER JOIN Domains AS D ON D.PackageID = PT.PackageID
+				WHERE IsSubDomain = 1 AND IsInstantAlias = 0 AND IsDomainPointer = 0 AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 220 -- domain pointers
+			SET @Result = (SELECT COUNT(D.DomainID) FROM PackagesTreeCache AS PT
+				INNER JOIN Domains AS D ON D.PackageID = PT.PackageID
+				WHERE IsDomainPointer = 1 AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 71 -- scheduled tasks
+			SET @Result = (SELECT COUNT(S.ScheduleID) FROM PackagesTreeCache AS PT
+				INNER JOIN Schedule AS S ON S.PackageID = PT.PackageID
+				WHERE PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 305 -- RAM of VPS
+			SET @Result = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'RamSize' AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 306 -- HDD of VPS
+			SET @Result = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'HddSize' AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 309 -- External IP addresses of VPS
+			SET @Result = (SELECT COUNT(PIP.PackageAddressID) FROM PackageIPAddresses AS PIP
+							INNER JOIN IPAddresses AS IP ON PIP.AddressID = IP.AddressID
+							INNER JOIN PackagesTreeCache AS PT ON PIP.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID AND IP.PoolID = 3)
+		ELSE IF @QuotaID = 558 BEGIN -- RAM of VPS2012
+			DECLARE @Result1 int
+			SET @Result1 = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'RamSize' AND PT.ParentPackageID = @PackageID)
+			DECLARE @Result2 int
+			SET @Result2 = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN ServiceItemProperties AS SIP2 ON 
+								SIP2.ItemID = SI.ItemID AND SIP2.PropertyName = 'DynamicMemory.Enabled' AND SIP2.PropertyValue = 'True'
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'DynamicMemory.Maximum' AND PT.ParentPackageID = @PackageID)
+			SET @Result = CASE WHEN isnull(@Result1,0) > isnull(@Result2,0) THEN @Result1 ELSE @Result2 END
+		END
+		ELSE IF @QuotaID = 559 -- HDD of VPS2012
+			SET @Result = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'HddSize' AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 562 -- External IP addresses of VPS2012
+			SET @Result = (SELECT COUNT(PIP.PackageAddressID) FROM PackageIPAddresses AS PIP
+							INNER JOIN IPAddresses AS IP ON PIP.AddressID = IP.AddressID
+							INNER JOIN PackagesTreeCache AS PT ON PIP.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID AND IP.PoolID = 3)
+		ELSE IF @QuotaID = 100 -- Dedicated Web IP addresses
+			SET @Result = (SELECT COUNT(PIP.PackageAddressID) FROM PackageIPAddresses AS PIP
+							INNER JOIN IPAddresses AS IP ON PIP.AddressID = IP.AddressID
+							INNER JOIN PackagesTreeCache AS PT ON PIP.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID AND IP.PoolID = 2)
+		ELSE IF @QuotaID = 350 -- RAM of VPSforPc
+			SET @Result = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'Memory' AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 351 -- HDD of VPSforPc
+			SET @Result = (SELECT SUM(CAST(SIP.PropertyValue AS int)) FROM ServiceItemProperties AS SIP
+							INNER JOIN ServiceItems AS SI ON SIP.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID
+							WHERE SIP.PropertyName = 'HddSize' AND PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 354 -- External IP addresses of VPSforPc
+			SET @Result = (SELECT COUNT(PIP.PackageAddressID) FROM PackageIPAddresses AS PIP
+							INNER JOIN IPAddresses AS IP ON PIP.AddressID = IP.AddressID
+							INNER JOIN PackagesTreeCache AS PT ON PIP.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID AND IP.PoolID = 3)
+		ELSE IF @QuotaID = 319 -- BB Users
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts ea 
+							INNER JOIN BlackBerryUsers bu ON ea.AccountID = bu.AccountID
+							INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+							INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+							WHERE pt.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 320 -- OCS Users
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts ea 
+							INNER JOIN OCSUsers ocs ON ea.AccountID = ocs.AccountID
+							INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+							INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+							WHERE pt.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 206 -- HostedSolution.Users
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts AS ea
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE pt.ParentPackageID = @PackageID AND ea.AccountType IN (1,5,6,7))
+		ELSE IF @QuotaID = 78 -- Exchange2007.Mailboxes
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts AS ea
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE pt.ParentPackageID = @PackageID 
+				AND ea.AccountType IN (1)
+				AND ea.MailboxPlanId IS NOT NULL)
+		ELSE IF @QuotaID = 77 -- Exchange2007.DiskSpace
+			SET @Result = (SELECT SUM(B.MailboxSizeMB) FROM ExchangeAccounts AS ea 
+			INNER JOIN ExchangeMailboxPlans AS B ON ea.MailboxPlanId = B.MailboxPlanId 
+			INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+			INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+			WHERE pt.ParentPackageID = @PackageID AND ea.AccountType in (1, 5, 6, 10))
+		ELSE IF @QuotaID = 370 -- Lync.Users
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts AS ea
+				INNER JOIN LyncUsers lu ON ea.AccountID = lu.AccountID
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE pt.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 376 -- Lync.EVUsers
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts AS ea
+				INNER JOIN LyncUsers lu ON ea.AccountID = lu.AccountID
+				INNER JOIN LyncUserPlans lp ON lu.LyncUserPlanId = lp.LyncUserPlanId
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE pt.ParentPackageID = @PackageID AND lp.EnterpriseVoice = 1)
+		ELSE IF @QuotaID = 381 -- Dedicated Lync Phone Numbers
+			SET @Result = (SELECT COUNT(PIP.PackageAddressID) FROM PackageIPAddresses AS PIP
+							INNER JOIN IPAddresses AS IP ON PIP.AddressID = IP.AddressID
+							INNER JOIN PackagesTreeCache AS PT ON PIP.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID AND IP.PoolID = 5)
+		ELSE IF @QuotaID = 430 -- Enterprise Storage
+			SET @Result = (SELECT SUM(ESF.FolderQuota) FROM EnterpriseFolders AS ESF
+							INNER JOIN ServiceItems  SI ON ESF.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache PT ON SI.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 431 -- Enterprise Storage Folders
+			SET @Result = (SELECT COUNT(ESF.EnterpriseFolderID) FROM EnterpriseFolders AS ESF
+							INNER JOIN ServiceItems  SI ON ESF.ItemID = SI.ItemID
+							INNER JOIN PackagesTreeCache PT ON SI.PackageID = PT.PackageID
+							WHERE PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 423 -- HostedSolution.SecurityGroups
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts AS ea
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE pt.ParentPackageID = @PackageID AND ea.AccountType IN (8,9))
+		ELSE IF @QuotaID = 495 -- HostedSolution.DeletedUsers
+			SET @Result = (SELECT COUNT(ea.AccountID) FROM ExchangeAccounts AS ea
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE pt.ParentPackageID = @PackageID AND ea.AccountType = 11)
+		ELSE IF @QuotaID = 450
+			SET @Result = (SELECT COUNT(DISTINCT(RCU.[AccountId])) FROM [dbo].[RDSCollectionUsers] RCU
+				INNER JOIN ExchangeAccounts EA ON EA.AccountId = RCU.AccountId
+				INNER JOIN ServiceItems  si ON ea.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 451
+			SET @Result = (SELECT COUNT(RS.[ID]) FROM [dbo].[RDSServers] RS				
+				INNER JOIN ServiceItems  si ON RS.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaID = 491
+			SET @Result = (SELECT COUNT(RC.[ID]) FROM [dbo].[RDSCollections] RC
+				INNER JOIN ServiceItems  si ON RC.ItemID = si.ItemID
+				INNER JOIN PackagesTreeCache pt ON si.PackageID = pt.PackageID
+				WHERE PT.ParentPackageID = @PackageID)
+		ELSE IF @QuotaName like 'ServiceLevel.%' -- Support Service Level Quota
+		BEGIN
+			DECLARE @LevelID int
+
+			SELECT @LevelID = LevelID FROM SupportServiceLevels
+			WHERE LevelName = REPLACE(@QuotaName,'ServiceLevel.','')
+
+			IF (@LevelID IS NOT NULL)
+			SET @Result = (SELECT COUNT(EA.AccountID)
+				FROM SupportServiceLevels AS SL
+				INNER JOIN ExchangeAccounts AS EA ON SL.LevelID = EA.LevelID
+				INNER JOIN ServiceItems  SI ON EA.ItemID = SI.ItemID
+				INNER JOIN PackagesTreeCache PT ON SI.PackageID = PT.PackageID
+				WHERE EA.LevelID = @LevelID AND PT.ParentPackageID = @PackageID)
+			ELSE SET @Result = 0
+		END
+		ELSE
+			SET @Result = (SELECT COUNT(SI.ItemID) FROM Quotas AS Q
+			INNER JOIN ServiceItems AS SI ON SI.ItemTypeID = Q.ItemTypeID
+			INNER JOIN PackagesTreeCache AS PT ON SI.PackageID = PT.PackageID AND PT.ParentPackageID = @PackageID
+			WHERE Q.QuotaID = @QuotaID)
+
+		RETURN @Result
+	END
+GO
+
+-- Quotas Per Organization
+IF NOT EXISTS(select 1 from sys.columns COLS INNER JOIN sys.objects OBJS ON OBJS.object_id=COLS.object_id and OBJS.type='U' AND OBJS.name='Quotas' AND COLS.name='PerOrganization')
+BEGIN
+	ALTER TABLE [dbo].[Quotas] ADD [PerOrganization] int NULL
+END
+GO
+
+UPDATE Quotas
+SET PerOrganization = 1
+WHERE QuotaName in (
+	'Exchange2007.DiskSpace',
+	'Exchange2007.Mailboxes',
+	'Exchange2007.Contacts',
+	'Exchange2007.DistributionLists',
+	'Exchange2007.PublicFolders',
+	'HostedSolution.Users',
+	'HostedSolution.Domains',
+	'Exchange2007.RecoverableItemsSpace',
+	'HostedSolution.SecurityGroups',
+	'Exchange2013.ArchivingStorage',
+	'Exchange2013.ArchivingMailboxes',
+	'Exchange2013.ResourceMailboxes',
+	'Exchange2013.SharedMailboxes',
+	'HostedSolution.DeletedUsers',
+	'HostedSolution.DeletedUsersBackupStorageSpace',
+	
+	'HostedSharePoint.Sites',
+	'HostedSharePointEnterprise.Sites',
+	'HostedCRM.Users',
+	'HostedCRM.LimitedUsers',
+	'HostedCRM.ESSUsers',
+	'HostedCRM2013.ProfessionalUsers',
+	'HostedCRM2013.BasicUsers',
+	'HostedCRM2013.EssentialUsers',
+	'BlackBerry.Users',
+	'OCS.Users',
+	'Lync.Users',
+	'EnterpriseStorage.Folders',
+	'EnterpriseStorage.DiskStorageSpace',
+	'RDS.Servers',
+	'RDS.Collections',
+	'RDS.Users'
+	)
+GO
+
+
+
+ALTER PROCEDURE [dbo].[GetPackageQuotas]
+(
+	@ActorID int,
+	@PackageID int
+)
+AS
+
+-- check rights
+IF dbo.CheckActorPackageRights(@ActorID, @PackageID) = 0
+RAISERROR('You are not allowed to access this package', 16, 1)
+
+DECLARE @PlanID int, @ParentPackageID int
+SELECT @PlanID = PlanID, @ParentPackageID = ParentPackageID FROM Packages
+WHERE PackageID = @PackageID
+
+-- get resource groups
+SELECT
+	RG.GroupID,
+	RG.GroupName,
+	ISNULL(HPR.CalculateDiskSpace, 0) AS CalculateDiskSpace,
+	ISNULL(HPR.CalculateBandwidth, 0) AS CalculateBandwidth,
+	--dbo.GetPackageAllocatedResource(@ParentPackageID, RG.GroupID, 0) AS ParentEnabled
+	CASE
+		WHEN RG.GroupName = 'Service Levels' THEN dbo.GetPackageServiceLevelResource(@ParentPackageID, RG.GroupID, 0)
+		ELSE dbo.GetPackageAllocatedResource(@ParentPackageID, RG.GroupID, 0)
+	END AS ParentEnabled
+FROM ResourceGroups AS RG
+LEFT OUTER JOIN HostingPlanResources AS HPR ON RG.GroupID = HPR.GroupID AND HPR.PlanID = @PlanID
+--WHERE dbo.GetPackageAllocatedResource(@PackageID, RG.GroupID, 0) = 1
+WHERE (dbo.GetPackageAllocatedResource(@PackageID, RG.GroupID, 0) = 1 AND RG.GroupName <> 'Service Levels') OR
+	  (dbo.GetPackageServiceLevelResource(@PackageID, RG.GroupID, 0) = 1 AND RG.GroupName = 'Service Levels')
+ORDER BY RG.GroupOrder
+
+-- return quotas
+DECLARE @OrgsCount INT
+SET @OrgsCount = dbo.GetPackageAllocatedQuota(@PackageID, 205) -- 205 - HostedSolution.Organizations
+SET @OrgsCount = CASE WHEN ISNULL(@OrgsCount, 0) < 1 THEN 1 ELSE @OrgsCount END
+
+SELECT
+	Q.QuotaID,
+	Q.GroupID,
+	Q.QuotaName,
+	Q.QuotaDescription,
+	Q.QuotaTypeID,
+	QuotaValue = CASE WHEN Q.PerOrganization = 1 AND dbo.GetPackageAllocatedQuota(@PackageID, Q.QuotaID) <> -1 THEN 
+					dbo.GetPackageAllocatedQuota(@PackageID, Q.QuotaID) * @OrgsCount 
+				 ELSE 
+					dbo.GetPackageAllocatedQuota(@PackageID, Q.QuotaID) 
+				 END,
+	QuotaValuePerOrganization = dbo.GetPackageAllocatedQuota(@PackageID, Q.QuotaID),
+	dbo.GetPackageAllocatedQuota(@ParentPackageID, Q.QuotaID) AS ParentQuotaValue,
+	ISNULL(dbo.CalculateQuotaUsage(@PackageID, Q.QuotaID), 0) AS QuotaUsedValue,
+	Q.PerOrganization
+FROM Quotas AS Q
+WHERE Q.HideQuota IS NULL OR Q.HideQuota = 0
+ORDER BY Q.QuotaOrder
+
+RETURN
+GO
+
+
+
+ALTER PROCEDURE [dbo].[GetPackageQuota]
+(
+	@ActorID int,
+	@PackageID int,
+	@QuotaName nvarchar(50)
+)
+AS
+
+-- check rights
+IF dbo.CheckActorPackageRights(@ActorID, @PackageID) = 0
+RAISERROR('You are not allowed to access this package', 16, 1)
+
+-- return quota
+DECLARE @OrgsCount INT
+SET @OrgsCount = dbo.GetPackageAllocatedQuota(@PackageID, 205) -- 205 - HostedSolution.Organizations
+SET @OrgsCount = CASE WHEN ISNULL(@OrgsCount, 0) < 1 THEN 1 ELSE @OrgsCount END
+
+SELECT
+	Q.QuotaID,
+	Q.QuotaName,
+	Q.QuotaDescription,
+	Q.QuotaTypeID,
+	QuotaAllocatedValue = CASE WHEN Q.PerOrganization = 1 AND ISNULL(dbo.GetPackageAllocatedQuota(@PackageId, Q.QuotaID), 0) <> -1 THEN 
+					ISNULL(dbo.GetPackageAllocatedQuota(@PackageId, Q.QuotaID), 0) * @OrgsCount 
+				 ELSE 
+					ISNULL(dbo.GetPackageAllocatedQuota(@PackageId, Q.QuotaID), 0)
+				 END,
+	QuotaAllocatedValuePerOrganization = ISNULL(dbo.GetPackageAllocatedQuota(@PackageId, Q.QuotaID), 0),
+	ISNULL(dbo.CalculateQuotaUsage(@PackageId, Q.QuotaID), 0) AS QuotaUsedValue
+FROM Quotas AS Q
+WHERE Q.QuotaName = @QuotaName
+
+RETURN
+GO
+
+
+GO
+
+-- RDS Messages
+
+IF NOT EXISTS (SELECT * FROM SYS.TABLES WHERE name = 'RDSMessages')
+CREATE TABLE [dbo].[RDSMessages](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RDSCollectionId] [int] NOT NULL,
+	[MessageText] [ntext] NOT NULL,
+	[UserName] [nchar](250) NOT NULL,
+	[Date] [datetime] NOT NULL
+CONSTRAINT [PK_RDSMessages] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_NAME ='FK_RDSMessages_RDSCollections')
+ALTER TABLE [dbo].[RDSMessages]  WITH CHECK ADD  CONSTRAINT [FK_RDSMessages_RDSCollections] FOREIGN KEY([RDSCollectionId])
+REFERENCES [dbo].[RDSCollections] ([ID])
+ON DELETE CASCADE
+GO
+
+IF EXISTS (SELECT * FROM SYS.OBJECTS WHERE type = 'P' AND name = 'AddRDSMessage')
+DROP PROCEDURE AddRDSMessage
+GO
+CREATE PROCEDURE [dbo].[AddRDSMessage]
+(
+	@RDSMessageId INT OUTPUT,
+	@RDSCollectionId INT,
+	@MessageText NTEXT,
+	@UserName NVARCHAR(255),
+	@Date DATETIME
+)
+AS
+INSERT INTO RDSMEssages
+(
+	RDSCollectionId,
+	[MessageText],
+	UserName,
+	[Date]
+)
+VALUES
+(
+	@RDSCollectionId,
+	@MessageText,
+	@UserName,
+	@Date
+)
+
+SET @RDSMessageId = SCOPE_IDENTITY()
+
+RETURN
+GO
+
+
+IF EXISTS (SELECT * FROM SYS.OBJECTS WHERE type = 'P' AND name = 'GetRDSMessages')
+DROP PROCEDURE GetRDSMessages
+GO
+CREATE PROCEDURE [dbo].[GetRDSMessages]
+(
+	@RDSCollectionId INT
+)
+AS
+SELECT Id, RDSCollectionId, MessageText, UserName, [Date] FROM [dbo].[RDSMessages] WHERE RDSCollectionId = @RDSCollectionId
+RETURN
+GO
+
+-- Exchange2013 Shared and resource mailboxes Organization statistics
+
+ALTER PROCEDURE [dbo].[GetExchangeOrganizationStatistics] 
+(
+	@ItemID int
+)
+AS
+
+DECLARE @ARCHIVESIZE INT
+IF -1 in (SELECT B.ArchiveSizeMB FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID)
+BEGIN
+	SET @ARCHIVESIZE = -1
+END
+ELSE
+BEGIN
+	SET @ARCHIVESIZE = (SELECT SUM(B.ArchiveSizeMB) FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID AND A.AccountType in (1, 5, 6, 10) AND B.EnableArchiving = 1)
+END
+
+IF -1 IN (SELECT B.MailboxSizeMB FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID)
+BEGIN
+SELECT
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE (AccountType = 1) AND ItemID = @ItemID) AS CreatedMailboxes,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE (AccountType = 10) AND ItemID = @ItemID) AS CreatedSharedMailboxes,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE (AccountType = 5 OR AccountType = 6) AND ItemID = @ItemID) AS CreatedResourceMailboxes,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE AccountType = 2 AND ItemID = @ItemID) AS CreatedContacts,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE AccountType = 3 AND ItemID = @ItemID) AS CreatedDistributionLists,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE AccountType = 4 AND ItemID = @ItemID) AS CreatedPublicFolders,
+	(SELECT COUNT(*) FROM ExchangeOrganizationDomains WHERE ItemID = @ItemID) AS CreatedDomains,
+	(SELECT MIN(B.MailboxSizeMB) FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID AND A.AccountType in (1, 5, 6, 10)) AS UsedDiskSpace,
+	(SELECT MIN(B.RecoverableItemsSpace) FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID AND A.AccountType in (1, 5, 6, 10) AND B.AllowLitigationHold = 1) AS UsedLitigationHoldSpace,
+	@ARCHIVESIZE AS UsedArchingStorage
+END
+ELSE
+BEGIN
+SELECT
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE (AccountType = 1) AND ItemID = @ItemID) AS CreatedMailboxes,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE (AccountType = 10) AND ItemID = @ItemID) AS CreatedSharedMailboxes,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE (AccountType = 5 OR AccountType = 6) AND ItemID = @ItemID) AS CreatedResourceMailboxes,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE AccountType = 2 AND ItemID = @ItemID) AS CreatedContacts,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE AccountType = 3 AND ItemID = @ItemID) AS CreatedDistributionLists,
+	(SELECT COUNT(*) FROM ExchangeAccounts WHERE AccountType = 4 AND ItemID = @ItemID) AS CreatedPublicFolders,
+	(SELECT COUNT(*) FROM ExchangeOrganizationDomains WHERE ItemID = @ItemID) AS CreatedDomains,
+	(SELECT SUM(B.MailboxSizeMB) FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID AND A.AccountType in (1, 5, 6, 10)) AS UsedDiskSpace,
+	(SELECT SUM(B.RecoverableItemsSpace) FROM ExchangeAccounts AS A INNER JOIN ExchangeMailboxPlans AS B ON A.MailboxPlanId = B.MailboxPlanId WHERE A.ItemID=@ItemID AND A.AccountType in (1, 5, 6, 10) AND B.AllowLitigationHold = 1) AS UsedLitigationHoldSpace,
+	@ARCHIVESIZE AS UsedArchingStorage
+END
+
+
+RETURN
 GO

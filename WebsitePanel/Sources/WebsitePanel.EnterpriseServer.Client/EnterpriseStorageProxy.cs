@@ -51,6 +51,8 @@ namespace WebsitePanel.EnterpriseServer {
         
         private System.Threading.SendOrPostCallback GetEnterpriseFolderOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetEnterpriseFolderWithExtraDataOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateEnterpriseFolderOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteEnterpriseFolderOperationCompleted;
@@ -78,6 +80,8 @@ namespace WebsitePanel.EnterpriseServer {
         private System.Threading.SendOrPostCallback SearchFilesOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetEnterpriseStorageServiceIdOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SetEsFolderShareSettingsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetDirectoryBrowseEnabledOperationCompleted;
         
@@ -141,6 +145,9 @@ namespace WebsitePanel.EnterpriseServer {
         public event GetEnterpriseFolderCompletedEventHandler GetEnterpriseFolderCompleted;
         
         /// <remarks/>
+        public event GetEnterpriseFolderWithExtraDataCompletedEventHandler GetEnterpriseFolderWithExtraDataCompleted;
+        
+        /// <remarks/>
         public event CreateEnterpriseFolderCompletedEventHandler CreateEnterpriseFolderCompleted;
         
         /// <remarks/>
@@ -181,6 +188,9 @@ namespace WebsitePanel.EnterpriseServer {
         
         /// <remarks/>
         public event GetEnterpriseStorageServiceIdCompletedEventHandler GetEnterpriseStorageServiceIdCompleted;
+        
+        /// <remarks/>
+        public event SetEsFolderShareSettingsCompletedEventHandler SetEsFolderShareSettingsCompleted;
         
         /// <remarks/>
         public event GetDirectoryBrowseEnabledCompletedEventHandler GetDirectoryBrowseEnabledCompleted;
@@ -562,6 +572,53 @@ namespace WebsitePanel.EnterpriseServer {
             if ((this.GetEnterpriseFolderCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetEnterpriseFolderCompleted(this, new GetEnterpriseFolderCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/enterpriseserver/GetEnterpriseFolderWithExtraData", RequestNamespace="http://smbsaas/websitepanel/enterpriseserver", ResponseNamespace="http://smbsaas/websitepanel/enterpriseserver", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public SystemFile GetEnterpriseFolderWithExtraData(int itemId, string folderName, bool loadDriveMapInfo) {
+            object[] results = this.Invoke("GetEnterpriseFolderWithExtraData", new object[] {
+                        itemId,
+                        folderName,
+                        loadDriveMapInfo});
+            return ((SystemFile)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetEnterpriseFolderWithExtraData(int itemId, string folderName, bool loadDriveMapInfo, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetEnterpriseFolderWithExtraData", new object[] {
+                        itemId,
+                        folderName,
+                        loadDriveMapInfo}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public SystemFile EndGetEnterpriseFolderWithExtraData(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((SystemFile)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetEnterpriseFolderWithExtraDataAsync(int itemId, string folderName, bool loadDriveMapInfo) {
+            this.GetEnterpriseFolderWithExtraDataAsync(itemId, folderName, loadDriveMapInfo, null);
+        }
+        
+        /// <remarks/>
+        public void GetEnterpriseFolderWithExtraDataAsync(int itemId, string folderName, bool loadDriveMapInfo, object userState) {
+            if ((this.GetEnterpriseFolderWithExtraDataOperationCompleted == null)) {
+                this.GetEnterpriseFolderWithExtraDataOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetEnterpriseFolderWithExtraDataOperationCompleted);
+            }
+            this.InvokeAsync("GetEnterpriseFolderWithExtraData", new object[] {
+                        itemId,
+                        folderName,
+                        loadDriveMapInfo}, this.GetEnterpriseFolderWithExtraDataOperationCompleted, userState);
+        }
+        
+        private void OnGetEnterpriseFolderWithExtraDataOperationCompleted(object arg) {
+            if ((this.GetEnterpriseFolderWithExtraDataCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetEnterpriseFolderWithExtraDataCompleted(this, new GetEnterpriseFolderWithExtraDataCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1217,6 +1274,54 @@ namespace WebsitePanel.EnterpriseServer {
             if ((this.GetEnterpriseStorageServiceIdCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetEnterpriseStorageServiceIdCompleted(this, new GetEnterpriseStorageServiceIdCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/enterpriseserver/SetEsFolderShareSettings", RequestNamespace="http://smbsaas/websitepanel/enterpriseserver", ResponseNamespace="http://smbsaas/websitepanel/enterpriseserver", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void SetEsFolderShareSettings(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled) {
+            this.Invoke("SetEsFolderShareSettings", new object[] {
+                        itemId,
+                        folderName,
+                        abeIsEnabled,
+                        edaIsEnabled});
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginSetEsFolderShareSettings(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("SetEsFolderShareSettings", new object[] {
+                        itemId,
+                        folderName,
+                        abeIsEnabled,
+                        edaIsEnabled}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public void EndSetEsFolderShareSettings(System.IAsyncResult asyncResult) {
+            this.EndInvoke(asyncResult);
+        }
+        
+        /// <remarks/>
+        public void SetEsFolderShareSettingsAsync(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled) {
+            this.SetEsFolderShareSettingsAsync(itemId, folderName, abeIsEnabled, edaIsEnabled, null);
+        }
+        
+        /// <remarks/>
+        public void SetEsFolderShareSettingsAsync(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled, object userState) {
+            if ((this.SetEsFolderShareSettingsOperationCompleted == null)) {
+                this.SetEsFolderShareSettingsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetEsFolderShareSettingsOperationCompleted);
+            }
+            this.InvokeAsync("SetEsFolderShareSettings", new object[] {
+                        itemId,
+                        folderName,
+                        abeIsEnabled,
+                        edaIsEnabled}, this.SetEsFolderShareSettingsOperationCompleted, userState);
+        }
+        
+        private void OnSetEsFolderShareSettingsOperationCompleted(object arg) {
+            if ((this.SetEsFolderShareSettingsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SetEsFolderShareSettingsCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2146,6 +2251,32 @@ namespace WebsitePanel.EnterpriseServer {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+    public delegate void GetEnterpriseFolderWithExtraDataCompletedEventHandler(object sender, GetEnterpriseFolderWithExtraDataCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetEnterpriseFolderWithExtraDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetEnterpriseFolderWithExtraDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public SystemFile Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((SystemFile)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
     public delegate void CreateEnterpriseFolderCompletedEventHandler(object sender, CreateEnterpriseFolderCompletedEventArgs e);
     
     /// <remarks/>
@@ -2485,6 +2616,10 @@ namespace WebsitePanel.EnterpriseServer {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+    public delegate void SetEsFolderShareSettingsCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]

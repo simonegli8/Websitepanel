@@ -56,7 +56,7 @@
     <Columns>
         <asp:TemplateField SortExpression="Name" HeaderText="Space name">
             <HeaderStyle Wrap="false" />
-            <ItemStyle Wrap="False" Width="30%" />
+            <ItemStyle Wrap="False" Width="20%" />
             <ItemTemplate>
                 <asp:LinkButton OnClientClick="ShowProgressDialog('Loading ...');return true;" CommandName="EditStorageSpace" CommandArgument='<%# Eval("Id")%>' ID="lbEditStorageSpace" runat="server" Text='<%#Eval("Name") %>' />
             </ItemTemplate>
@@ -64,31 +64,39 @@
         
         <asp:TemplateField SortExpression="ServiceId" HeaderText="Service name">
             <HeaderStyle Wrap="false" />
-            <ItemStyle Wrap="False" Width="30%" />
+            <ItemStyle Wrap="False" Width="25%" />
             <ItemTemplate>
                 <asp:Label runat="server"><%# GetServiceName(Utils.ParseInt(Eval("ServiceId"), 0))%></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
         
-               <asp:TemplateField SortExpression="FsrmQuotaSizeBytes" HeaderText="Available Space">
+        <asp:TemplateField SortExpression="FsrmQuotaSizeBytes" HeaderText="Available Space">
             <HeaderStyle Wrap="false" />
-            <ItemStyle Wrap="False" Width="20%" />
+            <ItemStyle Wrap="False" Width="11%" />
             <ItemTemplate>
                 <asp:Label runat="server"><%# (ConvertBytesToGB(Eval("FsrmQuotaSizeBytes"))) + " Gb"%></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
         
-                <asp:TemplateField SortExpression="UsedSizeBytes" HeaderText="Allocated Space">
+        <asp:TemplateField SortExpression="UsedSizeBytes" HeaderText="Allocated Space">
             <HeaderStyle Wrap="false" />
-            <ItemStyle Wrap="False" Width="20%" />
+            <ItemStyle Wrap="False" Width="11%" />
             <ItemTemplate>
                 <asp:Label runat="server"><%# (ConvertBytesToGB(Eval("UsedSizeBytes"))) + " Gb"%></asp:Label>
+            </ItemTemplate>
+        </asp:TemplateField>
+        
+          <asp:TemplateField SortExpression="ActuallyUsedInBytes" HeaderText="Space Available">
+            <HeaderStyle Wrap="false" />
+            <ItemStyle Wrap="False" Width="12%" />
+            <ItemTemplate>
+                <asp:Label runat="server"><%# (ConvertBytesToGB(Eval("DiskFreeSpaceInBytes"))) + " Gb"%></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
 
         <asp:TemplateField SortExpression="ActuallyUsedInBytes" HeaderText="Used Space">
             <HeaderStyle Wrap="false" />
-            <ItemStyle Wrap="False" Width="20%" />
+            <ItemStyle Wrap="False" Width="11%" />
             <ItemTemplate>
                 <asp:Label runat="server"><%# (ConvertBytesToGB(Eval("ActuallyUsedInBytes"))) + " Gb"%></asp:Label>
             </ItemTemplate>
@@ -98,7 +106,7 @@
             <ItemTemplate>
                 <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" Visible='<%# CheckStorageIsInUse(Utils.ParseInt(Eval("Id"), -1)) == false %>'
                     CommandName="DeleteItem" CommandArgument='<%# Eval("Id") %>'
-                    meta:resourcekey="cmdDelete" OnClientClick="return confirm('Are you sure you want to delete selected storage space?');"></asp:LinkButton>
+                    meta:resourcekey="cmdDelete" OnClientClick="return confirm('Confirming Deletion will result in the deletion of all files on this share.');"></asp:LinkButton>
             </ItemTemplate>
         </asp:TemplateField>
     </Columns>

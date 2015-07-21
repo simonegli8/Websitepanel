@@ -106,6 +106,12 @@ namespace WebsitePanel.EnterpriseServer
         }
 
         [WebMethod]
+        public SystemFile GetEnterpriseFolderWithExtraData(int itemId, string folderName, bool loadDriveMapInfo)
+        {
+            return EnterpriseStorageController.GetFolder(itemId, folderName, loadDriveMapInfo);
+        }
+
+        [WebMethod]
         public ResultObject CreateEnterpriseFolder(int itemId, string folderName, int quota, QuotaType quotaType, bool addDefaultGroup)
         {
             return EnterpriseStorageController.CreateFolder(itemId, folderName, quota, quotaType, addDefaultGroup);
@@ -187,6 +193,12 @@ namespace WebsitePanel.EnterpriseServer
         public int GetEnterpriseStorageServiceId(int itemId)
         {
             return EnterpriseStorageController.GetEnterpriseStorageServiceId(itemId);
+        }
+
+        [WebMethod]
+        public void SetEsFolderShareSettings(int itemId, string folderName, bool abeIsEnabled, bool edaIsEnabled)
+        {
+            EnterpriseStorageController.SetEsFolderShareSettings(itemId, folderName, abeIsEnabled, edaIsEnabled);
         }
 
         #region Directory Browsing

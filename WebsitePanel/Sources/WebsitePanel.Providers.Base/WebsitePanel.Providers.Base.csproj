@@ -80,6 +80,9 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\LogExtension\LogExtensionHelper.cs" />
+    <Compile Include="Common\LogExtension\Attributes\LogParentPropertyAttribute.cs" />
+    <Compile Include="Common\LogExtension\Attributes\LogPropertyAttribute.cs" />
     <Compile Include="Common\AppPoolState.cs" />
     <Compile Include="Common\ByteOperations.cs" />
     <Compile Include="Common\ErrorCodes.cs" />
@@ -143,6 +146,8 @@
     <Compile Include="RemoteDesktopServices\RdsCollectionSetting.cs" />
     <Compile Include="RemoteDesktopServices\RdsCollectionSettings.cs" />
     <Compile Include="RemoteDesktopServices\RdsEnums.cs" />
+    <Compile Include="RemoteDesktopServices\RdsMessage.cs" />
+    <Compile Include="RemoteDesktopServices\RdsMessageRecipient.cs" />
     <Compile Include="RemoteDesktopServices\RdsPolicyTypes.cs" />
     <Compile Include="RemoteDesktopServices\RdsServer.cs" />
     <Compile Include="RemoteDesktopServices\RdsServerDriveInfo.cs" />
@@ -257,7 +262,6 @@
     <Compile Include="HostedSolution\OrganizationDomain.cs" />
     <Compile Include="HostedSolution\OrganizationDomainName.cs" />
     <Compile Include="HostedSolution\OrganizationPaged.cs" />
-    <Compile Include="HostedSolution\OrganizationStatistics.cs" />
     <Compile Include="HostedSolution\OrganizationUser.cs" />
     <Compile Include="HostedSolution\OrganizationUsersPaged.cs" />
     <Compile Include="Mail\IMailServer.cs" />
