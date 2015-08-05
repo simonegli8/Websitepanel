@@ -44,7 +44,7 @@ namespace WebsitePanel.Portal
             int AccountID = Param("AccountID");
 
             BytesResult res = ES.Services.ExchangeServer.GetPicture(ItemID, AccountID);
-            if ((res.IsSuccess)&&(res.Value!=null))
+            if ((res!=null)&&(res.IsSuccess) && (res.Value != null))
             {
                 context.Response.ContentType = "image/jpeg";
                 context.Response.BinaryWrite(res.Value);
