@@ -712,7 +712,7 @@ namespace WebsitePanel.Providers.HostedSolution
         #endregion
 
         #region Picture
-        public virtual ResultObject SetPicture(string accountName, byte[] picture)
+        public override ResultObject SetPicture(string accountName, byte[] picture)
         {
             ExchangeLog.LogStart("SetPicture");
 
@@ -747,7 +747,7 @@ namespace WebsitePanel.Providers.HostedSolution
 
             return res;
         }
-        public virtual BytesResult GetPicture(string accountName)
+        public override BytesResult GetPicture(string accountName)
         {
             ExchangeLog.LogStart("GetPicture");
 
