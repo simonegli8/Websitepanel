@@ -6520,18 +6520,22 @@ namespace WebsitePanel.EnterpriseServer
                     Bitmap bitmap;
 
                     if (picture == null)
-                        bitmap = new Bitmap(1, 1);
+                    {
+                        res = exchange.SetPicture(account.AccountName, null);
+                    }
                     else
+                    {
                         bitmap = new Bitmap(new MemoryStream(picture));
 
-                    MemoryStream pictureStream = new MemoryStream();
+                        MemoryStream pictureStream = new MemoryStream();
 
-                    if ((bitmap.Width > MAX_THUMBNAILPHOTO_SIZE) || (bitmap.Height > MAX_THUMBNAILPHOTO_SIZE))
-                        bitmap = ResizeBitmap(bitmap, new Size(MAX_THUMBNAILPHOTO_SIZE, MAX_THUMBNAILPHOTO_SIZE));
+                        if ((bitmap.Width > MAX_THUMBNAILPHOTO_SIZE) || (bitmap.Height > MAX_THUMBNAILPHOTO_SIZE))
+                            bitmap = ResizeBitmap(bitmap, new Size(MAX_THUMBNAILPHOTO_SIZE, MAX_THUMBNAILPHOTO_SIZE));
 
-                    bitmap.Save(pictureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        bitmap.Save(pictureStream, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-                    res = exchange.SetPicture(account.AccountName, pictureStream.ToArray());
+                        res = exchange.SetPicture(account.AccountName, pictureStream.ToArray());
+                    }
                 }
             }
             catch (Exception ex)
