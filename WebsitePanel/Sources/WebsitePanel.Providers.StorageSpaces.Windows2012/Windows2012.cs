@@ -347,8 +347,15 @@ namespace WebsitePanel.Providers.StorageSpaces
                 Log.WriteInfo("FolderPath : {0}", fullPath);
 
                 var scripts = new List<string>
-                {                
-                    string.Format("net share {0}=\"{1}\" \"/grant:NETWORK SERVICE,full\" \"/grant:Everyone,full\"",shareName, fullPath)
+                {
+                    // 01.09.2015 roland.breitschaft@x-company.de 
+                    // Problem: On German Systems the Accounts 'NETWORK SERVICE' and 'EVERYONE' does not exist.
+                    // The equivalent in German is 'NETZWERKDIENST' for 'NETWORK SERVICE' and 'JEDER' for 'EVERYONE'
+                    // FIX: Rename the Account-Names to German
+                    // TODO: Create an Settings-Dialog to define the correct accounts in the Portal                    
+
+                    // string.Format("net share {0}=\"{1}\" \"/grant:NETWORK SERVICE,full\" \"/grant:Everyone,full\"",shareName, fullPath)
+                    string.Format("net share {0}=\"{1}\" \"/grant:NETZWERKDIENST,full\" \"/grant:JEDER,full\"",shareName, fullPath)
                 };
 
                 object[] errors = null;
