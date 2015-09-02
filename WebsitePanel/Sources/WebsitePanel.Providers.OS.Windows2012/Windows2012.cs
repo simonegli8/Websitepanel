@@ -193,7 +193,14 @@ namespace WebsitePanel.Providers.OS
                 runSpace = OpenRunspace();
 
                 Command cmd = new Command("Get-FsrmQuota");
-                cmd.Parameters.Add("Path", folderPath + "\\*");
+
+                // 01.09.2015 roland.breitschaft@x-company.de
+                // Problem: Query for Quotas throws an Error in the Log
+                // Error: WARNING: Invoke error: 0x80045301, Das angeforderte Objekt wurde nicht gefunden
+                // Fix: Remove the Wildcard
+
+                // cmd.Parameters.Add("Path", folderPath + "\\*");
+                cmd.Parameters.Add("Path", folderPath);
                 var result = ExecuteShellCommand(runSpace, cmd, false);
 
                 if (result.Count > 0)
