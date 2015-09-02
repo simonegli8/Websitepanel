@@ -44,7 +44,7 @@
                                 <%--<asp:RangeValidator ID="rangeFolderSize" runat="server" ControlToValidate="txtFolderSize" MaximumValue="99999999" MinimumValue="0.01" Type="Double"
                                     ValidationGroup="CreateFolder" Display="Dynamic" Text="*" SetFocusOnError="True"
                                     ErrorMessage="The quota you've entered exceeds the available quota for organization" />--%>
-                                <asp:RangeValidator ID="RangeValidator1" runat="server" ControlToValidate="txtFolderSize" MaximumValue="99999999" MinimumValue="0" Type="Double"
+                                <asp:RangeValidator ID="rangeFolderSize" runat="server" ControlToValidate="txtFolderSize" MaximumValue="99999999" MinimumValue="0" Type="Double"
                                     ValidationGroup="CreateFolder" Display="Dynamic" Text="*" SetFocusOnError="True"
                                     ErrorMessage="The quota you've entered exceeds the available quota for organization" />
                             </td>

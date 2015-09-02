@@ -103,13 +103,13 @@ namespace WebsitePanel.Portal.ExchangeServer {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator valRequireFolderSize;
         
         /// <summary>
-        /// RangeValidator1-Steuerelement
+        /// rangeFolderSize-Steuerelement
         /// </summary>
         /// <remarks>
         /// Automatisch generiertes Feld
         /// Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RangeValidator RangeValidator1;
+        protected global::System.Web.UI.WebControls.RangeValidator rangeFolderSize;
         
         /// <summary>
         /// locQuotaType-Steuerelement
