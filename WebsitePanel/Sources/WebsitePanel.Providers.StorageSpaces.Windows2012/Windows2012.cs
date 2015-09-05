@@ -189,13 +189,15 @@ namespace WebsitePanel.Providers.StorageSpaces
             {
                 if (preserveInheritance == false && permissions != null)
                 {
-                    var domainAdminsSid = "S-1-5-21";                    
-                    
-                    if (permissions.All(x =>!string.Equals(x.AccountName, "Domain Admins",StringComparison.InvariantCultureIgnoreCase)))
+                    var domainAdminsSid = "S-1-5-21";
+                    var domainAdminsAsString = Server.Utils.OS.TranslateSid(domainAdminsSid);
+
+
+                    if (permissions.All(x =>!string.Equals(x.AccountName, domainAdminsAsString,StringComparison.InvariantCultureIgnoreCase)))
                     {
                         permissions = permissions.Concat(new[]
                         {
-                            new UserPermission {AccountName = "Domain Admins", Read = true, Write = true}
+                            new UserPermission {AccountName = domainAdminsAsString, Read = true, Write = true}
                         }).ToArray();
                     }
 
@@ -809,7 +811,9 @@ namespace WebsitePanel.Providers.StorageSpaces
             {
                 // If Quotas is null, create an Empty-Quota Object
                 quotas = new Dictionary<string, Quota>();
-                quotas.Add(fullPath, Quota.Empty());                
+                quotas.Add(fullPath, Quota.Empty());
+
+                Log.WriteWarning("Quota not found. Use an empty Quota-Object!");
             }
 
             var quota = quotas[fullPath];
