@@ -189,6 +189,8 @@ namespace WebsitePanel.Providers.StorageSpaces
             {
                 if (preserveInheritance == false && permissions != null)
                 {
+                    var domainAdminsSid = "S-1-5-21";                    
+                    
                     if (permissions.All(x =>!string.Equals(x.AccountName, "Domain Admins",StringComparison.InvariantCultureIgnoreCase)))
                     {
                         permissions = permissions.Concat(new[]
@@ -792,11 +794,22 @@ namespace WebsitePanel.Providers.StorageSpaces
 
         public Quota GetFolderQuota(string fullPath)
         {
+            Log.WriteStart("GetFolderQuota");
+            Log.WriteInfo("FullPath : {0}", fullPath);
+
             var quotas = GetQuotasForOrganization(Directory.GetParent(fullPath).ToString(), string.Empty, string.Empty);
+
+            // 05.09.2015 roland.breitschaft@x-company.de
+            // Problem: If the parent of the fullpath is Root, Quotas-Object will be null
+            // Fix: Try to get Quotas for the origin FullPath
+            if(quotas.ContainsKey(fullPath) == false)
+                quotas = GetQuotasForOrganization(fullPath, string.Empty, string.Empty);
 
             if (quotas.ContainsKey(fullPath) == false)
             {
-                return null;
+                // If Quotas is null, create an Empty-Quota Object
+                quotas = new Dictionary<string, Quota>();
+                quotas.Add(fullPath, Quota.Empty());                
             }
 
             var quota = quotas[fullPath];
@@ -810,6 +823,8 @@ namespace WebsitePanel.Providers.StorageSpaces
 
                 quota.DiskFreeSpaceInBytes = FileUtils.GetTotalFreeSpace(Path.GetPathRoot(fullPath));
             }
+
+            Log.WriteEnd("GetFolderQuota");
 
             return quota;
         }
