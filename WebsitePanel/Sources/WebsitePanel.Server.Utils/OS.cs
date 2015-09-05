@@ -440,6 +440,22 @@ namespace WebsitePanel.Server.Utils
             return false;
 
         }
+
+        /// <summary>
+        /// Translates an given SID into string
+        /// </summary>
+        /// <param name="sid">The SID of the Account</param>
+        /// <returns>An System- or Useraccount Name.</returns>
+        public static string TranslateSid(string sid)
+        {   
+            var account = new System.Security.Principal.SecurityIdentifier(sid)
+                .Translate(typeof(System.Security.Principal.NTAccount)).ToString();
+            
+            if (account.IndexOf("\\") > -1)
+                account = account.Substring(account.LastIndexOf("\\") + 1);
+
+            return account;
+        }
 	}
 }
 
