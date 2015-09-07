@@ -19,8 +19,6 @@ WebsitePanel.Installer/Build
 WebsitePanel/Bin
 msbuild.log
 _ReSharper.*
-web.config
-web.config
 WebsitePanel/Sources/_UpgradeReport_Files/UpgradeReport.css
 WebsitePanel/Sources/_UpgradeReport_Files/UpgradeReport.xslt
 WebsitePanel/Sources/_UpgradeReport_Files/UpgradeReport_Error.png
