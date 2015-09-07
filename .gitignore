@@ -6,8 +6,8 @@
 [Bb]in/
 packages/
 TestResults/
-[Bb]uild/
-[Dd]eploy/
+**/[Bb]uild/
+**/[Dd]eploy/
 
 # globs
 Makefile.in
@@ -41,7 +41,7 @@ Thumbs.db
 #dotCover
 *.dotCover
 
-**/Backup/**
+*/Backup/
 **/UpgradeLog.htm
 **/.vs/*
 

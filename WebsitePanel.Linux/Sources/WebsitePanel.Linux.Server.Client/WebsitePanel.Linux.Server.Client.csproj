@@ -3,17 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A00C7A56-8127-4E77-A02F-EACE703ABF92}</ProjectGuid>
+    <ProjectGuid>{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WebsitePanel.Linux.Providers.Cloud</RootNamespace>
-    <AssemblyName>WebsitePanel.Linux.Providers.Cloud</AssemblyName>
+    <RootNamespace>WebsitePanel.Linux.Server.Client</RootNamespace>
+    <AssemblyName>WebsitePanel.Linux.Server.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\WebsitePanel.Linux.Server\bin</OutputPath>
+    <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -22,17 +22,38 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\WebsitePanel.Linux.Server\bin</OutputPath>
+    <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.Web.Services3">
+      <HintPath>..\..\Lib\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Cloud.cs" />
+    <Compile Include="AutoDiscoveryProxy.cs" />
+    <Compile Include="OperationSystemProxy.cs" />
+    <Compile Include="Common\ServerProxyConfigurator.cs" />
+    <Compile Include="Common\ServerUsernameAssertion.cs" />
+    <Compile Include="..\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\WebsitePanel.Linux.Providers.Base\WebsitePanel.Linux.Providers.Base.csproj">
+      <Project>{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}</Project>
+      <Name>WebsitePanel.Linux.Providers.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
 </Project>

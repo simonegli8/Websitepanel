@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio 2012
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Providers.Base", "WebsitePanel.Linux.Providers.Base\WebsitePanel.Linux.Providers.Base.csproj", "{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}"
@@ -11,31 +11,66 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Provider
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server", "WebsitePanel.Linux.Server\WebsitePanel.Linux.Server.csproj", "{652521AD-832A-4A0D-80C6-AF259DD2FB59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CD43092-0CAB-4B89-A824-6B1A17C748B2}"
+	ProjectSection(SolutionItems) = preProject
+		generate_server_proxies.bat = generate_server_proxies.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C1D18F38-BD48-4660-B2C3-89E9841E289C}"
+	ProjectSection(SolutionItems) = preProject
+		build.xml = build.xml
+		build-debug.bat = build-debug.bat
+		build-release.bat = build-release.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{83FEFE8D-F0AF-495D-9AA6-2D8277BF91A8}"
+	ProjectSection(SolutionItems) = preProject
+		deploy-debug.bat = deploy-debug.bat
+		deploy-release.bat = deploy-release.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0D77BAFB-96A6-45F8-A74E-2D87C093C36D}"
+	ProjectSection(SolutionItems) = preProject
+		test.xml = test.xml
+		build-test.bat = build-test.bat
+		SetupTestWebsites.ps1 = SetupTestWebsites.ps1
+		start-test.bat = start-test.bat
+		StartWebsite.ps1 = StartWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server.Client", "WebsitePanel.Linux.Server.Client\WebsitePanel.Linux.Server.Client.csproj", "{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.Build.0 = Debug|Any CPU
-		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.ActiveCfg = Release|Any CPU
-		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.Build.0 = Release|Any CPU
-		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Debug|x86.Build.0 = Debug|Any CPU
-		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Release|x86.ActiveCfg = Release|Any CPU
-		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Release|x86.Build.0 = Release|Any CPU
-		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Debug|x86.Build.0 = Debug|Any CPU
-		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Release|x86.ActiveCfg = Release|Any CPU
-		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Release|x86.Build.0 = Release|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Release|x86.Build.0 = Release|Any CPU
 		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Debug|x86.Build.0 = Debug|Any CPU
 		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Release|x86.ActiveCfg = Release|Any CPU
 		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Release|x86.Build.0 = Release|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Debug|x86.Build.0 = Debug|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Release|x86.ActiveCfg = Release|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Release|x86.Build.0 = Release|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Debug|x86.Build.0 = Debug|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Release|x86.ActiveCfg = Release|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Release|x86.Build.0 = Release|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+	GlobalSection(NestedProjects) = preSolution
+		{C1D18F38-BD48-4660-B2C3-89E9841E289C} = {0CD43092-0CAB-4B89-A824-6B1A17C748B2}
+		{83FEFE8D-F0AF-495D-9AA6-2D8277BF91A8} = {0CD43092-0CAB-4B89-A824-6B1A17C748B2}
+		{0D77BAFB-96A6-45F8-A74E-2D87C093C36D} = {0CD43092-0CAB-4B89-A824-6B1A17C748B2}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
@@ -55,117 +90,18 @@ Global
 		$4.IncludeInNewFiles = True
 		$0.NameConventionPolicy = $5
 		$5.Rules = $6
-		$6.NamingRule = $26
-		$7.Name = Namespaces
-		$7.AffectedEntity = Namespace
+		$6.NamingRule = $7
+		$7.AffectedEntity = None
 		$7.VisibilityMask = VisibilityMask
-		$7.NamingStyle = PascalCase
+		$7.NamingStyle = None
 		$7.IncludeInstanceMembers = True
 		$7.IncludeStaticEntities = True
-		$8.Name = Types
-		$8.AffectedEntity = Class, Struct, Enum, Delegate
-		$8.VisibilityMask = Public
-		$8.NamingStyle = PascalCase
-		$8.IncludeInstanceMembers = True
-		$8.IncludeStaticEntities = True
-		$9.Name = Interfaces
-		$9.RequiredPrefixes = $10
-		$10.String = I
-		$9.AffectedEntity = Interface
-		$9.VisibilityMask = Public
-		$9.NamingStyle = PascalCase
-		$9.IncludeInstanceMembers = True
-		$9.IncludeStaticEntities = True
-		$11.Name = Attributes
-		$11.RequiredSuffixes = $12
-		$12.String = Attribute
-		$11.AffectedEntity = CustomAttributes
-		$11.VisibilityMask = Public
-		$11.NamingStyle = PascalCase
-		$11.IncludeInstanceMembers = True
-		$11.IncludeStaticEntities = True
-		$13.Name = Event Arguments
-		$13.RequiredSuffixes = $14
-		$14.String = EventArgs
-		$13.AffectedEntity = CustomEventArgs
-		$13.VisibilityMask = Public
-		$13.NamingStyle = PascalCase
-		$13.IncludeInstanceMembers = True
-		$13.IncludeStaticEntities = True
-		$15.Name = Exceptions
-		$15.RequiredSuffixes = $16
-		$16.String = Exception
-		$15.AffectedEntity = CustomExceptions
-		$15.VisibilityMask = VisibilityMask
-		$15.NamingStyle = PascalCase
-		$15.IncludeInstanceMembers = True
-		$15.IncludeStaticEntities = True
-		$17.Name = Methods
-		$17.AffectedEntity = Methods
-		$17.VisibilityMask = Protected, Public
-		$17.NamingStyle = PascalCase
-		$17.IncludeInstanceMembers = True
-		$17.IncludeStaticEntities = True
-		$18.Name = Static Readonly Fields
-		$18.AffectedEntity = ReadonlyField
-		$18.VisibilityMask = Protected, Public
-		$18.NamingStyle = PascalCase
-		$18.IncludeInstanceMembers = False
-		$18.IncludeStaticEntities = True
-		$19.Name = Fields
-		$19.AffectedEntity = Field
-		$19.VisibilityMask = Protected, Public
-		$19.NamingStyle = PascalCase
-		$19.IncludeInstanceMembers = True
-		$19.IncludeStaticEntities = True
-		$20.Name = ReadOnly Fields
-		$20.AffectedEntity = ReadonlyField
-		$20.VisibilityMask = Protected, Public
-		$20.NamingStyle = PascalCase
-		$20.IncludeInstanceMembers = True
-		$20.IncludeStaticEntities = False
-		$21.Name = Constant Fields
-		$21.AffectedEntity = ConstantField
-		$21.VisibilityMask = Protected, Public
-		$21.NamingStyle = PascalCase
-		$21.IncludeInstanceMembers = True
-		$21.IncludeStaticEntities = True
-		$22.Name = Properties
-		$22.AffectedEntity = Property
-		$22.VisibilityMask = Protected, Public
-		$22.NamingStyle = PascalCase
-		$22.IncludeInstanceMembers = True
-		$22.IncludeStaticEntities = True
-		$23.Name = Events
-		$23.AffectedEntity = Event
-		$23.VisibilityMask = Protected, Public
-		$23.NamingStyle = PascalCase
-		$23.IncludeInstanceMembers = True
-		$23.IncludeStaticEntities = True
-		$24.Name = Enum Members
-		$24.AffectedEntity = EnumMember
-		$24.VisibilityMask = VisibilityMask
-		$24.NamingStyle = PascalCase
-		$24.IncludeInstanceMembers = True
-		$24.IncludeStaticEntities = True
-		$25.Name = Parameters
-		$25.AffectedEntity = Parameter
-		$25.VisibilityMask = VisibilityMask
-		$25.NamingStyle = CamelCase
-		$25.IncludeInstanceMembers = True
-		$25.IncludeStaticEntities = True
-		$26.Name = Type Parameters
-		$26.RequiredPrefixes = $27
-		$27.String = T
-		$26.AffectedEntity = TypeParameter
-		$26.VisibilityMask = VisibilityMask
-		$26.NamingStyle = PascalCase
-		$26.IncludeInstanceMembers = True
-		$26.IncludeStaticEntities = True
-		$0.VersionControlPolicy = $28
-		$28.inheritsSet = Mono
-		$0.ChangeLogPolicy = $29
-		$29.UpdateMode = ProjectRoot
-		$29.inheritsSet = Mono
+		$0.VersionControlPolicy = $8
+		$8.inheritsSet = Mono
+		$0.ChangeLogPolicy = $9
+		$9.inheritsSet = Mono
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
