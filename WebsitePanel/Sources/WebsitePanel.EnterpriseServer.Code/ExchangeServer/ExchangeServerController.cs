@@ -217,11 +217,7 @@ namespace WebsitePanel.EnterpriseServer
                     stats.UsedArchingStorage = tempStats.UsedArchingStorage;
 
                     stats.CreatedSharedMailboxes = tempStats.CreatedSharedMailboxes;
-                    stats.CreatedResourceMailboxes = tempStats.CreatedResourceMailboxes;
-
-                    // 05.09.2015 roland.breitschaft@x-company.de
-                    // Add missing EnterpriseStorage-Statistic
-                    stats.CreatedEnterpriseStorageFolders = tempStats.CreatedEnterpriseStorageFolders;                    
+                    stats.CreatedResourceMailboxes = tempStats.CreatedResourceMailboxes;        
                 }
                 else
                 {
@@ -256,11 +252,6 @@ namespace WebsitePanel.EnterpriseServer
 
                                     stats.CreatedSharedMailboxes += tempStats.CreatedSharedMailboxes;
                                     stats.CreatedResourceMailboxes += tempStats.CreatedResourceMailboxes;
-
-                                    // 05.09.2015 roland.breitschaft@x-company.de
-                                    // Add missing EnterpriseStorage-Statistic
-
-                                    stats.CreatedEnterpriseStorageFolders += tempStats.CreatedEnterpriseStorageFolders;
                                 }
                             }
                         }
@@ -285,11 +276,6 @@ namespace WebsitePanel.EnterpriseServer
 
                     stats.AllocatedSharedMailboxes = cntx.Quotas[Quotas.EXCHANGE2013_SHAREDMAILBOXES].QuotaAllocatedValuePerOrganization;
                     stats.AllocatedResourceMailboxes = cntx.Quotas[Quotas.EXCHANGE2013_RESOURCEMAILBOXES].QuotaAllocatedValuePerOrganization;
-                    
-                    // 05.09.2015 roland.breitschaft@x-company.de
-                    // Add missing EnterpriseStorage-Statistic
-                    stats.AllocatedEnterpriseStorageFolders = cntx.Quotas[Quotas.ENTERPRISESTORAGE_FOLDERS].QuotaAllocatedValuePerOrganization;
-                    stats.AllocatedEnterpriseStorageSpace = cntx.Quotas[Quotas.ENTERPRISESTORAGE_DISKSTORAGESPACE].QuotaAllocatedValuePerOrganization;                    
                 }
                 else
                 {
@@ -303,11 +289,6 @@ namespace WebsitePanel.EnterpriseServer
 
                     stats.AllocatedSharedMailboxes = cntx.Quotas[Quotas.EXCHANGE2013_SHAREDMAILBOXES].QuotaAllocatedValue;
                     stats.AllocatedResourceMailboxes = cntx.Quotas[Quotas.EXCHANGE2013_RESOURCEMAILBOXES].QuotaAllocatedValue;
-
-                    // 05.09.2015 roland.breitschaft@x-company.de
-                    // Add missing EnterpriseStorage-Statistic
-                    stats.AllocatedEnterpriseStorageFolders = cntx.Quotas[Quotas.ENTERPRISESTORAGE_FOLDERS].QuotaAllocatedValue;
-                    stats.AllocatedEnterpriseStorageSpace = cntx.Quotas[Quotas.ENTERPRISESTORAGE_DISKSTORAGESPACE].QuotaAllocatedValue;
                 }
               
                 return stats;
