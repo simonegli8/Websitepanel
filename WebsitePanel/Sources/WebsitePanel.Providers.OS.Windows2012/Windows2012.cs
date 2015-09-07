@@ -197,13 +197,7 @@ namespace WebsitePanel.Providers.OS
 
                 Command cmd = new Command("Get-FsrmQuota");
 
-                // 01.09.2015 roland.breitschaft@x-company.de
-                // Problem: Query for Quotas throws an Error in the Log
-                // Error: WARNING: Invoke error: 0x80045301, Das angeforderte Objekt wurde nicht gefunden
-                // Fix: Remove the Wildcard
-
-                // cmd.Parameters.Add("Path", folderPath + "\\*");
-                cmd.Parameters.Add("Path", folderPath);                
+                cmd.Parameters.Add("Path", folderPath + "\\*");
                 var result = ExecuteShellCommand(runSpace, cmd, false);                
 
                 if (result.Count > 0)
@@ -219,7 +213,6 @@ namespace WebsitePanel.Providers.OS
                         quotas.Add(Convert.ToString(GetPSObjectProperty(element, "Path")), quota);
                     }
                 }
-
             }
             catch (Exception ex)
             {

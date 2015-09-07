@@ -15,6 +15,8 @@ using Microsoft.Search.Interop;
 using WebsitePanel.Providers.OS;
 using WebsitePanel.Providers.Utils;
 using WebsitePanel.Server.Utils;
+using System.Globalization;
+
 namespace WebsitePanel.Providers.StorageSpaces
 {
     public class Windows2012 : WebsitePanel.Providers.OS.Windows2012, IStorageSpace
@@ -188,10 +190,23 @@ namespace WebsitePanel.Providers.StorageSpaces
             try
             {
                 if (preserveInheritance == false && permissions != null)
-                {
-                    var domainAdminsSid = "S-1-5-21";
-                    var domainAdminsAsString = Server.Utils.OS.TranslateSid(domainAdminsSid);
+                {                    
+                    // 06.09.2015 roland.breitschaft@x-company.de
+                    // In German the Group 'Domain-Admins' is called 'Domänen-Admins'
+                    // So we try to get the correct Group by SID
+                    var domainAdminsAsString = SecurityUtils.GetAccountNameFromSid(
+                        System.Security.Principal.WellKnownSidType.AccountDomainAdminsSid,
+                        ServerSettings);
 
+                    // Add Current User (Normally WPServer Acccount)
+                    var currentUserName = Environment.UserName;
+                    if (permissions.All(x => !string.Equals(x.AccountName, currentUserName, StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        permissions = permissions.Concat(new[]
+                        {
+                            new UserPermission {AccountName = currentUserName, Read = true, Write = true}
+                        }).ToArray();
+                    }
 
                     if (permissions.All(x =>!string.Equals(x.AccountName, domainAdminsAsString,StringComparison.InvariantCultureIgnoreCase)))
                     {
@@ -212,7 +227,12 @@ namespace WebsitePanel.Providers.StorageSpaces
 
                 SecurityUtils.ResetNtfsPermissions(fullPath);
 
-                SecurityUtils.GrantGroupNtfsPermissions(fullPath, permissions, false, new RemoteServerSettings(), null, null,isProtected, preserveInheritance);
+                // 06.09.2015 roland.breitschaft@x-company.de
+                // Problem: Serversettings for the Method 'GrantGroupNtfsPermission' is an Default Object, but we need the real Object
+                // for the real Settings, to determine Objects from AD
+                // Fix: Give the Helper-Class SecurityUtils the real ServerSettings-Object                
+                // SecurityUtils.GrantGroupNtfsPermissions(fullPath, permissions, false, new RemoteServerSettings(), null, null, isProtected, preserveInheritance);
+                SecurityUtils.GrantGroupNtfsPermissions(fullPath, permissions, false, ServerSettings, "*", "*", isProtected, preserveInheritance);
             }
             catch (Exception ex)
             {
@@ -350,16 +370,23 @@ namespace WebsitePanel.Providers.StorageSpaces
                 Log.WriteStart("ShareFolder");
                 Log.WriteInfo("FolderPath : {0}", fullPath);
 
+                // 01.09.2015 roland.breitschaft@x-company.de 
+                // Problem: On German Systems the Accounts 'NETWORK SERVICE' and 'EVERYONE' does not exist.
+                // The equivalent in German is 'NETZWERKDIENST' for 'NETWORK SERVICE' and 'JEDER' for 'EVERYONE'
+                // FIX: To Fix this translate the SID for the Accounts into the current Language
+
+                //var scripts = new List<string>
+                //{
+                //    string.Format("net share {0}=\"{1}\" \"/grant:NETWORK SERVICE,full\" \"/grant:Everyone,full\"",shareName, fullPath)
+                //};
+
                 var scripts = new List<string>
                 {
-                    // 01.09.2015 roland.breitschaft@x-company.de 
-                    // Problem: On German Systems the Accounts 'NETWORK SERVICE' and 'EVERYONE' does not exist.
-                    // The equivalent in German is 'NETZWERKDIENST' for 'NETWORK SERVICE' and 'JEDER' for 'EVERYONE'
-                    // FIX: Rename the Account-Names to German
-                    // TODO: Create an Settings-Dialog to define the correct accounts in the Portal                    
-
-                    // string.Format("net share {0}=\"{1}\" \"/grant:NETWORK SERVICE,full\" \"/grant:Everyone,full\"",shareName, fullPath)
-                    string.Format("net share {0}=\"{1}\" \"/grant:NETZWERKDIENST,full\" \"/grant:JEDER,full\"",shareName, fullPath)
+                    string.Format(CultureInfo.InvariantCulture, "net share {0}=\"{1}\" \"/grant:{2},full\" \"/grant:{3},full\"",
+                        shareName,
+                        fullPath,
+                        SecurityUtils.GetAccountNameFromSid(System.Security.Principal.WellKnownSidType.NetworkServiceSid, ServerSettings),
+                        SecurityUtils.GetAccountNameFromSid(SystemSID.EVERYONE, ServerSettings))
                 };
 
                 object[] errors = null;
