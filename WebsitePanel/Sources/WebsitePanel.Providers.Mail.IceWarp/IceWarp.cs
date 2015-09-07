@@ -214,11 +214,11 @@ namespace WebsitePanel.Providers.Mail
                 case IceWarpErrorCode.E_CONFLICT:
                     return "Item already exists";
                 case IceWarpErrorCode.E_INVALID:
-                    return "Invalid charcters in mailbox or alias";
+                    return "Invalid characters in mailbox or alias";
                 case IceWarpErrorCode.E_PASSWORDCHARS:
                     return "Invalid characters in password";
                 case IceWarpErrorCode.E_MIGRATION_IN_PROGRESS:
-                    return "User mgiration in progress";
+                    return "User migration in progress";
                 default:
                     return "";
             }
