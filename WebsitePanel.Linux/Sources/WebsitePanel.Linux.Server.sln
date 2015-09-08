@@ -11,33 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Provider
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server", "WebsitePanel.Linux.Server\WebsitePanel.Linux.Server.csproj", "{652521AD-832A-4A0D-80C6-AF259DD2FB59}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CD43092-0CAB-4B89-A824-6B1A17C748B2}"
-	ProjectSection(SolutionItems) = preProject
-		generate_server_proxies.bat = generate_server_proxies.bat
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{C1D18F38-BD48-4660-B2C3-89E9841E289C}"
-	ProjectSection(SolutionItems) = preProject
-		build.xml = build.xml
-		build-debug.bat = build-debug.bat
-		build-release.bat = build-release.bat
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{83FEFE8D-F0AF-495D-9AA6-2D8277BF91A8}"
-	ProjectSection(SolutionItems) = preProject
-		deploy-debug.bat = deploy-debug.bat
-		deploy-release.bat = deploy-release.bat
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0D77BAFB-96A6-45F8-A74E-2D87C093C36D}"
-	ProjectSection(SolutionItems) = preProject
-		test.xml = test.xml
-		build-test.bat = build-test.bat
-		SetupTestWebsites.ps1 = SetupTestWebsites.ps1
-		start-test.bat = start-test.bat
-		StartWebsite.ps1 = StartWebsite.ps1
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server.Client", "WebsitePanel.Linux.Server.Client\WebsitePanel.Linux.Server.Client.csproj", "{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}"
 EndProject
 Global
@@ -66,11 +39,6 @@ Global
 		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.Build.0 = Debug|Any CPU
 		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.ActiveCfg = Release|Any CPU
 		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C1D18F38-BD48-4660-B2C3-89E9841E289C} = {0CD43092-0CAB-4B89-A824-6B1A17C748B2}
-		{83FEFE8D-F0AF-495D-9AA6-2D8277BF91A8} = {0CD43092-0CAB-4B89-A824-6B1A17C748B2}
-		{0D77BAFB-96A6-45F8-A74E-2D87C093C36D} = {0CD43092-0CAB-4B89-A824-6B1A17C748B2}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
