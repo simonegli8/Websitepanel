@@ -8,6 +8,7 @@
     <RootNamespace>WebsitePanel.Linux.Server.Test.Client</RootNamespace>
     <AssemblyName>WebsitePanel.Linux.Server.Test.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <StartupObject>WebsitePanel.Linux.Server.Test.Client.MainClass</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
