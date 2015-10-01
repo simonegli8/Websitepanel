@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Providers.Base", "WebsitePanel.Linux.Providers.Base\WebsitePanel.Linux.Providers.Base.csproj", "{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Providers.Cloud", "WebsitePanel.Linux.Providers.Cloud\WebsitePanel.Linux.Providers.Cloud.csproj", "{A00C7A56-8127-4E77-A02F-EACE703ABF92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Providers.OS", "WebsitePanel.Linux.Providers.OS\WebsitePanel.Linux.Providers.OS.csproj", "{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server", "WebsitePanel.Linux.Server\WebsitePanel.Linux.Server.csproj", "{652521AD-832A-4A0D-80C6-AF259DD2FB59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server.Client", "WebsitePanel.Linux.Server.Client\WebsitePanel.Linux.Server.Client.csproj", "{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Linux.Server.Test.Client", "WebsitePanel.Linux.Server.Test.Client\WebsitePanel.Linux.Server.Test.Client.csproj", "{E216219E-F6A4-476C-BCF4-C336350692B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Debug|x86.Build.0 = Debug|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{2B45CD2F-147C-4AB9-9F7E-6C36FC178D0B}.Release|x86.Build.0 = Release|Any CPU
+		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Debug|x86.Build.0 = Debug|Any CPU
+		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Release|x86.ActiveCfg = Release|Any CPU
+		{652521AD-832A-4A0D-80C6-AF259DD2FB59}.Release|x86.Build.0 = Release|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Debug|x86.Build.0 = Debug|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Release|x86.ActiveCfg = Release|Any CPU
+		{65E4A67B-6FCF-431F-BA86-EB7CDB91CDA9}.Release|x86.Build.0 = Release|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Debug|x86.Build.0 = Debug|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Release|x86.ActiveCfg = Release|Any CPU
+		{A00C7A56-8127-4E77-A02F-EACE703ABF92}.Release|x86.Build.0 = Release|Any CPU
+		{E216219E-F6A4-476C-BCF4-C336350692B6}.Debug|x86.ActiveCfg = Debug|x86
+		{E216219E-F6A4-476C-BCF4-C336350692B6}.Debug|x86.Build.0 = Debug|x86
+		{E216219E-F6A4-476C-BCF4-C336350692B6}.Release|x86.ActiveCfg = Release|x86
+		{E216219E-F6A4-476C-BCF4-C336350692B6}.Release|x86.Build.0 = Release|x86
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Debug|x86.Build.0 = Debug|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.ActiveCfg = Release|Any CPU
+		{E2B5A85D-9AC6-4E95-B524-7F7FD18AB1E2}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.AfterDelegateDeclarationParameterComma = True
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$0.StandardHeader = $4
+		$4.Text = 
+		$4.IncludeInNewFiles = True
+		$0.NameConventionPolicy = $5
+		$5.Rules = $6
+		$6.NamingRule = $7
+		$7.AffectedEntity = None
+		$7.VisibilityMask = VisibilityMask
+		$7.NamingStyle = None
+		$7.IncludeInstanceMembers = True
+		$7.IncludeStaticEntities = True
+		$0.VersionControlPolicy = $8
+		$8.inheritsSet = Mono
+		$0.ChangeLogPolicy = $9
+		$9.inheritsSet = Mono
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

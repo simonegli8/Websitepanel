@@ -1,0 +1,137 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<PropertyGroup>
+		<Version>2.1.0</Version>
+		<FileVersion>$(BUILD_NUMBER)</FileVersion>
+		<VersionLabel>$(BUILD_NUMBER)</VersionLabel>
+		<ReleaseDate>2015-09-07</ReleaseDate>
+		<BuildConfiguration></BuildConfiguration>
+		<RootFolder>..</RootFolder>
+		<TrunkFolder>$(RootFolder)\WebsitePanel.Linux</TrunkFolder>
+
+		<BuildFolder>$(TrunkFolder)\Build\$(BuildConfiguration)</BuildFolder>
+		<DeployFolder>$(TrunkFolder)\Deploy\$(BuildConfiguration)</DeployFolder>
+
+		<PreviousBuildFolder>$(RootFolder)\..\prev\$(BuildConfiguration)</PreviousBuildFolder>
+
+		<DiffCmd>$(TrunkFolder)\Tools\Diff.exe</DiffCmd>	
+
+		<ServerSrc>$(TrunkFolder)\Sources\WebsitePanel.Linux.Server</ServerSrc>
+		<ServerBuild>$(BuildFolder)\Server</ServerBuild>
+		
+		<ZipCmd>"$(RootFolder)\tools\7-Zip\7z.exe"</ZipCmd>
+		<MSBuildCommunityTasksPath>$(RootFolder)\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+	</PropertyGroup>
+
+	<Target Name="GenerateBuildVersionFiles">
+		<AssemblyInfo CodeLanguage="CS" OutputFile="$(TrunkFolder)\Sources\VersionInfo.cs" AssemblyCompany="IT Solutions Roland Breitschaft" AssemblyCopyright="Copyright © 2015 IT Solutions Roland Breitschaft." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)" AssemblyInformationalVersion="$(Version)" />
+	</Target>
+
+	<Target Name="CompileSources" DependsOnTargets="GenerateBuildVersionFiles">
+		<!-- WebsitePanel -->
+		<MSBuild Projects="$(TrunkFolder)\Sources\WebSitePanel.Linux.Server.sln;" Properties="Configuration=$(BuildConfiguration)" />
+  	</Target>
+
+	<Target Name="PrepareBuilds" DependsOnTargets="CompileSources">
+		<!-- Remove build output folders in reversed order (e.q. root folder removed last) -->
+		<RemoveDir Directories="$(ServerBuild)"/>
+
+    	<MakeDir Directories="$(BuildFolder)"/>
+		<MakeDir Directories="$(ServerBuild)"/>
+  	</Target>
+
+	<Target Name="CreateServerBuild" DependsOnTargets="PrepareBuilds">
+		<ItemGroup>
+			<ServerBuildExclude Include="$(ServerSrc)\**\.svn\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\bin\*.xml" />
+			<ServerBuildExclude Include="$(ServerSrc)\obj\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\Release\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\Debug\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\App_Cache\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\Images\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\LogParser\**" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.user" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.suo" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.cs" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.csproj" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.vb" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\*.vbproj" />
+			<ServerBuildFiles Include="$(ServerSrc)\**\*.*" Exclude="@(ServerBuildExclude)"/>
+		</ItemGroup>
+		<Copy SourceFiles="@(ServerBuildFiles)" DestinationFolder="$(ServerBuild)\%(RecursiveDir)" />
+	</Target>
+
+    <Target Name="Build" DependsOnTargets="CreateServerBuild">
+		<!-- Do nothing -->
+	</Target>
+
+  	<!-- Create full distributives -->
+	<PropertyGroup>
+		<InstallFolder>$(DeployFolder)\Install</InstallFolder>
+		<ServerInstall>$(InstallFolder)\Server</ServerInstall>
+		<StandaloneInstall>$(InstallFolder)\StandaloneServerSetup</StandaloneInstall>
+  	</PropertyGroup>
+
+	<Target Name="PrepareInstalls" DependsOnTargets="Build">
+		<Delete Files="$(InstallFolder)\**\*.*"/>
+		<RemoveDir Directories="$(InstallFolder)"/>
+		<MakeDir Directories="$(InstallFolder)"/>
+	</Target>
+
+	<Target Name="CreateServerInstall" DependsOnTargets="PrepareInstalls">
+		<ItemGroup>
+			<ServerDeployExclude Include="$(ServerBuild)\bin\SDNSAPI.dll" />
+			<ServerDeployExclude Include="$(ServerBuild)\bin\MySql.Data.dll"/>
+			<ServerDeployFiles Include="$(ServerBuild)\**\*.*" Exclude="@(ServerDeployExclude)" />
+		</ItemGroup>
+		<RemoveDir Directories="$(ServerInstall)"/>
+		<MakeDir Directories="$(ServerInstall)"/>
+		<Copy SourceFiles="@(ServerDeployFiles)" DestinationFolder="$(ServerInstall)\%(RecursiveDir)" />
+		<XmlUpdate XmlFileName="$(ServerInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="${installer.server.password}" />
+	</Target>
+
+  	<!-- Create update from previous version -->
+	<PropertyGroup>
+		<UpdateFolder>$(DeployFolder)\Update</UpdateFolder>
+		<ServerUpdate>$(UpdateFolder)\Server</ServerUpdate>
+	</PropertyGroup>
+
+	<Target Name="PrepareUpdates" DependsOnTargets="CreateServerInstall">
+		<RemoveDir Directories="$(UpdateFolder)"/>
+		<MakeDir Directories="$(UpdateFolder)"/>
+
+		<RemoveDir Directories="$(ServerUpdate)"/>
+		<MakeDir Directories="$(ServerUpdate)"/>
+	</Target>
+
+	<Target Name="CreateServerUpdate" DependsOnTargets="PrepareUpdates">
+		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\Server%22 %22$(ServerInstall)%22  %22$(ServerUpdate)%22 /ex:web.config"/>
+	</Target>
+	
+	<!-- Deploy -->
+	<Target Name="Deploy" DependsOnTargets="CreateServerUpdate" >
+		<Exec Command="$(ZipCmd) a &quot;$(DeployFolder)\WebsitePanel-Server-$(Version).zip&quot; &quot;$(ServerInstall)\*&quot;" />
+		<Exec Command="$(ZipCmd) a &quot;$(DeployFolder)\WebsitePanel-Server-$(Version)-Update.zip&quot; &quot;$(ServerUpdate)\*&quot;" />
+  </Target>
+
+    <UsingTask TaskName="RegExpReplace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+          <Path ParameterType="System.String" Required="true" />
+          <Pattern ParameterType="System.String" Required="true" />
+          <Replacement ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System.Text.RegularExpressions"/>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                    var Text = File.ReadAllText(Path);
+                    var RegExp = new Regex(Pattern);
+                    Text = RegExp.Replace(Text, Replacement);
+                    File.WriteAllText(Path, Text);
+                ]]>
+            </Code>
+    	</Task>
+  	</UsingTask>
+	
+	<Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+</Project>
