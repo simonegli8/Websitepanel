@@ -157,24 +157,42 @@ namespace WebsitePanel.Providers.Utils
             // get all explicit rules
             AuthorizationRuleCollection rules = security.GetAccessRules(true, true, typeof(SecurityIdentifier));
 
+            // 06.09.2015 roland.breitschaft@x-company.de
+            // Determine the correct AccountName by SID
+            // 04.10.2015 roland.breitschaft@x-company.de
+            // For Performance Reason put this outside of foreach
+            var networkServiceName = GetAccountNameFromSid(WellKnownSidType.NetworkServiceSid, serverSettings);
+            var systemName = GetAccountNameFromSid(WellKnownSidType.LocalSystemSid, serverSettings);
+            var currentUserName = Environment.UserName;
+
             // iterate through each account
             foreach (UserPermission permission in users)
             {
                 SecurityIdentifier identity = null;
-                // 06.09.2015 roland.breitschaft@x-company.de
-                // Determine the correct AccountName by SID
-                var networkServiceName = GetAccountNameFromSid(WellKnownSidType.NetworkServiceSid, serverSettings);
-                var systemName = GetAccountNameFromSid(WellKnownSidType.LocalSystemSid, serverSettings);
-                var currentUserName = Environment.UserName;
 
-                if (String.Compare(permission.AccountName, networkServiceName, true) == 0)
+                if (String.Compare(permission.AccountName, networkServiceName, true) == 0
+                    || string.Compare(permission.AccountName, "NETWORK SERVICE", true) == 0)
                     identity = new SecurityIdentifier(SystemSID.NETWORK_SERVICE);
                 else if (String.Compare(permission.AccountName, systemName, true) == 0)
                     identity = new SecurityIdentifier(SystemSID.SYSTEM);
-                else if (String.Compare(permission.AccountName, currentUserName, true) == 0)
-                    identity = new SecurityIdentifier(GetAccountSid(currentUserName, new RemoteServerSettings(), null, null));
                 else
-                    identity = new SecurityIdentifier(GetAccountSid(permission.AccountName, serverSettings, usersOU, groupsOU));
+                {
+                    // 04.10.2015 roland.breitschaft@x-company.de
+                    // Check, if AD is enabled
+                    string sid = null;
+                    if (String.Compare(permission.AccountName, currentUserName, true) == 0)
+                        sid = GetAccountSid(currentUserName, serverSettings, null, null);
+                    else
+                    {
+                        if (serverSettings.ADEnabled)
+                            sid = GetAccountSid(permission.AccountName, serverSettings, usersOU, groupsOU);
+                        else
+                            sid = GetAccountSid(permission.AccountName, serverSettings, null, null);
+                    }
+
+                    if(!string.IsNullOrEmpty(sid))
+                        identity = new SecurityIdentifier(sid);
+                }
 
                 foreach (FileSystemAccessRule rule in rules)
                 {
@@ -202,25 +220,42 @@ namespace WebsitePanel.Providers.Utils
             if (security == null)
                 return;
 
+            // 06.09.2015 roland.breitschaft@x-company.de
+            // Determine the correct AccountName by SID
+            // 04.10.2015 roland.breitschaft@x-company.de
+            // For Performance Reason put this outside of foreach
+            var networkServiceName = GetAccountNameFromSid(WellKnownSidType.NetworkServiceSid, serverSettings);
+            var systemName = GetAccountNameFromSid(WellKnownSidType.LocalSystemSid, serverSettings);
+            var currentUserName = Environment.UserName;
+
             // iterate through each account
             foreach (UserPermission permission in users)
             {
                 SecurityIdentifier identity = null;
 
-                // 06.09.2015 roland.breitschaft@x-company.de
-                // Determine the correct AccountName by SID
-                var networkServiceName = GetAccountNameFromSid(WellKnownSidType.NetworkServiceSid, serverSettings);
-                var systemName = GetAccountNameFromSid(WellKnownSidType.LocalSystemSid, serverSettings);
-                var currentUserName = Environment.UserName;
-
-                if (String.Compare(permission.AccountName, networkServiceName, true) == 0)
+                if (String.Compare(permission.AccountName, networkServiceName, true) == 0
+                    || string.Compare(permission.AccountName, "NETWORK SERVICE", true) == 0)
                     identity = new SecurityIdentifier(SystemSID.NETWORK_SERVICE);
                 else if (String.Compare(permission.AccountName, systemName, true) == 0)
                     identity = new SecurityIdentifier(SystemSID.SYSTEM);
-                else if (String.Compare(permission.AccountName, currentUserName, true) == 0)
-                    identity = new SecurityIdentifier(GetAccountSid(currentUserName, new RemoteServerSettings(), null, null));
                 else
-                    identity = new SecurityIdentifier(GetAccountSid(permission.AccountName, serverSettings, usersOU, groupsOU));
+                {
+                    // 04.10.2015 roland.breitschaft@x-company.de
+                    // Check, if AD is enabled
+                    string sid = null;
+                    if (String.Compare(permission.AccountName, currentUserName, true) == 0)
+                        sid = GetAccountSid(currentUserName, serverSettings, null, null);
+                    else
+                    {
+                        if (serverSettings.ADEnabled)
+                            sid = GetAccountSid(permission.AccountName, serverSettings, usersOU, groupsOU);
+                        else
+                            sid = GetAccountSid(permission.AccountName, serverSettings, null, null);
+                    }
+
+                    if (!string.IsNullOrEmpty(sid))
+                        identity = new SecurityIdentifier(sid);
+                }
 
                 // remove explicit permissions
                 security.RemoveAccessRuleAll(new FileSystemAccessRule(identity,
