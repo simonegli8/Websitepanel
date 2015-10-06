@@ -1243,6 +1243,11 @@ namespace WebsitePanel.WIXInstaller
         {
             try
             {
+                if (Ctx[Ns + "_CREATENEWACCOUNT"] == "1")
+                {
+                    Msg = string.Empty;
+                    return true;
+                }
                 var domain = Ctx[Ns + "_DOMAIN"];
                 var name = Ctx[Ns + "_LOGIN"];
                 var pwd = Ctx[Ns + "_PASSWORD"];
