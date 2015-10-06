@@ -262,7 +262,8 @@ namespace WebsitePanel.Setup.Internal
             Dst.WebSitePort = Utils.GetStringSetupParameter(Hash, Global.Parameters.WebSitePort);
             Dst.WebSiteDomain = Utils.GetStringSetupParameter(Hash, Global.Parameters.WebSiteDomain);
             Dst.UserDomain = Utils.GetStringSetupParameter(Hash, Global.Parameters.UserDomain);
-            Dst.NewUserAccount = false; // In WiX it's always false.
+            //Dst.NewUserAccount = false; // In WiX it's always false.
+            Dst.NewUserAccount = Utils.GetStringSetupParameter(Hash, Global.Parameters.NewUserAccount) == "1";
             Dst.UserAccount = Utils.GetStringSetupParameter(Hash, Global.Parameters.UserAccount);
             Dst.UserPassword = Utils.GetStringSetupParameter(Hash, Global.Parameters.UserPassword);
 
