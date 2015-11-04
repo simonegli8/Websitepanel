@@ -4,14 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OSPlatform Condition=" '$(OSPlatform)' == '' ">Windows</OSPlatform>
+    <Runtime Condition=" '$(Runtime)' == '' ">Net</Runtime>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{38C6047C-E447-4CC2-891F-ABE54D4659F3}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebsitePanel.Server</RootNamespace>
-    <AssemblyName>WebsitePanel.Server</AssemblyName>
+    <RootNamespace Condition=" '$(RootNamespace)' == '' ">WebsitePanel.Server.$(OSPlatform)</RootNamespace>
+    <AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server.$(OSPlatform)</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -24,6 +26,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,6 +50,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <WarningsAsErrors>618</WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWSEPath>NoWSE</NoWSEPath>
+    <RootFolder>..\..\..</RootFolder>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,7 +73,7 @@
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.PlatformInstaller.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Web.Services3.dll</HintPath>
       <Private>True</Private>
@@ -93,177 +100,175 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoDiscovery.asmx" />
-    <Content Include="bin\Crm2011\microsoft.crm.sdk.proxy.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.client.codegeneration.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.client.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.portal.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.portal.files.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.sdk.deployment.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.sdk.dll" />
-    <Content Include="bin\Crm2011\microsoft.xrm.sdk.workflow.dll" />
-    <Content Include="bin\Crm2011\WebsitePanel.Providers.HostedSolution.Crm2011.dll" />
-    <Content Include="bin\Crm2011\WebsitePanel.Providers.HostedSolution.Crm2011.pdb" />
-    <Content Include="bin\Crm2013\Microsoft.Crm.Sdk.Proxy.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Client.CodeGeneration.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Client.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Portal.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Portal.Files.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Sdk.Deployment.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Sdk.dll" />
-    <Content Include="bin\Crm2013\Microsoft.Xrm.Sdk.Workflow.dll" />
-    <Content Include="bin\Crm2013\System.Management.Automation.dll" />
-    <Content Include="bin\Crm2013\WebsitePanel.Providers.HostedSolution.Crm2013.dll" />
-    <Content Include="bin\Crm2013\WebsitePanel.Providers.HostedSolution.Crm2013.pdb" />
-    <Content Include="bin\Dns2012\Ionic.Zip.Reduced.dll" />
-    <Content Include="bin\Dns2012\Microsoft.Management.Infrastructure.dll" />
-    <Content Include="bin\Dns2012\System.Management.Automation.dll" />
-    <Content Include="bin\Dns2012\WebsitePanel.Providers.Base.dll" />
-    <Content Include="bin\Dns2012\WebsitePanel.Providers.Base.pdb" />
-    <Content Include="bin\Dns2012\WebsitePanel.Providers.DNS.MsDNS2012.dll" />
-    <Content Include="bin\Dns2012\WebsitePanel.Providers.DNS.MsDNS2012.pdb" />
-    <Content Include="bin\Dns2012\WebsitePanel.Server.Utils.dll" />
-    <Content Include="bin\Dns2012\WebsitePanel.Server.Utils.pdb" />
-    <Content Include="bin\Exchange2013\WebsitePanel.Providers.HostedSolution.Exchange2013.dll" />
-    <Content Include="bin\Exchange2013\WebsitePanel.Providers.HostedSolution.Exchange2013.pdb" />
-    <Content Include="bin\HyperV2012R2\Ionic.Zip.Reduced.dll" />
-    <Content Include="bin\HyperV2012R2\Microsoft.SharePoint.dll" />
-    <Content Include="bin\HyperV2012R2\Microsoft.Storage.Vds.dll" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Providers.Base.dll" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Providers.Base.pdb" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Providers.HostedSolution.dll" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Providers.HostedSolution.pdb" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Providers.Virtualization.HyperV2012R2.dll" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Providers.Virtualization.HyperV2012R2.pdb" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.dll" />
-    <Content Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.pdb" />
-    <Content Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
-    <Content Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
-    <Content Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.dll" />
-    <Content Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.crm.sdk.proxy.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.client.codegeneration.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.client.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.portal.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.portal.files.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.sdk.deployment.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.sdk.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\microsoft.xrm.sdk.workflow.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\WebsitePanel.Providers.HostedSolution.Crm2011.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2011\WebsitePanel.Providers.HostedSolution.Crm2011.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Crm.Sdk.Proxy.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Client.CodeGeneration.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Client.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Portal.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Portal.Files.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Sdk.Deployment.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Sdk.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\Microsoft.Xrm.Sdk.Workflow.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\System.Management.Automation.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\WebsitePanel.Providers.HostedSolution.Crm2013.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Crm2013\WebsitePanel.Providers.HostedSolution.Crm2013.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\Ionic.Zip.Reduced.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\Microsoft.Management.Infrastructure.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\System.Management.Automation.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\WebsitePanel.Providers.Base.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\WebsitePanel.Providers.Base.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\WebsitePanel.Providers.DNS.MsDNS2012.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\WebsitePanel.Providers.DNS.MsDNS2012.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\WebsitePanel.Server.Utils.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Dns2012\WebsitePanel.Server.Utils.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Exchange2013\WebsitePanel.Providers.HostedSolution.Exchange2013.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Exchange2013\WebsitePanel.Providers.HostedSolution.Exchange2013.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\Ionic.Zip.Reduced.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\Microsoft.SharePoint.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\Microsoft.Storage.Vds.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.Base.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.Base.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.HostedSolution.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.HostedSolution.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.Virtualization.HyperV2012R2.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.Virtualization.HyperV2012R2.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.pdb" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.pdb" />
     <Content Include="bin\Ionic.Zip.Reduced.dll" />
-    <Content Include="bin\Lync2013\WebsitePanel.Providers.Base.dll" />
-    <Content Include="bin\Lync2013\WebsitePanel.Providers.Base.pdb" />
-    <Content Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013.dll" />
-    <Content Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013.pdb" />
-    <Content Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013HP.dll" />
-    <Content Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013HP.pdb" />
-    <Content Include="bin\Lync2013\WebsitePanel.Server.Utils.dll" />
-    <Content Include="bin\Lync2013\WebsitePanel.Server.Utils.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.Base.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.Base.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013HP.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013HP.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Server.Utils.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Server.Utils.pdb" />
     <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Caching.dll" />
     <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
     <Content Include="bin\Microsoft.Practices.ObjectBuilder.dll" />
-    <Content Include="bin\Microsoft.SharePoint.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.SharePoint.dll" />
     <Content Include="bin\Microsoft.Storage.Vds.dll" />
-    <Content Include="bin\Microsoft.Web.Deployment.dll" />
-    <Content Include="bin\Microsoft.Web.Management.dll" />
-    <Content Include="bin\Microsoft.Web.PlatformInstaller.dll" />
-    <Content Include="bin\Microsoft.Web.Services3.dll" />
-    <Content Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.dll" />
-    <Content Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.pdb" />
-    <Content Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.dll" />
-    <Content Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Deployment.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Management.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.PlatformInstaller.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Services3.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.pdb" />
     <Content Include="bin\WebsitePanel.Providers.Base.dll" />
     <Content Include="bin\WebsitePanel.Providers.Base.pdb" />
     <Content Include="bin\WebsitePanel.Providers.Database.MySQL.dll" />
     <Content Include="bin\WebsitePanel.Providers.Database.MySQL.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Database.SqlServer.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Database.SqlServer.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Database.SqlServer.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Database.SqlServer.pdb" />
     <Content Include="bin\WebsitePanel.Providers.DNS.Bind.dll" />
     <Content Include="bin\WebsitePanel.Providers.DNS.Bind.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.MsDNS.dll" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.MsDNS.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.DNS.MsDNS.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.DNS.MsDNS.pdb" />
     <Content Include="bin\WebsitePanel.Providers.DNS.Nettica.dll" />
     <Content Include="bin\WebsitePanel.Providers.DNS.Nettica.pdb" />
     <Content Include="bin\WebsitePanel.Providers.DNS.PowerDNS.dll" />
     <Content Include="bin\WebsitePanel.Providers.DNS.PowerDNS.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.SimpleDNS.dll" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.SimpleDNS.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.SimpleDNS50.dll" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.SimpleDNS50.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.EnterpriseStorage.Windows2012.dll" />
-    <Content Include="bin\WebsitePanel.Providers.EnterpriseStorage.Windows2012.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.FileZilla.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.FileZilla.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.Gene6.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.Gene6.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.IIs60.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.IIs60.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.IIs70.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.IIs70.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.IIs80.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.IIs80.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.HostedSolution.dll" />
-    <Content Include="bin\WebsitePanel.Providers.HostedSolution.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.AbilityMailServer.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.AbilityMailServer.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.ArgoMail.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.ArgoMail.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.hMailServer.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.hMailServer.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.hMailServer43.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.hMailServer43.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.hMailServer5.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.hMailServer5.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.MailEnable.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.MailEnable.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.MDaemon.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.MDaemon.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail2.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail2.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail3.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail3.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail5.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail5.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail6.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail6.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail7.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail7.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail9.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.SmarterMail9.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.OS.Windows2003.dll" />
-    <Content Include="bin\WebsitePanel.Providers.OS.Windows2003.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.OS.Windows2008.dll" />
-    <Content Include="bin\WebsitePanel.Providers.OS.Windows2008.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.OS.Windows2012.dll" />
-    <Content Include="bin\WebsitePanel.Providers.OS.Windows2012.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.RemoteDesktopServices.Windows2012.dll" />
-    <Content Include="bin\WebsitePanel.Providers.RemoteDesktopServices.Windows2012.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS50.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS50.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.EnterpriseStorage.Windows2012.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.EnterpriseStorage.Windows2012.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.FileZilla.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.FileZilla.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.Gene6.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.Gene6.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs60.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs60.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs70.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs70.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs80.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs80.pdb" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.HostedSolution.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.HostedSolution.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.AbilityMailServer.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.AbilityMailServer.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.ArgoMail.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.ArgoMail.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.hMailServer.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.hMailServer.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.hMailServer43.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.hMailServer43.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.hMailServer5.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.hMailServer5.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MailEnable.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MailEnable.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MDaemon.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MDaemon.pdb" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
+    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail2.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail2.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail3.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail3.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail5.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail5.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail6.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail6.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail7.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail7.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail9.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail9.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.OS.Windows2003.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.OS.Windows2003.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.OS.Windows2008.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.OS.Windows2008.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.OS.Windows2012.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.OS.Windows2012.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.RemoteDesktopServices.Windows2012.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.RemoteDesktopServices.Windows2012.pdb" />
     <Content Include="bin\WebsitePanel.Providers.Statistics.AWStats.dll" />
     <Content Include="bin\WebsitePanel.Providers.Statistics.AWStats.pdb" />
     <Content Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.dll" />
     <Content Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.StorageSpaces.Windows2012.dll" />
-    <Content Include="bin\WebsitePanel.Providers.StorageSpaces.Windows2012.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Virtualization.HyperV.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Virtualization.HyperV.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.VirtualizationForPC.HyperVForPC.dll" />
-    <Content Include="bin\WebsitePanel.Providers.VirtualizationForPC.HyperVForPC.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Web.HeliconZoo.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Web.HeliconZoo.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Web.IIs60.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Web.IIs60.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Web.IIs70.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Web.IIs70.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Web.IIs80.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Web.IIs80.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.StorageSpaces.Windows2012.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.StorageSpaces.Windows2012.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Virtualization.HyperV.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Virtualization.HyperV.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.VirtualizationForPC.HyperVForPC.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.VirtualizationForPC.HyperVForPC.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.HeliconZoo.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.HeliconZoo.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.IIs60.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.IIs60.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.IIs70.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.IIs70.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.IIs80.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Web.IIs80.pdb" />
     <Content Include="bin\WebsitePanel.Providers.Web.WebDav.dll" />
     <Content Include="bin\WebsitePanel.Providers.Web.WebDav.pdb" />
-    <Content Include="bin\WebsitePanel.Server.dll" />
-    <Content Include="bin\WebsitePanel.Server.pdb" />
     <Content Include="bin\WebsitePanel.Server.Utils.dll" />
     <Content Include="bin\WebsitePanel.Server.Utils.pdb" />
-    <Content Include="bin\WebsitePanel.Server.WPIService.exe" />
-    <Content Include="bin\WebsitePanel.Server.WPIService.pdb" />
-    <Content Include="bin\WpiServiceContract.dll" />
-    <Content Include="bin\WpiServiceContract.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.exe" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.pdb" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.pdb" />
     <Content Include="BlackBerry.asmx" />
     <EmbeddedResource Include="Images\logo.png" />
     <Content Include="EnterpriseStorage.asmx" />
@@ -291,7 +296,6 @@
     <Content Include="VirtualizationServer2012.asmx" />
     <Content Include="VirtualizationServer.asmx" />
     <Content Include="VirtualizationServerForPrivateCloud.asmx" />
-    <Content Include="bin\WebsitePanel.Server.dll.config" />
     <Content Include="bin\WebsitePanel.Server.WPIService.exe.config" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
@@ -446,15 +450,17 @@
     <None Include="Properties\PublishProfiles\WebsitePanel Server.pubxml" />
   </ItemGroup>
   <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
+
   </Target>
   <Target Name="AfterBuild">
+	  
   </Target>
   -->
   <ProjectExtensions>
