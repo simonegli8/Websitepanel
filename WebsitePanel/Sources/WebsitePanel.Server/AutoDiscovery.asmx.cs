@@ -33,25 +33,29 @@ using WebsitePanel.Server.Code;
 
 namespace WebsitePanel.Server
 {
-    /// <summary>
-    /// Summary description for AutoDiscovery
-    /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [ToolboxItem(false)]
-    public class AutoDiscovery : WebService
-    {
+	/// <summary>
+	/// Summary description for AutoDiscovery
+	/// </summary>
+	[WebService(Namespace = "http://tempuri.org/")]
+	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+	[ToolboxItem(false)]
+	public class AutoDiscovery : WebService {
+			
+      [WebMethod]
+      public BoolResult IsInstalled(string providerName) =>AutoDiscoveryHelper.IsInstalled(providerName);
 
-        [WebMethod]
-        public BoolResult IsInstalled(string providerName)
-        {
-            return AutoDiscoveryHelper.IsInstalled(providerName);
-        }
+      [WebMethod]
+      public string GetServerVersion() => AutoDiscoveryHelper.GetServerVersion();
 
-        [WebMethod]
-        public string GetServerVersion()
-        {
-            return AutoDiscoveryHelper.GetServerVersion();
-        }
-    }
+		[WebMethod]
+		public bool SupportsWSE() => AutoDiscoveryHelper.SupportsWSE();
+
+		[WebMethod]
+		public static string Runtime() => AutoDiscoveryHelper.Runtime().ToString();
+
+		[WebMethod]
+		public static string Platform() => AutoDiscoveryHelper.Platform().ToString();
+
+	}
+
 }

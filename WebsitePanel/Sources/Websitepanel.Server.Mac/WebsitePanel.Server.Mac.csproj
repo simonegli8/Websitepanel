@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+	<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+		<PropertyGroup>
+			<OSPlatform Condition=" '$(OSPlatform)' == '' ">Mac</OSPlatform>
+			<Runtime Condition=" '$(Runtime)' == '' ">Mono</Runtime>
+			<ServerPath>..\WebsitePanel.Server</ServerPath>
+			<ServerProj>$(ServerPath)\WebsitePanel.Server.csproj</ServerProj>
+			<TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+			<FileUpgradeFlags>40</FileUpgradeFlags>
+			<OldToolsVersion>4.0</OldToolsVersion>
+		</PropertyGroup>
+
+		<Import Project="$(ServerProj)" />
+
+		<Target Name="CopyFromServer">
+			<Message Text="Copy WebsitePanel.Server" />
+			<Copy SourceFiles="@(Compile -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(Compile -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+			<Copy SourceFiles="@(Content -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(Content -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+			<Copy SourceFiles="@(EmbeddedResource -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(EmbeddedResource -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+		</Target>
+
+		<Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+
+		<Target Name="BuildNoWSEService">
+
+			<ItemGroup>
+				<AsmxServices Include="*.asmx" />
+				<AsmxServicesCode Include="*.asmx.cs" />
+			</ItemGroup>
+
+			<MakeDir Directories="$(NoWSEPath)" />
+			<Copy SourceFiles="@(AsmxServices);@(AsmxServicesCode)" DestinationFolder="$(NoWSEPath)" />
+
+			<ItemGroup>
+				<AsmxServicesNoWSE Include="$(NoWSEPath)\*.asmx" />
+				<AsmxServicesNoWSECode Include="$(NoWSEPath)\*.asmx.cs" />
+			</ItemGroup>
+
+			<FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xA;&#xA;$2$3$4.NoWSE" />
+			<FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="[ \t]*using[ \t]*Microsoft.Web.Services3[ \t]*;([ \t]*[\n])?" ReplacementText="/*$0*/" />
+			<FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="\[Policy.*\]" ReplacementText="/*$0*/" />
+			<FileUpdate Files="@(AsmxServicesNoWSE)" Regex="([ \t]Class=[&quot;'])(([a-zA-Z0-9]+[.])*)([a-zA-Z0-9]+)([&quot;'])" ReplacementText="$1$2NoWSE.$4$5" />
+
+			<ItemGroup>
+				<FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
+				<FilesToDelete Include="**\*.cs" />
+			</ItemGroup>
+
+			<FileUpdate Files="@(FilesToDelete)" Regex=".*" ReplacementTextEmpty="true" />
+		</Target>
+
+		<Target Name="Cleanup">
+			<ItemGroup>
+				<AsmxServices Include="*.asmx" />
+				<AsmxServicesCode Include="*.asmx.cs" />
+				<FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
+				<FilesToDelete Include="@(AsmxServicesCode)" Exclude="AutoDiscovery.asmx.cs" />
+				<FilesToDelete Include="Code\ServerUsernameTokenManager.cs" />
+				<FilesToDelete Include="Code\UsernameAssertion.cs" />
+				<FilesToDelete Include="Code\WPIHelper.cs" />
+			</ItemGroup>
+			
+			<Delete Files="@(FilesToDelete)" />
+			
+			<RemoveDir Directories="Code;Properties;obj" />
+		</Target>
+		
+		<Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEService" />
+
+		<ItemGroup>
+			<Content Include="$(NoWSEPath)\*.asmx" />
+			<Compile Include="$(NoWSEPath)\*.asmx.cs" />
+		</ItemGroup>
+
+		<Target Name="AfterBuild" DependsOnTargets="Cleanup" />
+
+	</Project>

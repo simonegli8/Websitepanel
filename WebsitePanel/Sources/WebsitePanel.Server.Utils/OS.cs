@@ -285,14 +285,46 @@ namespace WebsitePanel.Server.Utils
 			WindowsServer2003,
 			Vista,
 			WindowsServer2008,
-            Windows7,
-            WindowsServer2008R2,
-            Windows8,
-            WindowsServer2012,
-            Windows81,
-            WindowsServer2012R2
+         Windows7,
+         WindowsServer2008R2,
+         Windows8,
+         WindowsServer2012,
+         Windows81,
+         WindowsServer2012R2,
+			Windows10,
+			WindowsServer2016
 		}
 
+		public enum Runtimes { Net, Mono, CoreCLR }
+
+		public static bool IsMono {  get {  return Type.GetType("Mono.Runtime") != null; } }
+
+		public static Runtimes Runtime {  get { return IsMono ? Runtimes.Mono : Runtimes.Net; } }
+
+		public enum Platforms { Windows, Linux, Mac };
+
+		public static Platforms Platform {
+			get {
+				switch (Environment.OSVersion.Platform) {
+				case PlatformID.Unix:
+					// Well, there are chances MacOSX is reported as Unix instead of MacOSX.
+					// Instead of platform check, we'll do a feature checks (Mac specific root folders)
+					if (System.IO.Directory.Exists("/Applications")
+						 & System.IO.Directory.Exists("/System")
+						 & System.IO.Directory.Exists("/Users")
+						 & System.IO.Directory.Exists("/Volumes"))
+						return Platforms.Mac;
+					else
+						return Platforms.Linux;
+
+				case PlatformID.MacOSX:
+					return Platforms.Mac;
+
+				default:
+					return Platforms.Windows;
+				}
+			}
+		}
 		/// <summary>
 		/// Determine OS version
 		/// </summary>
@@ -370,34 +402,37 @@ namespace WebsitePanel.Server.Utils
 							}
 							break;
 						case 6:
-                            switch (osInfo.Version.Minor)
-                            {
-                                case 0:
-                                    if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
-                                        ret = WindowsVersion.Vista;
-                                    else
-                                        ret = WindowsVersion.WindowsServer2008;
-                                    break;
-                                case 1:
-                                    if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
-                                        ret = WindowsVersion.Windows7;
-                                    else
-                                        ret = WindowsVersion.WindowsServer2008R2;
-                                    break;
-                                case 2:
-                                    if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
-                                        ret = WindowsVersion.Windows8;
-                                    else
-                                        ret = WindowsVersion.WindowsServer2012;
-                                    break;
-                                case 3:
-                                    if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
-                                        ret = WindowsVersion.Windows81;
-                                    else
-                                        ret = WindowsVersion.WindowsServer2012R2;
-                                    break;
-                            }
-                            break;
+                     switch (osInfo.Version.Minor)
+                     {
+                        case 0:
+                           if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
+                                 ret = WindowsVersion.Vista;
+                           else
+                                 ret = WindowsVersion.WindowsServer2008;
+                           break;
+                        case 1:
+                           if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
+                                 ret = WindowsVersion.Windows7;
+                           else
+                                 ret = WindowsVersion.WindowsServer2008R2;
+                           break;
+                        case 2:
+                           if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION)
+                                 ret = WindowsVersion.Windows8;
+                           else
+                                 ret = WindowsVersion.WindowsServer2012;
+                           break;
+                        case 3:
+									if (info.wProductType == (byte)WinPlatform.VER_NT_WORKSTATION) {
+										if (osInfo.Version.Build < 10240) ret = WindowsVersion.Windows81;
+										else ret = WindowsVersion.Windows10;
+									} else {
+										if (osInfo.Version.Build < 10240) ret = WindowsVersion.WindowsServer2012R2;
+										else ret = WindowsVersion.WindowsServer2016;
+									}
+									break;
+                     }
+                     break;
 					}
 					break;
 			}
