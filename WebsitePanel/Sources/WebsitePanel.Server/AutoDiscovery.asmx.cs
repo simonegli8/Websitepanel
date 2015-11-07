@@ -55,10 +55,10 @@ namespace WebsitePanel.Server
 		public bool SupportsWSE() => AutoDiscoveryHelper.SupportsWSE();
 
 		[WebMethod]
-		public static OS.Runtimes Runtime() => AutoDiscoveryHelper.Runtime();
+		public OS.Runtimes Runtime() => AutoDiscoveryHelper.Runtime();
 
 		[WebMethod]
-		public static OS.Platforms Platform() => AutoDiscoveryHelper.Platform();
+		public OS.Platforms Platform() => AutoDiscoveryHelper.Platform();
 
 	}
 

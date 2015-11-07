@@ -75,6 +75,7 @@
     <Compile Include="BlackBerryProxy.cs" />
     <Compile Include="Common\ServerProxyConfigurator.cs" />
     <Compile Include="Common\ServerUsernameAssertion.cs" />
+    <Compile Include="Common\ServiceProxyBase.cs" />
     <Compile Include="CRMProxy.cs" />
     <Compile Include="DatabaseServerProxy.cs" />
     <Compile Include="DnsServerProxy.cs" />

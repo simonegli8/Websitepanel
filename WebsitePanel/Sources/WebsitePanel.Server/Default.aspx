@@ -68,6 +68,10 @@
 					<td><asp:Literal id="litVersion" runat="server"></asp:Literal></td>
 				</tr>
 				<tr>
+					<td class="FieldName">Runtime:</td>
+					<td><asp:Literal id="litRuntime" runat="server"></asp:Literal></td>
+				</tr>
+				<tr>
 					<td class="FieldName">URL:</td>
 					<td><asp:Literal id="litUrl" runat="server"/></td>
 				</tr>

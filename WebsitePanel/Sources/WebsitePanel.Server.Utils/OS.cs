@@ -301,7 +301,7 @@ namespace WebsitePanel.Server.Utils
 
 		public static Runtimes Runtime {  get { return IsMono ? Runtimes.Mono : Runtimes.Net; } }
 
-		public enum Platforms { Windows, Linux, Mac };
+		public enum Platforms { Windows, Linux, Mac, Solaris, Bsd, Unix, Other };
 
 		public static Platforms Platform {
 			get {
@@ -319,7 +319,7 @@ namespace WebsitePanel.Server.Utils
 
 				case PlatformID.MacOSX:
 					return Platforms.Mac;
-
+				
 				default:
 					return Platforms.Windows;
 				}
