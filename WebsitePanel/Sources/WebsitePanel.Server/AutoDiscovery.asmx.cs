@@ -1,4 +1,4 @@
-// Copyright (c) 2015, Outercurve Foundation.
+﻿// Copyright (c) 2015, Outercurve Foundation.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification,
@@ -30,6 +30,10 @@ using System.ComponentModel;
 using System.Web.Services;
 using WebsitePanel.Providers.Common;
 using WebsitePanel.Server.Code;
+using WebsitePanel.Server.Utils;
+#if Net
+using Microsoft.Web.Administration;
+#endif
 
 namespace WebsitePanel.Server
 {
@@ -51,10 +55,10 @@ namespace WebsitePanel.Server
 		public bool SupportsWSE() => AutoDiscoveryHelper.SupportsWSE();
 
 		[WebMethod]
-		public static string Runtime() => AutoDiscoveryHelper.Runtime().ToString();
+		public static OS.Runtimes Runtime() => AutoDiscoveryHelper.Runtime();
 
 		[WebMethod]
-		public static string Platform() => AutoDiscoveryHelper.Platform().ToString();
+		public static OS.Platforms Platform() => AutoDiscoveryHelper.Platform();
 
 	}
 
