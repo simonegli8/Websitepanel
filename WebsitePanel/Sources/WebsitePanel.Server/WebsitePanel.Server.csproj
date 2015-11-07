@@ -273,6 +273,33 @@
     <EmbeddedResource Include="Images\logo.png" />
     <Content Include="EnterpriseStorage.asmx" />
     <Content Include="HostedSharePointServerEnt.asmx" />
+    <Content Include="NoWSE\AutoDiscovery.asmx" />
+    <Content Include="NoWSE\BlackBerry.asmx" />
+    <Content Include="NoWSE\CRM.asmx" />
+    <Content Include="NoWSE\DatabaseServer.asmx" />
+    <Content Include="NoWSE\DNSServer.asmx" />
+    <Content Include="NoWSE\EnterpriseStorage.asmx" />
+    <Content Include="NoWSE\ExchangeServer.asmx" />
+    <Content Include="NoWSE\FTPServer.asmx" />
+    <Content Include="NoWSE\HeliconZoo.asmx" />
+    <Content Include="NoWSE\HostedSharePointServer.asmx" />
+    <Content Include="NoWSE\HostedSharePointServerEnt.asmx" />
+    <Content Include="NoWSE\LyncServer.asmx" />
+    <Content Include="NoWSE\MailServer.asmx" />
+    <Content Include="NoWSE\OCSEdgeServer.asmx" />
+    <Content Include="NoWSE\OCSServer.asmx" />
+    <Content Include="NoWSE\OperatingSystem.asmx" />
+    <Content Include="NoWSE\Organizations.asmx" />
+    <Content Include="NoWSE\RemoteDesktopServices.asmx" />
+    <Content Include="NoWSE\ServiceProvider.asmx" />
+    <Content Include="NoWSE\SharePointServer.asmx" />
+    <Content Include="NoWSE\StatisticsServer.asmx" />
+    <Content Include="NoWSE\StorageSpaceServices.asmx" />
+    <Content Include="NoWSE\VirtualizationServer.asmx" />
+    <Content Include="NoWSE\VirtualizationServer2012.asmx" />
+    <Content Include="NoWSE\VirtualizationServerForPrivateCloud.asmx" />
+    <Content Include="NoWSE\WebServer.asmx" />
+    <Content Include="NoWSE\WindowsServer.asmx" />
     <Content Include="RemoteDesktopServices.asmx" />
     <Content Include="HeliconZoo.asmx" />
     <Content Include="LyncServer.asmx" />
@@ -325,6 +352,114 @@
     </Compile>
     <Compile Include="HostedSharePointServerEnt.asmx.cs">
       <DependentUpon>HostedSharePointServerEnt.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\AutoDiscovery.asmx.cs">
+      <DependentUpon>AutoDiscovery.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\BlackBerry.asmx.cs">
+      <DependentUpon>BlackBerry.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\CRM.asmx.cs">
+      <DependentUpon>CRM.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\DatabaseServer.asmx.cs">
+      <DependentUpon>DatabaseServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\DNSServer.asmx.cs">
+      <DependentUpon>DNSServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\EnterpriseStorage.asmx.cs">
+      <DependentUpon>EnterpriseStorage.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\ExchangeServer.asmx.cs">
+      <DependentUpon>ExchangeServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\FTPServer.asmx.cs">
+      <DependentUpon>FTPServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\HeliconZoo.asmx.cs">
+      <DependentUpon>HeliconZoo.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\HostedSharePointServer.asmx.cs">
+      <DependentUpon>HostedSharePointServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\HostedSharePointServerEnt.asmx.cs">
+      <DependentUpon>HostedSharePointServerEnt.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\LyncServer.asmx.cs">
+      <DependentUpon>LyncServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\MailServer.asmx.cs">
+      <DependentUpon>MailServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\OCSEdgeServer.asmx.cs">
+      <DependentUpon>OCSEdgeServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\OCSServer.asmx.cs">
+      <DependentUpon>OCSServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\OperatingSystem.asmx.cs">
+      <DependentUpon>OperatingSystem.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\Organizations.asmx.cs">
+      <DependentUpon>Organizations.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\RemoteDesktopServices.asmx.cs">
+      <DependentUpon>RemoteDesktopServices.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\ServiceProvider.asmx.cs">
+      <DependentUpon>ServiceProvider.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\SharePointServer.asmx.cs">
+      <DependentUpon>SharePointServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\StatisticsServer.asmx.cs">
+      <DependentUpon>StatisticsServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\StorageSpaceServices.asmx.cs">
+      <DependentUpon>StorageSpaceServices.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\VirtualizationServer.asmx.cs">
+      <DependentUpon>VirtualizationServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\VirtualizationServer2012.asmx.cs">
+      <DependentUpon>VirtualizationServer2012.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\VirtualizationServerForPrivateCloud.asmx.cs">
+      <DependentUpon>VirtualizationServerForPrivateCloud.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\WebServer.asmx.cs">
+      <DependentUpon>WebServer.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NoWSE\WindowsServer.asmx.cs">
+      <DependentUpon>WindowsServer.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="RemoteDesktopServices.asmx.cs">
