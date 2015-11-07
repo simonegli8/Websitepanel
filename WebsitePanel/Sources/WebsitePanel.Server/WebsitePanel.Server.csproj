@@ -484,29 +484,19 @@
 		<FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="^([ \t\n\r]*(//[^\n\r]*[ \t\r\n]*)*)(#if Net[\r\n]{1,2})(.*)(#endif[ \t\r\n]*)$" ReplacementText="$1$4" />
 		<!-- embrace regular services with #if Net when needed -->
 		<FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\t].*$)([ \t\n\r]*(//[^\n\r]*[ \t\r\n]*)*)(.*Microsoft\.Web\.Services.*)([ \t\r\n]*)$"
-			ReplacementText="$1#if Net&#xD;&#xA;&#xD;&#xA;$3&#xD;&#xA;&#xD;&#xA;#endif" />		
-
-		<ItemGroup>
-			<FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
-			<FilesToDelete Include="@(AsmxServicesCode)" Exclude="AutoDiscovery.asmx.cs" />
-			<FilesToDelete Include="Code\ServerUsernameTokenManager.cs" />
-			<FilesToDelete Include="Code\UsernameAssertion.cs" />
-			<FilesToDelete Include="Code\WPIHelper.cs" />
-		</ItemGroup>
-
-		<FileUpdate Files="@(FilesToDelete)" Regex=".*" ReplacementTextEmpty="true" />
+			ReplacementText="$2#if Net&#xD;&#xA;&#xD;&#xA;$4&#xD;&#xA;&#xD;&#xA;#endif" />
+			
 	</Target>
 
 	<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-		Other similar extension points exist, see Microsoft.Common.targets.
-<Target Name="BeforeBuild">
-
-</Target>
-<Target Name="AfterBuild">
-	
-</Target>
--->
+		Other similar extension points exist, see Microsoft.Common.targets. -->
+	<Target Name="BeforeBuild" DependsOnTargets="BuildNoWSEService" />
+	<!--
+	<Target Name="AfterBuild">
+		
+	</Target>
+	-->
 	<ProjectExtensions>
 		<VisualStudio>
 			<FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
