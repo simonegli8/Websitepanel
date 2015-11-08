@@ -12,8 +12,10 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace Condition=" '$(RootNamespace)' == '' ">WebsitePanel.Server.$(OSPlatform)</RootNamespace>
-    <AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server.$(OSPlatform)</AssemblyName>
+    <!-- <RootNamespace Condition=" '$(RootNamespace)' == '' And '$(OSPlatform)' != 'Windows' ">WebsitePanel.Server.$(OSPlatform)</RootNamespace> -->
+    <RootNamespace Condition=" '$(RootNamespace)' == '' ">WebsitePanel.Server</RootNamespace>
+    <AssemblyName Condition=" '$(AssemblyName)' == '' And '$(OSPlatform)' != 'Windows' ">WebsitePanel.Server.$(OSPlatform)</AssemblyName>
+    <AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -267,8 +269,10 @@
     <Content Include="bin\WebsitePanel.Server.Utils.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.exe" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.pdb" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.dll" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.pdb" />
+    <!-- <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.dll" />
+	<Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.pdb" /> -->
+    <Content Include="bin\WpiServiceContract.dll" />
+    <Content Include="bin\WpiServiceContract.pdb" />
     <Content Include="BlackBerry.asmx" />
     <EmbeddedResource Include="Images\logo.png" />
     <Content Include="EnterpriseStorage.asmx" />
@@ -324,6 +328,10 @@
     <Content Include="VirtualizationServer.asmx" />
     <Content Include="VirtualizationServerForPrivateCloud.asmx" />
     <Content Include="bin\WebsitePanel.Server.WPIService.exe.config" />
+    <Content Include="NoWSE\Web.config" />
+    <Content Include="NoWSE\.htaccess" />
+    <Content Include="NoWSE\.gitignore" />
+    <None Include="NoWSE\.htpasswd" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -606,24 +614,24 @@
     <!-- change namespace of non WSE services -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xD;&#xA;&#xD;&#xA;$2$3$4.NoWSE" />
     <!-- comment out reference to Microsoft.Web.Service -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="[ \t]*using[ \t]*Microsoft.Web.Services3[ \t]*;([ \t]*[\n])?" ReplacementText="/* $0 */" />
+    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="[ \t]*using[ \t]*Microsoft.Web.Services[23]?[ \t.a-zA-Z0-9]*;([ \t]*[\n])?" ReplacementText="/* $0 */" />
     <!-- comment out [Policy(...)] -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="\[Policy.*\]" ReplacementText="/* $0 */" />
     <!-- change namespace in .asmx files -->
     <FileUpdate Files="@(AsmxServicesNoWSE)" Regex="([ \t]Class=[&quot;'])(([a-zA-Z0-9]+[.])*)([a-zA-Z0-9]+)([&quot;'])" ReplacementText="$1$2NoWSE.$4$5" />
     <!-- remove outer #if Net condition -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="^([ \t\n\r]*(//[^\n\r]*[ \t\r\n]*)*)(#if Net[\r\n]{1,2})(.*)(#endif[ \t\r\n]*)$" ReplacementText="$1$4" Singleline="true" />
+    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="^([ \t\n\r]*(//[^\n\r]*[ \t\r\n]*)*)(#if Net[ \t]+// machine generated[\r\n]{1,2})(.*)(#endif[ \t\r\n]*)$" ReplacementText="$1$4" Singleline="true" />
     <!-- embrace regular services with #if Net when needed -->
-    <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t].*$)([ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="$1#if Net&#xD;&#xA;&#xD;&#xA;$5&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
+    <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t/].*$)([ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="$1#if Net // machine generated&#xD;&#xA;&#xD;&#xA;$5&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
   </Target>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-		Other similar extension points exist, see Microsoft.Common.targets. -->
+	Other similar extension points exist, see Microsoft.Common.targets. -->
   <Target Name="BeforeBuild" DependsOnTargets="BuildNoWSEService" />
   <!--
-	<Target Name="AfterBuild">
-		
-	</Target>
+		<Target Name="AfterBuild">
+			
+		</Target>
 	-->
   <ProjectExtensions>
     <VisualStudio>

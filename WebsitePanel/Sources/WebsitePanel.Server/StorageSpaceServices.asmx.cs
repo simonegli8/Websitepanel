@@ -1,4 +1,4 @@
-﻿#if Net
+﻿#if Net // machine generated
 
 using System;
 using System.Collections.Generic;

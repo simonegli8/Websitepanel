@@ -3,6 +3,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OSPlatform Condition=" '$(OSPlatform)' == '' ">Windows</OSPlatform>
+    <Runtime Condition=" '$(Runtime)' == '' ">Net</Runtime>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{990C4A2A-34A5-4BE0-9546-E10ABDFFFD0E}</ProjectGuid>
@@ -40,7 +42,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;$(Runtime);$(OSPlatform)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -50,7 +52,7 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;$(Runtime);$(OSPlatform)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -75,7 +77,15 @@
     <Compile Include="BlackBerryProxy.cs" />
     <Compile Include="Common\ServerProxyConfigurator.cs" />
     <Compile Include="Common\ServerUsernameAssertion.cs" />
-    <Compile Include="Common\ServiceProxyBase.cs" />
+    <Compile Include="Common\ServiceProxyBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\SystemWebServiceProxyBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\WSE3ServiceProxyBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CRMProxy.cs" />
     <Compile Include="DatabaseServerProxy.cs" />
     <Compile Include="DnsServerProxy.cs" />

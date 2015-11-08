@@ -49,18 +49,14 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Management;
 using System.Collections.Specialized;
-using Microsoft.Web.PlatformInstaller;
-using Microsoft.Web.Services3;
-using Microsoft.Win32;
 using WebsitePanel.Providers.Utils;
 using WebsitePanel.Server.Code;
 using WebsitePanel.Server.Utils;
 using WebsitePanel.Providers;
+using Microsoft.Web.PlatformInstaller;
+using Microsoft.Web.Services3;
+using Microsoft.Win32;
 using WebsitePanel.Server.WPIService;
-
-
-
-
 
 
 
@@ -75,8 +71,9 @@ namespace WebsitePanel.Server
     [ToolboxItem(false)]
     public class WindowsServer : System.Web.Services.WebService
     {
-        #region Terminal connections
-        [WebMethod]
+
+		#region Terminal connections
+		[WebMethod]
         public TerminalSession[] GetTerminalServicesSessions()
         {
             try

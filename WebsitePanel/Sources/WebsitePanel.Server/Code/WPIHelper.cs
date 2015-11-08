@@ -26,6 +26,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#if Net
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -38,6 +40,7 @@ using Microsoft.Web.Deployment;
 using Microsoft.Web.PlatformInstaller;
 using Installer = Microsoft.Web.PlatformInstaller.Installer;
 using DeploymentParameterWPI = Microsoft.Web.PlatformInstaller.DeploymentParameter;
+
 
 namespace WebsitePanel.Server.Code
 {
@@ -979,3 +982,5 @@ namespace WebsitePanel.Server.Code
         }
     }
 }
+
+#endif

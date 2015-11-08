@@ -59,8 +59,8 @@ namespace WebsitePanel.Server
             // asp.net mode
             litAspNetMode.Text = (IntPtr.Size == 8) ? "64-bit" : "32-bit";
 
-			imgLogo.ImageUrl = Page.ClientScript.GetWebResourceUrl(
-				typeof(DefaultPage), "WebsitePanel.Server.Images.logo.png");
+				imgLogo.ImageUrl = Page.ClientScript.GetWebResourceUrl(
+					typeof(DefaultPage), "WebsitePanel.Server.Images.logo.png");
         }
     }
 }

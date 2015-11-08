@@ -31,9 +31,6 @@ using System.Web.Services;
 using WebsitePanel.Providers.Common;
 using WebsitePanel.Server.Code;
 using WebsitePanel.Server.Utils;
-#if Net
-using Microsoft.Web.Administration;
-#endif
 
 namespace WebsitePanel.Server
 {
