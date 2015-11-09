@@ -67,7 +67,7 @@ namespace WebsitePanel.Server.Client.Common {
 
 #if Net
 
-		WSE3ServiceProxyBase wse = null;
+		IServiceProxy wse = null;
 		Dictionary<string, bool> useWSE = null;
 		readonly static string CacheFile = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "WebsitePanel"), "WSECache.data");
 
