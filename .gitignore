@@ -43,7 +43,7 @@ Thumbs.db
 
 */Backup/
 **/UpgradeLog.htm
-**/.vs/*
+.vs
 
 
 bin/Debug
