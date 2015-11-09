@@ -32,6 +32,7 @@ using System.Configuration;
 using WebsitePanel.Providers;
 using WebsitePanel.Providers.Common;
 using WebsitePanel.Server.Utils;
+using WebsitePanel.Providers.OS;
 using System.Reflection;
 
 namespace WebsitePanel.Server.Code {
@@ -93,9 +94,9 @@ namespace WebsitePanel.Server.Code {
 				return typeof(AutoDiscoveryHelper).Assembly.GetName().Version.ToString(3);
 		}
 
-		public static OS.Runtimes Runtime() { return OS.Runtime; }
-		public static OS.Platforms Platform() { return OS.Platform; }
-		public static bool SupportsWSE() { return OS.Runtime == OS.Runtimes.Net; }
+		public static Runtimes Runtime() { return OS.Runtime; }
+		public static Platforms Platform() { return OS.Platform; }
+		public static bool SupportsWSE() { return OS.Runtime == Runtimes.Net; }
 
 	}
 }

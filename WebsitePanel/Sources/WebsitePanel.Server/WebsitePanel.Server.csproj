@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -21,7 +21,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
@@ -41,6 +41,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <WarningsAsErrors>618</WarningsAsErrors>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -51,26 +52,27 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <WarningsAsErrors>618</WarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <NoWSEPath>NoWSE</NoWSEPath>
     <RootFolder>..\..\..</RootFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+	  <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Administration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+	  <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Deployment.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Management, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+	  <Reference Include="Microsoft.Web.Management, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.PlatformInstaller, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+	  <Reference Include="Microsoft.Web.PlatformInstaller, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.PlatformInstaller.dll</HintPath>
       <Private>True</Private>
@@ -89,7 +91,6 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
@@ -145,8 +146,8 @@
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Providers.Virtualization.HyperV2012R2.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.pdb" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
+    <Content Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
+    <Content Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.pdb" />
     <Content Include="bin\Ionic.Zip.Reduced.dll" />
@@ -158,11 +159,11 @@
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Providers.HostedSolution.Lync2013HP.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Server.Utils.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Lync2013\WebsitePanel.Server.Utils.pdb" />
-    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Caching.dll" />
-    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
-    <Content Include="bin\Microsoft.Practices.ObjectBuilder.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Practices.EnterpriseLibrary.Caching.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Practices.ObjectBuilder.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.SharePoint.dll" />
-    <Content Include="bin\Microsoft.Storage.Vds.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Storage.Vds.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Deployment.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Management.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.PlatformInstaller.dll" />
@@ -201,8 +202,8 @@
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs70.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs80.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.FTP.IIs80.pdb" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
+    <Content Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
+    <Content Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.HostedSolution.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.HostedSolution.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.AbilityMailServer.dll" />
@@ -219,10 +220,10 @@
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MailEnable.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MDaemon.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.MDaemon.pdb" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
-    <Content Condition=" '$(OSPlatform)' != 'Mac' " Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
+    <Content Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
+    <Content Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
+    <Content Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
+    <Content Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail2.dll" />
@@ -269,8 +270,8 @@
     <Content Include="bin\WebsitePanel.Server.Utils.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.exe" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.pdb" />
-    <!-- <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.dll" />
-	<Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.pdb" /> -->
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.dll" />
+    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.pdb" />
     <Content Include="bin\WpiServiceContract.dll" />
     <Content Include="bin\WpiServiceContract.pdb" />
     <Content Include="BlackBerry.asmx" />
@@ -329,9 +330,7 @@
     <Content Include="VirtualizationServerForPrivateCloud.asmx" />
     <Content Include="bin\WebsitePanel.Server.WPIService.exe.config" />
     <Content Include="NoWSE\Web.config" />
-    <Content Include="NoWSE\.htaccess" />
     <Content Include="NoWSE\.gitignore" />
-    <None Include="NoWSE\.htpasswd" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -596,7 +595,9 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-  <Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+  
+	<Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+	
   <!-- generate non WSE versions of all services -->
   <Target Name="BuildNoWSEService">
     <ItemGroup>
@@ -612,7 +613,7 @@
       <AsmxServicesNoWSECode Include="$(NoWSEPath)\**\*.asmx.cs" />
     </ItemGroup>
     <!-- change namespace of non WSE services -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xD;&#xA;&#xD;&#xA;$2$3$4.NoWSE" />
+    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t\r\n]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xD;&#xA;&#xD;&#xA;$2$3$4.NoWSE" />
     <!-- comment out reference to Microsoft.Web.Service -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="[ \t]*using[ \t]*Microsoft.Web.Services[23]?[ \t.a-zA-Z0-9]*;([ \t]*[\n])?" ReplacementText="/* $0 */" />
     <!-- comment out [Policy(...)] -->
@@ -622,8 +623,9 @@
     <!-- remove outer #if Net condition -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="^([ \t\n\r]*(//[^\n\r]*[ \t\r\n]*)*)(#if Net[ \t]+// machine generated[\r\n]{1,2})(.*)(#endif[ \t\r\n]*)$" ReplacementText="$1$4" Singleline="true" />
     <!-- embrace regular services with #if Net when needed -->
-    <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t/].*$)([ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="$1#if Net // machine generated&#xD;&#xA;&#xD;&#xA;$5&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
+    <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t/].*$)(?&lt;head&gt;[ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(?&lt;body&gt;.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="${head}#if Net // machine generated&#xD;&#xA;&#xD;&#xA;${body}&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
   </Target>
+	
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	Other similar extension points exist, see Microsoft.Common.targets. -->

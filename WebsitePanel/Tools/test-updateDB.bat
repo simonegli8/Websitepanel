@@ -1,1 +1,1 @@
-%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe ..\test.xml /target:UpdateTestDB /property:BuildConfiguration=Debug /v:n /fileLogger /m
+%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe ..\test.xml /target:UpdateTestDB /property:BuildConfiguration=Debug /p:Version="2.1.0" /p:FileVersion="2.1.0.1" /p:VersionLabel="2.1.0.1" /fileLogger /m

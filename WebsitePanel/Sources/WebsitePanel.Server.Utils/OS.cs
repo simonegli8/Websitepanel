@@ -32,6 +32,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Management;
 using System.Security.Principal;
+using WebsitePanel.Providers.OS;
 
 namespace WebsitePanel.Server.Utils
 {
@@ -295,13 +296,15 @@ namespace WebsitePanel.Server.Utils
 			WindowsServer2016
 		}
 
-		public enum Runtimes { Net, Mono, CoreCLR }
+		public static bool IsMono { get {  return Type.GetType("Mono.Runtime") != null; } }
 
-		public static bool IsMono {  get {  return Type.GetType("Mono.Runtime") != null; } }
+		public static bool IsWindows { get { return Platform == Platforms.Windows; } }
+
+		public static bool IsLinux { get { return Platform == Platforms.Linux; } }
+
+		public static bool IsMac { get { return Platform == Platforms.Mac; } }
 
 		public static Runtimes Runtime {  get { return IsMono ? Runtimes.Mono : Runtimes.Net; } }
-
-		public enum Platforms { Windows, Linux, Mac, Solaris, Bsd, Unix, Other };
 
 		public static Platforms Platform {
 			get {

@@ -31,6 +31,8 @@ using System.Web.Services;
 using WebsitePanel.Providers.Common;
 using WebsitePanel.Server.Code;
 using WebsitePanel.Server.Utils;
+using WebsitePanel.Providers.OS;
+
 
 namespace WebsitePanel.Server
 {
@@ -52,10 +54,10 @@ namespace WebsitePanel.Server
 		public bool SupportsWSE() => AutoDiscoveryHelper.SupportsWSE();
 
 		[WebMethod]
-		public OS.Runtimes Runtime() => AutoDiscoveryHelper.Runtime();
+		public Runtimes Runtime() => AutoDiscoveryHelper.Runtime();
 
 		[WebMethod]
-		public OS.Platforms Platform() => AutoDiscoveryHelper.Platform();
+		public Platforms Platform() => AutoDiscoveryHelper.Platform();
 
 	}
 

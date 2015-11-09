@@ -34,7 +34,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 
-using WSE = Microsoft.Web.Services3.Security;
+using WSE3 = Microsoft.Web.Services3.Security;
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
 using Microsoft.Web.Services3.Security;
@@ -144,7 +144,7 @@ namespace WebsitePanel.Server.Client
                 this.filterContext = filterContext;
             }
 
-            public override void ValidateMessageSecurity(SoapEnvelope envelope, WSE.Security security)
+            public override void ValidateMessageSecurity(SoapEnvelope envelope, WSE3.Security security)
             {
                 // by default we consider that SOAP messages is not signed
                 bool IsSigned = false;
@@ -202,7 +202,7 @@ namespace WebsitePanel.Server.Client
 
             }
 
-            private bool CheckSignature(SoapEnvelope envelope, WSE.Security security, MessageSignature signature)
+            private bool CheckSignature(SoapEnvelope envelope, WSE3.Security security, MessageSignature signature)
             {
                 //
                 // Now verify which parts of the message were actually signed.
@@ -255,7 +255,7 @@ namespace WebsitePanel.Server.Client
                 this.filterContext = filterContext;
             }
 
-            public override void SecureMessage(SoapEnvelope envelope, WSE.Security security)
+            public override void SecureMessage(SoapEnvelope envelope, WSE3.Security security)
             {
                 // get server password from database 
                 string password = parentAssertion.Password;

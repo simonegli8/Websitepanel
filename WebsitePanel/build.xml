@@ -29,6 +29,7 @@
 		<PortalSrc>$(TrunkFolder)\Sources\WebsitePanel.WebPortal</PortalSrc>
 		<WebDavPortalSrc>$(TrunkFolder)\Sources\WebsitePanel.WebDavPortal</WebDavPortalSrc>
 		<ServerSrc>$(TrunkFolder)\Sources\WebsitePanel.Server</ServerSrc>
+		<ServerMonoSrc>$(TrunkFolder)\Sources\WebsitePanel.Server.Mono</ServerMonoSrc>
 		<EnterpriseServerSrc>$(TrunkFolder)\Sources\WebsitePanel.EnterpriseServer</EnterpriseServerSrc>
 		<SchedulerServiceSrc>$(TrunkFolder)\Sources\WebsitePanel.SchedulerService\bin</SchedulerServiceSrc>
 		<ImportCsvSrc>$(TrunkFolder)\Sources\Tools\WebsitePanel.Import.CsvBulk\bin\$(BuildConfiguration)</ImportCsvSrc>
@@ -40,6 +41,7 @@
 		<FixDefaultPublicFolderMailboxSrc>$(TrunkFolder)\Sources\Tools\WebsitePanel.FixDefaultPublicFolderMailbox\bin\$(BuildConfiguration)</FixDefaultPublicFolderMailboxSrc>
 
 		<ServerBuild>$(BuildFolder)\Server</ServerBuild>
+		<ServerMonoBuild>$(BuildFolder)\ServerMono</ServerMonoBuild>
 		<EnterpriseServerBuild>$(BuildFolder)\EnterpriseServer</EnterpriseServerBuild>
 		<SchedulerServiceBuild>$(BuildFolder)\SchedulerService</SchedulerServiceBuild>
 		<PortalBuild>$(BuildFolder)\Portal</PortalBuild>
@@ -53,7 +55,7 @@
 		<LocalizationToolkitBuild>$(BuildFolder)\LocalizationToolkit</LocalizationToolkitBuild>
 		<InstallerBuild>$(BuildFolder)\Installer</InstallerBuild>
 		<FixDefaultPublicFolderMailboxBuild>$(BuildFolder)\FixDefaultPublicFolderMailbox</FixDefaultPublicFolderMailboxBuild>
-        <WiXInstallerBuild>$(BuildFolder)\WiXInstaller</WiXInstallerBuild>
+      <WiXInstallerBuild>$(BuildFolder)\WiXInstaller</WiXInstallerBuild>
 
 		<ftphost></ftphost>
 		<ftpUsername></ftpUsername>
@@ -83,8 +85,9 @@
 
 	<Target Name="CompileSources" DependsOnTargets="GenerateBuildVersionFiles">
 		<!-- WebsitePanel -->
-		<MSBuild Projects="$(TrunkFolder)\Sources\WebSitePanel.Server.sln;$(TrunkFolder)\Sources\WebsitePanel.EnterpriseServer.sln;$(TrunkFolder)\Sources\WebsitePanel.WebPortal.sln" Properties="Configuration=$(BuildConfiguration)" />
-
+		<MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.sln;$(TrunkFolder)\Sources\WebsitePanel.EnterpriseServer.sln;$(TrunkFolder)\Sources\WebsitePanel.WebPortal.sln" Properties="Configuration=$(BuildConfiguration)" />
+		<MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj;" Properties="Configuration=$(BuildConfiguration)" Targets="Build;Cleanup" />
+		
 		<!-- Tools -->
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.Import.CsvBulk.sln" Properties="Configuration=$(BuildConfiguration)" />
 		<MSBuild Projects="$(RootFolder)\WebsitePanel.HyperV.Utils\Sources\WebsitePanel.HyperV.Utils.sln" Properties="Configuration=$(BuildConfiguration)" />
@@ -92,12 +95,13 @@
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.Import.Enterprise.sln" Properties="Configuration=$(BuildConfiguration)" />
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.AWStats.Viewer.sln" Properties="Configuration=$(BuildConfiguration)" />
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WSPTransportAgent.sln" Properties="Configuration=$(BuildConfiguration)" />
-    <MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.FixDefaultPublicFolderMailbox.sln" Properties="Configuration=$(BuildConfiguration)" />
-  </Target>
+ 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.FixDefaultPublicFolderMailbox.sln" Properties="Configuration=$(BuildConfiguration)" />
+ 	</Target>
 
 	<Target Name="PrepareBuilds" DependsOnTargets="CompileSources">
 		<!-- Remove build output folders in reversed order (e.q. root folder removed last) -->
 		<RemoveDir Directories="$(ServerBuild)"/>
+		<RemoveDir Directories="$(ServerMonoBuild)"/>
 		<RemoveDir Directories="$(EnterpriseServerBuild)"/>
 		<RemoveDir Directories="$(SchedulerServiceBuild)"/>
 		<RemoveDir Directories="$(PortalBuild)"/>
@@ -111,10 +115,11 @@
 		<RemoveDir Directories="$(LocalizationToolkitBuild)"/>
 		<RemoveDir Directories="$(InstallerBuild)"/>
 		<RemoveDir Directories="$(BuildFolder)"/>
-    <RemoveDir Directories="$(FixDefaultPublicFolderMailboxBuild)"/>
+    	<RemoveDir Directories="$(FixDefaultPublicFolderMailboxBuild)"/>
 
-    <MakeDir Directories="$(BuildFolder)"/>
+    	<MakeDir Directories="$(BuildFolder)"/>
 		<MakeDir Directories="$(ServerBuild)"/>
+		<MakeDir Directories="$(ServerMonoBuild)"/>
 		<MakeDir Directories="$(EnterpriseServerBuild)"/>
 		<MakeDir Directories="$(SchedulerServiceBuild)"/>
 		<MakeDir Directories="$(PortalBuild)"/>
@@ -157,7 +162,29 @@
 		<Copy SourceFiles="@(ServerBuildFiles)" DestinationFolder="$(ServerBuild)\%(RecursiveDir)" />
 	</Target>
 
-	<Target Name="CreateEnterpriseServerBuild" DependsOnTargets="CreateServerBuild">
+	<Target Name="CreateServerMonoBuild" DependsOnTargets="CreateServerBuild">
+		<ItemGroup>
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\.svn\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\*.xml" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\obj\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\Release\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\Debug\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\App_Cache\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\Images\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\LogParser\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.user" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.suo" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.cs" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.csproj" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vb" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vbproj" />
+			<ServerMonoBuildFiles Include="$(ServerMonoSrc)\**\*.*" Exclude="@(ServerMonoBuildExclude)"/>
+		</ItemGroup>
+		<Copy SourceFiles="@(ServerMonoBuildFiles)" DestinationFolder="$(ServerMonoBuild)\%(RecursiveDir)" />
+	</Target>
+
+	<Target Name="CreateEnterpriseServerBuild" DependsOnTargets="CreateServerMonoBuild">
 		<ItemGroup>
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\.svn\**" />
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\obj\**" />
@@ -394,6 +421,7 @@
 	<PropertyGroup>
 		<InstallFolder>$(DeployFolder)\Install</InstallFolder>
 		<ServerInstall>$(InstallFolder)\Server</ServerInstall>
+		<ServerMonoInstall>$(InstallFolder)\ServerMono</ServerMonoInstall>
 		<EnterpriseServerInstall>$(InstallFolder)\EnterpriseServer</EnterpriseServerInstall>
 		<SchedulerServiceInstall>$(InstallFolder)\SchedulerService</SchedulerServiceInstall>
 		<PortalInstall>$(InstallFolder)\Portal</PortalInstall>
@@ -433,7 +461,19 @@
 		<XmlUpdate XmlFileName="$(ServerInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="${installer.server.password}" />
 	</Target>
 
-	<Target Name="CreateEnterpriseServerInstall" DependsOnTargets="CreateServerInstall">
+	<Target Name="CreateServerMonoInstall" DependsOnTargets="CreateServerInstall">
+		<ItemGroup>
+			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\SDNSAPI.dll" />
+			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\MySql.Data.dll"/>
+			<ServerDeployFiles Include="$(ServerMonoBuild)\**\*.*" Exclude="@(ServerDeployExclude)" />
+		</ItemGroup>
+		<RemoveDir Directories="$(ServerMonoInstall)"/>
+		<MakeDir Directories="$(ServerMonoInstall)"/>
+		<Copy SourceFiles="@(ServerDeployFiles)" DestinationFolder="$(ServerMonoInstall)\%(RecursiveDir)" />
+		<XmlUpdate XmlFileName="$(ServerMonoInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="${installer.server.password}" />
+	</Target>
+
+	<Target Name="CreateEnterpriseServerInstall" DependsOnTargets="CreateServerMonoInstall">
 		<ItemGroup>
 			<EnterpriseServerDeployExclude Include="$(EnterpriseServerBuild)\bin\OrderBoxDomainsLib.DLL" />
 			<EnterpriseServerDeployExclude Include="$(EnterpriseServerBuild)\bin\OrderBoxCoreLib.DLL" />
@@ -547,6 +587,7 @@
 	<PropertyGroup>
 		<UpdateFolder>$(DeployFolder)\Update</UpdateFolder>
 		<ServerUpdate>$(UpdateFolder)\Server</ServerUpdate>
+		<ServerUpdate>$(UpdateFolder)\ServerMono</ServerUpdate>
 		<EnterpriseServerUpdate>$(UpdateFolder)\EnterpriseServer</EnterpriseServerUpdate>
 		<PortalUpdate>$(UpdateFolder)\Portal</PortalUpdate>
 	</PropertyGroup>
@@ -558,6 +599,9 @@
 		<RemoveDir Directories="$(ServerUpdate)"/>
 		<MakeDir Directories="$(ServerUpdate)"/>
 
+		<RemoveDir Directories="$(ServerMonoUpdate)"/>
+		<MakeDir Directories="$(ServerMonoUpdate)"/>
+
 		<RemoveDir Directories="$(EnterpriseServerUpdate)"/>
 		<MakeDir Directories="$(EnterpriseServerUpdate)"/>
 
@@ -567,6 +611,10 @@
 
 	<Target Name="CreateServerUpdate" DependsOnTargets="PrepareUpdates">
 		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\Server%22 %22$(ServerInstall)%22  %22$(ServerUpdate)%22 /ex:web.config"/>
+	</Target>
+
+	<Target Name="CreateServerMonoUpdate" DependsOnTargets="CreateServerUpdate">
+		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\ServerMono%22 %22$(ServerMonoInstall)%22  %22$(ServerMonoUpdate)%22 /ex:web.config"/>
 	</Target>
 
 	<Target Name="CreateEnterpriseServerUpdate" DependsOnTargets="CreateServerUpdate" >

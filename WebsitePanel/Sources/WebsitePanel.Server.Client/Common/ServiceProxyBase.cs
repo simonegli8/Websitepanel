@@ -12,7 +12,7 @@ using System.IO;
 
 namespace WebsitePanel.Server.Client.Common {
 
-	interface IServiceProxy {
+	public interface IServiceProxy {
 
 		//public EndpointReference Destination { get; set; }
 		//public Pipeline Pipeline { get; set; }
@@ -84,6 +84,7 @@ namespace WebsitePanel.Server.Client.Common {
 		}
 
 		bool UseWSE(string url) {
+         if (Type.GetType("Mono.Runtime") != null) return false;
 			if (useWSE == null) LoadCache();
 			bool use;
 			if (useWSE.TryGetValue(url, out use)) return use;
@@ -99,7 +100,7 @@ namespace WebsitePanel.Server.Client.Common {
 			return use;
 		}
 
-		IServiceProxy Service {
+		public IServiceProxy Service {
 			get {
 				if (!UseWSE(Url)) return this;
 				if (wse != null) return wse;
@@ -109,7 +110,7 @@ namespace WebsitePanel.Server.Client.Common {
 			}
 		}
 #else
-		IServiceProxy Service => this;
+		public IServiceProxy Service => this;
 #endif
 
 

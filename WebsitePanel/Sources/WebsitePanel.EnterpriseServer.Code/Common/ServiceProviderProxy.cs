@@ -33,14 +33,15 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Text;
 
-using Microsoft.Web.Services3;
+//using Microsoft.Web.Services3;
+using System.Web.Services.Protocols;
 using WebsitePanel.Server.Client;
 
 namespace WebsitePanel.EnterpriseServer
 {
     public class ServiceProviderProxy
     {
-        public static WebServicesClientProtocol Init(WebServicesClientProtocol proxy, int serviceId)
+        public static SoapHttpClientProtocol Init(SoapHttpClientProtocol proxy, int serviceId)
         {
             ServerProxyConfigurator cnfg = new ServerProxyConfigurator();
 
@@ -66,7 +67,7 @@ namespace WebsitePanel.EnterpriseServer
             return ServerInit(proxy, cnfg, service.ServerId);
         }
 
-        public static WebServicesClientProtocol ServerInit(WebServicesClientProtocol proxy, ServerProxyConfigurator cnfg, int serverId)
+        public static SoapHttpClientProtocol ServerInit(SoapHttpClientProtocol proxy, ServerProxyConfigurator cnfg, int serverId)
         {
             // get server info
             ServerInfo server = ServerController.GetServerByIdInternal(serverId);
@@ -92,7 +93,7 @@ namespace WebsitePanel.EnterpriseServer
             return ServerInit(proxy, cnfg, server.ServerUrl, server.Password);
         }
 
-        private static WebServicesClientProtocol ServerInit(WebServicesClientProtocol proxy,
+        private static SoapHttpClientProtocol ServerInit(SoapHttpClientProtocol proxy,
             ServerProxyConfigurator cnfg, string serverUrl, string serverPassword)
         {
             // set URL & password
@@ -105,13 +106,13 @@ namespace WebsitePanel.EnterpriseServer
             return proxy;
         }
 
-        public static WebServicesClientProtocol ServerInit(WebServicesClientProtocol proxy,
+        public static SoapHttpClientProtocol ServerInit(SoapHttpClientProtocol proxy,
             string serverUrl, string serverPassword)
         {
             return ServerInit(proxy, new ServerProxyConfigurator(), serverUrl, serverPassword);
         }
 
-        public static WebServicesClientProtocol ServerInit(WebServicesClientProtocol proxy, int serverId)
+        public static SoapHttpClientProtocol ServerInit(SoapHttpClientProtocol proxy, int serverId)
         {
             return ServerInit(proxy, new ServerProxyConfigurator(), serverId);
         }

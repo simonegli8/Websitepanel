@@ -31,110 +31,107 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
 
+#if Net
 using Microsoft.Web.Services3;
 using Microsoft.Web.Services3.Design;
+#endif
+
+using System.Web.Services.Protocols;
 
 using WebsitePanel.Providers;
 
-namespace WebsitePanel.Server.Client
-{
-    public class ServerProxyConfigurator
-    {
-        private int timeout = -1;
-        private string serverUrl = null;
-        private string serverPassword = null;
-        RemoteServerSettings serverSettings = new RemoteServerSettings();
-        ServiceProviderSettings providerSettings = new ServiceProviderSettings();
+namespace WebsitePanel.Server.Client {
+   public class ServerProxyConfigurator {
+      private int timeout = -1;
+      private string serverUrl = null;
+      private string serverPassword = null;
+      RemoteServerSettings serverSettings = new RemoteServerSettings();
+      ServiceProviderSettings providerSettings = new ServiceProviderSettings();
 
-        public WebsitePanel.Providers.RemoteServerSettings ServerSettings
-        {
-            get { return this.serverSettings; }
-            set { this.serverSettings = value; }
-        }
+      public WebsitePanel.Providers.RemoteServerSettings ServerSettings {
+         get { return this.serverSettings; }
+         set { this.serverSettings = value; }
+      }
 
-        public WebsitePanel.Providers.ServiceProviderSettings ProviderSettings
-        {
-            get { return this.providerSettings; }
-            set { this.providerSettings = value; }
-        }
+      public WebsitePanel.Providers.ServiceProviderSettings ProviderSettings {
+         get { return this.providerSettings; }
+         set { this.providerSettings = value; }
+      }
 
-        public string ServerUrl
-        {
-            get { return this.serverUrl; }
-            set { this.serverUrl = value; }
-        }
+      public string ServerUrl {
+         get { return this.serverUrl; }
+         set { this.serverUrl = value; }
+      }
 
-        public string ServerPassword
-        {
-            get { return this.serverPassword; }
-            set { this.serverPassword = value; }
-        }
+      public string ServerPassword {
+         get { return this.serverPassword; }
+         set { this.serverPassword = value; }
+      }
 
-        public int Timeout
-        {
-            get { return this.timeout; }
-            set { this.timeout = value; }
-        }
+      public int Timeout {
+         get { return this.timeout; }
+         set { this.timeout = value; }
+      }
 
-        public void Configure(WebServicesClientProtocol proxy)
-        {
-            // configure proxy URL
-            if (!String.IsNullOrEmpty(serverUrl))
-            {
-                if (serverUrl.EndsWith("/"))
-                    serverUrl = serverUrl.Substring(0, serverUrl.Length - 1);
+      public void Configure(SoapHttpClientProtocol proxy) {
+         // configure proxy URL
+         if (!String.IsNullOrEmpty(serverUrl)) {
+            if (serverUrl.EndsWith("/"))
+               serverUrl = serverUrl.Substring(0, serverUrl.Length - 1);
 
-                proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));
-            }
+            proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));
+         }
 
-            // set proxy timeout
-            proxy.Timeout = (timeout == -1) ? System.Threading.Timeout.Infinite : timeout * 1000;
+         // set proxy timeout
+         proxy.Timeout = (timeout == -1) ? System.Threading.Timeout.Infinite : timeout * 1000;
 
-            // setup security assertion
-            if (!String.IsNullOrEmpty(serverPassword))
-            {
-                ServerUsernameAssertion assert
-                    = new ServerUsernameAssertion(ServerSettings.ServerId, serverPassword);
+#if Net
+         // setup security assertion
+         if (!String.IsNullOrEmpty(serverPassword)) {
+            ServerUsernameAssertion assert
+                = new ServerUsernameAssertion(ServerSettings.ServerId, serverPassword);
 
-                // create policy
-                Policy policy = new Policy();
-                policy.Assertions.Add(assert);
 
-                proxy.SetPolicy(policy);
-            }
+            // create policy
+            Policy policy = new Policy();
+            policy.Assertions.Add(assert);
 
-            // provider settings
-            ServiceProviderSettingsSoapHeader settingsHeader = new ServiceProviderSettingsSoapHeader();
-            List<string> settings = new List<string>();
-            
-            // AD Settings
-            settings.Add("AD:Enabled=" + ServerSettings.ADEnabled.ToString());
-            settings.Add("AD:AuthenticationType=" + ServerSettings.ADAuthenticationType.ToString());
-            settings.Add("AD:RootDomain=" + ServerSettings.ADRootDomain);
-            settings.Add("AD:Username=" + ServerSettings.ADUsername);
-            settings.Add("AD:Password=" + ServerSettings.ADPassword);
+            var wseproxy = ((Common.ServiceProxyBase)proxy).Service;
+            if (wseproxy is Microsoft.Web.Services3.WebServicesClientProtocol) ((Microsoft.Web.Services3.WebServicesClientProtocol)proxy).SetPolicy(policy);
 
-            // Server Settings
-            settings.Add("Server:ServerId=" + ServerSettings.ServerId);
-            settings.Add("Server:ServerName=" + ServerSettings.ServerName);
+         }
+#endif
+         // provider settings
+         ServiceProviderSettingsSoapHeader settingsHeader = new ServiceProviderSettingsSoapHeader();
+         List<string> settings = new List<string>();
 
-            // Provider Settings
-            settings.Add("Provider:ProviderGroupID=" + ProviderSettings.ProviderGroupID.ToString());
-            settings.Add("Provider:ProviderCode=" + ProviderSettings.ProviderCode);
-            settings.Add("Provider:ProviderName=" + ProviderSettings.ProviderName);
-            settings.Add("Provider:ProviderType=" + ProviderSettings.ProviderType);
+         // AD Settings
+         settings.Add("AD:Enabled=" + ServerSettings.ADEnabled.ToString());
+         settings.Add("AD:AuthenticationType=" + ServerSettings.ADAuthenticationType.ToString());
+         settings.Add("AD:RootDomain=" + ServerSettings.ADRootDomain);
+         settings.Add("AD:Username=" + ServerSettings.ADUsername);
+         settings.Add("AD:Password=" + ServerSettings.ADPassword);
 
-            // Custom Provider Settings
-            foreach (string settingName in ProviderSettings.Settings.Keys)
-            {
-                settings.Add(settingName + "=" + ProviderSettings.Settings[settingName]);
-            }
+         // Server Settings
+         settings.Add("Server:ServerId=" + ServerSettings.ServerId);
+         settings.Add("Server:ServerName=" + ServerSettings.ServerName);
 
-            // set header
-            settingsHeader.Settings = settings.ToArray();
-            FieldInfo field = proxy.GetType().GetField("ServiceProviderSettingsSoapHeaderValue");
-            if (field != null)
-                field.SetValue(proxy, settingsHeader);
-        }
-    }
+         // Provider Settings
+         settings.Add("Provider:ProviderGroupID=" + ProviderSettings.ProviderGroupID.ToString());
+         settings.Add("Provider:ProviderCode=" + ProviderSettings.ProviderCode);
+         settings.Add("Provider:ProviderName=" + ProviderSettings.ProviderName);
+         settings.Add("Provider:ProviderType=" + ProviderSettings.ProviderType);
+
+         // Custom Provider Settings
+         foreach (string settingName in ProviderSettings.Settings.Keys) {
+            settings.Add(settingName + "=" + ProviderSettings.Settings[settingName]);
+         }
+
+         // set header
+         settingsHeader.Settings = settings.ToArray();
+         FieldInfo field = proxy.GetType().GetField("ServiceProviderSettingsSoapHeaderValue");
+         if (field != null)
+            field.SetValue(proxy, settingsHeader);
+      }
+   }
 }
