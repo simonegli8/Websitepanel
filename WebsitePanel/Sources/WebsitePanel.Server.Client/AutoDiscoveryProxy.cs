@@ -41,195 +41,480 @@
 // 
 using WebsitePanel.Providers.Common;
 
-namespace WebsitePanel.AutoDiscovery
-{
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name = "AutoDiscoverySoap", Namespace = "http://tempuri.org/")]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ResultObject))]
-    public partial class AutoDiscovery : Microsoft.Web.Services3.WebServicesClientProtocol
-    {
+namespace WebsitePanel.AutoDiscovery {
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Web.Services.WebServiceBindingAttribute(Name = "AutoDiscoverySoap", Namespace = "http://tempuri.org/")]
+	[System.Xml.Serialization.XmlIncludeAttribute(typeof(ResultObject))]
+	public partial class AutoDiscovery : System.Web.Services.Protocols.SoapHttpClientProtocol {
 
-        private System.Threading.SendOrPostCallback IsInstalledOperationCompleted;
+		private System.Threading.SendOrPostCallback IsInstalledOperationCompleted;
 
-        private System.Threading.SendOrPostCallback GetServerVersionOperationCompleted;
+		private System.Threading.SendOrPostCallback GetServerVersionOperationCompleted;
 
-        /// <remarks/>
-        public AutoDiscovery()
-        {
-            this.Url = "http://192.168.0.13:8080/Server/AutoDiscovery.asmx";
-        }
+		private System.Threading.SendOrPostCallback SupportsWSEOperationCompleted;
 
-        /// <remarks/>
-        public event IsInstalledCompletedEventHandler IsInstalledCompleted;
+		private System.Threading.SendOrPostCallback RuntimeOperationCompleted;
 
-        /// <remarks/>
-        public event GetServerVersionCompletedEventHandler GetServerVersionCompleted;
+		private System.Threading.SendOrPostCallback PlatformOperationCompleted;
 
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IsInstalled", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public BoolResult IsInstalled(string providerName)
-        {
-            object[] results = this.Invoke("IsInstalled", new object[] {
-                    providerName});
-            return ((BoolResult)(results[0]));
-        }
+		/// <remarks/>
+		public AutoDiscovery() {
+			this.Url = "http://localhost/wsps/AutoDiscovery.asmx";
+		}
 
-        /// <remarks/>
-        public System.IAsyncResult BeginIsInstalled(string providerName, System.AsyncCallback callback, object asyncState)
-        {
-            return this.BeginInvoke("IsInstalled", new object[] {
-                    providerName}, callback, asyncState);
-        }
+		/// <remarks/>
+		public event IsInstalledCompletedEventHandler IsInstalledCompleted;
 
-        /// <remarks/>
-        public BoolResult EndIsInstalled(System.IAsyncResult asyncResult)
-        {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((BoolResult)(results[0]));
-        }
+		/// <remarks/>
+		public event GetServerVersionCompletedEventHandler GetServerVersionCompleted;
 
-        /// <remarks/>
-        public void IsInstalledAsync(string providerName)
-        {
-            this.IsInstalledAsync(providerName, null);
-        }
+		/// <remarks/>
+		public event SupportsWSECompletedEventHandler SupportsWSECompleted;
 
-        /// <remarks/>
-        public void IsInstalledAsync(string providerName, object userState)
-        {
-            if ((this.IsInstalledOperationCompleted == null))
-            {
-                this.IsInstalledOperationCompleted = new System.Threading.SendOrPostCallback(this.OnIsInstalledOperationCompleted);
-            }
-            this.InvokeAsync("IsInstalled", new object[] {
-                    providerName}, this.IsInstalledOperationCompleted, userState);
-        }
+		/// <remarks/>
+		public event RuntimeCompletedEventHandler RuntimeCompleted;
 
-        private void OnIsInstalledOperationCompleted(object arg)
-        {
-            if ((this.IsInstalledCompleted != null))
-            {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.IsInstalledCompleted(this, new IsInstalledCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
+		/// <remarks/>
+		public event PlatformCompletedEventHandler PlatformCompleted;
 
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetServerVersion", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetServerVersion()
-        {
-            object[] results = this.Invoke("GetServerVersion", new object[0]);
-            return ((string)(results[0]));
-        }
+		/// <remarks/>
+		[System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IsInstalled", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+		public BoolResult IsInstalled(string providerName) {
+			object[] results = this.Invoke("IsInstalled", new object[] {
+						  providerName});
+			return ((BoolResult)(results[0]));
+		}
 
-        /// <remarks/>
-        public System.IAsyncResult BeginGetServerVersion(System.AsyncCallback callback, object asyncState)
-        {
-            return this.BeginInvoke("GetServerVersion", new object[0], callback, asyncState);
-        }
+		/// <remarks/>
+		public System.IAsyncResult BeginIsInstalled(string providerName, System.AsyncCallback callback, object asyncState) {
+			return this.BeginInvoke("IsInstalled", new object[] {
+						  providerName}, callback, asyncState);
+		}
 
-        /// <remarks/>
-        public string EndGetServerVersion(System.IAsyncResult asyncResult)
-        {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
-        }
+		/// <remarks/>
+		public BoolResult EndIsInstalled(System.IAsyncResult asyncResult) {
+			object[] results = this.EndInvoke(asyncResult);
+			return ((BoolResult)(results[0]));
+		}
 
-        /// <remarks/>
-        public void GetServerVersionAsync()
-        {
-            this.GetServerVersionAsync(null);
-        }
+		/// <remarks/>
+		public void IsInstalledAsync(string providerName) {
+			this.IsInstalledAsync(providerName, null);
+		}
 
-        /// <remarks/>
-        public void GetServerVersionAsync(object userState)
-        {
-            if ((this.GetServerVersionOperationCompleted == null))
-            {
-                this.GetServerVersionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetServerVersionOperationCompleted);
-            }
-            this.InvokeAsync("GetServerVersion", new object[0], this.GetServerVersionOperationCompleted, userState);
-        }
+		/// <remarks/>
+		public void IsInstalledAsync(string providerName, object userState) {
+			if ((this.IsInstalledOperationCompleted == null)) {
+				this.IsInstalledOperationCompleted = new System.Threading.SendOrPostCallback(this.OnIsInstalledOperationCompleted);
+			}
+			this.InvokeAsync("IsInstalled", new object[] {
+						  providerName}, this.IsInstalledOperationCompleted, userState);
+		}
 
-        private void OnGetServerVersionOperationCompleted(object arg)
-        {
-            if ((this.GetServerVersionCompleted != null))
-            {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetServerVersionCompleted(this, new GetServerVersionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
+		private void OnIsInstalledOperationCompleted(object arg) {
+			if ((this.IsInstalledCompleted != null)) {
+				System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+				this.IsInstalledCompleted(this, new IsInstalledCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+			}
+		}
 
-        /// <remarks/>
-        public new void CancelAsync(object userState)
-        {
-            base.CancelAsync(userState);
-        }
-    }
+		/// <remarks/>
+		[System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetServerVersion", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+		public string GetServerVersion() {
+			object[] results = this.Invoke("GetServerVersion", new object[0]);
+			return ((string)(results[0]));
+		}
 
+		/// <remarks/>
+		public System.IAsyncResult BeginGetServerVersion(System.AsyncCallback callback, object asyncState) {
+			return this.BeginInvoke("GetServerVersion", new object[0], callback, asyncState);
+		}
 
+		/// <remarks/>
+		public string EndGetServerVersion(System.IAsyncResult asyncResult) {
+			object[] results = this.EndInvoke(asyncResult);
+			return ((string)(results[0]));
+		}
 
+		/// <remarks/>
+		public void GetServerVersionAsync() {
+			this.GetServerVersionAsync(null);
+		}
 
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
-    public delegate void IsInstalledCompletedEventHandler(object sender, IsInstalledCompletedEventArgs e);
+		/// <remarks/>
+		public void GetServerVersionAsync(object userState) {
+			if ((this.GetServerVersionOperationCompleted == null)) {
+				this.GetServerVersionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetServerVersionOperationCompleted);
+			}
+			this.InvokeAsync("GetServerVersion", new object[0], this.GetServerVersionOperationCompleted, userState);
+		}
 
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class IsInstalledCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
-    {
+		private void OnGetServerVersionOperationCompleted(object arg) {
+			if ((this.GetServerVersionCompleted != null)) {
+				System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+				this.GetServerVersionCompleted(this, new GetServerVersionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+			}
+		}
 
-        private object[] results;
+		/// <remarks/>
+		[System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SupportsWSE", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+		public bool SupportsWSE() {
+			object[] results = this.Invoke("SupportsWSE", new object[0]);
+			return ((bool)(results[0]));
+		}
 
-        internal IsInstalledCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
-            base(exception, cancelled, userState)
-        {
-            this.results = results;
-        }
+		/// <remarks/>
+		public System.IAsyncResult BeginSupportsWSE(System.AsyncCallback callback, object asyncState) {
+			return this.BeginInvoke("SupportsWSE", new object[0], callback, asyncState);
+		}
 
-        /// <remarks/>
-        public BoolResult Result
-        {
-            get
-            {
-                this.RaiseExceptionIfNecessary();
-                return ((BoolResult)(this.results[0]));
-            }
-        }
-    }
+		/// <remarks/>
+		public bool EndSupportsWSE(System.IAsyncResult asyncResult) {
+			object[] results = this.EndInvoke(asyncResult);
+			return ((bool)(results[0]));
+		}
 
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
-    public delegate void GetServerVersionCompletedEventHandler(object sender, GetServerVersionCompletedEventArgs e);
+		/// <remarks/>
+		public void SupportsWSEAsync() {
+			this.SupportsWSEAsync(null);
+		}
 
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetServerVersionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
-    {
+		/// <remarks/>
+		public void SupportsWSEAsync(object userState) {
+			if ((this.SupportsWSEOperationCompleted == null)) {
+				this.SupportsWSEOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSupportsWSEOperationCompleted);
+			}
+			this.InvokeAsync("SupportsWSE", new object[0], this.SupportsWSEOperationCompleted, userState);
+		}
 
-        private object[] results;
+		private void OnSupportsWSEOperationCompleted(object arg) {
+			if ((this.SupportsWSECompleted != null)) {
+				System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+				this.SupportsWSECompleted(this, new SupportsWSECompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+			}
+		}
 
-        internal GetServerVersionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
-            base(exception, cancelled, userState)
-        {
-            this.results = results;
-        }
+		/// <remarks/>
+		[System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Runtime", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+		public Runtimes Runtime() {
+			object[] results = this.Invoke("Runtime", new object[0]);
+			return ((Runtimes)(results[0]));
+		}
 
-        /// <remarks/>
-        public string Result
-        {
-            get
-            {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
-            }
-        }
-    }
-}
+		/// <remarks/>
+		public System.IAsyncResult BeginRuntime(System.AsyncCallback callback, object asyncState) {
+			return this.BeginInvoke("Runtime", new object[0], callback, asyncState);
+		}
+
+		/// <remarks/>
+		public Runtimes EndRuntime(System.IAsyncResult asyncResult) {
+			object[] results = this.EndInvoke(asyncResult);
+			return ((Runtimes)(results[0]));
+		}
+
+		/// <remarks/>
+		public void RuntimeAsync() {
+			this.RuntimeAsync(null);
+		}
+
+		/// <remarks/>
+		public void RuntimeAsync(object userState) {
+			if ((this.RuntimeOperationCompleted == null)) {
+				this.RuntimeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRuntimeOperationCompleted);
+			}
+			this.InvokeAsync("Runtime", new object[0], this.RuntimeOperationCompleted, userState);
+		}
+
+		private void OnRuntimeOperationCompleted(object arg) {
+			if ((this.RuntimeCompleted != null)) {
+				System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+				this.RuntimeCompleted(this, new RuntimeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+			}
+		}
+
+		/// <remarks/>
+		[System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Platform", RequestNamespace = "http://tempuri.org/", ResponseNamespace = "http://tempuri.org/", Use = System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle = System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+		public Platforms Platform() {
+			object[] results = this.Invoke("Platform", new object[0]);
+			return ((Platforms)(results[0]));
+		}
+
+		/// <remarks/>
+		public System.IAsyncResult BeginPlatform(System.AsyncCallback callback, object asyncState) {
+			return this.BeginInvoke("Platform", new object[0], callback, asyncState);
+		}
+
+		/// <remarks/>
+		public Platforms EndPlatform(System.IAsyncResult asyncResult) {
+			object[] results = this.EndInvoke(asyncResult);
+			return ((Platforms)(results[0]));
+		}
+
+		/// <remarks/>
+		public void PlatformAsync() {
+			this.PlatformAsync(null);
+		}
+
+		/// <remarks/>
+		public void PlatformAsync(object userState) {
+			if ((this.PlatformOperationCompleted == null)) {
+				this.PlatformOperationCompleted = new System.Threading.SendOrPostCallback(this.OnPlatformOperationCompleted);
+			}
+			this.InvokeAsync("Platform", new object[0], this.PlatformOperationCompleted, userState);
+		}
+
+		private void OnPlatformOperationCompleted(object arg) {
+			if ((this.PlatformCompleted != null)) {
+				System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+				this.PlatformCompleted(this, new PlatformCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+			}
+		}
+
+		/// <remarks/>
+		public new void CancelAsync(object userState) {
+			base.CancelAsync(userState);
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
+	public partial class BoolResult : ValueResultObjectOfBoolean {
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlIncludeAttribute(typeof(BoolResult))]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
+	public partial class ValueResultObjectOfBoolean : ResultObject {
+
+		private bool valueField;
+
+		/// <remarks/>
+		public bool Value {
+			get {
+				return this.valueField;
+			}
+			set {
+				this.valueField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlIncludeAttribute(typeof(ValueResultObjectOfBoolean))]
+	[System.Xml.Serialization.XmlIncludeAttribute(typeof(BoolResult))]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
+	public partial class ResultObject {
+
+		private bool isSuccessField;
+
+		private string[] errorCodesField;
+
+		/// <remarks/>
+		public bool IsSuccess {
+			get {
+				return this.isSuccessField;
+			}
+			set {
+				this.isSuccessField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string[] ErrorCodes {
+			get {
+				return this.errorCodesField;
+			}
+			set {
+				this.errorCodesField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
+	public enum Runtimes {
+
+		/// <remarks/>
+		Net,
+
+		/// <remarks/>
+		Mono,
+
+		/// <remarks/>
+		CoreCLR,
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.SerializableAttribute()]
+	[System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
+	public enum Platforms {
+
+		/// <remarks/>
+		Windows,
+
+		/// <remarks/>
+		Linux,
+
+		/// <remarks/>
+		Mac,
+
+		/// <remarks/>
+		Solaris,
+
+		/// <remarks/>
+		Bsd,
+
+		/// <remarks/>
+		Unix,
+
+		/// <remarks/>
+		Other,
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	public delegate void IsInstalledCompletedEventHandler(object sender, IsInstalledCompletedEventArgs e);
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	public partial class IsInstalledCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+
+		private object[] results;
+
+		internal IsInstalledCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+				  base(exception, cancelled, userState) {
+			this.results = results;
+		}
+
+		/// <remarks/>
+		public BoolResult Result {
+			get {
+				this.RaiseExceptionIfNecessary();
+				return ((BoolResult)(this.results[0]));
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	public delegate void GetServerVersionCompletedEventHandler(object sender, GetServerVersionCompletedEventArgs e);
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	public partial class GetServerVersionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+
+		private object[] results;
+
+		internal GetServerVersionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+				  base(exception, cancelled, userState) {
+			this.results = results;
+		}
+
+		/// <remarks/>
+		public string Result {
+			get {
+				this.RaiseExceptionIfNecessary();
+				return ((string)(this.results[0]));
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	public delegate void SupportsWSECompletedEventHandler(object sender, SupportsWSECompletedEventArgs e);
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	public partial class SupportsWSECompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+
+		private object[] results;
+
+		internal SupportsWSECompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+				  base(exception, cancelled, userState) {
+			this.results = results;
+		}
+
+		/// <remarks/>
+		public bool Result {
+			get {
+				this.RaiseExceptionIfNecessary();
+				return ((bool)(this.results[0]));
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	public delegate void RuntimeCompletedEventHandler(object sender, RuntimeCompletedEventArgs e);
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	public partial class RuntimeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+
+		private object[] results;
+
+		internal RuntimeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+				  base(exception, cancelled, userState) {
+			this.results = results;
+		}
+
+		/// <remarks/>
+		public Runtimes Result {
+			get {
+				this.RaiseExceptionIfNecessary();
+				return ((Runtimes)(this.results[0]));
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	public delegate void PlatformCompletedEventHandler(object sender, PlatformCompletedEventArgs e);
+
+	/// <remarks/>
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.3038")]
+	[System.Diagnostics.DebuggerStepThroughAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	public partial class PlatformCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+
+		private object[] results;
+
+		internal PlatformCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+				  base(exception, cancelled, userState) {
+			this.results = results;
+		}
+
+		/// <remarks/>
+		public Platforms Result {
+			get {
+				this.RaiseExceptionIfNecessary();
+				return ((Platforms)(this.results[0]));
+			}
+		}
+	}

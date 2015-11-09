@@ -39,6 +39,7 @@ namespace WebsitePanel.Server.Client.Common {
       object[] EndInvoke(IAsyncResult asyncResult);
       XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize);
       WebRequest GetWebRequest(Uri uri);
+		WebResponse GetWebResponse(WebRequest request);
       XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize);
       object[] Invoke(string methodName, object[] parameters);
       void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback);
@@ -65,6 +66,7 @@ namespace WebsitePanel.Server.Client.Common {
 		const string NoWSEPath = "/NoWSE";
 
 #if Net
+
 		WSE3ServiceProxyBase wse = null;
 		Dictionary<string, bool> useWSE = null;
 		readonly static string CacheFile = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "WebsitePanel"), "WSECache.data");
@@ -87,18 +89,31 @@ namespace WebsitePanel.Server.Client.Common {
 			if (useWSE.TryGetValue(url, out use)) return use;
 			var ad = new WebsitePanel.AutoDiscovery.AutoDiscovery();
 			ad.Url = Url;
-			useWSE[url] = use = ad.SupportsWSE();
+			try {
+				use = ad.SupportsWSE();
+			} catch {
+				use = true;
+			}
+			useWSE[url] = use; 
 			SaveCache();
 			return use;
 		}
 
-		IServiceProxy Service => UseWSE(Url) ? (IServiceProxy)(wse ?? (wse = new WSE3ServiceProxyBase() { Url = this.Url })) : this;
-#elif
+		IServiceProxy Service {
+			get {
+				if (!UseWSE(Url)) return this;
+				if (wse != null) return wse;
+				wse = (IServiceProxy)Activator.CreateInstance(Type.GetType(this.GetType().FullName + "WSE"));
+				wse.Url = Url;
+				return wse;
+			}
+		}
+#else
 		IServiceProxy Service => this;
 #endif
 
 
-
+		// Client Methods
 		protected bool RequireMtom { get { return Service.RequireMtom; } set { Service.RequireMtom = value; } }
 		new public string Url {
 			get { return Service.Url; }
@@ -110,13 +125,35 @@ namespace WebsitePanel.Server.Client.Common {
 				Service.Url = value;
 			}
 		}
-		public override void Abort() { Service.Abort(); }
-		//public override ObjRef CreateObjRef(Type requestedType) => Service.CreateObjRef(requestedType);
-		//public override object InitializeLifetimeService() Service.InitializeLifetimeService();
-		protected new IAsyncResult BeginInvoke(string methodName, Object[] parameters, AsyncCallback callback, Object asyncState) => Service.BeginInvoke(methodName, )
-      }
-
-
+		public new bool AllowAutoRedirect { get { return Service.AllowAutoRedirect; } set { Service.AllowAutoRedirect = value; } }
+		public new string ConnectionGroupName { get { return Service.ConnectionGroupName; } set { Service.ConnectionGroupName = value; } }
+		public new CookieContainer CookieContainer { get { return Service.CookieContainer; } set { Service.CookieContainer = value; } }
+		public new ICredentials Credentials { get { return Service.Credentials; } set { Service.Credentials = value; } }
+		public new bool EnableDecompression { get { return Service.EnableDecompression; } set { Service.EnableDecompression = value; } }
+		public new bool PreAuthenticate { get { return Service.PreAuthenticate; } set { Service.PreAuthenticate = value; } }
+		public new IWebProxy Proxy { get { return Service.Proxy; } set { Service.Proxy = value; } }
+		public new Encoding RequestEncoding { get { return Service.RequestEncoding; } set { Service.RequestEncoding = value; } }
+		public new SoapProtocolVersion SoapVersion { get { return Service.SoapVersion; } set { Service.SoapVersion = value; } }
+		public new int Timeout { get { return Service.Timeout; } set { Service.Timeout = value; } }
+		public new bool UnsafeAuthenticatedConnectionSharing { get { return Service.UnsafeAuthenticatedConnectionSharing; } set { Service.UnsafeAuthenticatedConnectionSharing = value; } }
+		public new bool UseDefaultCredentials { get { return Service.UseDefaultCredentials; } set { Service.UseDefaultCredentials = value; } }
+		public new string UserAgent { get { return Service.UserAgent; } set { Service.UserAgent = value; } }
+		public new void Abort() { Service.Abort(); }
+		public new IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) {
+			return Service.BeginInvoke(methodName, parameters, callback, asyncState);
+		}
+		public new void CancelAsync(object userState) { Service.CancelAsync(userState); }
+		public new void Discover() { Service.Discover(); }
+		public new object[] EndInvoke(IAsyncResult asyncResult) => Service.EndInvoke(asyncResult);
+		public new XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize) => Service.GetReaderForMessage(message, bufferSize);
+		public new WebRequest GetWebRequest(Uri uri) => Service.GetWebRequest(uri);
+		public new WebResponse GetWebResponse(WebRequest request) => Service.GetWebResponse(request);
+		public new XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize) => Service.GetWriterForMessage(message, bufferSize);
+		public new object[] Invoke(string methodName, object[] parameters) => Service.Invoke(methodName, parameters);
+		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) { Service.InvokeAsync(methodName, parameters, callback); }
+		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) { Service.InvokeAsync(methodName, parameters, callback, userState); }
+		
+		// IServiceProxy
 		bool IServiceProxy.RequireMtom { get { return false; } set { } }
 		string IServiceProxy.Url { get { return base.Url.EndsWith(NoWSEPath) ? base.Url.Substring(0, base.Url.Length - NoWSEPath.Length) : base.Url; } set { base.Url = value + NoWSEPath; } }
 		bool IServiceProxy.AllowAutoRedirect { get { return base.AllowAutoRedirect; } set { base.AllowAutoRedirect = value; } }
@@ -138,11 +175,12 @@ namespace WebsitePanel.Server.Client.Common {
 		}
 		void IServiceProxy.CancelAsync(object userState) { base.CancelAsync(userState); }
 		void IServiceProxy.Discover() { base.Discover(); }
-		object[] IServiceProxy.EndInvoke(IAsyncResult asyncResult) { return base.EndInvoke(asyncResult); }
-		XmlReader IServiceProxy.GetReaderForMessage(SoapClientMessage message, int bufferSize) { return base.GetReaderForMessage(message, bufferSize); }
-		WebRequest IServiceProxy.GetWebRequest(Uri uri) { return base.GetWebRequest(uri); }
-		XmlWriter IServiceProxy.GetWriterForMessage(SoapClientMessage message, int bufferSize) { return base.GetWriterForMessage(message, bufferSize); }
-		object[] IServiceProxy.Invoke(string methodName, object[] parameters) { return base.Invoke(methodName, parameters); }
+		object[] IServiceProxy.EndInvoke(IAsyncResult asyncResult) => base.EndInvoke(asyncResult);
+		XmlReader IServiceProxy.GetReaderForMessage(SoapClientMessage message, int bufferSize) => base.GetReaderForMessage(message, bufferSize);
+		WebRequest IServiceProxy.GetWebRequest(Uri uri) => base.GetWebRequest(uri);
+		WebResponse IServiceProxy.GetWebResponse(WebRequest request) => base.GetWebResponse(request);
+		XmlWriter IServiceProxy.GetWriterForMessage(SoapClientMessage message, int bufferSize) => base.GetWriterForMessage(message, bufferSize);
+		object[] IServiceProxy.Invoke(string methodName, object[] parameters) => base.Invoke(methodName, parameters);
 		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) { base.InvokeAsync(methodName, parameters, callback); }
 		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) { base.InvokeAsync(methodName, parameters, callback, userState); }
 	}
