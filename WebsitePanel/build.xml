@@ -152,6 +152,7 @@
 			<ServerBuildExclude Include="$(ServerSrc)\**\*.csproj" />
 			<ServerBuildExclude Include="$(ServerSrc)\**\*.vb" />
 			<ServerBuildExclude Include="$(ServerSrc)\**\*.vbproj" />
+			<ServerBuildExclude Include="$(ServerSrc)\**\.gitignore" />
 			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Web.Administration.*"/>
 			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Web.Management.*"/>
 			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Exchange.*"/>
@@ -179,6 +180,9 @@
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.csproj" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vb" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vbproj" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Administration.*"/>
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Management.*"/>
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\.gitignore" />
 			<ServerMonoBuildFiles Include="$(ServerMonoSrc)\**\*.*" Exclude="@(ServerMonoBuildExclude)"/>
 		</ItemGroup>
 		<Copy SourceFiles="@(ServerMonoBuildFiles)" DestinationFolder="$(ServerMonoBuild)\%(RecursiveDir)" />
