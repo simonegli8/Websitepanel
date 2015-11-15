@@ -239,12 +239,8 @@
                 <tr>
                     <td class="Normal">
                         &nbsp;&nbsp;<asp:Localize ID="locVersion" runat="server" meta:resourcekey="locVersion" /> <asp:Label id="wspVersion" runat="server"/>
-                    </td>
-                </tr>
-               <tr>
-                    <td class="Normal">
-                        &nbsp;&nbsp;<asp:Localize ID="locPlatform" runat="server" meta:resourcekey="locPlatform" /> <asp:Label id="wspPlatform" runat="server"/>
-                        ,&nbsp;<asp:Localize ID="locRuntime" runat="server" meta:resourcekey="locRuntime" /> <asp:Label id="wspRuntime" runat="server"/>
+						      ,&nbsp;<asp:Localize ID="locRuntime" runat="server" meta:resourcekey="locRuntime" /> <asp:Label id="wspRuntime" runat="server"/>
+								,&nbsp;<asp:Localize ID="locPlatform" runat="server" meta:resourcekey="locPlatform" /> <asp:Label id="wspPlatform" runat="server"/>
                     </td>
                 </tr>
 				</table>
