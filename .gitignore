@@ -76,3 +76,4 @@ WebsitePanel/Sources/packages
 WebsitePanel/Sources/Tools/packages
 WebsitePanel/Sources/Tools/WSPTransportAgent/*.dll*
 
+WSECache.data
