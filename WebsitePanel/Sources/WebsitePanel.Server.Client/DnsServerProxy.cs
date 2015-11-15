@@ -826,7 +826,7 @@ namespace WebsitePanel.Providers.DNS.WSE
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "DNSServerSoap", Namespace = "http://smbsaas/websitepanel/server/")]
-    public partial class DNSServer : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class DNSServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

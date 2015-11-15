@@ -94,10 +94,13 @@ namespace WebsitePanel.Server.Code {
 				return typeof(AutoDiscoveryHelper).Assembly.GetName().Version.ToString(3);
 		}
 
-		public static Runtimes Runtime() { return OS.Runtime; }
-		public static Platforms Platform() { return OS.Platform; }
-		public static bool SupportsWSE() { return OS.Runtime == Runtimes.Net; }
-
-	}
+		public static Runtimes Runtime() => OS.Runtime;
+		public static Platforms Platform() => OS.Platform;
+#if Net
+      public static bool SupportsWSE() => OS.Runtime == Runtimes.Net;
+#else
+      public static bool SupportsWSE() => false;
+#endif
+   }
 }
 

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{8D943367-6ADD-4F2A-A700-D6DAA757D680}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>WebsitePanel.Server.Mono</RootNamespace>
+    <AssemblyName>WebsitePanel.Server.Mono</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="Microsoft.Web.Administration">
+      <HintPath>bin\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Deployment">
+      <HintPath>bin\Microsoft.Web.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Management">
+      <HintPath>bin\Microsoft.Web.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.PlatformInstaller">
+      <HintPath>bin\Microsoft.Web.PlatformInstaller.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Services3">
+      <HintPath>bin\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
+    <Reference Include="WebsitePanel.Providers.Base">
+      <HintPath>bin\WebsitePanel.Providers.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="WebsitePanel.Server.Utils">
+      <HintPath>bin\WebsitePanel.Server.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="WpiServiceContract">
+      <HintPath>bin\WpiServiceContract.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="0.0.0.0" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Content Include="AutoDiscovery.asmx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="Images\logo.png" />
+    <Content Include="NoWSE\AutoDiscovery.asmx" />
+    <Content Include="NoWSE\BlackBerry.asmx" />
+    <Content Include="NoWSE\CRM.asmx" />
+    <Content Include="NoWSE\DNSServer.asmx" />
+    <Content Include="NoWSE\DatabaseServer.asmx" />
+    <Content Include="NoWSE\EnterpriseStorage.asmx" />
+    <Content Include="NoWSE\ExchangeServer.asmx" />
+    <Content Include="NoWSE\FTPServer.asmx" />
+    <Content Include="NoWSE\HeliconZoo.asmx" />
+    <Content Include="NoWSE\HostedSharePointServer.asmx" />
+    <Content Include="NoWSE\HostedSharePointServerEnt.asmx" />
+    <Content Include="NoWSE\LyncServer.asmx" />
+    <Content Include="NoWSE\MailServer.asmx" />
+    <Content Include="NoWSE\OCSEdgeServer.asmx" />
+    <Content Include="NoWSE\OCSServer.asmx" />
+    <Content Include="NoWSE\OperatingSystem.asmx" />
+    <Content Include="NoWSE\Organizations.asmx" />
+    <Content Include="NoWSE\RemoteDesktopServices.asmx" />
+    <Content Include="NoWSE\ServiceProvider.asmx" />
+    <Content Include="NoWSE\SharePointServer.asmx" />
+    <Content Include="NoWSE\StatisticsServer.asmx" />
+    <Content Include="NoWSE\StorageSpaceServices.asmx" />
+    <Content Include="NoWSE\VirtualizationServer.asmx" />
+    <Content Include="NoWSE\VirtualizationServer2012.asmx" />
+    <Content Include="NoWSE\VirtualizationServerForPrivateCloud.asmx" />
+    <Content Include="NoWSE\WebServer.asmx" />
+    <Content Include="NoWSE\WindowsServer.asmx" />
+    <Content Include="bin\WebsitePanel.Server.Mono.dll.config" />
+    <Content Include="bin\WebsitePanel.Server.WPIService.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoDiscovery.asmx.cs">
+      <DependentUpon>AutoDiscovery.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\AutoDiscovery.asmx.cs">
+      <DependentUpon>AutoDiscovery.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\BlackBerry.asmx.cs">
+      <DependentUpon>BlackBerry.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\CRM.asmx.cs">
+      <DependentUpon>CRM.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\DNSServer.asmx.cs">
+      <DependentUpon>DNSServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\DatabaseServer.asmx.cs">
+      <DependentUpon>DatabaseServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\EnterpriseStorage.asmx.cs">
+      <DependentUpon>EnterpriseStorage.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\ExchangeServer.asmx.cs">
+      <DependentUpon>ExchangeServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\FTPServer.asmx.cs">
+      <DependentUpon>FTPServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\HeliconZoo.asmx.cs">
+      <DependentUpon>HeliconZoo.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\HostedSharePointServer.asmx.cs">
+      <DependentUpon>HostedSharePointServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\HostedSharePointServerEnt.asmx.cs">
+      <DependentUpon>HostedSharePointServerEnt.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\LyncServer.asmx.cs">
+      <DependentUpon>LyncServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\MailServer.asmx.cs">
+      <DependentUpon>MailServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\OCSEdgeServer.asmx.cs">
+      <DependentUpon>OCSEdgeServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\OCSServer.asmx.cs">
+      <DependentUpon>OCSServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\OperatingSystem.asmx.cs">
+      <DependentUpon>OperatingSystem.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\Organizations.asmx.cs">
+      <DependentUpon>Organizations.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\RemoteDesktopServices.asmx.cs">
+      <DependentUpon>RemoteDesktopServices.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\ServiceProvider.asmx.cs">
+      <DependentUpon>ServiceProvider.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\SharePointServer.asmx.cs">
+      <DependentUpon>SharePointServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\StatisticsServer.asmx.cs">
+      <DependentUpon>StatisticsServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\StorageSpaceServices.asmx.cs">
+      <DependentUpon>StorageSpaceServices.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\VirtualizationServer.asmx.cs">
+      <DependentUpon>VirtualizationServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\VirtualizationServer2012.asmx.cs">
+      <DependentUpon>VirtualizationServer2012.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\VirtualizationServerForPrivateCloud.asmx.cs">
+      <DependentUpon>VirtualizationServerForPrivateCloud.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\WebServer.asmx.cs">
+      <DependentUpon>WebServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoWSE\WindowsServer.asmx.cs">
+      <DependentUpon>WindowsServer.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="Code\AutoDiscoveryHelper.cs" />
+    <Compile Include="Code\ServerConfiguration.cs" />
+    <Compile Include="Code\ServerUsernameTokenManager.cs" />
+    <Compile Include="Code\UsernameAssertion.cs" />
+    <Compile Include="Code\WPIHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NoWSE\.gitignore" />
+    <None Include="bin\Ionic.Zip.Reduced.dll" />
+    <None Include="bin\Microsoft.Web.Administration.dll" />
+    <None Include="bin\Microsoft.Web.Delegation.dll" />
+    <None Include="bin\Microsoft.Web.Deployment.Tracing.dll" />
+    <None Include="bin\Microsoft.Web.Deployment.dll" />
+    <None Include="bin\Microsoft.Web.Management.dll" />
+    <None Include="bin\Microsoft.Web.PlatformInstaller.dll" />
+    <None Include="bin\Microsoft.Web.Services3.dll" />
+    <None Include="bin\System.Management.Automation.dll" />
+    <None Include="bin\WebsitePanel.Providers.Base.dll" />
+    <None Include="bin\WebsitePanel.Providers.Base.pdb" />
+    <None Include="bin\WebsitePanel.Providers.DNS.Bind.dll" />
+    <None Include="bin\WebsitePanel.Providers.DNS.Bind.pdb" />
+    <None Include="bin\WebsitePanel.Providers.DNS.Nettica.dll" />
+    <None Include="bin\WebsitePanel.Providers.DNS.Nettica.pdb" />
+    <None Include="bin\WebsitePanel.Providers.DNS.PowerDNS.dll" />
+    <None Include="bin\WebsitePanel.Providers.DNS.PowerDNS.pdb" />
+    <None Include="bin\WebsitePanel.Providers.Database.MySQL.dll" />
+    <None Include="bin\WebsitePanel.Providers.Database.MySQL.pdb" />
+    <None Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
+    <None Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
+    <None Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
+    <None Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
+    <None Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
+    <None Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
+    <None Include="bin\WebsitePanel.Providers.Statistics.AWStats.dll" />
+    <None Include="bin\WebsitePanel.Providers.Statistics.AWStats.pdb" />
+    <None Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.dll" />
+    <None Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.pdb" />
+    <None Include="bin\WebsitePanel.Providers.Web.WebDav.dll" />
+    <None Include="bin\WebsitePanel.Providers.Web.WebDav.pdb" />
+    <None Include="bin\WebsitePanel.Server.Mono.dll" />
+    <None Include="bin\WebsitePanel.Server.Mono.pdb" />
+    <None Include="bin\WebsitePanel.Server.Utils.dll" />
+    <None Include="bin\WebsitePanel.Server.Utils.pdb" />
+    <None Include="bin\WpiServiceContract.dll" />
+    <None Include="bin\WpiServiceContract.pdb" />
+    <None Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
+    <None Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
+  </ItemGroup>
+</Project>

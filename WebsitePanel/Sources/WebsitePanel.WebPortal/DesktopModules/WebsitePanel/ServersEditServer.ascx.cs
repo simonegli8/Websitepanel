@@ -108,8 +108,9 @@ namespace WebsitePanel.Portal
 			try
 			{
 				wspVersion.Text = ES.Services.Servers.GetServerVersion(PanelRequest.ServerId);
-			}
-			catch
+            wspRuntime.Text = ES.Services.Servers.GetServerRuntime(PanelRequest.ServerId).ToString();
+            wspPlatform.Text = ES.Services.Servers.GetServerPlatform(PanelRequest.ServerId).ToString();
+         } catch
 			{
 				ShowErrorMessage("SERVER_GET_SERVER");
 			}

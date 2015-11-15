@@ -404,7 +404,7 @@ namespace WebsitePanel.Providers.OCS.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="OCSServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
-    public partial class OCSServer : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class OCSServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

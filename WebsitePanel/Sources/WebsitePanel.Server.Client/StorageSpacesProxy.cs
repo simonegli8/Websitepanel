@@ -1280,7 +1280,7 @@ namespace WebsitePanel.Providers.StorageSpaces.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="StorageSpaceServicesSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class StorageSpaceServices : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class StorageSpaceServices : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

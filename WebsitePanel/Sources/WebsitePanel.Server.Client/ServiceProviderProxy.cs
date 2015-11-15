@@ -692,7 +692,7 @@ namespace WebsitePanel.Providers.WSE
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "ServiceProviderSoap", Namespace = "http://smbsaas/websitepanel/server/")]
-    public partial class ServiceProvider : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class ServiceProvider : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

@@ -3,19 +3,20 @@
 	<Import Project="build.xml" />
 	
 	<PropertyGroup>
-		<TestDatabase>WebsitePanel</TestDatabase>
+		<TestDatabase>WebsitePanelTest</TestDatabase>
 		<TestDatabaseFolder>$(BuildFolder)\Database</TestDatabaseFolder>
-		<TestDbLogin>WebsitePanel</TestDbLogin>
+		<TestDbLogin>WebsitePanelTest</TestDbLogin>
 		<TestDbPassword>Password12</TestDbPassword>
 		<TestServerAdminPassword>1234</TestServerAdminPassword>
 		<TestServerAdminEncryptedPassword>HcWzSyyxfo0751w/TwWUjQ==</TestServerAdminEncryptedPassword>
-		<TestServerPassword>Password12</TestServerPassword>
+		<TestServerPassword>1234</TestServerPassword>
+		<TestServerEncryptedPassword>HcWzSyyxfo0751w/TwWUjQ==</TestServerEncryptedPassword>
 		<TestCryptoKey>1234567890</TestCryptoKey>
-		<EnterpriseUrl>http://127.0.0.1:9002</EnterpriseUrl>
+		<EnterpriseUrl>http://localhost/wspes</EnterpriseUrl>
 	</PropertyGroup>	
 
 	<Target Name="ConfigTest" DependsOnTargets="Build">
-		<XmlUpdate XmlFileName="$(ServerInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="$(TestServerPassword)" />
+		<XmlUpdate XmlFileName="$(ServerInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="$(TestServerEncryptedPassword)" />
 		<XmlUpdate XmlFileName="$(EnterpriseServerInstall)\web.config" Xpath="//configuration/connectionStrings/add/@connectionString" Value="Server=(local)\SQLExpress;Database=$(TestDatabase);uid=$(TestDbLogin);pwd=$(TestDbPassword);"  />
 		<XmlUpdate XmlFileName="$(EnterpriseServerInstall)\web.config" Xpath="//configuration/appSettings/add[@key=%22WebsitePanel.CryptoKey%22]/@value" Value="$(TestCryptoKey)"  />
 		<XmlUpdate XmlFileName="$(PortalInstall)\App_Data\SiteSettings.config" Xpath="//SiteSettings/EnterpriseServer" Value="$(EnterpriseUrl)"  />

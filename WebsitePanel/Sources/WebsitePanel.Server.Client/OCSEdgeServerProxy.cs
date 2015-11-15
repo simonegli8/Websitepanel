@@ -185,7 +185,7 @@ namespace WebsitePanel.Providers.OCS.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="OCSEdgeServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
-    public partial class OCSEdgeServer : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class OCSEdgeServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

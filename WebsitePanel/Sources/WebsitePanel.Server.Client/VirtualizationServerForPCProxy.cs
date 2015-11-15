@@ -55,7 +55,7 @@ namespace WebsitePanel.Providers.VirtualizationForPC {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="VirtualizationServerForPCSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class VirtualizationServerForPC : WebsitePanel.Service.Client.Common.ServiceProxyBase {
+    public partial class VirtualizationServerForPC : WebsitePanel.Server.Client.Common.ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -4226,7 +4226,7 @@ namespace WebsitePanel.Providers.VirtualizationForPC.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="VirtualizationServerForPCSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class VirtualizationServerForPC : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class VirtualizationServerForPC : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

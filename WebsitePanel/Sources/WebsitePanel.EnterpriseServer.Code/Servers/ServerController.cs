@@ -904,10 +904,24 @@ namespace WebsitePanel.EnterpriseServer
             return ad.GetServerVersion();
         }
 
-        #endregion
+         public static Providers.OS.Runtimes GetServerRuntime(int serverId) {
+            AutoDiscovery.AutoDiscovery ad = new AutoDiscovery.AutoDiscovery();
+            ServiceProviderProxy.ServerInit(ad, serverId);
 
-        #region IP Addresses
-        public static List<IPAddressInfo> GetIPAddresses(IPAddressPool pool, int serverId)
+            return ad.Runtime();
+         }
+
+         public static Providers.OS.Platforms GetServerPlatform(int serverId) {
+            AutoDiscovery.AutoDiscovery ad = new AutoDiscovery.AutoDiscovery();
+            ServiceProviderProxy.ServerInit(ad, serverId);
+
+            return ad.Platform();
+         }
+
+      #endregion
+
+      #region IP Addresses
+      public static List<IPAddressInfo> GetIPAddresses(IPAddressPool pool, int serverId)
         {
             return ObjectUtils.CreateListFromDataReader<IPAddressInfo>(
                 DataProvider.GetIPAddresses(SecurityContext.User.UserId, (int)pool, serverId));

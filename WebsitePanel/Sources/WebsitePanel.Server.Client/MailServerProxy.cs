@@ -2533,7 +2533,7 @@ namespace WebsitePanel.Providers.Mail.WSE
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "MailServerSoap", Namespace = "http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class MailServer : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class MailServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

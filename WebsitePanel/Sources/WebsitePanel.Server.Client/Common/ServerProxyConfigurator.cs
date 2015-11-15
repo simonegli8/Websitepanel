@@ -74,20 +74,20 @@ namespace WebsitePanel.Server.Client {
       }
 
       public void Configure(SoapHttpClientProtocol proxy) {
-         // configure proxy URL
-         if (!String.IsNullOrEmpty(serverUrl)) {
-            if (serverUrl.EndsWith("/"))
-               serverUrl = serverUrl.Substring(0, serverUrl.Length - 1);
+         Common.ServiceProxyBase service = proxy as Common.ServiceProxyBase;
 
-            proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));
+         if (service != null) {
+            var wservice = service.Service as SoapHttpClientProtocol;
+            if (wservice != null && wservice != service) Configure(wservice);
          }
 
          // set proxy timeout
-         proxy.Timeout = (timeout == -1) ? System.Threading.Timeout.Infinite : timeout * 1000;
+         if (service != null) service.Timeout = (timeout == -1) ? System.Threading.Timeout.Infinite : timeout * 1000;
+         else proxy.Timeout = (timeout == -1) ? System.Threading.Timeout.Infinite : timeout * 1000;
 
 #if Net
          // setup security assertion
-         if (!String.IsNullOrEmpty(serverPassword)) {
+         if (!String.IsNullOrEmpty(serverPassword) && (proxy is Microsoft.Web.Services3.WebServicesClientProtocol)) {
             ServerUsernameAssertion assert
                 = new ServerUsernameAssertion(ServerSettings.ServerId, serverPassword);
 
@@ -96,9 +96,7 @@ namespace WebsitePanel.Server.Client {
             Policy policy = new Policy();
             policy.Assertions.Add(assert);
 
-            var wseproxy = ((Common.ServiceProxyBase)proxy).Service;
-            if (wseproxy is Microsoft.Web.Services3.WebServicesClientProtocol) ((Microsoft.Web.Services3.WebServicesClientProtocol)proxy).SetPolicy(policy);
-
+           ((Microsoft.Web.Services3.WebServicesClientProtocol)proxy).SetPolicy(policy);
          }
 #endif
          // provider settings
@@ -130,8 +128,19 @@ namespace WebsitePanel.Server.Client {
          // set header
          settingsHeader.Settings = settings.ToArray();
          FieldInfo field = proxy.GetType().GetField("ServiceProviderSettingsSoapHeaderValue");
-         if (field != null)
-            field.SetValue(proxy, settingsHeader);
+			if (field != null) {
+				field.SetValue(proxy, settingsHeader);
+			}
+
+         // configure proxy URL
+         if (!String.IsNullOrEmpty(serverUrl)) {
+            if (serverUrl.EndsWith("/"))
+               serverUrl = serverUrl.Substring(0, serverUrl.Length - 1);
+
+            if (service != null) service.Url = serverUrl + service.Url.Substring(service.Url.LastIndexOf('/'));
+            else proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));
+         }
+
       }
    }
 }

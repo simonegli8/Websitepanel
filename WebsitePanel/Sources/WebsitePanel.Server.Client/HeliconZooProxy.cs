@@ -568,7 +568,7 @@ namespace WebsitePanel.Providers.HeliconZoo.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="HeliconZooSoap", Namespace="http://smbsaas/websitepanel/server/")]
-    public partial class HeliconZoo : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class HeliconZoo : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

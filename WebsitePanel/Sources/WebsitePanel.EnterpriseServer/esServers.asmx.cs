@@ -315,11 +315,19 @@ namespace WebsitePanel.EnterpriseServer
         {
             return ServerController.GetServerVersion(serverId);
         }
+      [WebMethod]
+      public Providers.OS.Platforms GetServerPlatform(int serverId) {
+         return ServerController.GetServerPlatform(serverId);
+      }
+      [WebMethod]
+      public Providers.OS.Runtimes GetServerRuntime(int serverId) {
+         return ServerController.GetServerRuntime(serverId);
+      }
 
-        #endregion
+      #endregion
 
-        #region IP Addresses
-        [WebMethod]
+      #region IP Addresses
+      [WebMethod]
         public List<IPAddressInfo> GetIPAddresses(IPAddressPool pool, int serverId)
         {
             return ServerController.GetIPAddresses(pool, serverId);

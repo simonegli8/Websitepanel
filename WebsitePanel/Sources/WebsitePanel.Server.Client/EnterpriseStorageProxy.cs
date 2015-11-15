@@ -928,7 +928,7 @@ namespace WebsitePanel.Providers.EnterpriseStorage.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="EnterpriseStorageSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class EnterpriseStorage : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class EnterpriseStorage : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

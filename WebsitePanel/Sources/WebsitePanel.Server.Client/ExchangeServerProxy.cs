@@ -6089,7 +6089,7 @@ namespace WebsitePanel.Providers.Exchange.WSE {
     [System.Web.Services.WebServiceBindingAttribute(Name="ExchangeServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BaseStatistics))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class ExchangeServer : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class ExchangeServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

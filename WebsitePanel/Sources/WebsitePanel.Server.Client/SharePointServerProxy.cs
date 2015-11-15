@@ -1665,7 +1665,7 @@ namespace WebsitePanel.Providers.SharePoint.WSE
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "SharePointServerSoap", Namespace = "http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class SharePointServer : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class SharePointServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

@@ -22,46 +22,46 @@ namespace WebsitePanel.Server.Client.Common {
 		string Url { get; set; }
 		bool UseDefaultCredentials { get; set; }
 
-      //public TSecurityToken GetClientCredential<TSecurityToken>() where TSecurityToken : SecurityToken;
-      //public TSecurityToken GetServiceCredential<TSecurityToken>() where TSecurityToken : SecurityToken;
-      //public void SetClientCredential<TSecurityToken>(TSecurityToken clientToken) where TSecurityToken : SecurityToken;
-      //public void SetPolicy(string policyName);
-      //public void SetPolicy(Policy policy);
-      //public void SetServiceCredential<TSecurityToken>(TSecurityToken serviceToken) where TSecurityToken : SecurityToken;
-      //public XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize);
-      //public WebRequest GetWebRequest(Uri uri);
-      //public WebResponse GetWebResponse(WebRequest request);
-      //public WebResponse GetWebResponse(WebRequest request, IAsyncResult result);
-      //public XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize);
-      SoapProtocolVersion SoapVersion { get; set; }
-      void Discover();   
-      IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState); 
-      object[] EndInvoke(IAsyncResult asyncResult);
-      XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize);
-      WebRequest GetWebRequest(Uri uri);
+		//public TSecurityToken GetClientCredential<TSecurityToken>() where TSecurityToken : SecurityToken;
+		//public TSecurityToken GetServiceCredential<TSecurityToken>() where TSecurityToken : SecurityToken;
+		//public void SetClientCredential<TSecurityToken>(TSecurityToken clientToken) where TSecurityToken : SecurityToken;
+		//public void SetPolicy(string policyName);
+		//public void SetPolicy(Policy policy);
+		//public void SetServiceCredential<TSecurityToken>(TSecurityToken serviceToken) where TSecurityToken : SecurityToken;
+		//public XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize);
+		//public WebRequest GetWebRequest(Uri uri);
+		//public WebResponse GetWebResponse(WebRequest request);
+		//public WebResponse GetWebResponse(WebRequest request, IAsyncResult result);
+		//public XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize);
+		SoapProtocolVersion SoapVersion { get; set; }
+		void Discover();
+		IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState);
+		object[] EndInvoke(IAsyncResult asyncResult);
+		XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize);
+		WebRequest GetWebRequest(Uri uri);
 		WebResponse GetWebResponse(WebRequest request);
-      XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize);
-      object[] Invoke(string methodName, object[] parameters);
-      void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback);
-      void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState);
-      bool AllowAutoRedirect { get; set; }
-      //X509CertificateCollection ClientCertificates { get; }
-      CookieContainer CookieContainer { get; set; }
-      bool EnableDecompression { get; set; }
-      IWebProxy Proxy { get; set; }
-      bool UnsafeAuthenticatedConnectionSharing { get; set; }
-      string UserAgent { get; set; }
-      void CancelAsync(object userState);
-      string ConnectionGroupName { get; set; }
-      ICredentials Credentials { get; set; }
-      bool PreAuthenticate { get; set; }
-      Encoding RequestEncoding { get; set; }
-      int Timeout { get; set; }
-      void Abort();
-   }
+		XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize);
+		object[] Invoke(string methodName, object[] parameters);
+		void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback);
+		void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState);
+		bool AllowAutoRedirect { get; set; }
+		//X509CertificateCollection ClientCertificates { get; }
+		CookieContainer CookieContainer { get; set; }
+		bool EnableDecompression { get; set; }
+		IWebProxy Proxy { get; set; }
+		bool UnsafeAuthenticatedConnectionSharing { get; set; }
+		string UserAgent { get; set; }
+		void CancelAsync(object userState);
+		string ConnectionGroupName { get; set; }
+		ICredentials Credentials { get; set; }
+		bool PreAuthenticate { get; set; }
+		Encoding RequestEncoding { get; set; }
+		int Timeout { get; set; }
+		void Abort();
+	}
 
 
-   public class ServiceProxyBase: SoapHttpClientProtocol, IServiceProxy {
+	public class ServiceProxyBase : SoapHttpClientProtocol, IServiceProxy {
 
 		const string NoWSEPath = "/NoWSE";
 
@@ -69,43 +69,51 @@ namespace WebsitePanel.Server.Client.Common {
 
 		IServiceProxy wse = null;
 		Dictionary<string, bool> useWSE = null;
-		readonly static string CacheFile = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "WebsitePanel"), "WSECache.data");
+		readonly static string CacheFile = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data"), "WSECache.data");
 
 		void LoadCache() {
 			useWSE = new Dictionary<string, bool>();
-			var lines = File.ReadAllLines(CacheFile, Encoding.UTF8);
-			foreach (var line in lines) {
-				var use = line.Length > 0 && line[0] == '!';
-				useWSE.Add(use ? line.Substring(1) : line, use);
+			if (File.Exists(CacheFile)) {
+				var lines = File.ReadAllLines(CacheFile, Encoding.UTF8);
+				foreach (var line in lines) {
+					var use = line.Length > 0 && line[0] != '~';
+					useWSE.Add(use ? line : line.Substring(1), use);
+				}
 			}
 		}
 		void SaveCache() {
-			File.WriteAllLines(CacheFile, useWSE.AsEnumerable().Select(x => x.Value ? '!' + x.Key : x.Key).ToArray(), Encoding.UTF8);
+			if (!File.Exists(CacheFile)) Directory.CreateDirectory(Path.GetDirectoryName(CacheFile));
+			File.WriteAllLines(CacheFile, useWSE.AsEnumerable().Select(x => x.Value ? x.Key : "~" + x.Key), Encoding.UTF8);
 		}
 
 		bool UseWSE(string url) {
-         if (Type.GetType("Mono.Runtime") != null) return false;
+         url = url.Substring(0, url.LastIndexOf('/'));
+			if ((Type.GetType("Mono.Runtime") != null) || url.Contains(NoWSEPath)) return false;
 			if (useWSE == null) LoadCache();
 			bool use;
 			if (useWSE.TryGetValue(url, out use)) return use;
 			var ad = new WebsitePanel.AutoDiscovery.AutoDiscovery();
-			ad.Url = Url;
+         ad.Url = url + ad.Url.Substring(ad.Url.LastIndexOf('/'));
+         ad.Timeout = base.Timeout;
 			try {
 				use = ad.SupportsWSE();
-			} catch {
+			} catch (Exception ex) {
 				use = true;
 			}
-			useWSE[url] = use; 
+			useWSE[url] = use;
 			SaveCache();
 			return use;
 		}
 
 		public IServiceProxy Service {
 			get {
-				if (!UseWSE(Url)) return this;
+				if (!UseWSE(base.Url)) return this;
 				if (wse != null) return wse;
-				wse = (IServiceProxy)Activator.CreateInstance(Type.GetType(this.GetType().FullName + "WSE"));
-				wse.Url = Url;
+				var type = GetType().FullName;
+				var i = type.LastIndexOf('.');
+				type = type.Substring(0, i) + ".WSE" + type.Substring(i);
+				wse = (IServiceProxy)Activator.CreateInstance(Type.GetType(type));
+				wse.Url = base.Url;
 				return wse;
 			}
 		}
@@ -116,16 +124,7 @@ namespace WebsitePanel.Server.Client.Common {
 
 		// Client Methods
 		protected bool RequireMtom { get { return Service.RequireMtom; } set { Service.RequireMtom = value; } }
-		new public string Url {
-			get { return Service.Url; }
-			set {
-				this.Url = value;
-#if Net
-				wse = null;
-#endif
-				Service.Url = value;
-			}
-		}
+		public new string Url { get { return Service.Url; } set { base.Url = value; Service.Url = value; } }
 		public new bool AllowAutoRedirect { get { return Service.AllowAutoRedirect; } set { Service.AllowAutoRedirect = value; } }
 		public new string ConnectionGroupName { get { return Service.ConnectionGroupName; } set { Service.ConnectionGroupName = value; } }
 		public new CookieContainer CookieContainer { get { return Service.CookieContainer; } set { Service.CookieContainer = value; } }
@@ -153,10 +152,18 @@ namespace WebsitePanel.Server.Client.Common {
 		public new object[] Invoke(string methodName, object[] parameters) => Service.Invoke(methodName, parameters);
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) { Service.InvokeAsync(methodName, parameters, callback); }
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) { Service.InvokeAsync(methodName, parameters, callback, userState); }
-		
+
 		// IServiceProxy
 		bool IServiceProxy.RequireMtom { get { return false; } set { } }
-		string IServiceProxy.Url { get { return base.Url.EndsWith(NoWSEPath) ? base.Url.Substring(0, base.Url.Length - NoWSEPath.Length) : base.Url; } set { base.Url = value + NoWSEPath; } }
+		string IServiceProxy.Url {
+			get { return base.Url; }
+			set {
+				if (!value.Contains(NoWSEPath)) {
+					var i = value.LastIndexOf('/');
+					base.Url = value.Substring(0, i) + NoWSEPath + value.Substring(i);
+				} else base.Url = value;
+			}
+		}
 		bool IServiceProxy.AllowAutoRedirect { get { return base.AllowAutoRedirect; } set { base.AllowAutoRedirect = value; } }
 		string IServiceProxy.ConnectionGroupName { get { return base.ConnectionGroupName; } set { base.ConnectionGroupName = value; } }
 		CookieContainer IServiceProxy.CookieContainer { get { return base.CookieContainer; } set { base.CookieContainer = value; } }

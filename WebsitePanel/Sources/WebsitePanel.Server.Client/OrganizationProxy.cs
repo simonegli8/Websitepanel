@@ -2285,7 +2285,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
     [System.Web.Services.WebServiceBindingAttribute(Name="OrganizationsSoap", Namespace="http://tempuri.org/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ResultObject))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class Organizations : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class Organizations : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net
+#if Net // machine generated
 
 using System;
 using System.IO;
@@ -57,7 +57,6 @@ using Microsoft.Web.PlatformInstaller;
 using Microsoft.Web.Services3;
 using Microsoft.Win32;
 using WebsitePanel.Server.WPIService;
-
 
 
 namespace WebsitePanel.Server

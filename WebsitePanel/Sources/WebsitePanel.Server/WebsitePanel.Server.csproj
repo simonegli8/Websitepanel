@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <!-- <RootNamespace Condition=" '$(RootNamespace)' == '' And '$(OSPlatform)' != 'Windows' ">WebsitePanel.Server.$(OSPlatform)</RootNamespace> -->
     <RootNamespace Condition=" '$(RootNamespace)' == '' ">WebsitePanel.Server</RootNamespace>
-    <AssemblyName Condition=" '$(AssemblyName)' == '' And '$(OSPlatform)' != 'Windows' ">WebsitePanel.Server.$(OSPlatform)</AssemblyName>
+    <AssemblyName Condition=" '$(AssemblyName)' == '' And '$(Runtime)' != 'Net' ">WebsitePanel.Server.$(Runtime)</AssemblyName>
     <AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -59,25 +59,25 @@
     <RootFolder>..\..\..</RootFolder>
   </PropertyGroup>
   <ItemGroup>
-	  <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Administration.dll</HintPath>
     </Reference>
-	  <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Deployment.dll</HintPath>
       <Private>True</Private>
     </Reference>
-	  <Reference Include="Microsoft.Web.Management, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Management, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Management.dll</HintPath>
     </Reference>
-	  <Reference Include="Microsoft.Web.PlatformInstaller, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.PlatformInstaller, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.PlatformInstaller.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Web.Services3.dll</HintPath>
       <Private>True</Private>
@@ -164,14 +164,18 @@
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Practices.ObjectBuilder.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.SharePoint.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Storage.Vds.dll" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Deployment.dll" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Management.dll" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.PlatformInstaller.dll" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Microsoft.Web.Services3.dll" />
+    <Content Include="bin\Microsoft.Web.Administration.dll" />
+    <Content Include="bin\Microsoft.Web.Delegation.dll" />
+    <Content Include="bin\Microsoft.Web.Deployment.dll" />
+    <Content Include="bin\Microsoft.Web.Deployment.Tracing.dll" />
+    <Content Include="bin\Microsoft.Web.Management.dll" />
+    <Content Include="bin\Microsoft.Web.PlatformInstaller.dll" />
+    <Content Include="bin\Microsoft.Web.Services3.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.dll" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.pdb" />
+    <Content Include="bin\System.Management.Automation.dll" />
     <Content Include="bin\WebsitePanel.Providers.Base.dll" />
     <Content Include="bin\WebsitePanel.Providers.Base.pdb" />
     <Content Include="bin\WebsitePanel.Providers.Database.MySQL.dll" />
@@ -270,8 +274,6 @@
     <Content Include="bin\WebsitePanel.Server.Utils.pdb" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.exe" />
     <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WebsitePanel.Server.WPIService.pdb" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.dll" />
-    <Content Condition=" '$(OSPlatform)' == 'Windows' " Include="bin\WpiServiceContract.pdb" />
     <Content Include="bin\WpiServiceContract.dll" />
     <Content Include="bin\WpiServiceContract.pdb" />
     <Content Include="BlackBerry.asmx" />
@@ -329,13 +331,13 @@
     <Content Include="VirtualizationServer.asmx" />
     <Content Include="VirtualizationServerForPrivateCloud.asmx" />
     <Content Include="bin\WebsitePanel.Server.WPIService.exe.config" />
-    <Content Include="NoWSE\Web.config" />
     <Content Include="NoWSE\.gitignore" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
     <Content Include="WebServer.asmx" />
     <Content Include="WindowsServer.asmx" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="WsePolicyCache.Config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\VersionInfo.cs">
@@ -595,9 +597,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-  
-	<Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
-	
+  <Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
   <!-- generate non WSE versions of all services -->
   <Target Name="BuildNoWSEService">
     <ItemGroup>
@@ -625,7 +625,6 @@
     <!-- embrace regular services with #if Net when needed -->
     <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t/].*$)(?&lt;head&gt;[ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(?&lt;body&gt;.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="${head}#if Net // machine generated&#xD;&#xA;&#xD;&#xA;${body}&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
   </Target>
-	
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	Other similar extension points exist, see Microsoft.Common.targets. -->
@@ -639,17 +638,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>9004</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

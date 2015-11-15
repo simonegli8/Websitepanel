@@ -2783,7 +2783,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="RemoteDesktopServicesSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RdsCollectionSetting[]))]
-    public partial class RemoteDesktopServices : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class RemoteDesktopServices : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

@@ -84,7 +84,7 @@ namespace WebsitePanel.Server.Utils
 
             this.eventLog = new EventLog();
             this.eventLog.Source = source;
-            this.eventLog.ModifyOverflowPolicy(OverflowAction.OverwriteAsNeeded, 0);
+            if (!OS.IsMono) this.eventLog.ModifyOverflowPolicy(OverflowAction.OverwriteAsNeeded, 0);
         }
 
         private EventInstance CreateEventInstance(TraceEventType severity, int id)

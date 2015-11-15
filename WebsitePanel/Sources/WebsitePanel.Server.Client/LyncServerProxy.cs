@@ -1065,7 +1065,7 @@ namespace WebsitePanel.Providers.Lync.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="LyncServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
-    public partial class LyncServer : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class LyncServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

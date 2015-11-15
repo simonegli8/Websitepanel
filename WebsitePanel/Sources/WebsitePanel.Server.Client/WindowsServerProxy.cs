@@ -1607,7 +1607,7 @@ namespace WebsitePanel.Server.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WindowsServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
-    public partial class WindowsServer : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class WindowsServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         private System.Threading.SendOrPostCallback GetTerminalServicesSessionsOperationCompleted;
         

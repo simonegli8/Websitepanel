@@ -1085,7 +1085,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "HostedSharePointServerSoap", Namespace = "http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class HostedSharePointServer : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class HostedSharePointServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

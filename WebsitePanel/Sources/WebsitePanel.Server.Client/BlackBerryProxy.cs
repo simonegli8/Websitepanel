@@ -538,7 +538,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="BlackBerrySoap", Namespace="http://smbsaas/websitepanel/server/")]
-    public partial class BlackBerry : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class BlackBerry : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         

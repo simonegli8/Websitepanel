@@ -631,7 +631,7 @@ namespace WebsitePanel.Providers.Statistics.WSE
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "StatisticsServerSoap", Namespace = "http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class StatisticsServer : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class StatisticsServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

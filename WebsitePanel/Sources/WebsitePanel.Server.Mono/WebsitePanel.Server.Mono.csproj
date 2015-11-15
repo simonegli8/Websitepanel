@@ -26,16 +26,16 @@
 			<ItemGroup>
 				<AsmxServices Include="**\*.asmx" Exclude="NoWSE\**\*.asmx" />
 				<AsmxServicesCode Include="**\*.asmx.cs" Exclude="NoWSE\**\*.asmx.cs" />
-				<CodeFiles Include="**\*.cs" />
+				<CodeFiles Include="**\*.cs" Exclude="@(AsmxServicesCode)" />
+				<CodeFiles Condition=" $(Configuration) != 'Debug' " Include="AutoDiscovery.asmx.cs" />
 				<FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
-				<!-- <FilesToDelete Include="@(AsmxServicesCode)" /> -->
-				<FilesToDelete Include="@(CodeFiles)" />
-				<FilesToDelete Include="NoWSE\WindowsServer.asmx" />
+				<FilesToDelete Include="@(AsmxServicesCode)" Exclude="AutoDiscovery.asmx.cs" />
+				<FilesToDelete Condition=" $(Configuration) != 'Debug' " Include="@(CodeFiles)" />
 			</ItemGroup>
 			
 			<Delete Files="@(FilesToDelete)" />
 			
-			<RemoveDir Directories="Code;Properties;obj" />
+			<RemoveDir Condition=" $(Configuration) != 'Debug' " Directories="Code;Properties;obj" />
 		</Target>
 		
 		<Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEService" />

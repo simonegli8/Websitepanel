@@ -1,7 +1,0 @@
-﻿<Location "/NoWSE">
-    AuthType basic
-    AuthName "WebsitePanel.Server Service Area"
-    AuthBasicProvider file
-	 AuthUserFile NoWSE/.htpasswd
-    Require valid-user
-</Location>

@@ -7407,7 +7407,7 @@ namespace WebsitePanel.Providers.Web.WSE
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name = "WebServerSoap", Namespace = "http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class WebServer : Microsoft.Web.Services3.WebServicesClientProtocol
+    public partial class WebServer : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
     {
 
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

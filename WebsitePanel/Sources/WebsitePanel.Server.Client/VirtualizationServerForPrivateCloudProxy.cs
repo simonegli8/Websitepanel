@@ -4900,7 +4900,7 @@ namespace WebsitePanel.Providers.VirtualizationForPC.WSE
 	[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Web.Services.WebServiceBindingAttribute(Name = "VirtualizationServerForPrivateCloudSoap", Namespace = "http://smbsaas/websitepanel/server/")]
 	[System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-	public partial class VirtualizationServerForPrivateCloud : Microsoft.Web.Services3.WebServicesClientProtocol
+	public partial class VirtualizationServerForPrivateCloud : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase
 	{
 
 		public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;

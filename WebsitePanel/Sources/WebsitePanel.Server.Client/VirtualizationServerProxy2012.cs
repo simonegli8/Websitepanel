@@ -4229,7 +4229,7 @@ namespace WebsitePanel.Providers.Virtualization2012.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="VirtualizationServer2012Soap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
-    public partial class VirtualizationServer2012 : Microsoft.Web.Services3.WebServicesClientProtocol {
+    public partial class VirtualizationServer2012 : WebsitePanel.Server.Client.Common.WSE3ServiceProxyBase {
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
