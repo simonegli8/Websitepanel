@@ -297,8 +297,9 @@ namespace WebsitePanel.Server.Utils
 		}
 
 		public static bool IsMono { get {  return Type.GetType("Mono.Runtime") != null; } }
+      public static bool IsNet { get { return !IsMono; } }
 
-		public static bool IsWindows { get { return Platform == Platforms.Windows; } }
+      public static bool IsWindows { get { return Platform == Platforms.Windows; } }
 
 		public static bool IsLinux { get { return Platform == Platforms.Linux; } }
 
