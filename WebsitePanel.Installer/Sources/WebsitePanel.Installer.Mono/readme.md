@@ -1,7 +1,7 @@
 Unix Installers for Mono versions of WebsitePanel
 ====================================
 
-Currently only WebsitePanel.Server runs on Mono, it's located in WebsitePanel.Server.Mono.
+Currently only WebsitePanel.Server (*not yet EnterpriseServer & Portal*) runs on Mono, it's located in WebsitePanel.Server.Mono.
 
 This directory contains the deployed file system in the folder ServerDeployed, and packages in the folders Debian and RPM.
 The server uses xsp4 as server, as it needs to run as root, what is not straightforward on apache.
