@@ -1,125 +1,124 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-	<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-		<PropertyGroup>
-			<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-			<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-			<Runtime Condition=" '$(Runtime)' == '' ">Mono</Runtime>
-			<ProductVersion>9.0.21022</ProductVersion>
-			<SchemaVersion>2.0</SchemaVersion>
-			<ProjectGuid>{370A7A89-828E-41FE-A018-BEE1D9AB7C2A}</ProjectGuid>
-			<ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-			<OutputType>Library</OutputType>
-			<AppDesignerFolder>Properties</AppDesignerFolder>
-			<RootNamespace Condition=" '$(RootNamespace)' == '' ">WebsitePanel.Server</RootNamespace>
-			<AssemblyName Condition=" '$(AssemblyName)' == '' And '$(Runtime)' != 'Net' ">WebsitePanel.Server.$(Runtime)</AssemblyName>
-			<AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server</AssemblyName>
-			<ServerPath>..\WebsitePanel.Server</ServerPath>
-			<ServerProj>$(ServerPath)\WebsitePanel.Server.csproj</ServerProj>
-			<TargetFrameworkVersion>Mono v4.5</TargetFrameworkVersion>
-			<FileUpgradeFlags>40</FileUpgradeFlags>
-			<OldToolsVersion>4.0</OldToolsVersion>
-			<UpgradeBackupLocation>
-			</UpgradeBackupLocation>
-			<PublishUrl>publish\</PublishUrl>
-			<Install>true</Install>
-			<InstallFrom>Disk</InstallFrom>
-			<TargetFrameworkProfile />
-			<UseIISExpress>false</UseIISExpress>
-			<IISExpressSSLPort />
-			<IISExpressAnonymousAuthentication />
-			<IISExpressWindowsAuthentication />
-			<IISExpressUseClassicPipelineMode />
-			<UseGlobalApplicationHostFile />
-		</PropertyGroup>
-		<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-			<DebugSymbols>true</DebugSymbols>
-			<DebugType>full</DebugType>
-			<Optimize>false</Optimize>
-			<OutputPath>bin\</OutputPath>
-			<DefineConstants>TRACE;DEBUG;PRODUCTION_NO;$(Runtime);</DefineConstants>
-			<ErrorReport>prompt</ErrorReport>
-			<WarningLevel>4</WarningLevel>
-			<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-			<WarningsAsErrors>618</WarningsAsErrors>
-			<FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
-			<Prefer32Bit>false</Prefer32Bit>
-		</PropertyGroup>
-		<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-			<DebugType>none</DebugType>
-			<Optimize>true</Optimize>
-			<OutputPath>bin\</OutputPath>
-			<DefineConstants>TRACE;PRODUCTION_NO;$(Runtime);</DefineConstants>
-			<ErrorReport>prompt</ErrorReport>
-			<WarningLevel>4</WarningLevel>
-			<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-			<WarningsAsErrors>618</WarningsAsErrors>
-			<Prefer32Bit>false</Prefer32Bit>
-		</PropertyGroup>
-		<PropertyGroup>
-			<NoWSEPath>NoWSE</NoWSEPath>
-			<RootFolder>..\..\..</RootFolder>
-			<XBuildToolsPath>$(MSBuildProgramFiles32)\Mono\bin\</XBuildToolsPath>
-			<XBuildExe>xbuilt.bat</XBuildExe>
-		</PropertyGroup>
-		<ItemGroup>
-			<None Include="Web.config" />
-		</ItemGroup>
-		<ItemGroup>
-			<Folder Include="NoWSE\" />
-		</ItemGroup>
-		<Import Project="$(ServerProj)" />
-		<PropertyGroup>
-			<TargetFrameworkVersion>Mono v4.5</TargetFrameworkVersion>
-		</PropertyGroup>
-		<Target Name="CopyFromServer">
-			<ItemGroup>
-				<ContentWithoutMono Include="@(Content)" Exclude="bin\WebsitePanel.Provider.DNS.Bind.*;bin\WebsitePanel.Providers.DNS.PowerDNS.*;bin\WebsitePanel.Providers.Database.MySQL.*;bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.*;bin\WebsitePanel.Providers.Mail.Merak.*;bin\WebsitePanel.Providers.Mail.Merak10.*;bin\WebsitePanel.Providers.FTP.ServU.*;bin\WebsitePanel.Providers.Statistics.AWStats.*;bin\WebsitePanel.Provider.Statistics.SmarterStats.*"
-				/>
-			</ItemGroup>
-			<Message Text="Copy WebsitePanel.Server" />
-			<Copy SourceFiles="@(Compile -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(Compile -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
-			<Copy SourceFiles="@(ContentWithoutMono -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(ContentWithoutMono -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
-			<Copy SourceFiles="@(EmbeddedResource -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(EmbeddedResource -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
-		</Target>
-		<Target Name="Cleanup">
-			<ItemGroup>
-				<AsmxServices Include="**\*.asmx" Exclude="NoWSE\**\*.asmx" />
-				<AsmxServicesCode Include="**\*.asmx.cs" Exclude="NoWSE\**\*.asmx.cs" />
-				<CodeFiles Include="**\*.cs" Exclude="@(AsmxServicesCode)" />
-				<CodeFiles Condition=" $(Configuration) != 'Debug' " Include="AutoDiscovery.asmx.cs" />
-				<FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
-				<FilesToDelete Include="@(AsmxServicesCode)" Exclude="AutoDiscovery.asmx.cs" />
-				<FilesToDelete Condition=" $(Configuration) != 'Debug' " Include="@(CodeFiles)" />
-			</ItemGroup>
-			<Delete Files="@(FilesToDelete)" />
-			<RemoveDir Condition=" $(Configuration) != 'Debug' " Directories="Code;Properties;obj" />
-		</Target>
-		<Target Name="BuildMonoProviders" DependsOnTargets="CopyFromServer">
-			<MSBuild Projects="..\WebsitePanel.Providers.DNS.Bind\WebsitePanel.Providers.DNS.Bind.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.DNS.PowerDNS\WebsitePanel.Providers.DNS.PowerDNS.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.Database.MySQL\WebsitePanel.Providers.Database.MySQL.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.Mail.IceWarp\WebsitePanel.Providers.Mail.IceWarp.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak\WebsitePanel.Providers.Mail.Merak.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak10\WebsitePanel.Providers.Mail.Merak10.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.FTP.ServU\WebsitePanel.Providers.FTP.ServU.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.Statistics.AWStats\WebsitePanel.Providers.Statistics.AWStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-			<MSBuild Projects="..\WebsitePanel.Providers.Statistics.SmarterStats\WebsitePanel.Providers.Statistics.SmarterStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-		</Target>
-		<Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEService;BuildMonoProviders" />
-		<Target Name="AfterBuild" DependsOnTargets="Cleanup" />
-		<ProjectExtensions>
-			<VisualStudio>
-				<FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-					<WebProjectProperties>
-						<SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
-					</WebProjectProperties>
-				</FlavorProperties>
-			</VisualStudio>
-		</ProjectExtensions>
-		<PropertyGroup>
-			<MSBuildExtensionsPath32>C:\Program Files (x86)\MSBuild</MSBuildExtensionsPath32>
-			<VSToolsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0</VSToolsPath>
-		</PropertyGroup>
-		<!-- <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" /> -->
-		<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-	</Project>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Runtime Condition=" '$(Runtime)' == '' ">Mono</Runtime>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{370A7A89-828E-41FE-A018-BEE1D9AB7C2A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace Condition=" '$(RootNamespace)' == '' ">WebsitePanel.Server</RootNamespace>
+    <AssemblyName Condition=" '$(AssemblyName)' == '' And '$(Runtime)' != 'Net' ">WebsitePanel.Server.$(Runtime)</AssemblyName>
+    <AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server</AssemblyName>
+    <ServerPath>..\WebsitePanel.Server</ServerPath>
+    <ServerProj>$(ServerPath)\WebsitePanel.Server.csproj</ServerProj>
+    <TargetFrameworkVersion>Mono v4.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PRODUCTION_NO;$(Runtime);</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>618</WarningsAsErrors>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;PRODUCTION_NO;$(Runtime);</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>618</WarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWSEPath>NoWSE</NoWSEPath>
+    <RootFolder>..\..\..</RootFolder>
+    <XBuildToolsPath>$(MSBuildProgramFiles32)\Mono\bin\</XBuildToolsPath>
+    <XBuildExe>xbuilt.bat</XBuildExe>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NoWSE\" />
+  </ItemGroup>
+  <Import Project="$(ServerProj)" />
+  <PropertyGroup>
+    <TargetFrameworkVersion>Mono v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <Target Name="CopyFromServer">
+    <ItemGroup>
+      <ContentWithoutMono Include="@(Content)" Exclude="bin\WebsitePanel.Provider.DNS.Bind.*;bin\WebsitePanel.Providers.DNS.PowerDNS.*;bin\WebsitePanel.Providers.Database.MySQL.*;bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.*;bin\WebsitePanel.Providers.Mail.Merak.*;bin\WebsitePanel.Providers.Mail.Merak10.*;bin\WebsitePanel.Providers.FTP.ServU.*;bin\WebsitePanel.Providers.Statistics.AWStats.*;bin\WebsitePanel.Provider.Statistics.SmarterStats.*" />
+    </ItemGroup>
+    <Message Text="Copy WebsitePanel.Server" />
+    <Copy SourceFiles="@(Compile -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(Compile -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+    <Copy SourceFiles="@(ContentWithoutMono -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(ContentWithoutMono -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+    <Copy SourceFiles="@(EmbeddedResource -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(EmbeddedResource -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+  </Target>
+  <Target Name="Cleanup">
+    <ItemGroup>
+      <AsmxServices Include="**\*.asmx" Exclude="NoWSE\**\*.asmx" />
+      <AsmxServicesCode Include="**\*.asmx.cs" Exclude="NoWSE\**\*.asmx.cs" />
+      <CodeFiles Include="**\*.cs" Exclude="@(AsmxServicesCode)" />
+      <CodeFiles Condition=" $(Configuration) != 'Debug' " Include="AutoDiscovery.asmx.cs" />
+      <FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
+      <FilesToDelete Include="@(AsmxServicesCode)" Exclude="AutoDiscovery.asmx.cs" />
+      <FilesToDelete Condition=" $(Configuration) != 'Debug' " Include="@(CodeFiles)" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+    <RemoveDir Condition=" $(Configuration) != 'Debug' " Directories="Code;Properties;obj" />
+  </Target>
+  <Target Name="BuildMonoProviders" DependsOnTargets="CopyFromServer">
+    <MSBuild Projects="..\WebsitePanel.Providers.DNS.Bind\WebsitePanel.Providers.DNS.Bind.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.DNS.PowerDNS\WebsitePanel.Providers.DNS.PowerDNS.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.Database.MySQL\WebsitePanel.Providers.Database.MySQL.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.Mail.IceWarp\WebsitePanel.Providers.Mail.IceWarp.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak\WebsitePanel.Providers.Mail.Merak.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak10\WebsitePanel.Providers.Mail.Merak10.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.FTP.ServU\WebsitePanel.Providers.FTP.ServU.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.Statistics.AWStats\WebsitePanel.Providers.Statistics.AWStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Providers.Statistics.SmarterStats\WebsitePanel.Providers.Statistics.SmarterStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+  </Target>
+  <Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEService;BuildMonoProviders" />
+  <Target Name="AfterBuild" DependsOnTargets="Cleanup" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <MSBuildExtensionsPath32>C:\Program Files (x86)\MSBuild</MSBuildExtensionsPath32>
+    <VSToolsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0</VSToolsPath>
+  </PropertyGroup>
+  <!-- <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" /> -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+</Project>

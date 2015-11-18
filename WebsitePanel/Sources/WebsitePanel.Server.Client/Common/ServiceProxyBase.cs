@@ -69,7 +69,7 @@ namespace WebsitePanel.Server.Client.Common {
 
 		IServiceProxy wse = null;
 		Dictionary<string, bool> useWSE = null;
-		readonly static string CacheFile = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data"), "WSECache.data");
+		readonly static string CacheFile = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data"), "ServerSupportsWSE.cache");
 
 		void LoadCache() {
 			useWSE = new Dictionary<string, bool>();
