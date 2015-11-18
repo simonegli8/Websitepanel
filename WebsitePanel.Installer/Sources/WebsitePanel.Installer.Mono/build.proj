@@ -1,6 +1,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 	<PropertyGroup>
 		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">$(Configuration)</BuildConfiguration>
 		<RootFolder>..\..\..\</RootFolder>
 		<ServerBuildPath>$(RootFolder)WebsitePanel\Build\$(Configuration)\ServerMono\</ServerBuildPath>
 		<ServerDeployedPath>ServerDeployed\</ServerDeployedPath>
@@ -22,16 +23,16 @@
 		<ItemGroup>		
 			<ServerDeployedFiles Include="$(ServerDeployedPath)**\*.*" />
 		</ItemGroup>
-		<Copy SourceFiles="@(ServerDeployedFiles" DestinationFiles="@(ServerDeployedFiles -> 'Debian\ServerDeployed\%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
-		<Copy SourceFiles="@(ServerDeployedFiles" DestinationFiles="@(ServerDeployedFiles -> 'RPM\ServerDeployed\%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />	
+		<Copy SourceFiles="@(ServerDeployedFiles)" DestinationFiles="@(ServerDeployedFiles -> 'Debian\ServerDeployed\%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+		<Copy SourceFiles="@(ServerDeployedFiles)" DestinationFiles="@(ServerDeployedFiles -> 'RPM\ServerDeployed\%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />	
 	</Target>
 	
 	<!-- Create full distributives -->
 	<PropertyGroup>
 		<InstallFolder>$(DeployFolder)\Install</InstallFolder>
 		<ServerMonoInstall>$(InstallFolder)\ServerMono</ServerMonoInstall>
-		<ServerMonoInstallDebian>$(ServerMonoInstall)\Debian</EnterpriseServerInstall>
-		<ServerMonoInstallRPM>$(ServerMonoInstall)\RPM</SchedulerServiceInstall>
+		<ServerMonoInstallDebian>$(ServerMonoInstall)\Debian</ServerMonoInstallDebian>
+		<ServerMonoInstallRPM>$(ServerMonoInstall)\RPM</ServerMonoInstallRPM>
 	</PropertyGroup>
 	
 	<Target Name="PrepareInstalls" DependsOnTargets="CopyServerToDistros">
@@ -46,7 +47,7 @@
 		
 	</Target>
 
-	<Target Name="CreateRPMInstall" DependsOnTargets="PerpareInstalls">
+	<Target Name="CreateRPMInstall" DependsOnTargets="PrepareInstalls">
 
 		<!-- TODO -->
 		

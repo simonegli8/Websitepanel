@@ -849,6 +849,9 @@
 		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-WSPTransportAgent-$(Version).zip&quot; &quot;$(WSPTransportAgentInstall)\*&quot;" />
 		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip&quot; &quot;$(FixDefaultPublicFolderMailboxInstall)\*&quot;" />
 
+		<!-- Build WebsitePanel.Server.Mono Debian & RPM Packages -->
+		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\WebsitePanel.Installer.Mono\build.proj" Properties="Configuration=$(BuildConfiguration)" />
+	
 	</Target>
 
 	<Target Name="uploadwebpi" DependsOnTargets="BuildWebPlatformInstallerFeed">
