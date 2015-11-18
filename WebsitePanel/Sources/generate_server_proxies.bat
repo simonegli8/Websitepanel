@@ -2,6 +2,8 @@ SET WSDL="C:\Program Files (x86)\Microsoft WSE\v3.0\Tools\WseWsdl3.exe"
 SET WSE_CLEAN=..\Tools\WseClean.exe
 SET SERVER_URL=http://localhost:9003
 
+REM TODO: AutoDiscoveryProxy.cs MUST NOT use WSE, so generate with wsdl.exe of .NET Framework!
+
 REM %WSDL% %SERVER_URL%/AutoDiscovery.asmx /out:.\WebsitePanel.Server.Client\AutoDiscoveryProxy.cs /namespace:WebsitePanel.AutoDiscovery /type:webClient /fields
 REM %WSE_CLEAN% .\WebsitePanel.Server.Client\AutoDiscoveryProxy.cs
 
