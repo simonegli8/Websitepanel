@@ -1349,32 +1349,39 @@ ContinueFor1:
         Return Path.Combine(dirPath, GetEmailAlias(mailboxName))
     End Function
 
-    Public Overrides Function IsInstalled() As Boolean
-        Dim version As String = ""
-        Dim key32bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\IceWarp\Merak Mail Server")
-        If (key32bit IsNot Nothing) Then
-            version = CStr(key32bit.GetValue("Version"))
-        Else
-            Dim key64bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Wow6432Node\IceWarp\Merak Mail Server")
-            If (key64bit IsNot Nothing) Then
-                version = CStr(key64bit.GetValue("Version"))
-            Else
-                Return False
-            End If
-        End If
-        If [String].IsNullOrEmpty(version) = False Then
-            Dim split As String() = version.Split(New [Char]() {"."c})
-            Return split(0).Equals("8") Or split(0).Equals("9")
-        Else
-            Return False
-        End If
-    End Function
+	Public Overrides Function IsInstalled() As Boolean
+		If Server.Utils.OS.IsNet Then ' Windows
+
+			Dim version As String = ""
+			Dim key32bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\IceWarp\Merak Mail Server")
+			If (key32bit IsNot Nothing) Then
+				version = CStr(key32bit.GetValue("Version"))
+			Else
+				Dim key64bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Wow6432Node\IceWarp\Merak Mail Server")
+				If (key64bit IsNot Nothing) Then
+					version = CStr(key64bit.GetValue("Version"))
+				Else
+					Return False
+				End If
+			End If
+			If [String].IsNullOrEmpty(version) = False Then
+				Dim split As String() = version.Split(New [Char]() {"."c})
+				Return split(0).Equals("8") Or split(0).Equals("9")
+			Else
+				Return False
+			End If
+		Else '	Mono
+			' TODO Mono version of Merak IsInstalled
+			Return False
+		End If
+
+	End Function
 
 #End Region
 
-    '/ Provides constant values for easier interoperability with Merak COM library
-    '/ </summary>
-    Private Class MerakInterop
+	'/ Provides constant values for easier interoperability with Merak COM library
+	'/ </summary>
+	Private Class MerakInterop
 
         Public Shared Function GetIntSettingValue(ByVal val As String) As Integer
             Return Convert.ToInt32(val.Chars(0))

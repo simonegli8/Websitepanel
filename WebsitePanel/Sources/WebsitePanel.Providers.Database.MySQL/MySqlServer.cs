@@ -840,7 +840,7 @@ namespace WebsitePanel.Providers.Database
 		{
 			string versionNumber = null;
 
-			if (Server.Utils.OS.IsNet) {
+			if (Server.Utils.OS.IsNet) { // Windows
 
 				RegistryKey HKLM = Registry.LocalMachine;
 
@@ -856,7 +856,7 @@ namespace WebsitePanel.Providers.Database
 						return false;
 					}
 				}
-			} else {
+			} else { // Mono
 				var txt = FileUtils.ExecuteSystemCommand ("mysqld", "--version");
 				var res = Regex.Match (txt, "^mysqld.*Ver[^0-9]+(?<version>[0-9.]+)", RegexOptions.Multiline);
 				if (res.Success && res.Groups ["version"].Success) versionNumber = res.Groups ["version"].Value;

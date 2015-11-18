@@ -50,9 +50,9 @@ namespace WebsitePanel.Providers.Database {
       public override bool IsInstalled() {
          string versionNumber = null;
 
-         if (Server.Utils.OS.IsNet) {
+         if (Server.Utils.OS.IsNet) { // Windows
 
-            RegistryKey HKLM = Registry.LocalMachine;
+				RegistryKey HKLM = Registry.LocalMachine;
 
             RegistryKey key = HKLM.OpenSubKey(@"SOFTWARE\MySQL AB\MySQL Server 5.5");
 
@@ -66,8 +66,8 @@ namespace WebsitePanel.Providers.Database {
                   return false;
                }
             }
-         } else {
-            var res = Regex.Match(FileUtils.ExecuteSystemCommand("mysqld", "--version"), "^mysqld.*Ver[^0-9]+(?<version>[0-9.]+)", RegexOptions.Multiline);
+         } else { // Mono
+				var res = Regex.Match(FileUtils.ExecuteSystemCommand("mysqld", "--version"), "^mysqld.*Ver[^0-9]+(?<version>[0-9.]+)", RegexOptions.Multiline);
             if (res.Success && res.Groups["version"].Success) versionNumber = res.Groups["version"].Value;
             else return false;
          }

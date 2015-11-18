@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Win32;
@@ -34,88 +34,84 @@ using Microsoft.Win32;
 
 
 
-namespace WebsitePanel.Providers.Statistics
-{
-    class SmarterStats5 : SmarterStats
-    {
-        public override bool IsInstalled()
-        {
-            string productName = null, productVersion = null;
-            
-            // Check x86 platform
-            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+namespace WebsitePanel.Providers.Statistics {
+	class SmarterStats5 : SmarterStats {
+		public override bool IsInstalled() {
+			if (Server.Utils.OS.IsNet) {  // Windows
+				string productName = null, productVersion = null;
 
-            if (key != null)
-            {
-                var names = key.GetSubKeyNames();
+				// Check x86 platform
+				RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
 
-                foreach (string s in names)
-                {
-                    RegistryKey subkey = key.OpenSubKey(s);
-                    //
-                    if (subkey == null)
-                        continue;
-                    //
-                    productName = subkey.GetValue("DisplayName") as String;
-                    //
-                    if (String.IsNullOrEmpty(productName))
-                        continue;
+				if (key != null) {
+					var names = key.GetSubKeyNames();
 
-                    if (productName.Equals("SmarterStats")
-                        || productName.Equals("SmarterStats Service"))
-                    {
-                        productVersion = subkey.GetValue("DisplayVersion") as String;
-                        goto Version_Match;
-                    }
-                }
-            }
+					foreach (string s in names) {
+						RegistryKey subkey = key.OpenSubKey(s);
+						//
+						if (subkey == null)
+							continue;
+						//
+						productName = subkey.GetValue("DisplayName") as String;
+						//
+						if (String.IsNullOrEmpty(productName))
+							continue;
 
-            // Check x64 platform
-            key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+						if (productName.Equals("SmarterStats")
+							 || productName.Equals("SmarterStats Service")) {
+							productVersion = subkey.GetValue("DisplayVersion") as String;
+							goto Version_Match;
+						}
+					}
+				}
 
-            if (key != null)
-            {
-                var names = key.GetSubKeyNames();
+				// Check x64 platform
+				key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
 
-                foreach (string s in names)
-                {
-                    RegistryKey subkey = key.OpenSubKey(s);
-                    //
-                    if (subkey == null)
-                        continue;
-                    //
-                    productName = subkey.GetValue("DisplayName") as String;
-                    //
-                    if (String.IsNullOrEmpty(productName))
-                        continue;
+				if (key != null) {
+					var names = key.GetSubKeyNames();
 
-                    if (productName.Equals("SmarterStats") 
-                        || productName.Equals("SmarterStats Service"))
-                    {
-                        productVersion = subkey.GetValue("DisplayVersion") as String;
-                        goto Version_Match;
-                    }
-                }
-            }
-    
-    Version_Match:
-            //
-            if (String.IsNullOrEmpty(productVersion))
-                return false;
-				
-			// Match SmarterStats 5.x or newer versions
-			int version = 0;
-			string[] split = productVersion.Split(new[] { '.' });
+					foreach (string s in names) {
+						RegistryKey subkey = key.OpenSubKey(s);
+						//
+						if (subkey == null)
+							continue;
+						//
+						productName = subkey.GetValue("DisplayName") as String;
+						//
+						if (String.IsNullOrEmpty(productName))
+							continue;
 
-			if (int.TryParse(split[0], out version))
-			{
-				if(version >= 5)
-					return true;
+						if (productName.Equals("SmarterStats")
+							 || productName.Equals("SmarterStats Service")) {
+							productVersion = subkey.GetValue("DisplayVersion") as String;
+							goto Version_Match;
+						}
+					}
+				}
+
+				Version_Match:
+				//
+				if (String.IsNullOrEmpty(productVersion))
+					return false;
+
+				// Match SmarterStats 5.x or newer versions
+				int version = 0;
+				string[] split = productVersion.Split(new[] { '.' });
+
+				if (int.TryParse(split[0], out version)) {
+					if (version >= 5)
+						return true;
+				}
+				//
+
+				return false;
+			} else { // Mono
+
+				// TODO Mono implementation of AWStats IsInstalled
+				return false;
 			}
-			//
-			
-            return false;
-        }
-    }
+		}
+	}
 }
 

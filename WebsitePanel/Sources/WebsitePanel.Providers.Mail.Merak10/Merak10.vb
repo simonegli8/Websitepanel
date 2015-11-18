@@ -43,26 +43,31 @@ Public Class Merak10
     Inherits Merak
 
     Public Overrides Function IsInstalled() As Boolean
-        Dim version As String = ""
-        Dim key32bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\IceWarp\IceWarp Server")
-        If (key32bit IsNot Nothing) Then
-            version = CStr(key32bit.GetValue("Version"))
-        Else
-            Dim key64bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Wow6432Node\IceWarp\IceWarp Server")
-            If (key64bit IsNot Nothing) Then
-                version = CStr(key64bit.GetValue("Version"))
-            Else
-                Return False
-            End If
-        End If
-        'Checking version 10.x
+		If Server.Utils.OS.IsNet Then ' Windows
+			Dim version As String = ""
+			Dim key32bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\IceWarp\IceWarp Server")
+			If (key32bit IsNot Nothing) Then
+				version = CStr(key32bit.GetValue("Version"))
+			Else
+				Dim key64bit As RegistryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\Wow6432Node\IceWarp\IceWarp Server")
+				If (key64bit IsNot Nothing) Then
+					version = CStr(key64bit.GetValue("Version"))
+				Else
+					Return False
+				End If
+			End If
+			'Checking version 10.x
 
-        If [String].IsNullOrEmpty(version) = False Then
-            Dim split As String() = version.Split(New [Char]() {"."c})
-            Return split(0).Equals("8") Or split(0).Equals("10")
-        Else
-            Return False
-        End If
-    End Function
+			If [String].IsNullOrEmpty(version) = False Then
+				Dim split As String() = version.Split(New [Char]() {"."c})
+				Return split(0).Equals("8") Or split(0).Equals("10")
+			Else
+				Return False
+			End If
+		Else '	Mono
+			' TODO Mono version of Merak IsInstalled
+			Return False
+		End If
+	End Function
 
 End Class

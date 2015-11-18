@@ -26,92 +26,82 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Win32;
 
-namespace WebsitePanel.Providers.Statistics
-{
-    public class SmarterStats4 : SmarterStats
-    {
+namespace WebsitePanel.Providers.Statistics {
+	public class SmarterStats4 : SmarterStats {
 
-        public override bool IsInstalled()
-        {
-            string productName = null;
-            string productVersion = null;
-            String[] names = null;
+		public override bool IsInstalled() {
+			if (Server.Utils.OS.IsNet) {  // Windows
+				string productName = null;
+				string productVersion = null;
+				String[] names = null;
 
-            RegistryKey HKLM = Registry.LocalMachine;
+				RegistryKey HKLM = Registry.LocalMachine;
 
-            RegistryKey key = HKLM.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+				RegistryKey key = HKLM.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
 
-            if (key != null)
-            {
-                names = key.GetSubKeyNames();
+				if (key != null) {
+					names = key.GetSubKeyNames();
 
-                foreach (string s in names)
-                {
-                    RegistryKey subkey = HKLM.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + s);
+					foreach (string s in names) {
+						RegistryKey subkey = HKLM.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + s);
 
-                    if (subkey != null)
-                    {
-                        if (!String.IsNullOrEmpty((string)subkey.GetValue("DisplayName")))
-                        {
-                            productName = (string)subkey.GetValue("DisplayName");
-                        }
-                        if (productName != null)
-                            if (productName.Equals("SmarterStats") || productName.Equals("SmarterStats Service"))
-                            {
-                                productVersion = (string)subkey.GetValue("DisplayVersion");
-                                break;
-                            }
-                    }
-                }
+						if (subkey != null) {
+							if (!String.IsNullOrEmpty((string)subkey.GetValue("DisplayName"))) {
+								productName = (string)subkey.GetValue("DisplayName");
+							}
+							if (productName != null)
+								if (productName.Equals("SmarterStats") || productName.Equals("SmarterStats Service")) {
+									productVersion = (string)subkey.GetValue("DisplayVersion");
+									break;
+								}
+						}
+					}
 
-                if (!String.IsNullOrEmpty(productVersion))
-                {
-                    string[] split = productVersion.Split(new char[] { '.' });
-                    return split[0].Equals("4");
-                }
-            }
-                
-                //checking x64 platform
-                key = HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+					if (!String.IsNullOrEmpty(productVersion)) {
+						string[] split = productVersion.Split(new char[] { '.' });
+						return split[0].Equals("4");
+					}
+				}
 
-                if (key != null)
-                {
-                    names = key.GetSubKeyNames();
+				//checking x64 platform
+				key = HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
 
-                    foreach (string s in names)
-                    {
-                        RegistryKey subkey =
-                            HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + s);
+				if (key != null) {
+					names = key.GetSubKeyNames();
 
-                        if (subkey != null)
-                        {
-                            if (!String.IsNullOrEmpty((string)subkey.GetValue("DisplayName")))
-                            {
-                                productName = (string)subkey.GetValue("DisplayName");
-                            }
-                            if (productName != null)
-                                if (productName.Equals("SmarterStats") || productName.Equals("SmarterStats Service"))
-                                {
-                                    productVersion = (string)subkey.GetValue("DisplayVersion");
-                                    break;
-                                }
-                        }
-                    }
+					foreach (string s in names) {
+						RegistryKey subkey =
+							 HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\" + s);
 
-                    if (!String.IsNullOrEmpty(productVersion))
-                    {
-                        string[] split = productVersion.Split(new char[] { '.' });
-                        return split[0].Equals("4");
-                    }
-                }
-            
-            return false;
-        }
+						if (subkey != null) {
+							if (!String.IsNullOrEmpty((string)subkey.GetValue("DisplayName"))) {
+								productName = (string)subkey.GetValue("DisplayName");
+							}
+							if (productName != null)
+								if (productName.Equals("SmarterStats") || productName.Equals("SmarterStats Service")) {
+									productVersion = (string)subkey.GetValue("DisplayVersion");
+									break;
+								}
+						}
+					}
 
-    }
-}
+					if (!String.IsNullOrEmpty(productVersion)) {
+						string[] split = productVersion.Split(new char[] { '.' });
+						return split[0].Equals("4");
+					}
+				}
+
+				return false;
+			} else { // Mono
+
+				// TODO Mono implementation of AWStats IsInstalled
+				return false;
+			}
+
+		}
+	}

@@ -846,7 +846,7 @@ namespace WebsitePanel.Providers.DNS {
       #endregion
 
       public override bool IsInstalled() {
-         if (Server.Utils.OS.IsNet) {
+         if (Server.Utils.OS.IsNet) { // Windows
             ServiceController[] services = null;
             services = ServiceController.GetServices();
             foreach (ServiceController service in services) {
@@ -854,7 +854,7 @@ namespace WebsitePanel.Providers.DNS {
 
                   return true;
             }
-         } else {
+         } else { // Mono
             try {
                var txt = FileUtils.ExecuteSystemCommand("named", "-v");
                return txt.StartsWith("BIND");

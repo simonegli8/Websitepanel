@@ -35,316 +35,280 @@ using WebsitePanel.Server.Utils;
 using WebsitePanel.Providers.Utils;
 using Microsoft.Win32;
 
-namespace WebsitePanel.Providers.Statistics
-{
-    public class AWStats : HostingServiceProviderBase, IStatisticsServer
-    {
-        #region Properties
-        protected string AwStatsFolder
-        {
-            get { return FileUtils.EvaluateSystemVariables(ProviderSettings["AwStatsFolder"]); }
-        }
+namespace WebsitePanel.Providers.Statistics {
+	public class AWStats : HostingServiceProviderBase, IStatisticsServer {
+		#region Properties
+		protected string AwStatsFolder {
+			get { return FileUtils.EvaluateSystemVariables(ProviderSettings["AwStatsFolder"]); }
+		}
 
-        protected string ConfigFileName
-        {
-            get { return FileUtils.EvaluateSystemVariables(ProviderSettings["ConfigFileName"]); }
-        }
+		protected string ConfigFileName {
+			get { return FileUtils.EvaluateSystemVariables(ProviderSettings["ConfigFileName"]); }
+		}
 
-        protected string ConfigFileTemplate
-        {
-            get { return FileUtils.EvaluateSystemVariables(ProviderSettings["ConfigFileTemplate"]); }
-        }
+		protected string ConfigFileTemplate {
+			get { return FileUtils.EvaluateSystemVariables(ProviderSettings["ConfigFileTemplate"]); }
+		}
 
-        protected string ConfigFileTemplatePath
-        {
-            get { return FileUtils.EvaluateSystemVariables(ProviderSettings["ConfigFileTemplatePath"]); }
-        }
+		protected string ConfigFileTemplatePath {
+			get { return FileUtils.EvaluateSystemVariables(ProviderSettings["ConfigFileTemplatePath"]); }
+		}
 
-        protected string BatchFileName
-        {
-            get { return FileUtils.EvaluateSystemVariables(ProviderSettings["BatchFileName"]); }
-        }
+		protected string BatchFileName {
+			get { return FileUtils.EvaluateSystemVariables(ProviderSettings["BatchFileName"]); }
+		}
 
-        protected string BatchLineTemplate
-        {
-            get { return FileUtils.EvaluateSystemVariables(ProviderSettings["BatchLineTemplate"]); }
-        }
+		protected string BatchLineTemplate {
+			get { return FileUtils.EvaluateSystemVariables(ProviderSettings["BatchLineTemplate"]); }
+		}
 
-		protected string StatisticsUrl
-		{
+		protected string StatisticsUrl {
 			get { return ProviderSettings["StatisticsUrl"]; }
 		}
-        #endregion
+		#endregion
 
-        #region IStatisticsServer methods
-        public virtual StatsServer[] GetServers()
-        {
-            return new StatsServer[] { };
-        }
+		#region IStatisticsServer methods
+		public virtual StatsServer[] GetServers() {
+			return new StatsServer[] { };
+		}
 
-        public virtual string[] GetSites()
-        {
-            List<string> sites = new List<string>();
-            // check for AWStats folder existance
-            if (!Directory.Exists(AwStatsFolder))
-                return sites.ToArray();
+		public virtual string[] GetSites() {
+			List<string> sites = new List<string>();
+			// check for AWStats folder existance
+			if (!Directory.Exists(AwStatsFolder))
+				return sites.ToArray();
 
-            string configFileName = ConfigFileName.ToLower();
-            int idx = configFileName.IndexOf("[domain_name]");
-            if (idx == -1)
-                return sites.ToArray(); // wrong config file name pattern
+			string configFileName = ConfigFileName.ToLower();
+			int idx = configFileName.IndexOf("[domain_name]");
+			if (idx == -1)
+				return sites.ToArray(); // wrong config file name pattern
 
-            string configPrefix = configFileName.Substring(0, idx);
-            string configSuffix = configFileName.Substring(idx + 13);
+			string configPrefix = configFileName.Substring(0, idx);
+			string configSuffix = configFileName.Substring(idx + 13);
 
-            // get all files in AWStats directory
-            string[] files = Directory.GetFiles(AwStatsFolder,
-                ConfigFileName.ToLower().Replace("[domain_name]", "*"));
+			// get all files in AWStats directory
+			string[] files = Directory.GetFiles(AwStatsFolder,
+				 ConfigFileName.ToLower().Replace("[domain_name]", "*"));
 
-            foreach (string file in files)
-            {
-                string fileName = Path.GetFileName(file);
-                string site = fileName.Substring(configPrefix.Length,
-                    fileName.Length - configPrefix.Length - configSuffix.Length);
-                sites.Add(site);
-            }
-            return sites.ToArray();
-        }
+			foreach (string file in files) {
+				string fileName = Path.GetFileName(file);
+				string site = fileName.Substring(configPrefix.Length,
+					 fileName.Length - configPrefix.Length - configSuffix.Length);
+				sites.Add(site);
+			}
+			return sites.ToArray();
+		}
 
-        public virtual string GetSiteId(string siteName)
-        {
-            return siteName;
-        }
+		public virtual string GetSiteId(string siteName) {
+			return siteName;
+		}
 
-        public virtual StatsSite GetSite(string siteId)
-        {
-            string configFileName = ConfigFileName.Replace("[DOMAIN_NAME]", siteId);
-            string configFilePath = Path.Combine(AwStatsFolder, configFileName);
+		public virtual StatsSite GetSite(string siteId) {
+			string configFileName = ConfigFileName.Replace("[DOMAIN_NAME]", siteId);
+			string configFilePath = Path.Combine(AwStatsFolder, configFileName);
 
-            if (!File.Exists(configFilePath))
-                return null;
+			if (!File.Exists(configFilePath))
+				return null;
 
-            StatsSite site = new StatsSite();
-            site.Name = siteId;
-            site.SiteId = siteId;
+			StatsSite site = new StatsSite();
+			site.Name = siteId;
+			site.SiteId = siteId;
 
 			// process stats URL
 			string url = null;
-			if (!String.IsNullOrEmpty(StatisticsUrl))
-			{
+			if (!String.IsNullOrEmpty(StatisticsUrl)) {
 				url = StringUtils.ReplaceStringVariable(StatisticsUrl, "domain_name", site.Name);
 				url = StringUtils.ReplaceStringVariable(url, "site_id", siteId);
 			}
 
 			site.StatisticsUrl = url;
 
-            return site;
-        }
+			return site;
+		}
 
-        public virtual string AddSite(StatsSite site)
-        {
-                // check for AWStats folder existance
-                string awFolder = AwStatsFolder;
-                if (!Directory.Exists(awFolder))
-                {
-                    // try to create directory
-                    Directory.CreateDirectory(awFolder);
-                }
+		public virtual string AddSite(StatsSite site) {
+			// check for AWStats folder existance
+			string awFolder = AwStatsFolder;
+			if (!Directory.Exists(awFolder)) {
+				// try to create directory
+				Directory.CreateDirectory(awFolder);
+			}
 
-                // create a new configuration file
-                string configFileName = ConfigFileName;
+			// create a new configuration file
+			string configFileName = ConfigFileName;
 
-                // ...and substitute variables
-                configFileName = configFileName.Replace("[DOMAIN_NAME]", site.Name);
-                string configFilePath = Path.Combine(awFolder, configFileName);
+			// ...and substitute variables
+			configFileName = configFileName.Replace("[DOMAIN_NAME]", site.Name);
+			string configFilePath = Path.Combine(awFolder, configFileName);
 
-                // check if the file already exists
-                if (File.Exists(configFilePath))
-                {
-                    return site.Name; // nothing to create
-                }
+			// check if the file already exists
+			if (File.Exists(configFilePath)) {
+				return site.Name; // nothing to create
+			}
 
-                // get config file template
-                string configFileTemplate = ConfigFileTemplate;
-                if (!String.IsNullOrEmpty(ConfigFileTemplatePath)
-                    && File.Exists(ConfigFileTemplatePath))
-                {
-                    // read template from file
-                    StreamReader reader = new StreamReader(ConfigFileTemplatePath);
-                    configFileTemplate = reader.ReadToEnd();
-                    reader.Close();
-                }
+			// get config file template
+			string configFileTemplate = ConfigFileTemplate;
+			if (!String.IsNullOrEmpty(ConfigFileTemplatePath)
+				 && File.Exists(ConfigFileTemplatePath)) {
+				// read template from file
+				StreamReader reader = new StreamReader(ConfigFileTemplatePath);
+				configFileTemplate = reader.ReadToEnd();
+				reader.Close();
+			}
 
-                // ...and substitute variables
-                configFileTemplate = configFileTemplate.Replace("[DOMAIN_NAME]", site.Name);
-                configFileTemplate = site.DomainAliases.Length == 0 ? configFileTemplate.Replace("[DOMAIN_ALIASES]", "localhost 127.0.0.1") : configFileTemplate.Replace("[DOMAIN_ALIASES]", String.Join(" ", site.DomainAliases));
-                configFileTemplate = configFileTemplate.Replace("[LOGS_FOLDER]", site.LogDirectory);
+			// ...and substitute variables
+			configFileTemplate = configFileTemplate.Replace("[DOMAIN_NAME]", site.Name);
+			configFileTemplate = site.DomainAliases.Length == 0 ? configFileTemplate.Replace("[DOMAIN_ALIASES]", "localhost 127.0.0.1") : configFileTemplate.Replace("[DOMAIN_ALIASES]", String.Join(" ", site.DomainAliases));
+			configFileTemplate = configFileTemplate.Replace("[LOGS_FOLDER]", site.LogDirectory);
 
-                // create config file
-                StreamWriter writer = new StreamWriter(configFilePath);
-                writer.Write(configFileTemplate);
-                writer.Close();
+			// create config file
+			StreamWriter writer = new StreamWriter(configFilePath);
+			writer.Write(configFileTemplate);
+			writer.Close();
 
-                // add line to the batch file
-                string batchFilePath = Path.Combine(awFolder, BatchFileName);
+			// add line to the batch file
+			string batchFilePath = Path.Combine(awFolder, BatchFileName);
 
-                // create file if not exists
-                if (!File.Exists(batchFilePath))
-                {
-                    writer = new StreamWriter(batchFilePath);
-                    writer.Close();
-                }
+			// create file if not exists
+			if (!File.Exists(batchFilePath)) {
+				writer = new StreamWriter(batchFilePath);
+				writer.Close();
+			}
 
-                // read batch file
-                List<string> lines = LoadBatchFile(batchFilePath);
+			// read batch file
+			List<string> lines = LoadBatchFile(batchFilePath);
 
-                // check if the record is already added
-                bool exists = false;
-                foreach (string line in lines)
-                {
-                    if (line.IndexOf("=" + site.Name) != -1)
-                    {
-                        exists = true;
-                        break;
-                    }
-                }
+			// check if the record is already added
+			bool exists = false;
+			foreach (string line in lines) {
+				if (line.IndexOf("=" + site.Name) != -1) {
+					exists = true;
+					break;
+				}
+			}
 
-                if (!exists)
-                {
-                    // add new line to the batch
-                    string line = BatchLineTemplate;
-                    line = line.Replace("[DOMAIN_NAME]", site.Name);
+			if (!exists) {
+				// add new line to the batch
+				string line = BatchLineTemplate;
+				line = line.Replace("[DOMAIN_NAME]", site.Name);
 
-                    lines.Add(line);
+				lines.Add(line);
 
-                    // save batch file
-                    SaveBatchFile(batchFilePath, lines);
-                }
+				// save batch file
+				SaveBatchFile(batchFilePath, lines);
+			}
 
-                return site.Name;
-        }
+			return site.Name;
+		}
 
-        public virtual void UpdateSite(StatsSite site)
-        {
-            // nope
-        }
+		public virtual void UpdateSite(StatsSite site) {
+			// nope
+		}
 
-        public virtual void DeleteSite(string siteId)
-        {
-            // check for AWStats folder existance
-            if (!Directory.Exists(AwStatsFolder))
-            {
-                return;
-            }
+		public virtual void DeleteSite(string siteId) {
+			// check for AWStats folder existance
+			if (!Directory.Exists(AwStatsFolder)) {
+				return;
+			}
 
-            // create a new configuration file
-            string configFileName = ConfigFileName;
+			// create a new configuration file
+			string configFileName = ConfigFileName;
 
-            // ...and substitute variables
-            configFileName = configFileName.Replace("[DOMAIN_NAME]", siteId);
-            string configFilePath = Path.Combine(AwStatsFolder, configFileName);
+			// ...and substitute variables
+			configFileName = configFileName.Replace("[DOMAIN_NAME]", siteId);
+			string configFilePath = Path.Combine(AwStatsFolder, configFileName);
 
-            // check if the config file already exists
-            if (File.Exists(configFilePath))
-                File.Delete(configFilePath);
+			// check if the config file already exists
+			if (File.Exists(configFilePath))
+				File.Delete(configFilePath);
 
-            // remove line from the batch file
-            string batchFilePath = Path.Combine(AwStatsFolder, BatchFileName);
+			// remove line from the batch file
+			string batchFilePath = Path.Combine(AwStatsFolder, BatchFileName);
 
-            // create file if not exists
-            if (!File.Exists(batchFilePath))
-                return;
+			// create file if not exists
+			if (!File.Exists(batchFilePath))
+				return;
 
-            // read batch file
-            List<string> lines = LoadBatchFile(batchFilePath);
+			// read batch file
+			List<string> lines = LoadBatchFile(batchFilePath);
 
-            // check if the record is already added
-            for (int i = 0; i < lines.Count; i++)
-            {
-                if (lines[i].IndexOf("=" + siteId) != -1)
-                {
-                    // remove line accurence
-                    lines.RemoveAt(i);
+			// check if the record is already added
+			for (int i = 0; i < lines.Count; i++) {
+				if (lines[i].IndexOf("=" + siteId) != -1) {
+					// remove line accurence
+					lines.RemoveAt(i);
 
-                    // save batch
-                    SaveBatchFile(batchFilePath, lines);
-                    break;
-                }
-            }
-        }
+					// save batch
+					SaveBatchFile(batchFilePath, lines);
+					break;
+				}
+			}
+		}
 
-        private List<string> LoadBatchFile(string fileName)
-        {
-            List<string> lines = new List<string>();
+		private List<string> LoadBatchFile(string fileName) {
+			List<string> lines = new List<string>();
 
-            StreamReader reader = new StreamReader(fileName);
-            string line = null;
-            while ((line = reader.ReadLine()) != null)
-                lines.Add(line);
-            reader.Close();
+			StreamReader reader = new StreamReader(fileName);
+			string line = null;
+			while ((line = reader.ReadLine()) != null)
+				lines.Add(line);
+			reader.Close();
 
-            return lines;
-        }
+			return lines;
+		}
 
-        private void SaveBatchFile(string fileName, List<string> lines)
-        {
-            StreamWriter writer = new StreamWriter(fileName);
-            foreach (string line in lines)
-                writer.WriteLine(line);
-            writer.Close();
-        }
+		private void SaveBatchFile(string fileName, List<string> lines) {
+			StreamWriter writer = new StreamWriter(fileName);
+			foreach (string line in lines)
+				writer.WriteLine(line);
+			writer.Close();
+		}
 
-        #endregion
+		#endregion
 
-        #region IHostingServiceProvider methods
-        public override void DeleteServiceItems(ServiceProviderItem[] items)
-        {
-            foreach (ServiceProviderItem item in items)
-            {
-                if (item is StatsSite)
-                {
-                    try
-                    {
-                        DeleteSite(((StatsSite)item).SiteId);
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.WriteError(String.Format("Error deleting '{0}' {1}", item.Name, item.GetType().Name), ex);
-                    }
-                }
-            }
-        }
-        #endregion
+		#region IHostingServiceProvider methods
+		public override void DeleteServiceItems(ServiceProviderItem[] items) {
+			foreach (ServiceProviderItem item in items) {
+				if (item is StatsSite) {
+					try {
+						DeleteSite(((StatsSite)item).SiteId);
+					} catch (Exception ex) {
+						Log.WriteError(String.Format("Error deleting '{0}' {1}", item.Name, item.GetType().Name), ex);
+					}
+				}
+			}
+		}
+		#endregion
 
-        public override bool IsInstalled()
-        {
-            string versionNumber = null;
+		public override bool IsInstalled() {
+			string versionNumber = null;
 
-            RegistryKey HKLM = Registry.LocalMachine;
+			if (Server.Utils.OS.IsNet) {  // Windows
 
-            RegistryKey key = HKLM.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\AWStats");
+				RegistryKey HKLM = Registry.LocalMachine;
 
-            if (key != null)
-            {
-                versionNumber = (string)key.GetValue("DisplayVersion");
-            }
-            else
-            {
-                key = HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\AWStats");
-                if (key != null)
-                {
-                    versionNumber = (string)key.GetValue("DisplayVersion");
-                }
-                else
-                {
-                    return false;
-                }
-            }
+				RegistryKey key = HKLM.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\AWStats");
 
-            string[] split = versionNumber.Split(new char[] { '.' });
+				if (key != null) {
+					versionNumber = (string)key.GetValue("DisplayVersion");
+				} else {
+					key = HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\AWStats");
+					if (key != null) {
+						versionNumber = (string)key.GetValue("DisplayVersion");
+					} else {
+						return false;
+					}
+				}
+			} else { // Mono
 
-            return split[0].Equals("6") || split[0].Equals("7");
-        }
+				// TODO Mono implementation of AWStats IsInstalled
+				return false;
+			}
 
-    }
+			string[] split = versionNumber.Split(new char[] { '.' });
+
+			return split[0].Equals("6") || split[0].Equals("7");
+		}
+
+	}
 }

@@ -606,36 +606,36 @@ namespace WebsitePanel.Providers.Mail
         {
             string version;
 
-            var key32Bit = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\IceWarp\IceWarp Server");
-            if (key32Bit != null)
-            {
-                version = key32Bit.GetValue("Version").ToString();
-            }
-            else
-            {
-                var key64Bit = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\IceWarp\IceWarp Server");
-                if (key64Bit != null)
-                {
-                    version = key64Bit.GetValue("Version").ToString();
-                }
-                else
-                {
-                    return false;
-                }
-            }
+			if (Server.Utils.OS.IsNet) { // Windows
+				var key32Bit = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\IceWarp\IceWarp Server");
+				if (key32Bit != null) {
+					version = key32Bit.GetValue("Version").ToString();
+				} else {
+					var key64Bit = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Wow6432Node\IceWarp\IceWarp Server");
+					if (key64Bit != null) {
+						version = key64Bit.GetValue("Version").ToString();
+					} else {
+						return false;
+					}
+				}
 
-            if (string.IsNullOrEmpty(version))
-            {
-                return false;
-            }
+				if (string.IsNullOrEmpty(version)) {
+					return false;
+				}
 
-            // Checking for version 10.4.0 (released 2012-03-21) or newer
-            // This version introduced L_ListFile_Contents, G_ListFile_Contents and M_ListFileContents that is the latest API variable used by this provider
-            var split = version.Split(new[] { '.' });
-            var majorVersion = Convert.ToInt32(split[0]);
-            var minVersion = Convert.ToInt32(split[1]);
+				// Checking for version 10.4.0 (released 2012-03-21) or newer
+				// This version introduced L_ListFile_Contents, G_ListFile_Contents and M_ListFileContents that is the latest API variable used by this provider
+				var split = version.Split(new[] { '.' });
+				var majorVersion = Convert.ToInt32(split[0]);
+				var minVersion = Convert.ToInt32(split[1]);
 
-            return majorVersion >= 11 || majorVersion >= 10 && minVersion >= 4;
+				return majorVersion >= 11 || majorVersion >= 10 && minVersion >= 4;
+
+			} else { // Mono
+
+				// TODO Mono version of IceWarp IsInstalled
+				return false;
+			}
         }
 
         #region Domains

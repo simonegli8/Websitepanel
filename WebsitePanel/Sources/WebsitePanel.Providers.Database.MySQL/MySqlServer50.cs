@@ -41,7 +41,7 @@ namespace WebsitePanel.Providers.Database {
       public override bool IsInstalled() {
          string versionNumber = null;
 
-         if (Server.Utils.OS.IsNet) {
+         if (Server.Utils.OS.IsNet) { // Windows
 
             RegistryKey HKLM = Registry.LocalMachine;
 
@@ -57,7 +57,7 @@ namespace WebsitePanel.Providers.Database {
                   return false;
                }
             }
-         } else {
+         } else { // Mono
             var res = Regex.Match(FileUtils.ExecuteSystemCommand("mysqld", "--version"), "^mysqld.*Ver[^0-9]+(?<version>[0-9.]+)", RegexOptions.Multiline);
             if (res.Success && res.Groups["version"].Success) versionNumber = res.Groups["version"].Value;
             else return false;

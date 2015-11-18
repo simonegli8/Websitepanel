@@ -1175,11 +1175,13 @@ namespace WebsitePanel.Providers.DNS
 
         public override bool IsInstalled()
         {
-			if (Server.Utils.OS.IsNet)
+			if (Server.Utils.OS.IsNet) // Windows
 				return false;
-			else {
+			else { // Mono
+
 				var txt = FileUtils.ExecuteSystemCommand ("pdns_control", "version");
 				return System.Text.RegularExpressions.Regex.IsMatch(txt, "(^$)|[0-9.]+)");
+
 			}
         }
 
