@@ -10,3 +10,7 @@ Currently they don't support https, and the current version of WebsitePanel.Serv
 so currently things are not secure and should be used in production only behind a firewall. It should be very easy to add
 support for https tough, as xsp4 supports it, I only don't know how to get the parameters into the shell script, I'm not much of
 a unix shell programmer.
+
+TODO
+
+Move the log from /usr/share/websitepanel/log to the correct linux location.
