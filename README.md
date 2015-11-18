@@ -41,6 +41,7 @@ non WSE SOAP messages one has to either use https or only servers behind a firew
 - Adaptions to Portal for Linux Servers.
 
 ### Future TODO to enable for Linux webhosting:
+- OS Provider for Linux
 - Apache Webserver Provider
 - Some WebPI provider for Linux.
 
