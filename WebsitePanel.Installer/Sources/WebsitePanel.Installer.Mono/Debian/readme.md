@@ -1,1 +1,0 @@
-The debian package will be created in this folder

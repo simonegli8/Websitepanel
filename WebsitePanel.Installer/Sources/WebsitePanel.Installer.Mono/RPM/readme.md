@@ -1,1 +1,0 @@
-The RPM package will be created in this folder
