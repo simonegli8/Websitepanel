@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OSPlatform Condition=" '$(OSPlatform)' == '' ">Windows</OSPlatform>
     <Runtime Condition=" '$(Runtime)' == '' ">Net</Runtime>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -46,7 +45,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;$(Runtime);$(OSPlatform)</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;$(Runtime)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -57,7 +56,7 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Bin\</OutputPath>
-    <DefineConstants>TRACE;$(Runtime);$(OSPlatform)</DefineConstants>
+    <DefineConstants>TRACE;$(Runtime)</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>

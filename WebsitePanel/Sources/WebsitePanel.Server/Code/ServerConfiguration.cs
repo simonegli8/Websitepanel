@@ -33,94 +33,96 @@ using System.Collections.Generic;
 using System.Web;
 using System.Xml;
 
-namespace WebsitePanel.Server
-{
-    /// <summary>
-    /// Summary description for ServerConfiguration
-    /// </summary>
-    public class ServerConfiguration : IConfigurationSectionHandler
-    {
-        #region Public Properties
-        private static SecuritySettings security = null;
+namespace WebsitePanel.Server {
+	/// <summary>
+	/// Summary description for ServerConfiguration
+	/// </summary>
+	public class ServerConfiguration : IConfigurationSectionHandler {
+		#region Public Properties
+		private static SecuritySettings security = null;
 
-        public static SecuritySettings Security
-        {
-            get
-            {
-                return security;
-            }
-        }
-        #endregion
+		public static SecuritySettings Security {
+			get {
+				return security;
+			}
+		}
+		#endregion
 
-        private ServerConfiguration()
-        {
-        }
+		private ServerConfiguration() {
+		}
 
-        static ServerConfiguration()
-        {
-            LoadConfiguration();
-        }
+		static ServerConfiguration() {
+			LoadConfiguration();
+		}
 
-        private static void LoadConfiguration()
-        {
-            ConfigurationManager.GetSection("websitepanel.server");
-        }
+		private static void LoadConfiguration() {
+			ConfigurationManager.GetSection("websitepanel.server");
+		}
 
-        public object Create(object parent, object configContext, System.Xml.XmlNode section)
-        {
-            // parse "security" section
-            XmlNode nodeSecurity = section.SelectSingleNode("security");
-            if (nodeSecurity == null)
-                throw new Exception("'websitepanel/security' section is missing");
+		public object Create(object parent, object configContext, System.Xml.XmlNode section) {
+			// parse "security" section
+			XmlNode nodeSecurity = section.SelectSingleNode("security");
+			if (nodeSecurity == null)
+				throw new Exception("'websitepanel/security' section is missing");
 
-            security = new SecuritySettings();
-            security.ParseSection(nodeSecurity);
+			security = new SecuritySettings();
+			security.ParseSection(nodeSecurity);
 
-            return null;
-        }
+			return null;
+		}
 
-        #region Inner Classes
-        public class SecuritySettings
-        {
-            private bool securityEnabled;
-            private string password;
+		#region Inner Classes
+		public class SecuritySettings {
+			private bool securityEnabled;
+			private string password;
 
-            public bool SecurityEnabled
-            {
-                get { return this.securityEnabled; }
-                set { this.securityEnabled = value; }
-            }
+			public bool SecurityEnabled {
+				get { return this.securityEnabled; }
+				set { this.securityEnabled = value; }
+			}
 
-            public string Password
-            {
-                get { return this.password; }
-                set { this.password = value; }
-            }
+			public string Password {
+				get { return this.password; }
+				set { this.password = value; }
+			}
 
-            public void ParseSection(XmlNode section)
-            {
-                // enabled
-                XmlNode nodeEnabled = section.SelectSingleNode("enabled");
-                if (nodeEnabled == null)
-                    throw new Exception("'websitepanel/security/enabled' node is missing");
+			public string ImpersonateUser { get; set; }
+			public string ImpersonatePassword { get; set; }
 
-                if (nodeEnabled.Attributes["value"] == null)
-                    throw new Exception("'websitepanel/security/enabled/@value' attribute is missing");
+			public void ParseSection(XmlNode section) {
+				// enabled
+				XmlNode nodeEnabled = section.SelectSingleNode("enabled");
+				if (nodeEnabled == null)
+					throw new Exception("'websitepanel/security/enabled' node is missing");
 
-                securityEnabled = true;
-                Boolean.TryParse(nodeEnabled.Attributes["value"].Value, out securityEnabled);
+				if (nodeEnabled.Attributes["value"] == null)
+					throw new Exception("'websitepanel/security/enabled/@value' attribute is missing");
 
-                // password
-                XmlNode nodePassword = section.SelectSingleNode("password");
-                if (nodePassword == null)
-                    throw new Exception("'websitepanel/security/password' node is missing");
+				securityEnabled = true;
+				Boolean.TryParse(nodeEnabled.Attributes["value"].Value, out securityEnabled);
 
-                if (nodePassword.Attributes["value"] == null)
-                    throw new Exception("'websitepanel/security/password/@value' attribute is missing");
+				// password
+				XmlNode nodePassword = section.SelectSingleNode("password");
+				if (nodePassword == null)
+					throw new Exception("'websitepanel/security/password' node is missing");
 
-                password = nodePassword.Attributes["value"].Value;
-            }
-        }
-        #endregion
-    }
+				if (nodePassword.Attributes["value"] == null)
+					throw new Exception("'websitepanel/security/password/@value' attribute is missing");
+
+				password = nodePassword.Attributes["value"].Value;
+
+
+				// impersonation user
+				ImpersonateUser = ImpersonatePassword = null;
+				XmlNode nodeImpersonation = section.SelectSingleNode("impersonation");
+				if (nodeImpersonation != null) {
+					if (nodeImpersonation.Attributes["user"] == null) throw new Exception("'websitepanel/security/impersonation/@user' attribute is missing");
+					ImpersonateUser = nodeImpersonation.Attributes["user"].Value;
+					if (nodeImpersonation.Attributes["password"] != null) ImpersonatePassword = nodeImpersonation.Attributes["password"].Value;
+				}
+		
+			}
+		}
+		#endregion
+	}
 }

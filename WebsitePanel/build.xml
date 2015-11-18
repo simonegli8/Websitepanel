@@ -21,8 +21,7 @@
 		<!-- Lets keep all tools we need for the build together in a well-known place to avoid BUILD HELL -->
 		<SqlCmd Condition="Exists('$(RootFolder)\tools\sqlcmd\sqlcmd.exe')">"$(RootFolder)\tools\sqlcmd\sqlcmd.exe" -S (local)\SQLEXPRESS -E</SqlCmd>
 		<MSDeployPath Condition="Exists('$(RootFolder)\tools\webdeploy\msdeploy.exe')">"$(RootFolder)\tools\webdeploy\msdeploy.exe"</MSDeployPath>
-		<ZipCmd>"$(RootFolder)\tools\7-Zip\7z.exe"</ZipCmd>
-
+		<XBuildPath Condition="Exists('$(MSBuildProgramFiles32)\Mono\bin\xbuild.bat')">"$(MSBuildProgramFiles32)\Mono\bin\xbuild.bat"</XBuildPath>
 		<DataBaseName>WebsitePanel_build</DataBaseName>
 		<MSDeployConnectionString>server=(local)\SQLEXPRESS;database=$(DataBaseName);Integrated Security=true;</MSDeployConnectionString>
 
@@ -55,14 +54,14 @@
 		<LocalizationToolkitBuild>$(BuildFolder)\LocalizationToolkit</LocalizationToolkitBuild>
 		<InstallerBuild>$(BuildFolder)\Installer</InstallerBuild>
 		<FixDefaultPublicFolderMailboxBuild>$(BuildFolder)\FixDefaultPublicFolderMailbox</FixDefaultPublicFolderMailboxBuild>
-      <WiXInstallerBuild>$(BuildFolder)\WiXInstaller</WiXInstallerBuild>
+		<WiXInstallerBuild>$(BuildFolder)\WiXInstaller</WiXInstallerBuild>
 
 		<ftphost></ftphost>
 		<ftpUsername></ftpUsername>
 		<ftpPassword></ftpPassword>
 
 
-</PropertyGroup>
+	</PropertyGroup>
 
 	<PropertyGroup Label="WebPlatformFeed">
 		<!-- URI where to locate the installer's distributive online -->
@@ -70,24 +69,26 @@
 	</PropertyGroup>
 
 	<Target Name="RestorePackages">
-	    <Exec Command="$(TrunkFolder)\Sources\.nuget\NuGet.exe restore $(TrunkFolder)\Sources\WebsitePanel.EnterpriseServer.sln" />
-	    <Exec Command="$(TrunkFolder)\Sources\.nuget\NuGet.exe restore $(TrunkFolder)\Sources\WebsitePanel.WebPortal.sln" />
+		<Exec Command="$(TrunkFolder)\Sources\.nuget\NuGet.exe restore $(TrunkFolder)\Sources\WebsitePanel.EnterpriseServer.sln" />
+		<Exec Command="$(TrunkFolder)\Sources\.nuget\NuGet.exe restore $(TrunkFolder)\Sources\WebsitePanel.WebPortal.sln" />
 	</Target>
 
 	<Target Name="GenerateBuildVersionFilesInstaller" DependsOnTargets="RestorePackages">
-		<AssemblyInfo CodeLanguage="CS" OutputFile="$(RootFolder)\WebsitePanel.Installer\Sources\VersionInfo.cs" AssemblyCompany="Outercurve Foundation" AssemblyCopyright="Copyright © 2015 Outercurve Foundation." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)" AssemblyInformationalVersion="$(Version)" />
+		<AssemblyInfo CodeLanguage="CS" OutputFile="$(RootFolder)\WebsitePanel.Installer\Sources\VersionInfo.cs" AssemblyCompany="Outercurve Foundation" AssemblyCopyright="Copyright © 2015 Outercurve Foundation." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)"
+		AssemblyInformationalVersion="$(Version)" />
 	</Target>
 
 	<Target Name="GenerateBuildVersionFiles" DependsOnTargets="GenerateBuildVersionFilesInstaller">
-		<AssemblyInfo CodeLanguage="CS" OutputFile="$(TrunkFolder)\Sources\VersionInfo.cs" AssemblyCompany="Outercurve Foundation" AssemblyCopyright="Copyright © 2015 Outercurve Foundation." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)" AssemblyInformationalVersion="$(Version)" />
-		<AssemblyInfo CodeLanguage="VB" OutputFile="$(TrunkFolder)\Sources\VersionInfo.vb" AssemblyCompany="Outercurve Foundation" AssemblyCopyright="Copyright © 2015 Outercurve Foundation." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)" AssemblyInformationalVersion="$(Version)" />
+		<AssemblyInfo CodeLanguage="CS" OutputFile="$(TrunkFolder)\Sources\VersionInfo.cs" AssemblyCompany="Outercurve Foundation" AssemblyCopyright="Copyright © 2015 Outercurve Foundation." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)" AssemblyInformationalVersion="$(Version)"
+		/>
+		<AssemblyInfo CodeLanguage="VB" OutputFile="$(TrunkFolder)\Sources\VersionInfo.vb" AssemblyCompany="Outercurve Foundation" AssemblyCopyright="Copyright © 2015 Outercurve Foundation." AssemblyVersion="$(VersionLabel)" AssemblyFileVersion="$(FileVersion)" AssemblyInformationalVersion="$(Version)"
+		/>
 	</Target>
 
 	<Target Name="CompileSources" DependsOnTargets="GenerateBuildVersionFiles">
 		<!-- WebsitePanel -->
 		<MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.sln;$(TrunkFolder)\Sources\WebsitePanel.EnterpriseServer.sln;$(TrunkFolder)\Sources\WebsitePanel.WebPortal.sln" Properties="Configuration=$(BuildConfiguration)" />
-		<MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj;" Properties="Configuration=$(BuildConfiguration)" Targets="Build;Cleanup" />
-		
+
 		<!-- Tools -->
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.Import.CsvBulk.sln" Properties="Configuration=$(BuildConfiguration)" />
 		<MSBuild Projects="$(RootFolder)\WebsitePanel.HyperV.Utils\Sources\WebsitePanel.HyperV.Utils.sln" Properties="Configuration=$(BuildConfiguration)" />
@@ -95,45 +96,52 @@
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.Import.Enterprise.sln" Properties="Configuration=$(BuildConfiguration)" />
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.AWStats.Viewer.sln" Properties="Configuration=$(BuildConfiguration)" />
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WSPTransportAgent.sln" Properties="Configuration=$(BuildConfiguration)" />
- 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.FixDefaultPublicFolderMailbox.sln" Properties="Configuration=$(BuildConfiguration)" />
- 	</Target>
+		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.FixDefaultPublicFolderMailbox.sln" Properties="Configuration=$(BuildConfiguration)" />
+	</Target>
 
-	<Target Name="PrepareBuilds" DependsOnTargets="CompileSources">
+	<Target Name="CompileMonoSources" DependsOnTargets="GenerateBuildVersionFiles">
+		<!-- <MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj;" Properties="Configuration=$(BuildConfiguration)" Targets="Build;Cleanup" /> -->
+		<Message Text="Build Mono Server" />
+		<!-- Use Mono's xbuild build engine -->
+		<Exec Condition=" '$(XBuildPath)' != '' " Command='$(XBuildPath) "$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj" /p:BuildConfiguration=$(BuildConfiguration) /p:Version=$(Version) /p:FileVersion=$(FileVersion) /p:VersionLabel=$(VersionLabel)' />
+	</Target>
+
+	<Target Name="PrepareBuilds" DependsOnTargets="CompileSources;CompileMonoSources">
 		<!-- Remove build output folders in reversed order (e.q. root folder removed last) -->
-		<RemoveDir Directories="$(ServerBuild)"/>
-		<RemoveDir Directories="$(ServerMonoBuild)"/>
-		<RemoveDir Directories="$(EnterpriseServerBuild)"/>
-		<RemoveDir Directories="$(SchedulerServiceBuild)"/>
-		<RemoveDir Directories="$(PortalBuild)"/>
-		<RemoveDir Directories="$(WebDavPortalBuild)"/>
-		<RemoveDir Directories="$(ImportCsvBuild)"/>
-		<RemoveDir Directories="$(ImportEnterpriseBuild)"/>
-		<RemoveDir Directories="$(VMConfigBuild)"/>
-		<RemoveDir Directories="$(HyperVUtilsBuild)"/>
-		<RemoveDir Directories="$(AWStatsViewerBuild)"/>
-		<RemoveDir Directories="$(WSPTransportAgentBuild)"/>
-		<RemoveDir Directories="$(LocalizationToolkitBuild)"/>
-		<RemoveDir Directories="$(InstallerBuild)"/>
-		<RemoveDir Directories="$(BuildFolder)"/>
-    	<RemoveDir Directories="$(FixDefaultPublicFolderMailboxBuild)"/>
+		<RemoveDir Directories="$(ServerBuild)" />
+		<RemoveDir Directories="$(ServerMonoBuild)" />
+		<RemoveDir Directories="$(EnterpriseServerBuild)" />
+		<RemoveDir Directories="$(SchedulerServiceBuild)" />
+		<RemoveDir Directories="$(PortalBuild)" />
+		<RemoveDir Directories="$(WebDavPortalBuild)" />
+		<RemoveDir Directories="$(ImportCsvBuild)" />
+		<RemoveDir Directories="$(ImportEnterpriseBuild)" />
+		<RemoveDir Directories="$(VMConfigBuild)" />
+		<RemoveDir Directories="$(HyperVUtilsBuild)" />
+		<RemoveDir Directories="$(AWStatsViewerBuild)" />
+		<RemoveDir Directories="$(WSPTransportAgentBuild)" />
+		<RemoveDir Directories="$(LocalizationToolkitBuild)" />
+		<RemoveDir Directories="$(InstallerBuild)" />
+		<RemoveDir Directories="$(BuildFolder)" />
+		<RemoveDir Directories="$(FixDefaultPublicFolderMailboxBuild)" />
 
-    	<MakeDir Directories="$(BuildFolder)"/>
-		<MakeDir Directories="$(ServerBuild)"/>
-		<MakeDir Directories="$(ServerMonoBuild)"/>
-		<MakeDir Directories="$(EnterpriseServerBuild)"/>
-		<MakeDir Directories="$(SchedulerServiceBuild)"/>
-		<MakeDir Directories="$(PortalBuild)"/>
-		<MakeDir Directories="$(WebDavPortalBuild)"/>
-		<MakeDir Directories="$(HyperVUtilsBuild)"/>
-		<MakeDir Directories="$(VmConfigBuild)"/>
-		<MakeDir Directories="$(ImportCsvBuild)"/>
-		<MakeDir Directories="$(ImportEnterpriseBuild)"/>
-		<MakeDir Directories="$(AWStatsViewerBuild)"/>
-		<MakeDir Directories="$(WSPTransportAgentBuild)"/>
-		<MakeDir Directories="$(LocalizationToolkitBuild)"/>
-		<MakeDir Directories="$(InstallerBuild)"/>
-    <MakeDir Directories="$(FixDefaultPublicFolderMailboxBuild)"/>
-  </Target>
+		<MakeDir Directories="$(BuildFolder)" />
+		<MakeDir Directories="$(ServerBuild)" />
+		<MakeDir Directories="$(ServerMonoBuild)" />
+		<MakeDir Directories="$(EnterpriseServerBuild)" />
+		<MakeDir Directories="$(SchedulerServiceBuild)" />
+		<MakeDir Directories="$(PortalBuild)" />
+		<MakeDir Directories="$(WebDavPortalBuild)" />
+		<MakeDir Directories="$(HyperVUtilsBuild)" />
+		<MakeDir Directories="$(VmConfigBuild)" />
+		<MakeDir Directories="$(ImportCsvBuild)" />
+		<MakeDir Directories="$(ImportEnterpriseBuild)" />
+		<MakeDir Directories="$(AWStatsViewerBuild)" />
+		<MakeDir Directories="$(WSPTransportAgentBuild)" />
+		<MakeDir Directories="$(LocalizationToolkitBuild)" />
+		<MakeDir Directories="$(InstallerBuild)" />
+		<MakeDir Directories="$(FixDefaultPublicFolderMailboxBuild)" />
+	</Target>
 
 	<Target Name="CreateServerBuild" DependsOnTargets="PrepareBuilds">
 		<ItemGroup>
@@ -153,12 +161,12 @@
 			<ServerBuildExclude Include="$(ServerSrc)\**\*.vb" />
 			<ServerBuildExclude Include="$(ServerSrc)\**\*.vbproj" />
 			<ServerBuildExclude Include="$(ServerSrc)\**\.gitignore" />
-			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Web.Administration.*"/>
-			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Web.Management.*"/>
-			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Exchange.*"/>
-			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Crm.*"/>
-			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.SqlServer.BatchParser.dll"/>
-			<ServerBuildFiles Include="$(ServerSrc)\**\*.*" Exclude="@(ServerBuildExclude)"/>
+			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Web.Administration.*" />
+			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Web.Management.*" />
+			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Exchange.*" />
+			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.Crm.*" />
+			<ServerBuildExclude Include="$(ServerSrc)\bin\Microsoft.SqlServer.BatchParser.dll" />
+			<ServerBuildFiles Include="$(ServerSrc)\**\*.*" Exclude="@(ServerBuildExclude)" />
 		</ItemGroup>
 		<Copy SourceFiles="@(ServerBuildFiles)" DestinationFolder="$(ServerBuild)\%(RecursiveDir)" />
 	</Target>
@@ -180,15 +188,15 @@
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.csproj" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vb" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vbproj" />
-			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Administration.*"/>
-			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Management.*"/>
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Administration.*" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Management.*" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\.gitignore" />
-			<ServerMonoBuildFiles Include="$(ServerMonoSrc)\**\*.*" Exclude="@(ServerMonoBuildExclude)"/>
+			<ServerMonoBuildFiles Include="$(ServerMonoSrc)\**\*.*" Exclude="@(ServerMonoBuildExclude)" />
 		</ItemGroup>
 		<Copy SourceFiles="@(ServerMonoBuildFiles)" DestinationFolder="$(ServerMonoBuild)\%(RecursiveDir)" />
 	</Target>
 
-	<Target Name="CreateEnterpriseServerBuild" DependsOnTargets="CreateServerMonoBuild">
+	<Target Name="CreateEnterpriseServerBuild" DependsOnTargets="CreateServerBuild">
 		<ItemGroup>
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\.svn\**" />
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\obj\**" />
@@ -202,7 +210,7 @@
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\*.cs" />
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\*.csproj" />
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\*.metacsproj" />
-			<EnterpriseServerBuildFiles Include="$(EnterpriseServerSrc)\**\*.*" Exclude="@(EnterpriseServerBuildExclude)"/>
+			<EnterpriseServerBuildFiles Include="$(EnterpriseServerSrc)\**\*.*" Exclude="@(EnterpriseServerBuildExclude)" />
 		</ItemGroup>
 		<Copy SourceFiles="@(EnterpriseServerBuildFiles)" DestinationFolder="$(EnterpriseServerBuild)\%(RecursiveDir)" />
 	</Target>
@@ -228,7 +236,7 @@
 		<Copy SourceFiles="@(PortalBuildFiles)" DestinationFolder="$(PortalBuild)\%(RecursiveDir)" />
 	</Target>
 
-		<Target Name="CreateSchedulerBuild" DependsOnTargets="CreatePortalBuild">
+	<Target Name="CreateSchedulerBuild" DependsOnTargets="CreatePortalBuild">
 		<ItemGroup>
 			<SchBuildExclude Include="$(SchedulerServiceSrc)\**\.svn\**" />
 			<SchBuildExclude Include="$(SchedulerServiceSrc)\**\obj\**" />
@@ -272,7 +280,7 @@
 		<Copy SourceFiles="@(ImportCsvBuildFiles)" DestinationFolder="$(ImportCsvBuild)\%(RecursiveDir)" />
 	</Target>
 
-  <Target Name="CreateHyperVUtilsBuild" DependsOnTargets="CreateImportCsvBuild">
+	<Target Name="CreateHyperVUtilsBuild" DependsOnTargets="CreateImportCsvBuild">
 		<ItemGroup>
 			<HyperVUtilsExclude Include="$(HyperVUtilsSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
 			<HyperVUtilsExclude Include="$(HyperVUtilsSrc)\**\*.vshost.*" />
@@ -281,7 +289,7 @@
 		<Copy SourceFiles="@(HyperVUtilsBuildFiles)" DestinationFolder="$(HyperVUtilsBuild)\%(RecursiveDir)" />
 	</Target>
 
-  <Target Name="CreateVMConfigBuild" DependsOnTargets="CreateHyperVUtilsBuild">
+	<Target Name="CreateVMConfigBuild" DependsOnTargets="CreateHyperVUtilsBuild">
 		<ItemGroup>
 			<VMConfigExclude Include="$(VMConfigSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
 			<VMConfigExclude Include="$(VMConfigSrc)\**\*.vshost.*" />
@@ -320,21 +328,21 @@
 
 	<Target Name="CreateWSPTransportAgentBuild" DependsOnTargets="CreateAWStatsViewerBuild">
 		<ItemGroup>
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\.svn\**" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\obj\**" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\bin\*.xml" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.cache" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\microsoft.*" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\app.config" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.txt" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.user" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.suo" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.cs" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.csproj" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\Code\**" />
-				<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.publish.xml" />
-				<WSPTransportAgentBuildFiles Include="$(WSPTransportAgentSrc)\**\*.*" Exclude="@(WSPTransportAgentBuildExclude)" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\.svn\**" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\obj\**" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\bin\*.xml" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.cache" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\microsoft.*" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\app.config" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.txt" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.user" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.suo" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.cs" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.csproj" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\Code\**" />
+			<WSPTransportAgentBuildExclude Include="$(WSPTransportAgentSrc)\**\*.publish.xml" />
+			<WSPTransportAgentBuildFiles Include="$(WSPTransportAgentSrc)\**\*.*" Exclude="@(WSPTransportAgentBuildExclude)" />
 		</ItemGroup>
 		<Copy SourceFiles="@(WSPTransportAgentBuildFiles)" DestinationFolder="$(WSPTransportAgentBuild)\%(RecursiveDir)" />
 	</Target>
@@ -342,19 +350,15 @@
 	<Target Name="CreateLocalizationToolkitBuild" DependsOnTargets="CreateWSPTransportAgentBuild">
 		<!-- compile toolkit -->
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.LocalizationToolkit\WebsitePanel.LocalizationToolkit.csproj" Properties="Configuration=$(BuildConfiguration)">
-			<Output
-                TaskParameter="TargetOutputs"
-                ItemName="LocalizationToolkitExe" />
+			<Output TaskParameter="TargetOutputs" ItemName="LocalizationToolkitExe" />
 		</MSBuild>
 
 		<!-- generate default resources -->
-		<Exec Command="@(LocalizationToolkitExe) -L $(PortalSrc)"/>
+		<Exec Command="@(LocalizationToolkitExe) -L $(PortalSrc)" />
 
 		<!-- build MSI package -->
 		<MSBuild Projects="$(TrunkFolder)\Sources\Tools\WebsitePanel.LocalizationToolkit.Wix\WebsitePanel.LocalizationToolkit.Wix.wixproj" Properties="Configuration=$(BuildConfiguration);DefineSolutionProperties=false">
-			<Output
-                TaskParameter="TargetOutputs"
-                ItemName="LocalizationToolkitMsi" />
+			<Output TaskParameter="TargetOutputs" ItemName="LocalizationToolkitMsi" />
 		</MSBuild>
 		<Copy SourceFiles="@(LocalizationToolkitMsi)" DestinationFolder="$(LocalizationToolkitBuild)\%(RecursiveDir)" />
 	</Target>
@@ -383,45 +387,41 @@
 
 	</Target>
 
-  <Target Name="CreateFixDefaultPublicFolderMailboxBuild" DependsOnTargets="CreateSetupBuild">
-    <ItemGroup>
-      <FixDefaultPublicFolderMailboxExclude Include="$(FixDefaultPublicFolderMailboxSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
-      <FixDefaultPublicFolderMailboxExclude Include="$(FixDefaultPublicFolderMailboxSrc)\**\*.vshost.*" />
-      <FixDefaultPublicFolderMailboxBuildFiles Include="$(FixDefaultPublicFolderMailboxSrc)\**\*.*" Exclude="@(FixDefaultPublicFolderMailboxExclude)" />
-    </ItemGroup>
-    <Copy SourceFiles="@(FixDefaultPublicFolderMailboxBuildFiles)" DestinationFolder="$(FixDefaultPublicFolderMailboxBuild)\%(RecursiveDir)" />
-  </Target>
+	<Target Name="CreateFixDefaultPublicFolderMailboxBuild" DependsOnTargets="CreateSetupBuild">
+		<ItemGroup>
+			<FixDefaultPublicFolderMailboxExclude Include="$(FixDefaultPublicFolderMailboxSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
+			<FixDefaultPublicFolderMailboxExclude Include="$(FixDefaultPublicFolderMailboxSrc)\**\*.vshost.*" />
+			<FixDefaultPublicFolderMailboxBuildFiles Include="$(FixDefaultPublicFolderMailboxSrc)\**\*.*" Exclude="@(FixDefaultPublicFolderMailboxExclude)" />
+		</ItemGroup>
+		<Copy SourceFiles="@(FixDefaultPublicFolderMailboxBuildFiles)" DestinationFolder="$(FixDefaultPublicFolderMailboxBuild)\%(RecursiveDir)" />
+	</Target>
 
-    <Target Name="WiXCreateRedistFileListBuild" DependsOnTargets="CreateFixDefaultPublicFolderMailboxBuild" >
-        <RemoveDir Directories="$(WiXInstallerBuild)\ComponentsFiles" />
-        <MakeDir Directories="$(WiXInstallerBuild)\ComponentsFiles" />
-        <Exec Command='"$(WIX)bin\heat.exe" dir $(EnterpriseServerBuild) -o $(WiXInstallerBuild)\ComponentsFiles\EnterpriseServerFiles.wxs -gg -sreg -srd -var wix.BUILDESPATH -cg EnterpriseServerFiles -dr PI_ESERVER_INSTALL_DIR' />
-        <Exec Command='"$(WIX)bin\heat.exe" dir $(ServerBuild) -o $(WiXInstallerBuild)\ComponentsFiles\ServerFiles.wxs -gg -sreg -srd -var wix.BUILDSPATH -cg ServerFiles -dr PI_SERVER_INSTALL_DIR' />
-        <Exec Command='"$(WIX)bin\heat.exe" dir $(PortalBuild) -o $(WiXInstallerBuild)\ComponentsFiles\PortalFiles.wxs -gg -sreg -srd -var wix.BUILDPPATH -cg PortalFiles -dr PI_PORTAL_INSTALL_DIR' />
+	<Target Name="WiXCreateRedistFileListBuild" DependsOnTargets="CreateFixDefaultPublicFolderMailboxBuild">
+		<RemoveDir Directories="$(WiXInstallerBuild)\ComponentsFiles" />
+		<MakeDir Directories="$(WiXInstallerBuild)\ComponentsFiles" />
+		<Exec Command='"$(WIX)bin\heat.exe" dir $(EnterpriseServerBuild) -o $(WiXInstallerBuild)\ComponentsFiles\EnterpriseServerFiles.wxs -gg -sreg -srd -var wix.BUILDESPATH -cg EnterpriseServerFiles -dr PI_ESERVER_INSTALL_DIR' />
+		<Exec Command='"$(WIX)bin\heat.exe" dir $(ServerBuild) -o $(WiXInstallerBuild)\ComponentsFiles\ServerFiles.wxs -gg -sreg -srd -var wix.BUILDSPATH -cg ServerFiles -dr PI_SERVER_INSTALL_DIR' />
+		<Exec Command='"$(WIX)bin\heat.exe" dir $(PortalBuild) -o $(WiXInstallerBuild)\ComponentsFiles\PortalFiles.wxs -gg -sreg -srd -var wix.BUILDPPATH -cg PortalFiles -dr PI_PORTAL_INSTALL_DIR' />
 		<Exec Command='"$(WIX)bin\heat.exe" dir $(SchedulerServiceBuild) -o $(WiXInstallerBuild)\ComponentsFiles\SchedulerServiceFiles.wxs -gg -sreg -srd -var wix.BUILDSRVPATH -cg SchedulerServiceFiles -dr PI_SCHEDULER_INSTALL_DIR' />
-        <Exec Command='"$(WIX)bin\heat.exe" dir $(WebDavPortalBuild) -o $(WiXInstallerBuild)\ComponentsFiles\WebDavPortalFiles.wxs -gg -sreg -srd -var wix.BUILDWDPPATH -cg WebDavPortalFiles -dr PI_WDPORTAL_INSTALL_DIR' />
+		<Exec Command='"$(WIX)bin\heat.exe" dir $(WebDavPortalBuild) -o $(WiXInstallerBuild)\ComponentsFiles\WebDavPortalFiles.wxs -gg -sreg -srd -var wix.BUILDWDPPATH -cg WebDavPortalFiles -dr PI_WDPORTAL_INSTALL_DIR' />
 
 		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\Sources\Setup.WIX\Setup.Wix.wixproj" Properties="Configuration=$(BuildConfiguration);DefineSolutionProperties=false">
-			<Output
-                TaskParameter="TargetOutputs"
-                ItemName="WebsitePanelInstallerMsi" />
+			<Output TaskParameter="TargetOutputs" ItemName="WebsitePanelInstallerMsi" />
 		</MSBuild>
 
-		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\Sources\WebsitePanel.SchedulerServiceInstaller\WebsitePanel.SchedulerServiceInstaller.csproj" Properties="Configuration=$(BuildConfiguration);DefineSolutionProperties=false"/>
+		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\Sources\WebsitePanel.SchedulerServiceInstaller\WebsitePanel.SchedulerServiceInstaller.csproj" Properties="Configuration=$(BuildConfiguration);DefineSolutionProperties=false" />
 
 		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\Sources\Setup.SchedulerService\Setup.SchedulerService.wixproj" Properties="Configuration=$(BuildConfiguration);DefineSolutionProperties=false">
-			<Output
-                TaskParameter="TargetOutputs"
-                ItemName="WebsitePanelInstallerMsi" />
+			<Output TaskParameter="TargetOutputs" ItemName="WebsitePanelInstallerMsi" />
 		</MSBuild>
 		<Copy SourceFiles="@(WebsitePanelInstallerMsi)" DestinationFolder="$(DeployFolder)\%(RecursiveDir)" />
-		</Target>
+	</Target>
 
-    <Target Name="Build" DependsOnTargets="WiXCreateRedistFileListBuild">
+	<Target Name="Build" DependsOnTargets="WiXCreateRedistFileListBuild">
 		<!-- Do nothing -->
 	</Target>
 
-  <!-- Create full distributives -->
+	<!-- Create full distributives -->
 	<PropertyGroup>
 		<InstallFolder>$(DeployFolder)\Install</InstallFolder>
 		<ServerInstall>$(InstallFolder)\Server</ServerInstall>
@@ -440,27 +440,27 @@
 		<ImportEnterpriseInstall>$(ToolsFolder)\Import.Enterprise</ImportEnterpriseInstall>
 		<AWStatsViewerInstall>$(ToolsFolder)\AWStats.Viewer</AWStatsViewerInstall>
 		<WSPTransportAgentInstall>$(ToolsFolder)\WSPTransportAgent</WSPTransportAgentInstall>
-    <FixDefaultPublicFolderMailboxInstall>$(ToolsFolder)\FixDefaultPublicFolderMailbox</FixDefaultPublicFolderMailboxInstall>
-  </PropertyGroup>
+		<FixDefaultPublicFolderMailboxInstall>$(ToolsFolder)\FixDefaultPublicFolderMailbox</FixDefaultPublicFolderMailboxInstall>
+	</PropertyGroup>
 
 	<Target Name="PrepareInstalls" DependsOnTargets="Build">
-		<Delete Files="$(InstallFolder)\**\*.*"/>
-		<RemoveDir Directories="$(InstallFolder)"/>
-		<MakeDir Directories="$(InstallFolder)"/>
+		<Delete Files="$(InstallFolder)\**\*.*" />
+		<RemoveDir Directories="$(InstallFolder)" />
+		<MakeDir Directories="$(InstallFolder)" />
 
-		<Delete Files="$(ToolsFolder)\**\*.*"/>
-		<RemoveDir Directories="$(ToolsFolder)"/>
-		<MakeDir Directories="$(ToolsFolder)"/>
+		<Delete Files="$(ToolsFolder)\**\*.*" />
+		<RemoveDir Directories="$(ToolsFolder)" />
+		<MakeDir Directories="$(ToolsFolder)" />
 	</Target>
 
 	<Target Name="CreateServerInstall" DependsOnTargets="PrepareInstalls">
 		<ItemGroup>
 			<ServerDeployExclude Include="$(ServerBuild)\bin\SDNSAPI.dll" />
-			<ServerDeployExclude Include="$(ServerBuild)\bin\MySql.Data.dll"/>
+			<ServerDeployExclude Include="$(ServerBuild)\bin\MySql.Data.dll" />
 			<ServerDeployFiles Include="$(ServerBuild)\**\*.*" Exclude="@(ServerDeployExclude)" />
 		</ItemGroup>
-		<RemoveDir Directories="$(ServerInstall)"/>
-		<MakeDir Directories="$(ServerInstall)"/>
+		<RemoveDir Directories="$(ServerInstall)" />
+		<MakeDir Directories="$(ServerInstall)" />
 		<Copy SourceFiles="@(ServerDeployFiles)" DestinationFolder="$(ServerInstall)\%(RecursiveDir)" />
 		<XmlUpdate XmlFileName="$(ServerInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="${installer.server.password}" />
 	</Target>
@@ -468,11 +468,11 @@
 	<Target Name="CreateServerMonoInstall" DependsOnTargets="CreateServerInstall">
 		<ItemGroup>
 			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\SDNSAPI.dll" />
-			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\MySql.Data.dll"/>
+			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\MySql.Data.dll" />
 			<ServerDeployFiles Include="$(ServerMonoBuild)\**\*.*" Exclude="@(ServerDeployExclude)" />
 		</ItemGroup>
-		<RemoveDir Directories="$(ServerMonoInstall)"/>
-		<MakeDir Directories="$(ServerMonoInstall)"/>
+		<RemoveDir Directories="$(ServerMonoInstall)" />
+		<MakeDir Directories="$(ServerMonoInstall)" />
 		<Copy SourceFiles="@(ServerDeployFiles)" DestinationFolder="$(ServerMonoInstall)\%(RecursiveDir)" />
 		<XmlUpdate XmlFileName="$(ServerMonoInstall)\web.config" Xpath="//configuration/websitepanel.server/security/password/@value" Value="${installer.server.password}" />
 	</Target>
@@ -483,29 +483,29 @@
 			<EnterpriseServerDeployExclude Include="$(EnterpriseServerBuild)\bin\OrderBoxCoreLib.DLL" />
 			<EnterpriseServerDeployFiles Include="$(EnterpriseServerBuild)\**\*.*" Exclude="@(EnterpriseServerDeployExclude)" />
 		</ItemGroup>
-		<RemoveDir Directories="$(EnterpriseServerInstall)"/>
-		<MakeDir Directories="$(EnterpriseServerInstall)"/>
+		<RemoveDir Directories="$(EnterpriseServerInstall)" />
+		<MakeDir Directories="$(EnterpriseServerInstall)" />
 		<Copy SourceFiles="@(EnterpriseServerDeployFiles)" DestinationFolder="$(EnterpriseServerInstall)\%(RecursiveDir)" />
-		<XmlUpdate XmlFileName="$(EnterpriseServerInstall)\web.config" Xpath="//configuration/connectionStrings/add/@connectionString" Value="${installer.connectionstring}"  />
-		<XmlUpdate XmlFileName="$(EnterpriseServerInstall)\web.config" Xpath="//configuration/appSettings/add[@key=%22WebsitePanel.CryptoKey%22]/@value" Value="${installer.cryptokey}"  />
+		<XmlUpdate XmlFileName="$(EnterpriseServerInstall)\web.config" Xpath="//configuration/connectionStrings/add/@connectionString" Value="${installer.connectionstring}" />
+		<XmlUpdate XmlFileName="$(EnterpriseServerInstall)\web.config" Xpath="//configuration/appSettings/add[@key=%22WebsitePanel.CryptoKey%22]/@value" Value="${installer.cryptokey}" />
 	</Target>
 
 	<Target Name="CreatePortalInstall" DependsOnTargets="CreateEnterpriseServerInstall">
 		<ItemGroup>
 			<PortalDeployFiles Include="$(PortalBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(PortalInstall)"/>
-		<MakeDir Directories="$(PortalInstall)"/>
+		<RemoveDir Directories="$(PortalInstall)" />
+		<MakeDir Directories="$(PortalInstall)" />
 		<Copy SourceFiles="@(PortalDeployFiles)" DestinationFolder="$(PortalInstall)\%(RecursiveDir)" />
-		<XmlUpdate XmlFileName="$(PortalInstall)\App_Data\SiteSettings.config" Xpath="//SiteSettings/EnterpriseServer" Value="http://localhost:9002"  />
+		<XmlUpdate XmlFileName="$(PortalInstall)\App_Data\SiteSettings.config" Xpath="//SiteSettings/EnterpriseServer" Value="http://localhost:9002" />
 	</Target>
 
 	<Target Name="CreateWebDavPortalInstall" DependsOnTargets="CreatePortalInstall">
 		<ItemGroup>
 			<WebDavPortalDeployFiles Include="$(WebDavPortalBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(WebDavPortalInstall)"/>
-		<MakeDir Directories="$(WebDavPortalInstall)"/>
+		<RemoveDir Directories="$(WebDavPortalInstall)" />
+		<MakeDir Directories="$(WebDavPortalInstall)" />
 		<Copy SourceFiles="@(WebDavPortalDeployFiles)" DestinationFolder="$(WebDavPortalInstall)\%(RecursiveDir)" />
 	</Target>
 
@@ -513,28 +513,28 @@
 		<ItemGroup>
 			<ImportCsvDeployFiles Include="$(ImportCsvBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(ImportCsvInstall)"/>
-		<MakeDir Directories="$(ImportCsvInstall)"/>
+		<RemoveDir Directories="$(ImportCsvInstall)" />
+		<MakeDir Directories="$(ImportCsvInstall)" />
 		<Copy SourceFiles="@(ImportCsvDeployFiles)" DestinationFolder="$(ImportCsvInstall)\%(RecursiveDir)" />
 		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(ImportCsvInstall)" />
 	</Target>
 
-  <Target Name="CreateHyperVUtilsCsvInstall" DependsOnTargets="CreateImportCsvInstall">
+	<Target Name="CreateHyperVUtilsCsvInstall" DependsOnTargets="CreateImportCsvInstall">
 		<ItemGroup>
 			<HyperVUtilsDeployFiles Include="$(HyperVUtilsBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(HyperVUtilsInstall)"/>
-		<MakeDir Directories="$(HyperVUtilsInstall)"/>
+		<RemoveDir Directories="$(HyperVUtilsInstall)" />
+		<MakeDir Directories="$(HyperVUtilsInstall)" />
 		<Copy SourceFiles="@(HyperVUtilsDeployFiles)" DestinationFolder="$(HyperVUtilsInstall)\%(RecursiveDir)" />
 		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(HyperVUtilsInstall)" />
 	</Target>
 
-  <Target Name="CreateVMConfigInstall" DependsOnTargets="CreateHyperVUtilsCsvInstall">
+	<Target Name="CreateVMConfigInstall" DependsOnTargets="CreateHyperVUtilsCsvInstall">
 		<ItemGroup>
 			<VMConfigDeployFiles Include="$(VMConfigBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(VMConfigInstall)"/>
-		<MakeDir Directories="$(VMConfigInstall)"/>
+		<RemoveDir Directories="$(VMConfigInstall)" />
+		<MakeDir Directories="$(VMConfigInstall)" />
 		<Copy SourceFiles="@(VMConfigDeployFiles)" DestinationFolder="$(VMConfigInstall)\%(RecursiveDir)" />
 		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(VMConfigInstall)" />
 	</Target>
@@ -543,8 +543,8 @@
 		<ItemGroup>
 			<ImportEnterpriseDeployFiles Include="$(ImportEnterpriseBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(ImportEnterpriseInstall)"/>
-		<MakeDir Directories="$(ImportEnterpriseInstall)"/>
+		<RemoveDir Directories="$(ImportEnterpriseInstall)" />
+		<MakeDir Directories="$(ImportEnterpriseInstall)" />
 		<Copy SourceFiles="@(ImportEnterpriseDeployFiles)" DestinationFolder="$(ImportEnterpriseInstall)\%(RecursiveDir)" />
 		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(ImportEnterpriseInstall)" />
 	</Target>
@@ -553,8 +553,8 @@
 		<ItemGroup>
 			<WSPTransportAgentDeployFiles Include="$(WSPTransportAgentBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(WSPTransportAgentInstall)"/>
-		<MakeDir Directories="$(WSPTransportAgentInstall)"/>
+		<RemoveDir Directories="$(WSPTransportAgentInstall)" />
+		<MakeDir Directories="$(WSPTransportAgentInstall)" />
 		<Copy SourceFiles="@(WSPTransportAgentDeployFiles)" DestinationFolder="$(WSPTransportAgentInstall)\%(RecursiveDir)" />
 		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(WSPTransportAgentInstall)" />
 	</Target>
@@ -563,8 +563,8 @@
 		<ItemGroup>
 			<AWStatsViewerDeployFiles Include="$(AWStatsViewerBuild)\**\*.*" />
 		</ItemGroup>
-		<RemoveDir Directories="$(AWStatsViewerInstall)"/>
-		<MakeDir Directories="$(AWStatsViewerInstall)"/>
+		<RemoveDir Directories="$(AWStatsViewerInstall)" />
+		<MakeDir Directories="$(AWStatsViewerInstall)" />
 		<Copy SourceFiles="@(AWStatsViewerDeployFiles)" DestinationFolder="$(AWStatsViewerInstall)\%(RecursiveDir)" />
 		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(AWStatsViewerInstall)" />
 	</Target>
@@ -576,18 +576,18 @@
 		<Copy SourceFiles="@(LocalizationToolkitDeployFiles)" DestinationFolder="$(ToolsFolder)\%(RecursiveDir)" />
 	</Target>
 
-  <Target Name="CreateFixDefaultPublicFolderMailboxInstall" DependsOnTargets="CreateLocalizationToolkitInstall">
-    <ItemGroup>
-      <FixDefaultPublicFolderMailboxDeployFiles Include="$(FixDefaultPublicFolderMailboxBuild)\**\*.*" />
-    </ItemGroup>
-    <RemoveDir Directories="$(FixDefaultPublicFolderMailboxInstall)"/>
-    <MakeDir Directories="$(FixDefaultPublicFolderMailboxInstall)"/>
-    <Copy SourceFiles="@(FixDefaultPublicFolderMailboxDeployFiles)" DestinationFolder="$(FixDefaultPublicFolderMailboxInstall)\%(RecursiveDir)" />
-    <Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(FixDefaultPublicFolderMailboxInstall)" />
-  </Target>
+	<Target Name="CreateFixDefaultPublicFolderMailboxInstall" DependsOnTargets="CreateLocalizationToolkitInstall">
+		<ItemGroup>
+			<FixDefaultPublicFolderMailboxDeployFiles Include="$(FixDefaultPublicFolderMailboxBuild)\**\*.*" />
+		</ItemGroup>
+		<RemoveDir Directories="$(FixDefaultPublicFolderMailboxInstall)" />
+		<MakeDir Directories="$(FixDefaultPublicFolderMailboxInstall)" />
+		<Copy SourceFiles="@(FixDefaultPublicFolderMailboxDeployFiles)" DestinationFolder="$(FixDefaultPublicFolderMailboxInstall)\%(RecursiveDir)" />
+		<Copy SourceFiles="$(RootFolder)\LICENSE.txt" DestinationFolder="$(FixDefaultPublicFolderMailboxInstall)" />
+	</Target>
 
 
-  <!-- Create update from previous version -->
+	<!-- Create update from previous version -->
 	<PropertyGroup>
 		<UpdateFolder>$(DeployFolder)\Update</UpdateFolder>
 		<ServerUpdate>$(UpdateFolder)\Server</ServerUpdate>
@@ -597,32 +597,32 @@
 	</PropertyGroup>
 
 	<Target Name="PrepareUpdates" DependsOnTargets="CreateFixDefaultPublicFolderMailboxInstall">
-		<RemoveDir Directories="$(UpdateFolder)"/>
-		<MakeDir Directories="$(UpdateFolder)"/>
+		<RemoveDir Directories="$(UpdateFolder)" />
+		<MakeDir Directories="$(UpdateFolder)" />
 
-		<RemoveDir Directories="$(ServerUpdate)"/>
-		<MakeDir Directories="$(ServerUpdate)"/>
+		<RemoveDir Directories="$(ServerUpdate)" />
+		<MakeDir Directories="$(ServerUpdate)" />
 
-		<RemoveDir Directories="$(ServerMonoUpdate)"/>
-		<MakeDir Directories="$(ServerMonoUpdate)"/>
+		<RemoveDir Directories="$(ServerMonoUpdate)" />
+		<MakeDir Directories="$(ServerMonoUpdate)" />
 
-		<RemoveDir Directories="$(EnterpriseServerUpdate)"/>
-		<MakeDir Directories="$(EnterpriseServerUpdate)"/>
+		<RemoveDir Directories="$(EnterpriseServerUpdate)" />
+		<MakeDir Directories="$(EnterpriseServerUpdate)" />
 
-		<RemoveDir Directories="$(PortalUpdate)"/>
-		<MakeDir Directories="$(PortalUpdate)"/>
+		<RemoveDir Directories="$(PortalUpdate)" />
+		<MakeDir Directories="$(PortalUpdate)" />
 	</Target>
 
 	<Target Name="CreateServerUpdate" DependsOnTargets="PrepareUpdates">
-		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\Server%22 %22$(ServerInstall)%22  %22$(ServerUpdate)%22 /ex:web.config"/>
+		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\Server%22 %22$(ServerInstall)%22  %22$(ServerUpdate)%22 /ex:web.config" />
 	</Target>
 
 	<Target Name="CreateServerMonoUpdate" DependsOnTargets="CreateServerUpdate">
-		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\ServerMono%22 %22$(ServerMonoInstall)%22  %22$(ServerMonoUpdate)%22 /ex:web.config"/>
+		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\ServerMono%22 %22$(ServerMonoInstall)%22  %22$(ServerMonoUpdate)%22 /ex:web.config" />
 	</Target>
 
-	<Target Name="CreateEnterpriseServerUpdate" DependsOnTargets="CreateServerUpdate" >
-		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\EnterpriseServer%22 %22$(EnterpriseServerInstall)%22  %22$(EnterpriseServerUpdate)%22 /ex:web.config"/>
+	<Target Name="CreateEnterpriseServerUpdate" DependsOnTargets="CreateServerUpdate">
+		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\EnterpriseServer%22 %22$(EnterpriseServerInstall)%22  %22$(EnterpriseServerUpdate)%22 /ex:web.config" />
 		<Copy SourceFiles="$(TrunkFolder)\Database\update_db.sql" DestinationFolder="$(EnterpriseServerUpdate)\Setup" />
 		<!-- Update variables in the file -->
 		<FileUpdate Files="$(EnterpriseServerUpdate)\Setup\update_db.sql" Regex="\${release.version}" ReplacementText="$(FileVersion)" />
@@ -634,8 +634,8 @@
 		<FileUpdate Files="$(UpdateFolder)\update_db.sql" Regex="\${release.date}" ReplacementText="$(ReleaseDate)" />
 	</Target>
 
-	<Target Name="CreatePortalUpdate" DependsOnTargets="CreateEnterpriseServerUpdate" >
-		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\Portal%22 %22$(PortalInstall)%22  %22$(PortalUpdate)%22 /ex:web.config,web6.config"/>
+	<Target Name="CreatePortalUpdate" DependsOnTargets="CreateEnterpriseServerUpdate">
+		<Exec Command="$(DiffCmd) %22$(PreviousBuildFolder)\Portal%22 %22$(PortalInstall)%22  %22$(PortalUpdate)%22 /ex:web.config,web6.config" />
 	</Target>
 
 	<!-- Create Enterprise Server database and script it -->
@@ -643,8 +643,8 @@
 		<DatabaseFolder>$(DeployFolder)\Database</DatabaseFolder>
 	</PropertyGroup>
 
-  <Target Name="CreateEnterpriseServerDatabase" DependsOnTargets="CreatePortalUpdate">
-		<MakeDir Directories="$(DatabaseFolder)"/>
+	<Target Name="CreateEnterpriseServerDatabase" DependsOnTargets="CreatePortalUpdate">
+		<MakeDir Directories="$(DatabaseFolder)" />
 
 		<Exec Command="$(SqlCmd) -Q &quot;IF DB_ID (N'$(DataBaseName)') IS NOT NULL DROP DATABASE $(DataBaseName)&quot;" />
 		<Exec Command="$(SqlCmd) -Q &quot;CREATE DATABASE $(DataBaseName)&quot;" />
@@ -667,13 +667,13 @@
 
 	<Target Name="ScriptEnterpriseServerDatabase" DependsOnTargets="CreateEnterpriseServerDatabase">
 		<ConvertToAbsolutePath Paths="$(DatabaseFolder)">
-			<Output TaskParameter="AbsolutePaths" PropertyName="DatabaseFolderAbsolute"/>
+			<Output TaskParameter="AbsolutePaths" PropertyName="DatabaseFolderAbsolute" />
 		</ConvertToAbsolutePath>
 
-		<Exec Command="$(MSDeployPath) -verb:sync -source:dbFullSql=&quot;$(MSDeployConnectionString)&quot; -dest:dbFullSql=&quot;$(DatabaseFolderAbsolute)\install_db_temp.sql&quot;"/>
+		<Exec Command="$(MSDeployPath) -verb:sync -source:dbFullSql=&quot;$(MSDeployConnectionString)&quot; -dest:dbFullSql=&quot;$(DatabaseFolderAbsolute)\install_db_temp.sql&quot;" />
 		<Exec Command="copy $(TrunkFolder)\Resources\database_header.sql+$(DatabaseFolder)\install_db_temp.sql $(DatabaseFolder)\install_db.sql" />
 
-		<MakeDir Directories="$(EnterpriseServerInstall)\Setup"/>
+		<MakeDir Directories="$(EnterpriseServerInstall)\Setup" />
 
 		<Copy SourceFiles="$(DatabaseFolder)\install_db.sql" DestinationFolder="$(EnterpriseServerInstall)\Setup" />
 
@@ -684,10 +684,10 @@
 	<!-- Compile and deploy Setup.dll -->
 	<Target Name="CreateSetupDLL" DependsOnTargets="ScriptEnterpriseServerDatabase">
 		<!-- Compile Setup.dll -->
-		<MSBuild Projects="$(SetupTrunkFolder)\Sources\WebsitePanel.Installer.sln"  Properties="Configuration=$(BuildConfiguration)" />
+		<MSBuild Projects="$(SetupTrunkFolder)\Sources\WebsitePanel.Installer.sln" Properties="Configuration=$(BuildConfiguration)" />
 
 		<!-- Copy Setup.dll -->
-		<MakeDir Directories="$(ServerInstall)\Setup"/>
+		<MakeDir Directories="$(ServerInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(ServerInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.pdb" DestinationFolder="$(ServerInstall)\Setup" Condition="'$(BuildConfiguration)' == 'Debug'" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(ServerUpdate)\Setup" />
@@ -698,32 +698,32 @@
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(EnterpriseServerUpdate)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.pdb" DestinationFolder="$(EnterpriseServerUpdate)\Setup" Condition="'$(BuildConfiguration)' == 'Debug'" />
 
-		<MakeDir Directories="$(PortalInstall)\Setup"/>
+		<MakeDir Directories="$(PortalInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(PortalInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.pdb" DestinationFolder="$(PortalInstall)\Setup" Condition="'$(BuildConfiguration)' == 'Debug'" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(PortalUpdate)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.pdb" DestinationFolder="$(PortalUpdate)\Setup" Condition="'$(BuildConfiguration)' == 'Debug'" />
 
-		<MakeDir Directories="$(WebDavPortalInstall)\Setup"/>
+		<MakeDir Directories="$(WebDavPortalInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(WebDavPortalInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.pdb" DestinationFolder="$(WebDavPortalInstall)\Setup" Condition="'$(BuildConfiguration)' == 'Debug'" />
 
-		<RemoveDir Directories="$(StandaloneInstall)"/>
-		<MakeDir Directories="$(StandaloneInstall)"/>
-		<MakeDir Directories="$(StandaloneInstall)\Setup"/>
+		<RemoveDir Directories="$(StandaloneInstall)" />
+		<MakeDir Directories="$(StandaloneInstall)" />
+		<MakeDir Directories="$(StandaloneInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.dll" DestinationFolder="$(StandaloneInstall)\Setup" />
 		<Copy SourceFiles="$(SetupBuildFolder)\setup.pdb" DestinationFolder="$(StandaloneInstall)\Setup" Condition="'$(BuildConfiguration)' == 'Debug'" />
 	</Target>
 
-    <UsingTask TaskName="RegExpReplace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
-        <ParameterGroup>
-          <Path ParameterType="System.String" Required="true" />
-          <Pattern ParameterType="System.String" Required="true" />
-          <Replacement ParameterType="System.String" Required="true" />
-        </ParameterGroup>
-        <Task>
-            <Using Namespace="System.Text.RegularExpressions"/>
-            <Code Type="Fragment" Language="cs">
+	<UsingTask TaskName="RegExpReplace" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+		<ParameterGroup>
+			<Path ParameterType="System.String" Required="true" />
+			<Pattern ParameterType="System.String" Required="true" />
+			<Replacement ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
                 <![CDATA[
                     var Text = File.ReadAllText(Path);
                     var RegExp = new Regex(Pattern);
@@ -731,40 +731,40 @@
                     File.WriteAllText(Path, Text);
                 ]]>
             </Code>
-        </Task>
-  </UsingTask>
+		</Task>
+	</UsingTask>
 
-  <Target Name='Demo' >
-    <TokenReplace Path="C:\Project\Target.config" Token="$MyToken$" Replacement="MyValue"/>
-  </Target>
+	<Target Name='Demo'>
+		<TokenReplace Path="C:\Project\Target.config" Token="$MyToken$" Replacement="MyValue" />
+	</Target>
 
-    <Target Name="CreateStandaloneFullMsi" DependsOnTargets="CreateSetupDLL">
+	<Target Name="CreateStandaloneFullMsi" DependsOnTargets="CreateSetupDLL">
 
-        <Copy SourceFiles="$(TrunkFolder)\Database\install_db.sql" DestinationFiles="$(DatabaseFolder)\wix_install_db.sql"  />
+		<Copy SourceFiles="$(TrunkFolder)\Database\install_db.sql" DestinationFiles="$(DatabaseFolder)\wix_install_db.sql" />
 		<Copy SourceFiles="$(UpdateFolder)\update_db.sql" DestinationFiles="$(DatabaseFolder)\wix_update_db.sql" />
 
-        <RegExpReplace Path="$(DatabaseFolder)\wix_install_db.sql" Pattern="USE \[\${install\.database}\]" Replacement="-- WiX" />
-        <RegExpReplace Path="$(DatabaseFolder)\wix_update_db.sql" Pattern="USE \[\${install\.database}\]" Replacement="-- WiX" />
-        <MSBuild Projects='$(RootFolder)\WebsitePanel.Installer\Sources\WebsitePanel.WIXInstaller\WebsitePanel.WIXInstaller.csproj' Properties='Configuration=$(BuildConfiguration)' Targets='Build' />
-        <MSBuild Projects='$(RootFolder)\WebsitePanel.Installer\Sources\Setup.WIXInstaller\Setup.WIXInstaller.wixproj' Properties='Configuration=$(BuildConfiguration)' Targets='Build'>
-           <Output TaskParameter="TargetOutputs" ItemName="StandaloneFullMsi" />
-        </MSBuild>
+		<RegExpReplace Path="$(DatabaseFolder)\wix_install_db.sql" Pattern="USE \[\${install\.database}\]" Replacement="-- WiX" />
+		<RegExpReplace Path="$(DatabaseFolder)\wix_update_db.sql" Pattern="USE \[\${install\.database}\]" Replacement="-- WiX" />
+		<MSBuild Projects='$(RootFolder)\WebsitePanel.Installer\Sources\WebsitePanel.WIXInstaller\WebsitePanel.WIXInstaller.csproj' Properties='Configuration=$(BuildConfiguration)' Targets='Build' />
+		<MSBuild Projects='$(RootFolder)\WebsitePanel.Installer\Sources\Setup.WIXInstaller\Setup.WIXInstaller.wixproj' Properties='Configuration=$(BuildConfiguration)' Targets='Build'>
+			<Output TaskParameter="TargetOutputs" ItemName="StandaloneFullMsi" />
+		</MSBuild>
 		<Copy SourceFiles="@(StandaloneFullMsi)" DestinationFolder="$(DeployFolder)\%(RecursiveDir)" />
-		<Delete Files="$(RootFolder)\Websitepanel.Installer\Sources\Setup.WIXBootstrapper\Websitepanel.msi"/>
+		<Delete Files="$(RootFolder)\Websitepanel.Installer\Sources\Setup.WIXBootstrapper\Websitepanel.msi" />
 		<Copy SourceFiles="@(StandaloneFullMsi)" DestinationFolder="$(RootFolder)\Websitepanel.Installer\Sources\Setup.WIXBootstrapper" />
 
 
-    </Target>
+	</Target>
 
 	<Target Name="CreateStandaloneBootstrapper" DependsOnTargets="CreateStandaloneFullMsi">
-        <MSBuild Projects='$(RootFolder)\WebsitePanel.Installer\Sources\Setup.WIXBootstrapper\Setup.WIXBootstrapper.csproj' Properties='Configuration=$(BuildConfiguration)' Targets='Build'>
-           <Output TaskParameter="TargetOutputs" ItemName="StandaloneBootstrapper" />
-        </MSBuild>
+		<MSBuild Projects='$(RootFolder)\WebsitePanel.Installer\Sources\Setup.WIXBootstrapper\Setup.WIXBootstrapper.csproj' Properties='Configuration=$(BuildConfiguration)' Targets='Build'>
+			<Output TaskParameter="TargetOutputs" ItemName="StandaloneBootstrapper" />
+		</MSBuild>
 		<Copy SourceFiles="@(StandaloneBootstrapper)" DestinationFolder="$(DeployFolder)\%(RecursiveDir)" />
 	</Target>
 
 	<!-- Deploy -->
-	<Target Name="Deploy" DependsOnTargets="CreateStandaloneBootstrapper" >
+	<Target Name="Deploy" DependsOnTargets="CreateStandaloneBootstrapper">
 		<ItemGroup>
 			<PortalInstallFiles Include="$(PortalInstall)\**\*.*" />
 			<WebDavPortalInstallFiles Include="$(WebDavPortalInstall)\**\*.*" />
@@ -847,32 +847,32 @@
 		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-Import-Enterprise-$(Version).zip&quot; &quot;$(ImportEnterpriseInstall)\*&quot;" />
 		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-AWStatsViewer-$(Version).zip&quot; &quot;$(AWStatsViewerInstall)\*&quot;" />
 		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-WSPTransportAgent-$(Version).zip&quot; &quot;$(WSPTransportAgentInstall)\*&quot;" />
-    <Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip&quot; &quot;$(FixDefaultPublicFolderMailboxInstall)\*&quot;" />
+		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip&quot; &quot;$(FixDefaultPublicFolderMailboxInstall)\*&quot;" />
 
-  </Target>
+	</Target>
 
-  <Target Name="uploadwebpi" DependsOnTargets="BuildWebPlatformInstallerFeed">
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelFeed-$(Version).xml" LocalFile="$(DeployFolder)\WebsitePanelFeed.xml" />
-  </Target>
+	<Target Name="uploadwebpi" DependsOnTargets="BuildWebPlatformInstallerFeed">
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelFeed-$(Version).xml" LocalFile="$(DeployFolder)\WebsitePanelFeed.xml" />
+	</Target>
 
-  <!-- This task depends on FTP upload task and will be run afterwards -->
-  <Target Name="BuildWebPlatformInstallerFeed" DependsOnTargets="uploadtoftp">
-    <ItemGroup>
-      <!-- This will generate path to a temporary file that will be used by WebDownload task below to download the installer's distributive locally -->
-      <InstallerFilePath Include="$([System.IO.Path]::GetTempFileName())" />
-    </ItemGroup>
-    <PropertyGroup>
-      <GetFileSizeScript>
-        <![CDATA[
+	<!-- This task depends on FTP upload task and will be run afterwards -->
+	<Target Name="BuildWebPlatformInstallerFeed" DependsOnTargets="uploadtoftp">
+		<ItemGroup>
+			<!-- This will generate path to a temporary file that will be used by WebDownload task below to download the installer's distributive locally -->
+			<InstallerFilePath Include="$([System.IO.Path]::GetTempFileName())" />
+		</ItemGroup>
+		<PropertyGroup>
+			<GetFileSizeScript>
+				<![CDATA[
           public static string ScriptMain() {
             System.Int32 KB = 1024;
             System.IO.FileInfo fileInfo = new System.IO.FileInfo(@"%(InstallerFilePath.FullPath)");
             return System.Convert.ToString(fileInfo.Length / KB);
           }
         ]]>
-      </GetFileSizeScript>
-      <ComputeChecksumScript>
-        <![CDATA[
+			</GetFileSizeScript>
+			<ComputeChecksumScript>
+				<![CDATA[
           public static string ScriptMain() {
             System.String checksumStr = "";
             using(System.IO.FileStream stream = System.IO.File.OpenRead(@"%(InstallerFilePath.FullPath)"))
@@ -884,70 +884,70 @@
             return checksumStr;
           }
         ]]>
-      </ComputeChecksumScript>
-    </PropertyGroup>
-    <WebDownload FileUri="$(InstallerRemoteUri)" FileName="%(InstallerFilePath.FullPath)" />
-    <Script Language="C#" Code="$(ComputeChecksumScript)">
-      <Output TaskParameter="ReturnValue" PropertyName="InstallerFileChecksum" />
-    </Script>
-    <Script Language="C#" Code="$(GetFileSizeScript)">
-      <Output TaskParameter="ReturnValue" PropertyName="InstallerFileSize" />
-    </Script>
-    <Delete Files="%(InstallerFilePath.FullPath)" />
-    <ItemGroup>
-      <Tokens Include="ProductVersion">
-        <ReplacementValue>$(Version)</ReplacementValue>
-      </Tokens>
-      <Tokens Include="ProductTitle">
-        <ReplacementValue>WebsitePanel $(Version)</ReplacementValue>
-      </Tokens>
-      <Tokens Include="ReleaseDate">
-        <ReplacementValue>$(ReleaseDate)T00:00:00Z</ReplacementValue>
-      </Tokens>
-      <Tokens Include="InstallerFileSize">
-        <ReplacementValue>$(InstallerFileSize)</ReplacementValue>
-      </Tokens>
-      <Tokens Include="InstallerFileSHA1">
-        <ReplacementValue>$(InstallerFileChecksum)</ReplacementValue>
-      </Tokens>
-      <Tokens Include="InstallerFileUrl">
-        <ReplacementValue>$(InstallerRemoteUri)</ReplacementValue>
-      </Tokens>
-    </ItemGroup>
-    <TemplateFile Template="$(TrunkFolder)\WebsitePanelFeedTemplate.xml" OutputFilename="$(DeployFolder)\WebsitePanelFeed.xml" Tokens="@(Tokens)" />
-  </Target>
+			</ComputeChecksumScript>
+		</PropertyGroup>
+		<WebDownload FileUri="$(InstallerRemoteUri)" FileName="%(InstallerFilePath.FullPath)" />
+		<Script Language="C#" Code="$(ComputeChecksumScript)">
+			<Output TaskParameter="ReturnValue" PropertyName="InstallerFileChecksum" />
+		</Script>
+		<Script Language="C#" Code="$(GetFileSizeScript)">
+			<Output TaskParameter="ReturnValue" PropertyName="InstallerFileSize" />
+		</Script>
+		<Delete Files="%(InstallerFilePath.FullPath)" />
+		<ItemGroup>
+			<Tokens Include="ProductVersion">
+				<ReplacementValue>$(Version)</ReplacementValue>
+			</Tokens>
+			<Tokens Include="ProductTitle">
+				<ReplacementValue>WebsitePanel $(Version)</ReplacementValue>
+			</Tokens>
+			<Tokens Include="ReleaseDate">
+				<ReplacementValue>$(ReleaseDate)T00:00:00Z</ReplacementValue>
+			</Tokens>
+			<Tokens Include="InstallerFileSize">
+				<ReplacementValue>$(InstallerFileSize)</ReplacementValue>
+			</Tokens>
+			<Tokens Include="InstallerFileSHA1">
+				<ReplacementValue>$(InstallerFileChecksum)</ReplacementValue>
+			</Tokens>
+			<Tokens Include="InstallerFileUrl">
+				<ReplacementValue>$(InstallerRemoteUri)</ReplacementValue>
+			</Tokens>
+		</ItemGroup>
+		<TemplateFile Template="$(TrunkFolder)\WebsitePanelFeedTemplate.xml" OutputFilename="$(DeployFolder)\WebsitePanelFeed.xml" Tokens="@(Tokens)" />
+	</Target>
 
-<Target Name="upload-sp-update">
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/Manual-Update-sp-$(Version).zip" LocalFile="$(DeployFolder)\Manual-Update.zip" />
-</Target>
-  <Target Name="uploadtoftp">
+	<Target Name="upload-sp-update">
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/Manual-Update-sp-$(Version).zip" LocalFile="$(DeployFolder)\Manual-Update.zip" />
+	</Target>
+	<Target Name="uploadtoftp">
 
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Portal-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-Portal-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Web-Dav-Portal-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-Web-Dav-Portal-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-EnterpriseServer-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-EnterpriseServer-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Server-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-Server-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-StandaloneServerSetup-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-StandaloneServerSetup-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Portal-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-Portal-$(Version)-Update.zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-EnterpriseServer-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-EnterpriseServer-$(Version)-Update.zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Server-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-Server-$(Version)-Update.zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Installer-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-Installer-$(Version)-Update.zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Import-CsvBulk-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-Import-CsvBulk-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Import-Enterprise-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-Import-Enterprise-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-AWStatsViewer-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-AWStatsViewer-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-WSPTransportAgent-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-WSPTransportAgent-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel.LocalizationToolkit-$(Version).msi" LocalFile="$(ToolsFolder)\WebsitePanel.LocalizationToolkit.msi" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelInstaller-$(Version).msi" LocalFile="$(DeployFolder)\WebsitePanelInstaller.msi" />
-          <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelInstaller-$(Version)-webpi.msi" LocalFile="$(DeployFolder)\WebsitePanelInstaller.msi" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-HyperVUtils-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-HyperVUtils-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-VMConfig-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-VMConfig-$(Version).zip" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/Websitepanel-SchedulerService-$(Version).msi" LocalFile="$(DeployFolder)\Websitepanel-SchedulerService.msi" />
-          <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Full-$(Version).msi" LocalFile="$(DeployFolder)\Websitepanel.msi" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelSetup-$(Version).exe" LocalFile="$(DeployFolder)\WebsitePanelSetup.exe" />
-		  <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/Manual-Update-$(Version).zip" LocalFile="$(DeployFolder)\Manual-Update.zip" />
-      <FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Portal-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-Portal-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Web-Dav-Portal-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-Web-Dav-Portal-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-EnterpriseServer-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-EnterpriseServer-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Server-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-Server-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-StandaloneServerSetup-$(Version).zip" LocalFile="$(DeployFolder)\WebsitePanel-StandaloneServerSetup-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Portal-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-Portal-$(Version)-Update.zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-EnterpriseServer-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-EnterpriseServer-$(Version)-Update.zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Server-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-Server-$(Version)-Update.zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Installer-$(Version)-Update.zip" LocalFile="$(DeployFolder)\WebsitePanel-Installer-$(Version)-Update.zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Import-CsvBulk-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-Import-CsvBulk-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Import-Enterprise-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-Import-Enterprise-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-AWStatsViewer-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-AWStatsViewer-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-WSPTransportAgent-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-WSPTransportAgent-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel.LocalizationToolkit-$(Version).msi" LocalFile="$(ToolsFolder)\WebsitePanel.LocalizationToolkit.msi" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelInstaller-$(Version).msi" LocalFile="$(DeployFolder)\WebsitePanelInstaller.msi" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelInstaller-$(Version)-webpi.msi" LocalFile="$(DeployFolder)\WebsitePanelInstaller.msi" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-HyperVUtils-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-HyperVUtils-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-VMConfig-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-VMConfig-$(Version).zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/Websitepanel-SchedulerService-$(Version).msi" LocalFile="$(DeployFolder)\Websitepanel-SchedulerService.msi" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-Full-$(Version).msi" LocalFile="$(DeployFolder)\Websitepanel.msi" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanelSetup-$(Version).exe" LocalFile="$(DeployFolder)\WebsitePanelSetup.exe" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/Manual-Update-$(Version).zip" LocalFile="$(DeployFolder)\Manual-Update.zip" />
+		<FtpUpload Username="$(ftpUsername)" password="$(ftpPassword)" RemoteUri="ftp://$(ftphost)/WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip" LocalFile="$(ToolsFolder)\WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip" />
 
-  </Target>
+	</Target>
 
-  <Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+	<Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
 
 </Project>

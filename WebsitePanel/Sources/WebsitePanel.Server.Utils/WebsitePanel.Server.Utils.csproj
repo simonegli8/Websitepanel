@@ -107,7 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebsitePanel.Providers.Base\WebsitePanel.Providers.Base.csproj">
-      <Project>{684c932a-6c75-46ac-a327-f3689d89eb42}</Project>
+      <Project>{684C932A-6C75-46AC-A327-F3689D89EB42}</Project>
       <Name>WebsitePanel.Providers.Base</Name>
     </ProjectReference>
   </ItemGroup>

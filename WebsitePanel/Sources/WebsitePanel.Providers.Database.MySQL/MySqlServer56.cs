@@ -40,44 +40,41 @@ using WebsitePanel.Providers.Utils;
 using WebsitePanel.Providers;
 using System.Reflection;
 
-namespace WebsitePanel.Providers.Database
-{
-    public class MySqlServer56 : MySqlServer
-    {
+namespace WebsitePanel.Providers.Database {
+   public class MySqlServer56 : MySqlServer {
 
-        public MySqlServer56()
-        {
+      public MySqlServer56() {
 
-        }
+      }
 
-        public override bool IsInstalled()
-        {
-            string versionNumber = null;
+      public override bool IsInstalled() {
+         string versionNumber = null;
+
+         if (Server.Utils.OS.IsNet) {
 
             RegistryKey HKLM = Registry.LocalMachine;
 
             RegistryKey key = HKLM.OpenSubKey(@"SOFTWARE\MySQL AB\MySQL Server 5.6");
 
-            if (key != null)
-            {
-                versionNumber = (string)key.GetValue("Version");
+            if (key != null) {
+               versionNumber = (string)key.GetValue("Version");
+            } else {
+               key = HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\MySQL AB\MySQL Server 5.6");
+               if (key != null) {
+                  versionNumber = (string)key.GetValue("Version");
+               } else {
+                  return false;
+               }
             }
-            else
-            {
-                key = HKLM.OpenSubKey(@"SOFTWARE\Wow6432Node\MySQL AB\MySQL Server 5.6");
-                if (key != null)
-                {
-                    versionNumber = (string)key.GetValue("Version");
-                }
-                else
-                {
-                    return false;
-                }
-            }
+         } else {
+            var res = Regex.Match(FileUtils.ExecuteSystemCommand("mysqld", "--version"), "^mysqld.*Ver[^0-9]+(?<version>[0-9.]+)", RegexOptions.Multiline);
+            if (res.Success && res.Groups["version"].Success) versionNumber = res.Groups["version"].Value;
+            else return false;
+         }
 
-            string[] split = versionNumber.Split(new char[] { '.' });
+         string[] split = versionNumber.Split(new char[] { '.' });
 
-            return split[0].Equals("5") & split[1].Equals("6");
-        }
-    }
+         return split[0].Equals("5") & split[1].Equals("6");
+      }
+   }
 }
