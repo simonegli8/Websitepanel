@@ -13,4 +13,6 @@ a unix shell programmer.
 
 TODO
 
-Move the log from /usr/share/websitepanel/log to the correct linux location.
+- Move the log from /usr/share/websitepanel/log to the correct linux location.
+- Create Packages for Debian and RPM in the Debian and RPM folders, and then modify build.proj to build the packages,
+and include build.proj in the global build.xml.
