@@ -1,0 +1,9 @@
+<apps>
+  <web-application>
+    <name>WebsitePanel Server</name>
+    <vpath>/</vpath>
+    <vport>9003</vport>
+    <path>/usr/share/websitepanel/server-www</path>
+    <enabled>true</enabled>
+  </web-application>
+</apps>

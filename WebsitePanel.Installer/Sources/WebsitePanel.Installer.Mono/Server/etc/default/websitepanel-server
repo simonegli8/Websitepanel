@@ -1,0 +1,18 @@
+# Defaults for websitepanel-server, official version
+# sourced by /etc/init.d/websitepanel-server
+
+# Should we start it?
+start_boot=true
+
+# User and group by default
+user=root
+group=root
+
+# Default port
+port=9003
+address=0.0.0.0
+
+# Directory for config files
+config_files=/etc/websitepanel
+
+logfile=/usr/share/websitepanel/log/server.log
