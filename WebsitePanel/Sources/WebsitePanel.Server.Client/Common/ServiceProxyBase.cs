@@ -60,7 +60,7 @@ namespace WebsitePanel.Server.Client.Common {
 		void Abort();
 	}
 
-
+	// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 	public class ServiceProxyBase : SoapHttpClientProtocol, IServiceProxy {
 
 		const string NoWSEPath = "/NoWSE";
@@ -139,18 +139,23 @@ namespace WebsitePanel.Server.Client.Common {
 		public new bool UseDefaultCredentials { get { return Service.UseDefaultCredentials; } set { Service.UseDefaultCredentials = value; } }
 		public new string UserAgent { get { return Service.UserAgent; } set { Service.UserAgent = value; } }
 		public new void Abort() { Service.Abort(); }
+		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 		public new IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) {
 			return Service.BeginInvoke(methodName, parameters, callback, asyncState);
 		}
 		public new void CancelAsync(object userState) { Service.CancelAsync(userState); }
 		public new void Discover() { Service.Discover(); }
+		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 		public new object[] EndInvoke(IAsyncResult asyncResult) => Service.EndInvoke(asyncResult);
 		public new XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize) => Service.GetReaderForMessage(message, bufferSize);
 		public new WebRequest GetWebRequest(Uri uri) => Service.GetWebRequest(uri);
 		public new WebResponse GetWebResponse(WebRequest request) => Service.GetWebResponse(request);
 		public new XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize) => Service.GetWriterForMessage(message, bufferSize);
+		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 		public new object[] Invoke(string methodName, object[] parameters) => Service.Invoke(methodName, parameters);
+		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) { Service.InvokeAsync(methodName, parameters, callback); }
+		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) { Service.InvokeAsync(methodName, parameters, callback, userState); }
 
 		// IServiceProxy
