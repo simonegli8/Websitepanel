@@ -615,10 +615,8 @@
     </ItemGroup>
     <!-- change namespace of non WSE services -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t\r\n]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xD;&#xA;&#xD;&#xA;$2$3$4.NoWSE" />
-    <!-- comment out reference to Microsoft.Web.Service -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="[ \t]*using[ \t]*Microsoft.Web.Services[23]?[ \t.a-zA-Z0-9]*;([ \t]*[\n])?" ReplacementText="/* $0 */" />
-    <!-- comment out [Policy(...)] -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="\[Policy.*\]" ReplacementText="/* $0 */" />
+    <!-- comment out reference to Microsoft.Web.Service and [Policy(...)] -->
+    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([ \t]*using[ \t]*Microsoft.Web.Services[23]?[ \t.a-zA-Z0-9]*;([ \t]*[\n])?)|(\[Policy.*\])" ReplacementText="/* $0 */" />
     <!-- change namespace in .asmx files -->
     <FileUpdate Files="@(AsmxServicesNoWSE)" Regex="([ \t]Class=[&quot;'])(([a-zA-Z0-9]+[.])*)([a-zA-Z0-9]+)([&quot;'])" ReplacementText="$1$2NoWSE.$4$5" />
     <!-- remove outer #if Net condition -->
