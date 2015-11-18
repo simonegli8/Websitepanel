@@ -1,0 +1,59 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<RootFolder>..\..\..\</RootFolder>
+		<ServerBuildPath>$(RootFolder)WebsitePanel\Build\$(Configuration)\ServerMono\</ServerBuildPath>
+		<ServerDeployedPath>ServerDeployed\</ServerDeployedPath>
+		<ServerDeployedWwwPath>ServerDeployed\usr\shared\websitepanel\server-www\</ServerDeployedWwwPath>
+		<TrunkFolder>$(RootFolder)\WebsitePanel</TrunkFolder>
+		<SetupTrunkFolder>$(RootFolder)\WebsitePanel.Installer</SetupTrunkFolder>
+		<SetupBuildFolder>$(SetupTrunkFolder)\Build\$(BuildConfiguration)</SetupBuildFolder>
+		<MSBuildCommunityTasksPath>$(RootFolder)\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+		<BuildFolder>$(TrunkFolder)\Build\$(BuildConfiguration)</BuildFolder>
+		<DeployFolder>$(TrunkFolder)\Deploy\$(BuildConfiguration)</DeployFolder>
+	</PropertyGroup>
+	
+	<Target Name="CopyServerToDistros">
+		<ItemGroup>
+			<ServerBuildFiles Include="$(ServerBuildPath)**\*.*" />
+			<ServerDeployedWwwFiles Include="@(ServerBuildFiles -> '$(ServerDeployedWwwPath)%(RelativeDir)%(Filename)%(Extension)')" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ServerBuildFiles)" DestinationFiles="@(ServerDeployedWwwFiles)" ContinueOnError="true" />		
+		<ItemGroup>		
+			<ServerDeployedFiles Include="$(ServerDeployedPath)**\*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(ServerDeployedFiles" DestinationFiles="@(ServerDeployedFiles -> 'Debian\ServerDeployed\%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+		<Copy SourceFiles="@(ServerDeployedFiles" DestinationFiles="@(ServerDeployedFiles -> 'RPM\ServerDeployed\%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />	
+	</Target>
+	
+	<!-- Create full distributives -->
+	<PropertyGroup>
+		<InstallFolder>$(DeployFolder)\Install</InstallFolder>
+		<ServerMonoInstall>$(InstallFolder)\ServerMono</ServerMonoInstall>
+		<ServerMonoInstallDebian>$(ServerMonoInstall)\Debian</EnterpriseServerInstall>
+		<ServerMonoInstallRPM>$(ServerMonoInstall)\RPM</SchedulerServiceInstall>
+	</PropertyGroup>
+	
+	<Target Name="PrepareInstalls" DependsOnTargets="CopyServerToDistros">
+		<Delete Files="$(ServerMonoInstall)\**\*.*" />
+		<RemoveDir Directories="$(ServerMonoInstallDebian);$(ServerMonoInstallRPM);$(ServerMonoInstall)" />
+		<MakeDir Directories="$(ServerMonoInstall);$(ServerMonoInstallDebian);$(ServerMonoInstallRPM)" />
+	</Target>
+
+	<Target Name="CreateDebianInstall" DependsOnTargets="PrepareInstalls">
+		
+		<!-- TODO -->
+		
+	</Target>
+
+	<Target Name="CreateRPMInstall" DependsOnTargets="PerpareInstalls">
+
+		<!-- TODO -->
+		
+	</Target>
+
+	<Target Name="Build" DependsOnTargets="CreateDebianInstall;CreateRPMInstall" />
+	
+	<Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.targets" />
+
+</Project>
