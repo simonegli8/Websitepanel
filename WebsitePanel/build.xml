@@ -850,7 +850,7 @@
 		<Exec Command="$(ZipCmd) a &quot;$(ToolsFolder)\WebsitePanel-FixDefaultPublicFolderMailbox-$(Version).zip&quot; &quot;$(FixDefaultPublicFolderMailboxInstall)\*&quot;" />
 
 		<!-- Build WebsitePanel.Server.Mono Debian & RPM Packages -->
-		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\WebsitePanel.Installer.Mono\build.proj" Properties="Configuration=$(BuildConfiguration)" />
+		<MSBuild Projects="$(RootFolder)\WebsitePanel.Installer\WebsitePanel.Installer.Mono\WebsitePanel.Installer.Mono.proj" Properties="Configuration=$(BuildConfiguration)" />
 	
 	</Target>
 
