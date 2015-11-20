@@ -100,7 +100,7 @@
 	</Target>
 
 	<Target Name="CompileMonoSources" DependsOnTargets="GenerateBuildVersionFiles">
-		<!-- <MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj;" Properties="Configuration=$(BuildConfiguration)" Targets="Build;Cleanup" /> -->
+		<!-- <MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.proj;" Properties="Configuration=$(BuildConfiguration)" Targets="Build;Cleanup" /> -->
 		<Message Text="Build Mono Server" />
 		<!-- Use Mono's xbuild build engine -->
 		<Exec Condition=" '$(XBuildPath)' != '' " Command='$(XBuildPath) "$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj" /p:BuildConfiguration=$(BuildConfiguration) /p:Version=$(Version) /p:FileVersion=$(FileVersion) /p:VersionLabel=$(VersionLabel)' />
