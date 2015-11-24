@@ -47,8 +47,8 @@ namespace WebsitePanel.Server.Client.Common {
 					while (r.BaseStream.CanRead) {
 						var info = new ServerInfo();
 						info.Url = r.ReadString();
-						if (info.SupportsWSE = r.ReadBoolean()) info.PublicKey = null;
-						else info.PublicKey = r.ReadString();
+						info.PublicKey = r.ReadString();
+						info.SupportsWSE = r.ReadBoolean();
 						ServerInfo.Cache.Add(info);
 					}
 				}
@@ -60,8 +60,8 @@ namespace WebsitePanel.Server.Client.Common {
 				using (var w = new BinaryWriter(new FileStream(CacheFile, FileMode.Create, FileAccess.Write))) {
 					foreach (var info in ServerInfo.Cache) {
 						w.Write(info.Url);
+						w.Write(info.PublicKey);
 						w.Write(info.SupportsWSE);
-						if (!info.SupportsWSE) w.Write(info.PublicKey);
 					}
 				}
 			}

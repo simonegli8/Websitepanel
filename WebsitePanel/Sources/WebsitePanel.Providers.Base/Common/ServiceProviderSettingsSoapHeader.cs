@@ -44,7 +44,7 @@ namespace WebsitePanel.Providers
 	/// <summary>
 	/// Summary description for ServiceProviderSettings.
 	/// </summary>
-	public class ServiceProviderSettingsSoapHeader : SoapHeader {
+	public class ServiceProviderSettingsSoapHeader : SoapHeader, IEncryptedSerializable {
 
 		bool deserialized = false;
 		string[] settings;
@@ -56,7 +56,7 @@ namespace WebsitePanel.Providers
 		public string KeyHash = null;
 
 		public string[] Settings {
-			get { AfterDeserialize(); return settings; }
+			get { Decrypt(); return settings; }
 			set { settings = value; }
 		}
 
@@ -68,7 +68,7 @@ namespace WebsitePanel.Providers
 		[XmlAttribute("SecureHeader", Namespace = "http://smbsaas/websitepanel/server/")]
 		public bool SecureHeader;
 
-		void AfterDeserialize() {
+		public void Decrypt() {
 			lock (this) {
 				if (!deserialized && SecureHeader && !string.IsNullOrEmpty(EncryptedSettings) && !string.IsNullOrEmpty(KeyHash)) {
 					if (KeyHash != AsymmetricEncryption.KeyHash()) throw new InvalidEncryptionKeyException("Invalid encryption key for this server.");
@@ -80,16 +80,19 @@ namespace WebsitePanel.Providers
 						if (CheckSecurity != null) CheckSecurity(this);
 					}
 				}
+            EncryptedSettings = null;
+            KeyHash = null;
 				deserialized = true;
 			}
 		}
 
-		public void BeforeSerializeNoWSE(string publicKey) {
+		public void Encrypt(string publicKey) {
 			if (SecureHeader) {
 				using (var w = new BinaryWriter(new MemoryStream())) {
 					foreach (var txt in Settings) w.Write(txt);
 					EncryptedSettings = AsymmetricEncryption.EncryptBase64(((MemoryStream)w.BaseStream).ToArray(), publicKey);
 					KeyHash = AsymmetricEncryption.PublicKeyHash(publicKey);
+               Settings = null;
 				}
 			}
 		}

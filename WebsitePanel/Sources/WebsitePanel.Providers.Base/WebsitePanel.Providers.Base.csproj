@@ -79,6 +79,9 @@
     </Compile>
     <Compile Include="Common\AsymmetricEncryption.cs" />
     <Compile Include="Common\AutoDiscoveryAttributes.cs" />
+    <Compile Include="Common\EncryptedValue.cs" />
+    <Compile Include="Common\EncryptedString.cs" />
+    <Compile Include="Common\IEncryptedSerializable.cs" />
     <Compile Include="Common\LogExtension\LogExtensionHelper.cs" />
     <Compile Include="Common\LogExtension\Attributes\LogParentPropertyAttribute.cs" />
     <Compile Include="Common\LogExtension\Attributes\LogPropertyAttribute.cs" />

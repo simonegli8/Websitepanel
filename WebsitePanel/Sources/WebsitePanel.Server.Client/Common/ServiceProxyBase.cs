@@ -93,6 +93,20 @@ namespace WebsitePanel.Server.Client.Common {
 		public IServiceProxy Service => this;
 #endif
 
+		public bool NoWSE => Service == this; 
+
+		void EncryptSerializables(object[] parameters) {
+			var key = ServerInfo.Cache[Url].PublicKey;
+			var type = GetType();
+			var fields = type.GetFields().Where(f => f.FieldType.GetInterfaces().Any(i => i == typeof(Providers.IEncryptedSerializable)));
+			foreach (var field in fields) ((Providers.IEncryptedSerializable)field.GetValue(this)).Encrypt(key);
+			var props = type.GetProperties().Where(p => p.PropertyType.GetInterfaces().Any(i => i == typeof(Providers.IEncryptedSerializable)));
+			foreach (var prop in props) ((Providers.IEncryptedSerializable)prop.GetValue(this, null)).Encrypt(key);
+			foreach (var par in parameters) {
+				if (par is Providers.IEncryptedSerializable) ((Providers.IEncryptedSerializable)par).Encrypt(key);
+			}
+		}
+
 		// Client Methods
 		protected bool RequireMtom { get { return Service.RequireMtom; } set { Service.RequireMtom = value; } }
 		public new string Url { get { return Service.Url; } set { base.Url = value; Service.Url = value; } }
@@ -111,6 +125,7 @@ namespace WebsitePanel.Server.Client.Common {
 		public new string UserAgent { get { return Service.UserAgent; } set { Service.UserAgent = value; } }
 		public new void Abort() { Service.Abort(); }
 		public new IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) {
+			EncryptSerializables(parameters);
 			try {
 				return Service.BeginInvoke(methodName, parameters, callback, asyncState);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
@@ -139,6 +154,7 @@ namespace WebsitePanel.Server.Client.Common {
 		public new WebResponse GetWebResponse(WebRequest request) => Service.GetWebResponse(request);
 		public new XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize) => Service.GetWriterForMessage(message, bufferSize);
 		public new object[] Invoke(string methodName, object[] parameters) {
+			EncryptSerializables(parameters);
 			try {
 				return Service.Invoke(methodName, parameters);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
@@ -151,7 +167,8 @@ namespace WebsitePanel.Server.Client.Common {
 		}
 
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) {
-         try {
+			EncryptSerializables(parameters);
+			try {
 				Service.InvokeAsync(methodName, parameters, callback);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
 				RefreshCache();
@@ -162,7 +179,8 @@ namespace WebsitePanel.Server.Client.Common {
 			}
 		}
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) {
-         try {
+			EncryptSerializables(parameters);
+			try {
 				Service.InvokeAsync(methodName, parameters, callback, userState);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
 				RefreshCache();

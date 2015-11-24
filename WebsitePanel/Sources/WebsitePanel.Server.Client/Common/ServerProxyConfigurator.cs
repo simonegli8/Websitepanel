@@ -103,7 +103,7 @@ namespace WebsitePanel.Server.Client {
          ServiceProviderSettingsSoapHeader settingsHeader = new ServiceProviderSettingsSoapHeader();
          List<string> settings = new List<string>();
 
-         if (!String.IsNullOrEmpty(serverPassword) && wservice != null && wservice == service) {  // NonWSE service
+         if (!String.IsNullOrEmpty(serverPassword) && service != null && service.NoWSE) {  // NonWSE service
             settings.Add("Server:Password=" + serverPassword);
             settingsHeader.SecureHeader = true;
         }
@@ -141,9 +141,6 @@ namespace WebsitePanel.Server.Client {
          if (!String.IsNullOrEmpty(serverUrl)) {
             if (serverUrl.EndsWith("/"))
                serverUrl = serverUrl.Substring(0, serverUrl.Length - 1);
-
-            if (wservice != null && wservice == service) settingsHeader.BeforeSerializeNoWSE(Common.ServerInfo.Cache[serverUrl].PublicKey);
-
             if (service != null) service.Url = serverUrl + service.Url.Substring(service.Url.LastIndexOf('/'));
             else proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));
          }

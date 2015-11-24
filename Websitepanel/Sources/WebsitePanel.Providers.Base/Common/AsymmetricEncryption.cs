@@ -24,6 +24,8 @@ namespace WebsitePanel.Providers {
 	/// </summary>
 	public static class AsymmetricEncryption {
 
+		static bool keyCreated = false;
+
 		/// <summary>
 		/// The default path to the applications key file.
 		/// </summary>
@@ -37,6 +39,10 @@ namespace WebsitePanel.Providers {
 		/// <returns></returns>
 		public static string GenerateKey(string targetFile = null) {
 			if (targetFile == null) targetFile = KeyFile;
+
+			var dir = Path.GetDirectoryName(targetFile);
+
+			if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
 			RSACryptoServiceProvider Algorithm = new RSACryptoServiceProvider();
 
@@ -61,7 +67,12 @@ namespace WebsitePanel.Providers {
 		/// <param name="algorithm">The encryption algorithm.</param>
 		/// <param name="keyFile">The filename of the key file.</param>
 		private static RSACryptoServiceProvider ReadKey(string keyFile = null) {
-			if (keyFile == null) keyFile = KeyFile;
+			if (keyFile == null) {
+				keyFile = KeyFile;
+				if (!keyCreated && !File.Exists(keyFile)) {
+					GenerateKey(keyFile); keyCreated = true;
+				}
+			}
 
 			var algorithm = new RSACryptoServiceProvider();
 
