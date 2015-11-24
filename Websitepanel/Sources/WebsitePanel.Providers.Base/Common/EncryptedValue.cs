@@ -26,9 +26,9 @@ namespace WebsitePanel.Providers {
 			lock (this) {
 				if (!string.IsNullOrEmpty(EncryptedData) && !string.IsNullOrEmpty(KeyHash)) {
 					if (KeyHash != AsymmetricEncryption.KeyHash()) throw new InvalidEncryptionKeyException("Invalid encryption key for this server.");
-					using (var m = new MemoryStream(AsymmetricEncryption.DecryptBase64(EncryptedData))) {
-						var f = new BinaryFormatter();
-						Value = (T)f.Deserialize(m);
+					using (var r = new StreamReader(new MemoryStream(AsymmetricEncryption.DecryptBase64(EncryptedData)), Encoding.UTF8)) {
+						var xs = new XmlSerializer(typeof(T));
+						Value = (T)xs.Deserialize(r);
 					}
 				}
 				EncryptedData = null;
@@ -37,9 +37,10 @@ namespace WebsitePanel.Providers {
 		}
 
 		public void Encrypt(string publicKey) {
-			using (var m = new MemoryStream()) {
-				var f = new BinaryFormatter();
-				f.Serialize(m, val);
+			using (var m = new MemoryStream())
+			using (var w = new StreamWriter(m)) {
+				var xs = new XmlSerializer(typeof(T));
+				xs.Serialize(w, val);
 				EncryptedData = AsymmetricEncryption.EncryptBase64(m.ToArray(), publicKey);
 			}
 			KeyHash = AsymmetricEncryption.PublicKeyHash(publicKey);
