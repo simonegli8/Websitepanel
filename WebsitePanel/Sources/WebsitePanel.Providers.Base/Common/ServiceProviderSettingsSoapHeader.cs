@@ -27,23 +27,71 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Web.Services.Protocols;
+using System.Web;
 using System.Xml.Serialization;
+using System.IO;
 
 namespace WebsitePanel.Providers
 {
+
+	public class InvalidEncryptionKeyException: SoapHeaderException {
+		public InvalidEncryptionKeyException(string msg): base(msg, new System.Xml.XmlQualifiedName("InvalidEncryptionKey", "http://smbsaas/websitepanel/server/")) { }
+   }
+
 	/// <summary>
 	/// Summary description for ServiceProviderSettings.
 	/// </summary>
-    public class ServiceProviderSettingsSoapHeader : SoapHeader
-	{
-        public string[] Settings;
+	public class ServiceProviderSettingsSoapHeader : SoapHeader {
 
-        /// <summary>
-        /// This property is just a flag telling us that this SOAP header should be encrypted.
-        /// </summary>
-        [XmlAttribute("SecureHeader", Namespace = "http://smbsaas/websitepanel/server/")]
-        public bool SecureHeader;
+		bool deserialized = false;
+		string[] settings;
+
+		[SoapElement(IsNullable = true)]
+		public string EncryptedSettings = null;
+
+		[SoapElement(IsNullable = true)]
+		public string KeyHash = null;
+
+		public string[] Settings {
+			get { AfterDeserialize(); return settings; }
+			set { settings = value; }
+		}
+
+		public static Action<ServiceProviderSettingsSoapHeader> CheckSecurity;
+
+		/// <summary>
+		/// This property is just a flag telling us that this SOAP header should be encrypted.
+		/// </summary>
+		[XmlAttribute("SecureHeader", Namespace = "http://smbsaas/websitepanel/server/")]
+		public bool SecureHeader;
+
+		void AfterDeserialize() {
+			lock (this) {
+				if (!deserialized && SecureHeader && !string.IsNullOrEmpty(EncryptedSettings) && !string.IsNullOrEmpty(KeyHash)) {
+					if (KeyHash != AsymmetricEncryption.KeyHash()) throw new InvalidEncryptionKeyException("Invalid encryption key for this server.");
+					var data = AsymmetricEncryption.DecryptBase64(EncryptedSettings);
+					using (var r = new BinaryReader(new MemoryStream(data))) {
+						var settings = new List<string>();
+						while (r.BaseStream.CanRead) settings.Add(r.ReadString());
+						Settings = settings.ToArray();
+						if (CheckSecurity != null) CheckSecurity(this);
+					}
+				}
+				deserialized = true;
+			}
+		}
+
+		public void BeforeSerializeNoWSE(string publicKey) {
+			if (SecureHeader) {
+				using (var w = new BinaryWriter(new MemoryStream())) {
+					foreach (var txt in Settings) w.Write(txt);
+					EncryptedSettings = AsymmetricEncryption.EncryptBase64(((MemoryStream)w.BaseStream).ToArray(), publicKey);
+					KeyHash = AsymmetricEncryption.PublicKeyHash(publicKey);
+				}
+			}
+		}
 	}
 }

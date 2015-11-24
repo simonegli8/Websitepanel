@@ -75,9 +75,9 @@ namespace WebsitePanel.Server.Client {
 
       public void Configure(SoapHttpClientProtocol proxy) {
          Common.ServiceProxyBase service = proxy as Common.ServiceProxyBase;
-
+         SoapHttpClientProtocol wservice = null;
          if (service != null) {
-            var wservice = service.Service as SoapHttpClientProtocol;
+            wservice = service.Service as SoapHttpClientProtocol;
             if (wservice != null && wservice != service) Configure(wservice);
          }
 
@@ -102,6 +102,11 @@ namespace WebsitePanel.Server.Client {
          // provider settings
          ServiceProviderSettingsSoapHeader settingsHeader = new ServiceProviderSettingsSoapHeader();
          List<string> settings = new List<string>();
+
+         if (!String.IsNullOrEmpty(serverPassword) && wservice != null && wservice == service) {  // NonWSE service
+            settings.Add("Server:Password=" + serverPassword);
+            settingsHeader.SecureHeader = true;
+        }
 
          // AD Settings
          settings.Add("AD:Enabled=" + ServerSettings.ADEnabled.ToString());
@@ -136,6 +141,8 @@ namespace WebsitePanel.Server.Client {
          if (!String.IsNullOrEmpty(serverUrl)) {
             if (serverUrl.EndsWith("/"))
                serverUrl = serverUrl.Substring(0, serverUrl.Length - 1);
+
+            if (wservice != null && wservice == service) settingsHeader.BeforeSerializeNoWSE(Common.ServerInfo.Cache[serverUrl].PublicKey);
 
             if (service != null) service.Url = serverUrl + service.Url.Substring(service.Url.LastIndexOf('/'));
             else proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));

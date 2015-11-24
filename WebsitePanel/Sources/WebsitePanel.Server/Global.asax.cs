@@ -61,6 +61,7 @@ namespace WebsitePanel.Server {
 				lock (Lock)
 				if (impersonatedUser == null) Impersonate(ServerConfiguration.Security.ImpersonateUser, ServerConfiguration.Security.ImpersonatePassword);
 			}
+         CheckPasswordNonWSE.Init();
 		}
 
 		protected void Application_End(object sender, EventArgs e) {

@@ -103,7 +103,7 @@
 		<!-- <MSBuild Projects="$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.proj;" Properties="Configuration=$(BuildConfiguration)" Targets="Build;Cleanup" /> -->
 		<Message Text="Build Mono Server" />
 		<!-- Use Mono's xbuild build engine -->
-		<Exec Condition=" '$(XBuildPath)' != '' " Command='$(XBuildPath) "$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.csproj" /p:BuildConfiguration=$(BuildConfiguration) /p:Version=$(Version) /p:FileVersion=$(FileVersion) /p:VersionLabel=$(VersionLabel)' />
+		<Exec Condition=" '$(XBuildPath)' != '' " Command='$(XBuildPath) "$(TrunkFolder)\Sources\WebsitePanel.Server.Mono\WebsitePanel.Server.Mono.proj" /p:BuildConfiguration=$(BuildConfiguration) /p:Version=$(Version) /p:FileVersion=$(FileVersion) /p:VersionLabel=$(VersionLabel)' />
 	</Target>
 
 	<Target Name="PrepareBuilds" DependsOnTargets="CompileSources;CompileMonoSources">
@@ -174,6 +174,7 @@
 	<Target Name="CreateServerMonoBuild" DependsOnTargets="CreateServerBuild">
 		<ItemGroup>
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\.svn\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\.vs\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\*.xml" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\obj\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\Release\**" />
@@ -183,6 +184,9 @@
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\LogParser\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.user" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.userprefs" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.md" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.proj" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.suo" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.cs" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.csproj" />
@@ -196,7 +200,7 @@
 		<Copy SourceFiles="@(ServerMonoBuildFiles)" DestinationFolder="$(ServerMonoBuild)\%(RecursiveDir)" />
 	</Target>
 
-	<Target Name="CreateEnterpriseServerBuild" DependsOnTargets="CreateServerBuild">
+	<Target Name="CreateEnterpriseServerBuild" DependsOnTargets="CreateServerMonoBuild">
 		<ItemGroup>
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\.svn\**" />
 			<EnterpriseServerBuildExclude Include="$(EnterpriseServerSrc)\**\obj\**" />

@@ -29,6 +29,8 @@
 using System;
 using System.Linq;
 using System.Configuration;
+using System.IO;
+using System.Web;
 using WebsitePanel.Providers;
 using WebsitePanel.Providers.Common;
 using WebsitePanel.Server.Utils;
@@ -101,6 +103,12 @@ namespace WebsitePanel.Server.Code {
 #else
       public static bool SupportsWSE() => false;
 #endif
+
+		public static string EncryptionPublicKey() {
+			var keyfile = AsymmetricEncryption.KeyFile;
+			if (!File.Exists(keyfile)) return AsymmetricEncryption.GenerateKey(keyfile);
+			else return AsymmetricEncryption.PublicKey(keyfile);
+		}
    }
 }
 

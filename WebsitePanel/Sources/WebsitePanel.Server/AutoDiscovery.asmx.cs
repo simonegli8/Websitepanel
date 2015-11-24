@@ -59,6 +59,9 @@ namespace WebsitePanel.Server
 		[WebMethod]
 		public Platforms Platform() => AutoDiscoveryHelper.Platform();
 
+		[WebMethod]
+		public string EncryptionPublicKey() => AutoDiscoveryHelper.EncryptionPublicKey();
+
 	}
 
 }

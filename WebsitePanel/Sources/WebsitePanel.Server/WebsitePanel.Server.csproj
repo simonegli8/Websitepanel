@@ -242,6 +242,8 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail7.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail9.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail9.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.OS.Unix.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.OS.Unix.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.OS.Windows2003.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.OS.Windows2003.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.OS.Windows2008.dll" />
@@ -352,6 +354,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Code\AutoDiscoveryHelper.cs" />
+    <Compile Include="Code\CheckPasswordNonWSE.cs" />
     <Compile Include="Code\ServerConfiguration.cs" />
     <Compile Include="Code\ServerUsernameTokenManager.cs" />
     <Compile Include="Code\UsernameAssertion.cs" />
@@ -600,19 +603,25 @@
   <Import Condition=" '$(Runtime)' == 'Net' " Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.targets" />
   <!-- generate non WSE versions of all services -->
   <Target Name="BeforeBuildNoWSEService" />
-  <Target Condition=" '$(Runtime)' == 'Net' " Name="BuildNoWSEService" DependsOnTargets="BeforeBuildNoWSEService">
-    <ItemGroup>
-      <AsmxServices Include="**\*.asmx" Exclude="NoWSE\**\*.asmx" />
-      <AsmxServicesCode Include="**\*.asmx.cs" Exclude="NoWSE\**\*.asmx.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <AsmxServices Include="**\*.asmx" Exclude="$(NoWSEPath)\**\*.asmx">
+      <InProject>false</InProject>
+    </AsmxServices>
+    <AsmxServicesCode Include="**\*.asmx.cs" Exclude="$(NoWSEPath)\**\*.asmx.cs">
+      <InProject>false</InProject>
+    </AsmxServicesCode>
+    <AsmxServicesNoWSE Include="$(NoWSEPath)\**\*.asmx">
+      <InProject>false</InProject>
+    </AsmxServicesNoWSE>
+    <AsmxServicesNoWSECode Include="$(NoWSEPath)\**\*.asmx.cs">
+      <InProject>false</InProject>
+    </AsmxServicesNoWSECode>
+  </ItemGroup>
+  <Target Condition=" '$(Runtime)' == 'Net' " Name="BuildNoWSEService" DependsOnTargets="BeforeBuildNoWSEService" Inputs="@(AsmxServices);@(AsmxServiceCode)" Outputs="@(AsmxServicesNoWSE);@(AsmxServicesCodeNoWSE)">
     <MakeDir Directories="$(NoWSEPath)" />
     <!-- copy all services to NoWSE folder -->
     <Copy SourceFiles="@(AsmxServices)" DestinationFiles="@(AsmxServices -> 'NoWSE\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(AsmxServicesCode)" DestinationFiles="@(AsmxServicesCode -> 'NoWSE\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <ItemGroup>
-      <AsmxServicesNoWSE Include="$(NoWSEPath)\**\*.asmx" />
-      <AsmxServicesNoWSECode Include="$(NoWSEPath)\**\*.asmx.cs" />
-    </ItemGroup>
     <!-- change namespace of non WSE services -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t\r\n]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xD;&#xA;&#xD;&#xA;$2$3$4.NoWSE" />
     <!-- comment out reference to Microsoft.Web.Service and [Policy(...)] -->

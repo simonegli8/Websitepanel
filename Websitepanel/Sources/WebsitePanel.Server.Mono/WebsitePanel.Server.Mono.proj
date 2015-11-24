@@ -97,14 +97,16 @@
     <MSBuild Projects="..\WebsitePanel.Providers.DNS.Bind\WebsitePanel.Providers.DNS.Bind.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.DNS.PowerDNS\WebsitePanel.Providers.DNS.PowerDNS.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Database.MySQL\WebsitePanel.Providers.Database.MySQL.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
- 	 <MSBuild Projects="..\WebsitePanel.Providers.DNS.Nettica\WebsitePanel.Provicers.DNS.Nettica.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+ 	 <MSBuild Projects="..\WebsitePanel.Providers.DNS.Nettica\WebsitePanel.Providers.DNS.Nettica.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Mail.IceWarp\WebsitePanel.Providers.Mail.IceWarp.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+<!-- vbproj somehow don't seem to work with xbuild ???
     <MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak\WebsitePanel.Providers.Mail.Merak.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak10\WebsitePanel.Providers.Mail.Merak10.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+-->
     <MSBuild Projects="..\WebsitePanel.Providers.FTP.ServU\WebsitePanel.Providers.FTP.ServU.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Statistics.AWStats\WebsitePanel.Providers.Statistics.AWStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Statistics.SmarterStats\WebsitePanel.Providers.Statistics.SmarterStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-  </Target>
+    <MSBuild Projects="..\WebsitePanel.Providers.OS.Unix\WebsitePanel.Providers.OS.Unix.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" /> </Target>
   <Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEService;BuildMonoProviders" />
   <Target Name="AfterBuild" DependsOnTargets="Cleanup" />
   <ProjectExtensions>

@@ -65,62 +65,33 @@ namespace WebsitePanel.Server.Client.Common {
 
 		const string NoWSEPath = "/NoWSE";
 
+		string BaseUrl => base.Url.Substring(0, base.Url.LastIndexOf('/')).Substring(0, base.Url.LastIndexOf(NoWSEPath));
+
+		string PublicKey => ServerInfo.Cache[BaseUrl].PublicKey;
+
+		void RefreshCache() => ServerInfo.Cache.Remove(BaseUrl);
+
+		bool UseWSE => (Type.GetType("Mono.Runtime") == null) && !base.Url.Contains(NoWSEPath) && ServerInfo.Cache[BaseUrl].SupportsWSE;
+
 #if Net
-
 		IServiceProxy wse = null;
-		Dictionary<string, bool> useWSE = null;
-		readonly static string CacheFile = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data"), "ServerSupportsWSE.cache");
-
-		void LoadCache() {
-			useWSE = new Dictionary<string, bool>();
-			if (File.Exists(CacheFile)) {
-				var lines = File.ReadAllLines(CacheFile, Encoding.UTF8);
-				foreach (var line in lines) {
-					var use = line.Length > 0 && line[0] != '~';
-					useWSE.Add(use ? line : line.Substring(1), use);
-				}
-			}
-		}
-		void SaveCache() {
-			if (!File.Exists(CacheFile)) Directory.CreateDirectory(Path.GetDirectoryName(CacheFile));
-			File.WriteAllLines(CacheFile, useWSE.AsEnumerable().Select(x => x.Value ? x.Key : "~" + x.Key), Encoding.UTF8);
-		}
-
-		bool UseWSE(string url) {
-         url = url.Substring(0, url.LastIndexOf('/'));
-			if ((Type.GetType("Mono.Runtime") != null) || url.Contains(NoWSEPath)) return false;
-			if (useWSE == null) LoadCache();
-			bool use;
-			if (useWSE.TryGetValue(url, out use)) return use;
-			var ad = new WebsitePanel.AutoDiscovery.AutoDiscovery();
-         ad.Url = url + ad.Url.Substring(ad.Url.LastIndexOf('/'));
-         ad.Timeout = base.Timeout;
-			try {
-				use = ad.SupportsWSE();
-			} catch (Exception ex) {
-				use = true;
-			}
-			useWSE[url] = use;
-			SaveCache();
-			return use;
-		}
 
 		public IServiceProxy Service {
 			get {
-				if (!UseWSE(base.Url)) return this;
+				if (!UseWSE) return this;
 				if (wse != null) return wse;
 				var type = GetType().FullName;
 				var i = type.LastIndexOf('.');
 				type = type.Substring(0, i) + ".WSE" + type.Substring(i);
 				wse = (IServiceProxy)Activator.CreateInstance(Type.GetType(type));
 				wse.Url = base.Url;
+				wse.Timeout = base.Timeout;
 				return wse;
 			}
 		}
 #else
 		public IServiceProxy Service => this;
 #endif
-
 
 		// Client Methods
 		protected bool RequireMtom { get { return Service.RequireMtom; } set { Service.RequireMtom = value; } }
@@ -139,24 +110,68 @@ namespace WebsitePanel.Server.Client.Common {
 		public new bool UseDefaultCredentials { get { return Service.UseDefaultCredentials; } set { Service.UseDefaultCredentials = value; } }
 		public new string UserAgent { get { return Service.UserAgent; } set { Service.UserAgent = value; } }
 		public new void Abort() { Service.Abort(); }
-		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
 		public new IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) {
-			return Service.BeginInvoke(methodName, parameters, callback, asyncState);
+			try {
+				return Service.BeginInvoke(methodName, parameters, callback, asyncState);
+			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
+				RefreshCache();
+				return Service.BeginInvoke(methodName, parameters, callback, asyncState);
+			} catch (SoapHeaderException shex) when (shex.Code.Name == "InvalidEncryptionKey") {
+				RefreshCache();
+				return Service.BeginInvoke(methodName, parameters, callback, asyncState);
+			}
 		}
 		public new void CancelAsync(object userState) { Service.CancelAsync(userState); }
 		public new void Discover() { Service.Discover(); }
-		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
-		public new object[] EndInvoke(IAsyncResult asyncResult) => Service.EndInvoke(asyncResult);
+		public new object[] EndInvoke(IAsyncResult asyncResult) {
+			try {
+				return Service.EndInvoke(asyncResult);
+			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
+				RefreshCache();
+				return Service.EndInvoke(asyncResult);
+			} catch (SoapHeaderException shex) when (shex.Code.Name == "InvalidEncryptionKey") {
+				RefreshCache();
+				return Service.EndInvoke(asyncResult);
+			}
+		}
 		public new XmlReader GetReaderForMessage(SoapClientMessage message, int bufferSize) => Service.GetReaderForMessage(message, bufferSize);
 		public new WebRequest GetWebRequest(Uri uri) => Service.GetWebRequest(uri);
 		public new WebResponse GetWebResponse(WebRequest request) => Service.GetWebResponse(request);
 		public new XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize) => Service.GetWriterForMessage(message, bufferSize);
-		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
-		public new object[] Invoke(string methodName, object[] parameters) => Service.Invoke(methodName, parameters);
-		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
-		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) { Service.InvokeAsync(methodName, parameters, callback); }
-		// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
-		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) { Service.InvokeAsync(methodName, parameters, callback, userState); }
+		public new object[] Invoke(string methodName, object[] parameters) {
+			try {
+				return Service.Invoke(methodName, parameters);
+			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
+				RefreshCache();
+				return Service.Invoke(methodName, parameters);
+			} catch (SoapHeaderException shex) when (shex.Code.Name == "InvalidEncryptionKey") {
+				RefreshCache();
+				return Service.Invoke(methodName, parameters);
+			}
+		}
+
+		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) {
+         try {
+				Service.InvokeAsync(methodName, parameters, callback);
+			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
+				RefreshCache();
+				Service.InvokeAsync(methodName, parameters, callback);
+			} catch (SoapHeaderException shex) when (shex.Code.Name == "InvalidEncryptionKey") {
+				RefreshCache();
+				Service.InvokeAsync(methodName, parameters, callback);
+			}
+		}
+		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) {
+         try {
+				Service.InvokeAsync(methodName, parameters, callback, userState);
+			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
+				RefreshCache();
+				Service.InvokeAsync(methodName, parameters, callback, userState);
+			} catch (SoapHeaderException shex) when (shex.Code.Name == "InvalidEncryptionKey") {
+				RefreshCache();
+				Service.InvokeAsync(methodName, parameters, callback, userState);
+			}
+		}
 
 		// IServiceProxy
 		bool IServiceProxy.RequireMtom { get { return false; } set { } }
@@ -193,9 +208,15 @@ namespace WebsitePanel.Server.Client.Common {
 		WebRequest IServiceProxy.GetWebRequest(Uri uri) => base.GetWebRequest(uri);
 		WebResponse IServiceProxy.GetWebResponse(WebRequest request) => base.GetWebResponse(request);
 		XmlWriter IServiceProxy.GetWriterForMessage(SoapClientMessage message, int bufferSize) => base.GetWriterForMessage(message, bufferSize);
-		object[] IServiceProxy.Invoke(string methodName, object[] parameters) => base.Invoke(methodName, parameters);
-		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) { base.InvokeAsync(methodName, parameters, callback); }
-		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) { base.InvokeAsync(methodName, parameters, callback, userState); }
+		object[] IServiceProxy.Invoke(string methodName, object[] parameters) {
+			return base.Invoke(methodName, parameters);
+		}
+		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) {
+			base.InvokeAsync(methodName, parameters, callback);
+		}
+		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) {
+			base.InvokeAsync(methodName, parameters, callback, userState);
+		}
 	}
 
 }

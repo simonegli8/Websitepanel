@@ -25,14 +25,11 @@ non WSE SOAP messages one has to either use https or only servers behind a firew
 TODO
 =====
 
-- Encryption for non WSE services, at least of the settings SOAP header.
 - Provider IsIntalled Mono versions for ServU, IceWarp, Merak, Merak10, AWStats, SmarterStats.
 - RPM and Debian packages in WebsitePanel.Installer.Mono.
-- Smarter caching of AutoDiscovery.SupportsWSE for servers in ServiceProxyBase in WebsitePanel.Server.Client.
 - Adaptions to Portal for Linux Servers.
 
 ### Future TODO to enable for Linux webhosting:
-- OS Provider for Linux
 - Apache Webserver Provider
 - Some WebPI provider for Linux.
 
