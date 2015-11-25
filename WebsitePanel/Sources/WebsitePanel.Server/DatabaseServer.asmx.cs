@@ -59,7 +59,7 @@ namespace WebsitePanel.Server
 
         #region General methods
         [WebMethod, SoapHeader("settings")]
-        public bool CheckConnectivity(string databaseName, string username, string password)
+        public bool CheckConnectivity(string databaseName, string username, EncryptedString password)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public DataSet ExecuteSqlQuerySafe(string databaseName, string username, string password, string commandText)
+        public DataSet ExecuteSqlQuerySafe(string databaseName, string username, EncryptedString password, string commandText)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void ExecuteSqlNonQuerySafe(string databaseName, string username, string password, string commandText)
+        public void ExecuteSqlNonQuerySafe(string databaseName, string username, EncryptedString password, string commandText)
         {
             try
             {
@@ -362,7 +362,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public SqlUser GetUser(string username, string[] databases)
+        public Encrypted<SqlUser> GetUser(string username, string[] databases)
         {
             try
             {
@@ -379,7 +379,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void CreateUser(SqlUser user, string password)
+        public void CreateUser(SqlUser user, EncryptedString password)
         {
             try
             {
@@ -427,7 +427,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void ChangeUserPassword(string username, string password)
+        public void ChangeUserPassword(string username, EncryptedString password)
         {
             try
             {

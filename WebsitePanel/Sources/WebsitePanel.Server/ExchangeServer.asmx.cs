@@ -57,7 +57,7 @@ namespace WebsitePanel.Server
 		}
          
 		[WebMethod, SoapHeader("settings")]
-		public bool CheckAccountCredentials(string username, string password)
+		public bool CheckAccountCredentials(string username, EncryptedString password)
 		{
 			try
 			{
@@ -359,7 +359,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public ExchangeMailbox GetMailboxGeneralSettings(string accountName)
+        public Encrypted<ExchangeMailbox> GetMailboxGeneralSettings(string accountName)
         {
             try
             {
@@ -392,7 +392,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public ExchangeMailbox GetMailboxMailFlowSettings(string accountName)
+        public Encrypted<ExchangeMailbox> GetMailboxMailFlowSettings(string accountName)
         {
             try
             {
@@ -425,7 +425,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public ExchangeMailbox GetMailboxAdvancedSettings(string accountName)
+        public Encrypted<ExchangeMailbox> GetMailboxAdvancedSettings(string accountName)
         {
             try
             {
@@ -530,7 +530,7 @@ namespace WebsitePanel.Server
 
 
         [WebMethod, SoapHeader("settings")]
-        public ExchangeMailbox GetMailboxPermissions(string organizationId, string accountName)
+        public Encrypted<ExchangeMailbox> GetMailboxPermissions(string organizationId, string accountName)
         {
             try
             {
@@ -617,7 +617,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public ExchangeContact GetContactGeneralSettings(string accountName)
+        public Encrypted<ExchangeContact> GetContactGeneralSettings(string accountName)
         {
             try
             {
@@ -634,7 +634,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void SetContactGeneralSettings(string accountName, string displayName, string email, bool hideFromAddressBook, string firstName, string initials, string lastName, string address, string city, string state, string zip, string country, string jobTitle, string company, string department, string office, string managerAccountName, string businessPhone, string fax, string homePhone, string mobilePhone, string pager, string webPage, string notes, int useMapiRichTextFormat, string defaultDomain)
+        public void SetContactGeneralSettings(string accountName, EncryptedString displayName, EncryptedString email, bool hideFromAddressBook, EncryptedString firstName, EncryptedString initials, EncryptedString lastName, EncryptedString address, EncryptedString city, EncryptedString state, EncryptedString zip, EncryptedString country, EncryptedString jobTitle, EncryptedString company, EncryptedString department, EncryptedString office, EncryptedString managerAccountName, EncryptedString businessPhone, EncryptedString fax, EncryptedString homePhone, EncryptedString mobilePhone, EncryptedString pager, EncryptedString webPage, EncryptedString notes, int useMapiRichTextFormat, string defaultDomain)
         {
             try
             {
@@ -650,7 +650,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public ExchangeContact GetContactMailFlowSettings(string accountName)
+        public Encrypted<ExchangeContact> GetContactMailFlowSettings(string accountName)
         {
             try
             {

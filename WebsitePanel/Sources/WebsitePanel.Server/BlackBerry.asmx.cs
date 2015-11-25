@@ -71,7 +71,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")] 
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, string password, int time)
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time)
         {
             return BlackBerryProvider.SetActivationPasswordWithExpirationTime(primaryEmailAddress, password, time);
         }

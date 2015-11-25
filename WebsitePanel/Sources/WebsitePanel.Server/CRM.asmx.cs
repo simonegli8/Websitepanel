@@ -88,7 +88,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public UserResult CreateCRMUser(OrganizationUser user, string orgName, Guid organizationId, Guid baseUnitId, int CALType)
+        public Encrypted<UserResult> CreateCRMUser(Encrypted<OrganizationUser> user, string orgName, Guid organizationId, Guid baseUnitId, int CALType)
         {
             return CrmProvider.CreateCRMUser(user, orgName, organizationId, baseUnitId, CALType);
         }

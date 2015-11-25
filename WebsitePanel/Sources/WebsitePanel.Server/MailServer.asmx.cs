@@ -246,7 +246,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public MailAccount[] GetAccounts(string domainName)
+        public Encrypted<MailAccount[]> GetAccounts(string domainName)
         {
             try
             {
@@ -263,7 +263,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public MailAccount GetAccount(string accountName)
+        public Encrypted<MailAccount> GetAccount(string accountName)
         {
             try
             {
@@ -280,7 +280,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void CreateAccount(MailAccount account)
+        public void CreateAccount(Encrypted<MailAccount> account)
         {
             try
             {
@@ -296,7 +296,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void UpdateAccount(MailAccount account)
+        public void UpdateAccount(Encrypted<MailAccount> account)
         {
             try
             {
@@ -551,7 +551,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public MailList[] GetLists(string domainName)
+        public Encrypted<MailList[]> GetLists(string domainName)
         {
             try
             {
@@ -568,7 +568,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public MailList GetList(string listName)
+        public Encrypted<MailList> GetList(string listName)
         {
             try
             {
@@ -585,7 +585,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void CreateList(MailList list)
+        public void CreateList(Encrypted<MailList> list)
         {
             try
             {
@@ -601,7 +601,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void UpdateList(MailList list)
+        public void UpdateList(Encrypted<MailList> list)
         {
             try
             {

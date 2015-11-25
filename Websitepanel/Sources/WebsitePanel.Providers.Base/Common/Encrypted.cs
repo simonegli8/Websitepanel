@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WebsitePanel.Providers {
 
-	public class EncryptedValue<T> : IEncryptedSerializable {
+	public class Encrypted<T> : IEncryptedSerializable {
 
 		T val;
 
@@ -18,36 +19,37 @@ namespace WebsitePanel.Providers {
 			set { val = value; }
 		}
 
-		public string EncryptedData;
+		public string EncryptedValue;
 		[XmlAttribute]
 		public string KeyHash;
 
 		public void Decrypt() {
 			lock (this) {
-				if (!string.IsNullOrEmpty(EncryptedData) && !string.IsNullOrEmpty(KeyHash)) {
+				if (!string.IsNullOrEmpty(EncryptedValue) && !string.IsNullOrEmpty(KeyHash)) {
 					if (KeyHash != AsymmetricEncryption.KeyHash()) throw new InvalidEncryptionKeyException("Invalid encryption key for this server.");
-					using (var r = new StreamReader(new MemoryStream(AsymmetricEncryption.DecryptBase64(EncryptedData)), Encoding.UTF8)) {
+					using (var r = new StreamReader(new DeflateStream(new MemoryStream(AsymmetricEncryption.DecryptBase64(EncryptedValue)), CompressionMode.Decompress), Encoding.UTF8)) {
 						var xs = new XmlSerializer(typeof(T));
 						Value = (T)xs.Deserialize(r);
 					}
 				}
-				EncryptedData = null;
+				EncryptedValue = null;
 				KeyHash = null;
 			}
 		}
 
 		public void Encrypt(string publicKey) {
 			using (var m = new MemoryStream())
-			using (var w = new StreamWriter(m)) {
+			using (var w = new StreamWriter(new DeflateStream(m, CompressionMode.Compress))) {
 				var xs = new XmlSerializer(typeof(T));
 				xs.Serialize(w, val);
-				EncryptedData = AsymmetricEncryption.EncryptBase64(m.ToArray(), publicKey);
+				w.Close();
+				EncryptedValue = AsymmetricEncryption.EncryptBase64(m.ToArray(), publicKey);
 			}
 			KeyHash = AsymmetricEncryption.PublicKeyHash(publicKey);
 			Value = default(T);
 		}
 
-		public static implicit operator T(EncryptedValue<T> val) => val.Value;
-		public static implicit operator EncryptedValue<T>(T val) => new EncryptedValue<T> { Value = val };
+		public static implicit operator T(Encrypted<T> val) => val.Value;
+		public static implicit operator Encrypted<T>(T val) => new Encrypted<T> { Value = val };
 	}
 }

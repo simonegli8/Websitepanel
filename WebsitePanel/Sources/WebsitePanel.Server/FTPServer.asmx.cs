@@ -110,7 +110,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public FtpSite[] GetSites()
+        public Encrypted<FtpSite[]> GetSites()
         {
             try
             {
@@ -127,7 +127,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public FtpSite GetSite(string siteId)
+        public Encrypted<FtpSite> GetSite(string siteId)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public string CreateSite(FtpSite site)
+        public string CreateSite(Encrypted<FtpSite> site)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void UpdateSite(FtpSite site)
+        public void UpdateSite(Encrypted<FtpSite> site)
         {
             try
             {
@@ -213,7 +213,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public FtpAccount[] GetAccounts()
+        public Encrypted<FtpAccount[]> GetAccounts()
         {
             try
             {
@@ -230,7 +230,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public FtpAccount GetAccount(string accountName)
+        public Encrypted<FtpAccount> GetAccount(string accountName)
         {
             try
             {
@@ -247,7 +247,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void CreateAccount(FtpAccount account)
+        public void CreateAccount(Encrypted<FtpAccount> account)
         {
             try
             {
@@ -263,7 +263,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void UpdateAccount(FtpAccount account)
+        public void UpdateAccount(Encrypted<FtpAccount> account)
         {
             try
             {
