@@ -248,14 +248,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public SystemUser GetUser(string username)
+        public Encrypted<SystemUser> GetUser(string username)
         {
             try
             {
                 Log.WriteStart("'{0}' GetUser", ProviderSettings.ProviderName);
                 SystemUser result = SPS.GetUser(username);
                 Log.WriteEnd("'{0}' GetUser", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -265,7 +265,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void CreateUser(SystemUser user)
+        public void CreateUser(Encrypted<SystemUser> user)
         {
             try
             {
@@ -281,7 +281,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void UpdateUser(SystemUser user)
+        public void UpdateUser(Encrypted<SystemUser> user)
         {
             try
             {
@@ -297,7 +297,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void ChangeUserPassword(string username, string password)
+        public void ChangeUserPassword(string username, EncryptedString password)
         {
             try
             {

@@ -6,7 +6,7 @@ using System.Text;
 using System.IO;
 using System.Web;
 
-namespace WebsitePanel.Server.Client.Common {
+namespace WebsitePanel.Server.Client {
 
 	public struct ServerInfo {
 		public string Url;

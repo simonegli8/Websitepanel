@@ -71,12 +71,12 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public SettingPair[] GetProviderDefaultSettings()
+        public Encrypted<SettingPair[]> GetProviderDefaultSettings()
         {
             try
             {
                 Log.WriteStart("'{0}' GetProviderDefaultSettings", ProviderSettings.ProviderName);
-                return Provider.GetProviderDefaultSettings();
+                return Provider.GetProviderDefaultSettings().Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {

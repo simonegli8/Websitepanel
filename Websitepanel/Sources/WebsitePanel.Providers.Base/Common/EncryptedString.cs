@@ -7,7 +7,7 @@ using System.IO;
 
 namespace WebsitePanel.Providers {
 
-	public class EncryptedString : IEncryptedSerializable {
+	public class EncryptedString : IEncrypted {
 
 		string text;
 

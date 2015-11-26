@@ -26,8 +26,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
-
 using System;
 using System.Data;
 using System.Web;
@@ -51,7 +49,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-	public class VirtualizationServerForPrivateCloud : HostingServiceProviderWebService, WebsitePanel.Providers.VirtualizationForPC.IVirtualizationServerForPC
+	public class VirtualizationServerForPrivateCloud : HostingServiceProviderWebService //, WebsitePanel.Providers.VirtualizationForPC.IVirtualizationServerForPC
     {
 		private WebsitePanel.Providers.VirtualizationForPC.IVirtualizationServerForPC VirtualizationForPC
         {
@@ -61,14 +59,14 @@ namespace WebsitePanel.Server
         #region Virtual Machines
 
         [WebMethod, SoapHeader("settings")]
-        public VMInfo GetVirtualMachine(string vmId)
+        public Encrypted<VMInfo> GetVirtualMachine(string vmId)
         {
             try
             {
                 Log.WriteStart("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
                 VMInfo result = VirtualizationForPC.GetVirtualMachine(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -78,14 +76,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VirtualMachine GetVirtualMachineEx(string vmId)
+        public Encrypted<VirtualMachine> GetVirtualMachineEx(string vmId)
         {
             try
             {
                 Log.WriteStart("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationForPC.GetVirtualMachineEx(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -95,14 +93,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public List<VirtualMachine> GetVirtualMachines()
+        public Encrypted<List<VirtualMachine>> GetVirtualMachines()
         {
             try
             {
                 Log.WriteStart("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
                 List<VirtualMachine> result = VirtualizationForPC.GetVirtualMachines();
                 Log.WriteEnd("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -129,14 +127,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VMInfo CreateVirtualMachine(VMInfo vm)
+        public Encrypted<VMInfo> CreateVirtualMachine(Encrypted<VMInfo> vm)
         {
             try
             {
                 Log.WriteStart("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
                 VMInfo result = VirtualizationForPC.CreateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -146,7 +144,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VMInfo CreateVMFromVM(string sourceName, VMInfo vmTemplate, Guid taskGuid)
+        public Encrypted<VMInfo> CreateVMFromVM(string sourceName, Encrypted<VMInfo> vmTemplate, Guid taskGuid)
         {
             VMInfo result = vmTemplate;
             try
@@ -154,7 +152,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' CreateVMFromVM", ProviderSettings.ProviderName);
                 result = VirtualizationForPC.CreateVMFromVM(sourceName, vmTemplate, taskGuid);
                 Log.WriteEnd("'{0}' CreateVMFromVM", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (System.TimeoutException)
             {
@@ -169,14 +167,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VMInfo UpdateVirtualMachine(VMInfo vm)
+        public Encrypted<VMInfo> UpdateVirtualMachine(Encrypted<VMInfo> vm)
         {
             try
             {
                 Log.WriteStart("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
                 VMInfo result = VirtualizationForPC.UpdateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -1073,5 +1071,3 @@ namespace WebsitePanel.Server
         #endregion
     }
 }
-
-#endif

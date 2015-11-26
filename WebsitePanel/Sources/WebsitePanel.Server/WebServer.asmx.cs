@@ -26,8 +26,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
-
 using System;
 using System.Data;
 using System.Web;
@@ -56,7 +54,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class WebServer : HostingServiceProviderWebService, IWebServer
+    public class WebServer : HostingServiceProviderWebService //, IWebServer
     {
         private IWebServer WebProvider
         {
@@ -486,7 +484,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void ChangeFrontPagePassword(string username, string password)
+        public void ChangeFrontPagePassword(string username, EncryptedString password)
         {
             try
             {
@@ -1461,7 +1459,7 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public ResultObject CheckWebManagementPasswordComplexity(string accountPassword)
+		public ResultObject CheckWebManagementPasswordComplexity(EncryptedString accountPassword)
 		{
 			try
 			{
@@ -1515,7 +1513,7 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public void ChangeWebManagementAccessPassword(string accountName, string accountPassword)
+		public void ChangeWebManagementAccessPassword(string accountName, EncryptedString accountPassword)
 		{
 			try
 			{
@@ -1534,12 +1532,12 @@ namespace WebsitePanel.Server
 
 		#region SSL Management
 		[WebMethod, SoapHeader("settings")]
-		public SSLCertificate generateCSR(SSLCertificate certificate)
+		public Encrypted<SSLCertificate> generateCSR(Encrypted<SSLCertificate> certificate)
 		{
 			try
 			{
 				Log.WriteStart("'{0}' generateCSR", ProviderSettings.ProviderName);
-				certificate = WebProvider.generateCSR(certificate);
+				certificate = WebProvider.generateCSR(certificate).Encrypt(settings.PublicKey);
 				Log.WriteEnd("'{0}' generateCSR", ProviderSettings.ProviderName);
 				return certificate;
 
@@ -1551,12 +1549,12 @@ namespace WebsitePanel.Server
 			}
 		}
 		[WebMethod, SoapHeader("settings")]
-		public SSLCertificate generateRenewalCSR(SSLCertificate certificate)
+		public Encrypted<SSLCertificate> generateRenewalCSR(Encrypted<SSLCertificate> certificate)
 		{
 			try
 			{
 				Log.WriteStart("'{0}' generateCSR", ProviderSettings.ProviderName);
-				certificate = WebProvider.generateCSR(certificate);
+				certificate = WebProvider.generateCSR(certificate).Encrypt(settings.PublicKey);
 				Log.WriteEnd("'{0}' generateCSR", ProviderSettings.ProviderName);
 				return certificate;
 
@@ -1569,20 +1567,20 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public SSLCertificate getCertificate(WebSite site)
+		public Encrypted<SSLCertificate> getCertificate(WebSite site)
 		{
 			throw new NotImplementedException();
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public SSLCertificate installCertificate(SSLCertificate certificate, WebSite website)
+		public Encrypted<SSLCertificate> installCertificate(Encrypted<SSLCertificate> certificate, WebSite website)
 		{
 			try
 			{
 				Log.WriteStart("'{0}' installCertificate", ProviderSettings.ProviderName);
 				SSLCertificate result = WebProvider.installCertificate(certificate, website);
 				Log.WriteEnd("'{0}' installCertificate", ProviderSettings.ProviderName);
-				return result;
+				return result.Encrypt(settings.PublicKey);
 
 			}
 			catch (Exception ex)
@@ -1593,7 +1591,7 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public SSLCertificate installPFX(byte[] certificate, string password, WebSite website)
+		public Encrypted<SSLCertificate> installPFX(byte[] certificate, EncryptedString password, WebSite website)
 		{
 			try
 			{
@@ -1608,7 +1606,7 @@ namespace WebsitePanel.Server
 				{
 					Log.WriteEnd("'{0}' installPFX", ProviderSettings.ProviderName);
 				}
-				return response;
+				return response.Encrypt(settings.PublicKey);
 			}
 			catch (Exception ex)
 			{
@@ -1618,24 +1616,24 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public byte[] exportCertificate(string serialNumber, string password)
+		public Encrypted<byte[]> exportCertificate(string serialNumber, EncryptedString password)
 		{
-			return WebProvider.exportCertificate(serialNumber, password);
+			return WebProvider.exportCertificate(serialNumber, password).Encrypt(settings.PublicKey);
 		}
 		[WebMethod, SoapHeader("settings")]
-		public List<SSLCertificate> getServerCertificates()
+		public Encrypted<List<SSLCertificate>> getServerCertificates()
 		{
-			return WebProvider.getServerCertificates();
+			return WebProvider.getServerCertificates().Encrypt(settings.PublicKey);
 		}
 		[WebMethod, SoapHeader("settings")]
-		public ResultObject DeleteCertificate(SSLCertificate certificate, WebSite website)
+		public ResultObject DeleteCertificate(Encrypted<SSLCertificate> certificate, WebSite website)
 		{
 			return WebProvider.DeleteCertificate(certificate, website);
 		}
 		[WebMethod, SoapHeader("settings")]
-		public SSLCertificate ImportCertificate(WebSite website)
+		public Encrypted<SSLCertificate> ImportCertificate(WebSite website)
 		{
-			return WebProvider.ImportCertificate(website);
+			return WebProvider.ImportCertificate(website).Encrypt(settings.PublicKey);
 		}
 		[WebMethod, SoapHeader("settings")]
 		public bool CheckCertificate(WebSite webSite)
@@ -1661,5 +1659,3 @@ namespace WebsitePanel.Server
         #endregion
     }
 }
-
-#endif

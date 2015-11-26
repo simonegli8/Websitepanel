@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WebsitePanel.Providers {
 
-	public class Encrypted<T> : IEncryptedSerializable {
+	public class Encrypted<T> : IEncrypted {
 
 		T val;
 
@@ -51,5 +51,15 @@ namespace WebsitePanel.Providers {
 
 		public static implicit operator T(Encrypted<T> val) => val.Value;
 		public static implicit operator Encrypted<T>(T val) => new Encrypted<T> { Value = val };
+	}
+
+	public static class EncryptedExtensions {
+
+		public static Encrypted<T> Encrypt<T>(this T data, string publicKey) {
+			var e = new Encrypted<T> { Value = data };
+			e.Encrypt(publicKey);
+			return e;
+		}
+
 	}
 }

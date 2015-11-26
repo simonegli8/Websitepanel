@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WebsitePanel.Providers {
 
-   public interface IEncryptedSerializable {
+   public interface IEncrypted {
       void Decrypt();
       void Encrypt(string publicKey);
    }

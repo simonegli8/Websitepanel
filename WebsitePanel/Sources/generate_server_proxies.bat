@@ -1,3 +1,4 @@
+mode con:cols=140 lines=10000
 SET WSDL="C:\Program Files (x86)\Microsoft WSE\v3.0\Tools\WseWsdl3.exe"
 SET WSE_CLEAN=..\Tools\WseClean.exe
 SET SERVER_URL=http://localhost:9003
@@ -5,74 +6,87 @@ SET SERVER_URL=http://localhost:9003
 %WSDL% %SERVER_URL%/AutoDiscovery.asmx /out:.\WebsitePanel.Server.Client\AutoDiscoveryProxy.cs /namespace:WebsitePanel.AutoDiscovery /type:webClient /fields
 %WSE_CLEAN% .\WebsitePanel.Server.Client\AutoDiscoveryProxy.cs
 
-REM %WSDL% %SERVER_URL%/BlackBerry.asmx /out:.\WebsitePanel.Server.Client\BlackBerryProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\BlackBerryProxy.cs
+%WSDL% %SERVER_URL%/BlackBerry.asmx /out:.\WebsitePanel.Server.Client\BlackBerryProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\BlackBerryProxy.cs
 
-REM %WSDL% %SERVER_URL%/CRM.asmx /out:.\WebsitePanel.Server.Client\CRMProxy.cs /namespace:WebsitePanel.Providers.CRM /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\CRMProxy.cs
+%WSDL% %SERVER_URL%/CRM.asmx /out:.\WebsitePanel.Server.Client\CRMProxy.cs /namespace:WebsitePanel.Providers.CRM /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\CRMProxy.cs
 
-REM %WSDL% %SERVER_URL%/DatabaseServer.asmx /out:.\WebsitePanel.Server.Client\DatabaseServerProxy.cs /namespace:WebsitePanel.Providers.Database /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\DatabaseServerProxy.cs
+%WSDL% %SERVER_URL%/DatabaseServer.asmx /out:.\WebsitePanel.Server.Client\DatabaseServerProxy.cs /namespace:WebsitePanel.Providers.Database /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\DatabaseServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/DNSServer.asmx /out:.\WebsitePanel.Server.Client\DnsServerProxy.cs /namespace:WebsitePanel.Providers.DNS /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\DnsServerProxy.cs
+%WSDL% %SERVER_URL%/DNSServer.asmx /out:.\WebsitePanel.Server.Client\DnsServerProxy.cs /namespace:WebsitePanel.Providers.DNS /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\DnsServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/ExchangeServer.asmx /out:.\WebsitePanel.Server.Client\ExchangeServerProxy.cs /namespace:WebsitePanel.Providers.Exchange /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\ExchangeServerProxy.cs
+%WSDL% %SERVER_URL%/EnterpriseStorage.asmx /out:.\WebsitePanel.Server.Client\EnterpriseStorageProxy.cs /namespace:WebsitePanel.Providers.EnterpriseStorage /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\EnterpriseStorageProxy.cs
+
+%WSDL% %SERVER_URL%/ExchangeServer.asmx /out:.\WebsitePanel.Server.Client\ExchangeServerProxy.cs /namespace:WebsitePanel.Providers.Exchange /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\ExchangeServerProxy.cs
 
 REM %WSDL% %SERVER_URL%/ExchangeServerHostedEdition.asmx /out:.\WebsitePanel.Server.Client\ExchangeServerHostedEditionProxy.cs /namespace:WebsitePanel.Providers.ExchangeHostedEdition /type:webClient /fields
 REM %WSE_CLEAN% .\WebsitePanel.Server.Client\ExchangeServerHostedEditionProxy.cs
 
-REM %WSDL% %SERVER_URL%/HostedSharePointServer.asmx /out:.\WebsitePanel.Server.Client\HostedSharePointServerProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\HostedSharePointServerProxy.cs
+%WSDL% %SERVER_URL%/FTPServer.asmx /out:.\WebsitePanel.Server.Client\FTPServerProxy.cs /namespace:WebsitePanel.Providers.FTP /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\FTPServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/HostedSharePointServerEnt.asmx /out:.\WebsitePanel.Server.Client\HostedSharePointServerEntProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\HostedSharePointServerEntProxy.cs
+%WSDL% %SERVER_URL%/HeliconZoo.asmx /out:.\WebsitePanel.Server.Client\HeliconZooProxy.cs /namespace:WebsitePanel.Providers.HeliconZoo /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\HeliconZooProxy.cs
 
-REM %WSDL% %SERVER_URL%/OCSEdgeServer.asmx /out:.\WebsitePanel.Server.Client\OCSEdgeServerProxy.cs /namespace:WebsitePanel.Providers.OCS /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\OCSEdgeServerProxy.cs
+%WSDL% %SERVER_URL%/HostedSharePointServer.asmx /out:.\WebsitePanel.Server.Client\HostedSharePointServerProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\HostedSharePointServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/OCSServer.asmx /out:.\WebsitePanel.Server.Client\OCSServerProxy.cs /namespace:WebsitePanel.Providers.OCS /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\OCSServerProxy.cs
+%WSDL% %SERVER_URL%/HostedSharePointServerEnt.asmx /out:.\WebsitePanel.Server.Client\HostedSharePointServerEntProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\HostedSharePointServerEntProxy.cs
 
-REM %WSDL% %SERVER_URL%/OperatingSystem.asmx /out:.\WebsitePanel.Server.Client\OperatingSystemProxy.cs /namespace:WebsitePanel.Providers.OS /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\OperatingSystemProxy.cs
+%WSDL% %SERVER_URL%/LyncServer.asmx /out:.\WebsitePanel.Server.Client\LyncServerProxy.cs /namespace:WebsitePanel.Providers.Lync /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\LyncServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/Organizations.asmx /out:.\WebsitePanel.Server.Client\OrganizationProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\OrganizationProxy.cs
+%WSDL% %SERVER_URL%/MailServer.asmx /out:.\WebsitePanel.Server.Client\MailServerProxy.cs /namespace:WebsitePanel.Providers.Mail /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\MailServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/ServiceProvider.asmx /out:.\WebsitePanel.Server.Client\ServiceProviderProxy.cs /namespace:WebsitePanel.Providers /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\ServiceProviderProxy.cs
+%WSDL% %SERVER_URL%/OCSEdgeServer.asmx /out:.\WebsitePanel.Server.Client\OCSEdgeServerProxy.cs /namespace:WebsitePanel.Providers.OCS /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\OCSEdgeServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/SharePointServer.asmx /out:.\WebsitePanel.Server.Client\SharePointServerProxy.cs /namespace:WebsitePanel.Providers.SharePoint /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\SharePointServerProxy.cs
+%WSDL% %SERVER_URL%/OCSServer.asmx /out:.\WebsitePanel.Server.Client\OCSServerProxy.cs /namespace:WebsitePanel.Providers.OCS /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\OCSServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/VirtualizationServer.asmx /out:.\WebsitePanel.Server.Client\VirtualizationServerProxy.cs /namespace:WebsitePanel.Providers.Virtualization /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\VirtualizationServerProxy.cs
+%WSDL% %SERVER_URL%/OperatingSystem.asmx /out:.\WebsitePanel.Server.Client\OperatingSystemProxy.cs /namespace:WebsitePanel.Providers.OS /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\OperatingSystemProxy.cs
 
-REM %WSDL% %SERVER_URL%/VirtualizationServer2012.asmx /out:.\WebsitePanel.Server.Client\VirtualizationServerProxy2012.cs /namespace:WebsitePanel.Providers.Virtualization2012 /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\VirtualizationServerProxy2012.cs
+%WSDL% %SERVER_URL%/Organizations.asmx /out:.\WebsitePanel.Server.Client\OrganizationProxy.cs /namespace:WebsitePanel.Providers.HostedSolution /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\OrganizationProxy.cs
 
-REM %WSDL% %SERVER_URL%/VirtualizationServerForPrivateCloud.asmx /out:.\WebsitePanel.Server.Client\VirtualizationServerForPrivateCloudProxy.cs /namespace:WebsitePanel.Providers.VirtualizationForPC /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\VirtualizationServerForPrivateCloudProxy.cs
+%WSDL% %SERVER_URL%/RemoteDesktopServices.asmx /out:.\WebsitePanel.Server.Client\RemoteDesktopServicesProxy.cs /namespace:WebsitePanel.Providers.RemoteDesktopServices /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\RemoteDesktopServicesProxy.cs
 
-REM %WSDL% %SERVER_URL%/WebServer.asmx /out:.\WebsitePanel.Server.Client\WebServerProxy.cs /namespace:WebsitePanel.Providers.Web /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\WebServerProxy.cs
+%WSDL% %SERVER_URL%/ServiceProvider.asmx /out:.\WebsitePanel.Server.Client\ServiceProviderProxy.cs /namespace:WebsitePanel.Providers /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\ServiceProviderProxy.cs
 
-REM %WSDL% %SERVER_URL%/WindowsServer.asmx /out:.\WebsitePanel.Server.Client\WindowsServerProxy.cs /namespace:WebsitePanel.Server /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\WindowsServerProxy.cs
+%WSDL% %SERVER_URL%/SharePointServer.asmx /out:.\WebsitePanel.Server.Client\SharePointServerProxy.cs /namespace:WebsitePanel.Providers.SharePoint /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\SharePointServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/LyncServer.asmx /out:.\WebsitePanel.Server.Client\LyncServerProxy.cs /namespace:WebsitePanel.Providers.Lync /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\LyncServerProxy.cs
+%WSDL% %SERVER_URL%/StatisticsServer.asmx /out:.\WebsitePanel.Server.Client\StatisticsServerProxy.cs /namespace:WebsitePanel.Providers.Statistics /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\StatisticsServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/HeliconZoo.asmx /out:.\WebsitePanel.Server.Client\HeliconZooProxy.cs /namespace:WebsitePanel.Providers.HeliconZoo /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\HeliconZooProxy.cs
+%WSDL% %SERVER_URL%/StorageSpaceServices.asmx /out:.\WebsitePanel.Server.Client\StorageSpacesProxy.cs /namespace:WebsitePanel.Providers.StorageSpaces /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\StorageSpacesProxy.cs
 
-REM %WSDL% %SERVER_URL%/RemoteDesktopServices.asmx /out:.\WebsitePanel.Server.Client\RemoteDesktopServicesProxy.cs /namespace:WebsitePanel.Providers.RemoteDesktopServices /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\RemoteDesktopServicesProxy.cs
+%WSDL% %SERVER_URL%/VirtualizationServer.asmx /out:.\WebsitePanel.Server.Client\VirtualizationServerProxy.cs /namespace:WebsitePanel.Providers.Virtualization /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\VirtualizationServerProxy.cs
 
-REM %WSDL% %SERVER_URL%/EnterpriseStorage.asmx /out:.\WebsitePanel.Server.Client\EnterpriseStorageProxy.cs /namespace:WebsitePanel.Providers.EnterpriseStorage /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\EnterpriseStorageProxy.cs
+%WSDL% %SERVER_URL%/VirtualizationServer2012.asmx /out:.\WebsitePanel.Server.Client\VirtualizationServerProxy2012.cs /namespace:WebsitePanel.Providers.Virtualization2012 /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\VirtualizationServerProxy2012.cs
 
-REM %WSDL% %SERVER_URL%/StorageSpaceServices.asmx /out:.\WebsitePanel.Server.Client\StorageSpacesProxy.cs /namespace:WebsitePanel.Providers.StorageSpaces /type:webClient /fields
-REM %WSE_CLEAN% .\WebsitePanel.Server.Client\StorageSpacesProxy.cs
+%WSDL% %SERVER_URL%/VirtualizationServerForPrivateCloud.asmx /out:.\WebsitePanel.Server.Client\VirtualizationServerForPrivateCloudProxy.cs /namespace:WebsitePanel.Providers.VirtualizationForPC /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\VirtualizationServerForPrivateCloudProxy.cs
+
+%WSDL% %SERVER_URL%/WebServer.asmx /out:.\WebsitePanel.Server.Client\WebServerProxy.cs /namespace:WebsitePanel.Providers.Web /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\WebServerProxy.cs
+
+%WSDL% %SERVER_URL%/WindowsServer.asmx /out:.\WebsitePanel.Server.Client\WindowsServerProxy.cs /namespace:WebsitePanel.Server /type:webClient /fields
+%WSE_CLEAN% .\WebsitePanel.Server.Client\WindowsServerProxy.cs
+
+"%ProgramFiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" .\WebsitePanel.Server.Client\WebsitePanel.Server.Client.csproj /target:BuildNonWSEProxies /p:BuildConfiguration=Debug /p:Version="2.1.0" /p:FileVersion="2.1.0.1" /p:VersionLabel="2.1.0.1" /v:n /fileLogger /m
+
+PAUSE

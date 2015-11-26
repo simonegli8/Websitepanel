@@ -56,7 +56,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class RemoteDesktopServices : HostingServiceProviderWebService, IRemoteDesktopServices
+    public class RemoteDesktopServices : HostingServiceProviderWebService //, IRemoteDesktopServices
     {
         private IRemoteDesktopServices RDSProvider
         {
@@ -635,7 +635,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void InstallCertificate(byte[] certificate, string password, List<string> hostNames)
+        public void InstallCertificate(Encrypted<byte[]> certificate, EncryptedString password, List<string> hostNames)
         {
             try
             {

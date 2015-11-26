@@ -33,6 +33,7 @@ using System.Web.Services.Protocols;
 using System.Web;
 using System.Xml.Serialization;
 using System.IO;
+using System.Linq;
 
 namespace WebsitePanel.Providers
 {
@@ -44,7 +45,7 @@ namespace WebsitePanel.Providers
 	/// <summary>
 	/// Summary description for ServiceProviderSettings.
 	/// </summary>
-	public class ServiceProviderSettingsSoapHeader : SoapHeader, IEncryptedSerializable {
+	public class ServiceProviderSettingsSoapHeader : SoapHeader, IEncrypted {
 
 		bool deserialized = false;
 		string[] settings;
@@ -58,6 +59,13 @@ namespace WebsitePanel.Providers
 		public string[] Settings {
 			get { Decrypt(); return settings; }
 			set { settings = value; }
+		}
+
+		string publicKey = null;
+		public string PublicKey {
+			get {
+				return publicKey ?? (publicKey = Settings.FirstOrDefault(s => s.StartsWith("Client:PublicKey="))?.Substring("Client:PublicKey=".Length));
+			}
 		}
 
 		public static Action<ServiceProviderSettingsSoapHeader> CheckSecurity;

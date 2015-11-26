@@ -32,7 +32,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Management;
 using System.Security.Principal;
-using WebsitePanel.Providers.OS;
+using WebsitePanel.Providers.Common;
 
 namespace WebsitePanel.Server.Utils
 {
@@ -299,15 +299,15 @@ namespace WebsitePanel.Server.Utils
 		public static bool IsMono { get {  return Type.GetType("Mono.Runtime") != null; } }
       public static bool IsNet { get { return !IsMono; } }
 
-      public static bool IsWindows { get { return Platform == Platforms.Windows; } }
+      public static bool IsWindows { get { return Platform == Providers.OS.Platforms.Windows; } }
 
-		public static bool IsLinux { get { return Platform == Platforms.Linux; } }
+		public static bool IsLinux { get { return Platform == Providers.OS.Platforms.Linux; } }
 
-		public static bool IsMac { get { return Platform == Platforms.Mac; } }
+		public static bool IsMac { get { return Platform == Providers.OS.Platforms.Mac; } }
 
-		public static Runtimes Runtime {  get { return IsMono ? Runtimes.Mono : Runtimes.Net; } }
+		public static Providers.OS.Runtimes Runtime {  get { return IsMono ? Providers.OS.Runtimes.Mono : Providers.OS.Runtimes.Net; } }
 
-		public static Platforms Platform {
+		public static Providers.OS.Platforms Platform {
 			get {
 				switch (Environment.OSVersion.Platform) {
 				case PlatformID.Unix:
@@ -317,15 +317,15 @@ namespace WebsitePanel.Server.Utils
 						 & System.IO.Directory.Exists("/System")
 						 & System.IO.Directory.Exists("/Users")
 						 & System.IO.Directory.Exists("/Volumes"))
-						return Platforms.Mac;
+						return Providers.OS.Platforms.Mac;
 					else
-						return Platforms.Linux;
+						return Providers.OS.Platforms.Linux;
 
 				case PlatformID.MacOSX:
-					return Platforms.Mac;
+					return Providers.OS.Platforms.Mac;
 				
 				default:
-					return Platforms.Windows;
+					return Providers.OS.Platforms.Windows;
 				}
 			}
 		}

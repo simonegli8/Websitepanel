@@ -438,7 +438,7 @@ namespace WebsitePanel.Providers.HostedSolution
         }
 
 
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, string password, int time)
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time)
         {
             return SetActivationPasswordWithExpirationTimeInternal(primaryEmailAddress, password, time);                        
         }

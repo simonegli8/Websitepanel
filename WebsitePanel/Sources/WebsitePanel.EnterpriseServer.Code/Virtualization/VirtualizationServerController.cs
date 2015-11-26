@@ -87,7 +87,7 @@ namespace WebsitePanel.EnterpriseServer
             VirtualizationServer vps = GetVirtualizationProxy(serviceId);
 
             // load details
-            return vps.GetVirtualMachines();
+            return vps.GetVirtualMachines().ToArray();
         }
         #endregion
 

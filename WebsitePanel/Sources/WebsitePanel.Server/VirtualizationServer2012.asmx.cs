@@ -51,7 +51,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class VirtualizationServer2012 : HostingServiceProviderWebService, IVirtualizationServer2012
+    public class VirtualizationServer2012 : HostingServiceProviderWebService //, IVirtualizationServer2012
     {
         private IVirtualizationServer2012 VirtualizationProvider
         {
@@ -61,14 +61,14 @@ namespace WebsitePanel.Server
         #region Virtual Machines
 
         [WebMethod, SoapHeader("settings")]
-        public VirtualMachine GetVirtualMachine(string vmId)
+        public Encrypted<VirtualMachine> GetVirtualMachine(string vmId)
         {
             try
             {
                 Log.WriteStart("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.GetVirtualMachine(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -78,14 +78,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VirtualMachine GetVirtualMachineEx(string vmId)
+        public Encrypted<VirtualMachine> GetVirtualMachineEx(string vmId)
         {
             try
             {
                 Log.WriteStart("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.GetVirtualMachineEx(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -95,14 +95,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public List<VirtualMachine> GetVirtualMachines()
+        public Encrypted<List<VirtualMachine>> GetVirtualMachines()
         {
             try
             {
                 Log.WriteStart("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
                 List<VirtualMachine> result = VirtualizationProvider.GetVirtualMachines();
                 Log.WriteEnd("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -129,14 +129,14 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VirtualMachine CreateVirtualMachine(VirtualMachine vm)
+        public Encrypted<VirtualMachine> CreateVirtualMachine(Encrypted<VirtualMachine> vm)
         {
             try
             {
                 Log.WriteStart("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.CreateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -146,15 +146,15 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public VirtualMachine UpdateVirtualMachine(VirtualMachine vm)
+        public Encrypted<VirtualMachine> UpdateVirtualMachine(Encrypted<VirtualMachine> vm)
         {
             try
             {
                 Log.WriteStart("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.UpdateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
-                return result;
-            }
+                return result.Encrypt(settings.PublicKey);
+			}
             catch (Exception ex)
             {
                 Log.WriteError(String.Format("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName), ex);

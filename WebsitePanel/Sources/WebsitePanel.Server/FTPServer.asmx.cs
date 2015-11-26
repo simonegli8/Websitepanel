@@ -50,7 +50,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class FTPServer : HostingServiceProviderWebService, IFtpServer
+    public class FTPServer : HostingServiceProviderWebService //, IFtpServer
     {
         private IFtpServer FtpProvider
         {
@@ -117,7 +117,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetSites", ProviderSettings.ProviderName);
                 FtpSite[] result = FtpProvider.GetSites();
                 Log.WriteEnd("'{0}' GetSites", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -134,7 +134,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetSite", ProviderSettings.ProviderName);
                 FtpSite result = FtpProvider.GetSite(siteId);
                 Log.WriteEnd("'{0}' GetSite", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -220,7 +220,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetAccounts", ProviderSettings.ProviderName);
                 FtpAccount[] result = FtpProvider.GetAccounts();
                 Log.WriteEnd("'{0}' GetAccounts", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -237,7 +237,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetAccount", ProviderSettings.ProviderName);
                 FtpAccount result = FtpProvider.GetAccount(accountName);
                 Log.WriteEnd("'{0}' GetAccount", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {

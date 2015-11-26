@@ -48,7 +48,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class CRM : HostingServiceProviderWebService, ICRM
+    public class CRM : HostingServiceProviderWebService //, ICRM
     {              
         private ICRM CrmProvider
         {
@@ -90,7 +90,7 @@ namespace WebsitePanel.Server
         [WebMethod, SoapHeader("settings")]
         public Encrypted<UserResult> CreateCRMUser(Encrypted<OrganizationUser> user, string orgName, Guid organizationId, Guid baseUnitId, int CALType)
         {
-            return CrmProvider.CreateCRMUser(user, orgName, organizationId, baseUnitId, CALType);
+            return CrmProvider.CreateCRMUser(user, orgName, organizationId, baseUnitId, CALType).Encrypt(settings.PublicKey);
         }
 
         [WebMethod, SoapHeader("settings")]

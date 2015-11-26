@@ -50,7 +50,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class DatabaseServer : HostingServiceProviderWebService, IDatabaseServer
+    public class DatabaseServer : HostingServiceProviderWebService //, IDatabaseServer
     {
         private IDatabaseServer DatabaseProvider
         {
@@ -369,7 +369,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetUser", ProviderSettings.ProviderName);
                 SqlUser result = DatabaseProvider.GetUser(username, databases);
                 Log.WriteEnd("'{0}' GetUser", ProviderSettings.ProviderName);
-                return result;
+                return result.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {

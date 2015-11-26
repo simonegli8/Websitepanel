@@ -95,7 +95,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public int CreateUser(string organizationId, string loginName, string displayName, string upn, string password, bool enabled)
+        public int CreateUser(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled)
         {
             return Organization.CreateUser(organizationId, loginName, displayName, upn, password, enabled);
         }
@@ -155,12 +155,12 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void SetUserGeneralSettings(string organizationId, string accountName, string displayName, string password,
+        public void SetUserGeneralSettings(string organizationId, string accountName, string displayName, EncryptedString password,
             bool hideFromAddressBook, bool disabled, bool locked, string firstName, string initials, string lastName,
-            string address, string city, string state, string zip, string country, string jobTitle,
+				EncryptedString address, EncryptedString city, EncryptedString state, EncryptedString zip, EncryptedString country, EncryptedString jobTitle,
             string company, string department, string office, string managerAccountName,
-            string businessPhone, string fax, string homePhone, string mobilePhone, string pager,
-            string webPage, string notes, string externalEmail, 
+				EncryptedString businessPhone, EncryptedString fax, EncryptedString homePhone, EncryptedString mobilePhone, EncryptedString pager,
+				EncryptedString webPage, string notes, string externalEmail, 
             bool userMustChangePassword)
         {
             Organization.SetUserGeneralSettings(organizationId, accountName, displayName, password, hideFromAddressBook,
@@ -171,7 +171,7 @@ namespace WebsitePanel.Server
 
 
         [WebMethod, SoapHeader("settings")]
-        public void SetUserPassword(string organizationId, string accountName, string password)
+        public void SetUserPassword(string organizationId, string accountName, EncryptedString password)
         {
             Organization.SetUserPassword(organizationId, accountName, password);
         }

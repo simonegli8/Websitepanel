@@ -366,7 +366,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxGeneralSettings");
                 ExchangeMailbox ret = ES.GetMailboxGeneralSettings(accountName);
                 LogEnd("GetMailboxGeneralSettings");
-                return ret;
+                return ret.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -399,7 +399,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxMailFlowSettings");
                 ExchangeMailbox ret = ES.GetMailboxMailFlowSettings(accountName);
                 LogEnd("GetMailboxMailFlowSettings");
-                return ret;
+                return ret.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -432,7 +432,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxAdvancedSettings");
                 ExchangeMailbox ret = ES.GetMailboxAdvancedSettings(accountName);
                 LogEnd("GetMailboxAdvancedSettings");
-                return ret;
+                return ret.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -537,7 +537,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxPermissions");
                 ExchangeMailbox ret = ES.GetMailboxPermissions(organizationId, accountName);
                 LogEnd("GetMailboxPermissions");
-                return ret;
+                return ret.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -624,7 +624,7 @@ namespace WebsitePanel.Server
                 LogStart("GetContactGeneralSettings");
                 ExchangeContact ret = ES.GetContactGeneralSettings(accountName);
                 LogEnd("GetContactGeneralSettings");
-                return ret;
+                return ret.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {
@@ -657,7 +657,7 @@ namespace WebsitePanel.Server
                 LogStart("GetContactMailFlowSettings");
                 ExchangeContact ret = ES.GetContactMailFlowSettings(accountName);
                 LogEnd("GetContactMailFlowSettings");
-                return ret;
+                return ret.Encrypt(settings.PublicKey);
             }
             catch (Exception ex)
             {

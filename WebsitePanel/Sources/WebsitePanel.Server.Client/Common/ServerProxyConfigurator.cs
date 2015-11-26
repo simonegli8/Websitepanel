@@ -74,7 +74,7 @@ namespace WebsitePanel.Server.Client {
       }
 
       public void Configure(SoapHttpClientProtocol proxy) {
-         Common.ServiceProxyBase service = proxy as Common.ServiceProxyBase;
+         ServiceProxy service = proxy as ServiceProxy;
          SoapHttpClientProtocol wservice = null;
          if (service != null) {
             wservice = service.Service as SoapHttpClientProtocol;
@@ -125,7 +125,10 @@ namespace WebsitePanel.Server.Client {
          settings.Add("Provider:ProviderName=" + ProviderSettings.ProviderName);
          settings.Add("Provider:ProviderType=" + ProviderSettings.ProviderType);
 
-         // Custom Provider Settings
+			// Public key for response encryption
+			settings.Add("Client:PublicKey=" + AsymmetricEncryption.PublicKey());
+			
+			// Custom Provider Settings
          foreach (string settingName in ProviderSettings.Settings.Keys) {
             settings.Add(settingName + "=" + ProviderSettings.Settings[settingName]);
          }

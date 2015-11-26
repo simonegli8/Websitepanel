@@ -36,20 +36,20 @@ namespace WebsitePanel.Providers.VirtualizationForPC
     public interface IVirtualizationServerForPC
     {
         // Virtual Machines
-        VMInfo GetVirtualMachine(string vmId);
-        VirtualMachine GetVirtualMachineEx(string vmId);
-        List<VirtualMachine> GetVirtualMachines();
+		  VMInfo GetVirtualMachine(string vmId);
+		VirtualMachine GetVirtualMachineEx(string vmId);
+		List<VirtualMachine> GetVirtualMachines();
         byte[] GetVirtualMachineThumbnailImage(string vmId, ThumbnailSize size);
-        VMInfo CreateVirtualMachine(VMInfo vm);
-        VMInfo CreateVMFromVM(string sourceName, VMInfo vmTemplate, Guid taskGuid);
-        VMInfo UpdateVirtualMachine(VMInfo vm);
+		VMInfo CreateVirtualMachine(VMInfo vm);
+		VMInfo CreateVMFromVM(string sourceName, VMInfo vmTemplate, Guid taskGuid);
+		VMInfo UpdateVirtualMachine(VMInfo vm);
         JobResult ChangeVirtualMachineState(string vmId, VirtualMachineRequestedState newState);
         ReturnCode ShutDownVirtualMachine(string vmId, bool force, string reason);
         List<ConcreteJob> GetVirtualMachineJobs(string vmId);
         JobResult RenameVirtualMachine(string vmId, string name);
         //JobResult ExportVirtualMachine(string vmId, string exportPath);
         JobResult DeleteVirtualMachine(string vmId);
-        VMInfo MoveVM(VMInfo vmForMove);
+		VMInfo MoveVM(VMInfo vmForMove);
 
         //TODO: Может быть прийдется менять возвращаемый результат
         void ConfigureCreatedVMNetworkAdapters(VMInfo vmInfo);
