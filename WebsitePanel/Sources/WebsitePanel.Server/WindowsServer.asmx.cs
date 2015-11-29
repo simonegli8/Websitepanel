@@ -949,7 +949,7 @@ namespace WebsitePanel.Server
         [WebMethod]
         public List<SystemLogEntry> GetLogEntries(string logName)
         {
-            SystemLogEntriesPaged result = new SystemLogEntriesPaged();
+            // SystemLogEntriesPaged result = new SystemLogEntriesPaged();
             List<SystemLogEntry> entries = new List<SystemLogEntry>();
 
             if (String.IsNullOrEmpty(logName))

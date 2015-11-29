@@ -51,7 +51,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class VirtualizationServer2012 : HostingServiceProviderWebService //, IVirtualizationServer2012
+    public class VirtualizationServer2012 : HostingServiceProviderWebService, IVirtualizationServer2012
     {
         private IVirtualizationServer2012 VirtualizationProvider
         {
@@ -68,7 +68,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.GetVirtualMachine(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -85,7 +85,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.GetVirtualMachineEx(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
                 List<VirtualMachine> result = VirtualizationProvider.GetVirtualMachines();
                 Log.WriteEnd("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -136,7 +136,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.CreateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -153,7 +153,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationProvider.UpdateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
 			}
             catch (Exception ex)
             {
@@ -1069,9 +1069,29 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
 
-    }
+		VirtualMachine IVirtualizationServer2012.GetVirtualMachine(string vmId) {
+			return VirtualizationProvider.GetVirtualMachine(vmId);
+		}
+
+		VirtualMachine IVirtualizationServer2012.GetVirtualMachineEx(string vmId) {
+			return VirtualizationProvider.GetVirtualMachineEx(vmId);
+		}
+
+		List<VirtualMachine> IVirtualizationServer2012.GetVirtualMachines() {
+			return VirtualizationProvider.GetVirtualMachines();
+		}
+
+		public VirtualMachine CreateVirtualMachine(VirtualMachine vm) {
+			return VirtualizationProvider.CreateVirtualMachine(vm);
+		}
+
+		public VirtualMachine UpdateVirtualMachine(VirtualMachine vm) {
+			return VirtualizationProvider.UpdateVirtualMachine(vm);
+		}
+		#endregion
+
+	}
 }
 
 #endif

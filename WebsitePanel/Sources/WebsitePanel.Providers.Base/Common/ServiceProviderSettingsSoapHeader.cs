@@ -39,36 +39,21 @@ namespace WebsitePanel.Providers
 {
 
 	public class InvalidEncryptionKeyException: SoapHeaderException {
-		public InvalidEncryptionKeyException(string msg): base(msg, new System.Xml.XmlQualifiedName("InvalidEncryptionKey", "http://smbsaas/websitepanel/server/")) { }
+		public InvalidEncryptionKeyException(): base("Invalid encryption key for this server.", new System.Xml.XmlQualifiedName("InvalidEncryptionKey", "http://smbsaas/websitepanel/server/")) { }
    }
 
 	/// <summary>
 	/// Summary description for ServiceProviderSettings.
 	/// </summary>
-	public class ServiceProviderSettingsSoapHeader : SoapHeader, IEncrypted {
+	public class ServiceProviderSettingsSoapHeader : EncryptionSession, IEncrypted {
 
-		bool deserialized = false;
-		string[] settings;
-
-		[SoapElement(IsNullable = true)]
-		public string EncryptedSettings = null;
+		bool serialized = false;
 
 		[SoapElement(IsNullable = true)]
-		public string KeyHash = null;
+		public Encrypted<string[]> EncryptedSettings = null;
 
-		public string[] Settings {
-			get { Decrypt(); return settings; }
-			set { settings = value; }
-		}
-
-		string publicKey = null;
-		public string PublicKey {
-			get {
-				return publicKey ?? (publicKey = Settings.FirstOrDefault(s => s.StartsWith("Client:PublicKey="))?.Substring("Client:PublicKey=".Length));
-			}
-		}
-
-		public static Action<ServiceProviderSettingsSoapHeader> CheckSecurity;
+		[SoapElement(IsNullable = true)]
+		public string[] Settings { get; set; }
 
 		/// <summary>
 		/// This property is just a flag telling us that this SOAP header should be encrypted.
@@ -76,33 +61,23 @@ namespace WebsitePanel.Providers
 		[XmlAttribute("SecureHeader", Namespace = "http://smbsaas/websitepanel/server/")]
 		public bool SecureHeader;
 
-		public void Decrypt() {
-			lock (this) {
-				if (!deserialized && SecureHeader && !string.IsNullOrEmpty(EncryptedSettings) && !string.IsNullOrEmpty(KeyHash)) {
-					if (KeyHash != AsymmetricEncryption.KeyHash()) throw new InvalidEncryptionKeyException("Invalid encryption key for this server.");
-					var data = AsymmetricEncryption.DecryptBase64(EncryptedSettings);
-					using (var r = new BinaryReader(new MemoryStream(data))) {
-						var settings = new List<string>();
-						while (r.BaseStream.CanRead) settings.Add(r.ReadString());
-						Settings = settings.ToArray();
-						if (CheckSecurity != null) CheckSecurity(this);
-					}
-				}
-            EncryptedSettings = null;
-            KeyHash = null;
-				deserialized = true;
+		public void Decrypt(EncryptionSession decryptor) {
+			lock (this)
+			if (!serialized && EncryptedSettings != null) {
+				EncryptedSettings.Decrypt(decryptor);
+				Settings = EncryptedSettings;
+				EncryptedSettings = null;
 			}
 		}
 
-		public void Encrypt(string publicKey) {
+		public void Encrypt(EncryptionSession encryptor) {
+			lock (this)
 			if (SecureHeader) {
-				using (var w = new BinaryWriter(new MemoryStream())) {
-					foreach (var txt in Settings) w.Write(txt);
-					EncryptedSettings = AsymmetricEncryption.EncryptBase64(((MemoryStream)w.BaseStream).ToArray(), publicKey);
-					KeyHash = AsymmetricEncryption.PublicKeyHash(publicKey);
-               Settings = null;
-				}
-			}
+				EncryptedSettings = Settings;
+				EncryptedSettings.Encrypt(encryptor);
+				Settings = null;
+				serialized = true;
+			} else EncryptedSettings = null;
 		}
 	}
 }

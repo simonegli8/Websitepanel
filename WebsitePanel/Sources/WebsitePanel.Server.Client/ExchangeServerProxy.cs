@@ -466,7 +466,7 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckAccountCredentials", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckAccountCredentials(string username, EncryptedString password) {
+        public bool CheckAccountCredentials(string username, Encrypted<string> password) {
             object[] results = this.Invoke("CheckAccountCredentials", new object[] {
                         username,
                         password});
@@ -474,7 +474,7 @@ namespace WebsitePanel.Providers.Exchange {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckAccountCredentials(string username, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckAccountCredentials(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckAccountCredentials", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -487,12 +487,12 @@ namespace WebsitePanel.Providers.Exchange {
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, EncryptedString password) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password) {
             this.CheckAccountCredentialsAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, EncryptedString password, object userState) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password, object userState) {
             if ((this.CheckAccountCredentialsOperationCompleted == null)) {
                 this.CheckAccountCredentialsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckAccountCredentialsOperationCompleted);
             }
@@ -2239,29 +2239,29 @@ namespace WebsitePanel.Providers.Exchange {
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetContactGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetContactGeneralSettings(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.Invoke("SetContactGeneralSettings", new object[] {
@@ -2296,29 +2296,29 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         public System.IAsyncResult BeginSetContactGeneralSettings(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     System.AsyncCallback callback, 
@@ -2360,29 +2360,29 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.SetContactGeneralSettingsAsync(accountName, displayName, email, hideFromAddressBook, firstName, initials, lastName, address, city, state, zip, country, jobTitle, company, department, office, managerAccountName, businessPhone, fax, homePhone, mobilePhone, pager, webPage, notes, useMapiRichTextFormat, defaultDomain, null);
@@ -2391,29 +2391,29 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     object userState) {
@@ -6521,7 +6521,7 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckAccountCredentials", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckAccountCredentials(string username, EncryptedString password) {
+        public bool CheckAccountCredentials(string username, Encrypted<string> password) {
             object[] results = this.Invoke("CheckAccountCredentials", new object[] {
                         username,
                         password});
@@ -6529,7 +6529,7 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckAccountCredentials(string username, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckAccountCredentials(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckAccountCredentials", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -6542,12 +6542,12 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, EncryptedString password) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password) {
             this.CheckAccountCredentialsAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, EncryptedString password, object userState) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password, object userState) {
             if ((this.CheckAccountCredentialsOperationCompleted == null)) {
                 this.CheckAccountCredentialsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckAccountCredentialsOperationCompleted);
             }
@@ -8294,29 +8294,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetContactGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetContactGeneralSettings(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.Invoke("SetContactGeneralSettings", new object[] {
@@ -8351,29 +8351,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         public System.IAsyncResult BeginSetContactGeneralSettings(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     System.AsyncCallback callback, 
@@ -8415,29 +8415,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.SetContactGeneralSettingsAsync(accountName, displayName, email, hideFromAddressBook, firstName, initials, lastName, address, city, state, zip, country, jobTitle, company, department, office, managerAccountName, businessPhone, fax, homePhone, mobilePhone, pager, webPage, notes, useMapiRichTextFormat, defaultDomain, null);
@@ -8446,29 +8446,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    EncryptedString displayName, 
-                    EncryptedString email, 
+                    Encrypted<string> displayName, 
+                    Encrypted<string> email, 
                     bool hideFromAddressBook, 
-                    EncryptedString firstName, 
-                    EncryptedString initials, 
-                    EncryptedString lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
-                    EncryptedString company, 
-                    EncryptedString department, 
-                    EncryptedString office, 
-                    EncryptedString managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
-                    EncryptedString notes, 
+                    Encrypted<string> firstName, 
+                    Encrypted<string> initials, 
+                    Encrypted<string> lastName, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
+                    Encrypted<string> company, 
+                    Encrypted<string> department, 
+                    Encrypted<string> office, 
+                    Encrypted<string> managerAccountName, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
+                    Encrypted<string> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     object userState) {

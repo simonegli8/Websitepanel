@@ -51,7 +51,7 @@ namespace WebsitePanel.Server
       public string GetServerVersion() => AutoDiscoveryHelper.GetServerVersion();
 
 		[WebMethod]
-		public bool SupportsWSE() => AutoDiscoveryHelper.SupportsWSE();
+		public bool SupportsWSE() => false; // AutoDiscoveryHelper.SupportsWSE();
 
 		[WebMethod]
 		public Runtimes Runtime() => AutoDiscoveryHelper.Runtime();

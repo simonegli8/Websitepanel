@@ -29,10 +29,8 @@ namespace WebsitePanel.Server.Client {
 					var ad = new WebsitePanel.AutoDiscovery.AutoDiscovery();
 					ad.Url = url + ad.Url.Substring(ad.Url.LastIndexOf('/'));
 					ad.Timeout = 10000;
-					try { info.SupportsWSE = ad.SupportsWSE();
-					} catch (Exception ex) { }
-					try { info.PublicKey = ad.EncryptionPublicKey();
-					} catch (Exception ex) { }
+					info.SupportsWSE = ad.SupportsWSE();
+					info.PublicKey = ad.EncryptionPublicKey();
 					Add(info);
 					Save();
 				}
@@ -56,14 +54,17 @@ namespace WebsitePanel.Server.Client {
 		}
 	
 		public void Save() {
-				if (!File.Exists(CacheFile)) Directory.CreateDirectory(Path.GetDirectoryName(CacheFile));
-				using (var w = new BinaryWriter(new FileStream(CacheFile, FileMode.Create, FileAccess.Write))) {
-					foreach (var info in ServerInfo.Cache) {
-						w.Write(info.Url);
-						w.Write(info.PublicKey);
-						w.Write(info.SupportsWSE);
-					}
+			if (!File.Exists(CacheFile)) {
+				var dir = Path.GetDirectoryName(CacheFile);
+				if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+			}
+			using (var w = new BinaryWriter(new FileStream(CacheFile, FileMode.Create, FileAccess.Write))) {
+				foreach (var info in ServerInfo.Cache) {
+					w.Write(info.Url);
+					w.Write(info.PublicKey);
+					w.Write(info.SupportsWSE);
 				}
 			}
 		}
+	}
 }

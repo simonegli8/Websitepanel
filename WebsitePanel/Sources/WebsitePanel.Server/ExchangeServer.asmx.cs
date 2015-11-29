@@ -57,7 +57,7 @@ namespace WebsitePanel.Server
 		}
          
 		[WebMethod, SoapHeader("settings")]
-		public bool CheckAccountCredentials(string username, EncryptedString password)
+		public bool CheckAccountCredentials(string username, Encrypted<string> password)
 		{
 			try
 			{
@@ -366,7 +366,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxGeneralSettings");
                 ExchangeMailbox ret = ES.GetMailboxGeneralSettings(accountName);
                 LogEnd("GetMailboxGeneralSettings");
-                return ret.Encrypt(settings.PublicKey);
+                return ret;
             }
             catch (Exception ex)
             {
@@ -399,7 +399,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxMailFlowSettings");
                 ExchangeMailbox ret = ES.GetMailboxMailFlowSettings(accountName);
                 LogEnd("GetMailboxMailFlowSettings");
-                return ret.Encrypt(settings.PublicKey);
+                return ret;
             }
             catch (Exception ex)
             {
@@ -432,7 +432,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxAdvancedSettings");
                 ExchangeMailbox ret = ES.GetMailboxAdvancedSettings(accountName);
                 LogEnd("GetMailboxAdvancedSettings");
-                return ret.Encrypt(settings.PublicKey);
+                return ret;
             }
             catch (Exception ex)
             {
@@ -537,7 +537,7 @@ namespace WebsitePanel.Server
                 LogStart("GetMailboxPermissions");
                 ExchangeMailbox ret = ES.GetMailboxPermissions(organizationId, accountName);
                 LogEnd("GetMailboxPermissions");
-                return ret.Encrypt(settings.PublicKey);
+                return ret;
             }
             catch (Exception ex)
             {
@@ -624,7 +624,7 @@ namespace WebsitePanel.Server
                 LogStart("GetContactGeneralSettings");
                 ExchangeContact ret = ES.GetContactGeneralSettings(accountName);
                 LogEnd("GetContactGeneralSettings");
-                return ret.Encrypt(settings.PublicKey);
+                return ret;
             }
             catch (Exception ex)
             {
@@ -634,7 +634,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void SetContactGeneralSettings(string accountName, EncryptedString displayName, EncryptedString email, bool hideFromAddressBook, EncryptedString firstName, EncryptedString initials, EncryptedString lastName, EncryptedString address, EncryptedString city, EncryptedString state, EncryptedString zip, EncryptedString country, EncryptedString jobTitle, EncryptedString company, EncryptedString department, EncryptedString office, EncryptedString managerAccountName, EncryptedString businessPhone, EncryptedString fax, EncryptedString homePhone, EncryptedString mobilePhone, EncryptedString pager, EncryptedString webPage, EncryptedString notes, int useMapiRichTextFormat, string defaultDomain)
+        public void SetContactGeneralSettings(string accountName, Encrypted<string> displayName, Encrypted<string> email, bool hideFromAddressBook, Encrypted<string> firstName, Encrypted<string> initials, Encrypted<string> lastName, Encrypted<string> address, Encrypted<string> city, Encrypted<string> state, Encrypted<string> zip, Encrypted<string> country, Encrypted<string> jobTitle, Encrypted<string> company, Encrypted<string> department, Encrypted<string> office, Encrypted<string> managerAccountName, Encrypted<string> businessPhone, Encrypted<string> fax, Encrypted<string> homePhone, Encrypted<string> mobilePhone, Encrypted<string> pager, Encrypted<string> webPage, Encrypted<string> notes, int useMapiRichTextFormat, string defaultDomain)
         {
             try
             {
@@ -657,7 +657,7 @@ namespace WebsitePanel.Server
                 LogStart("GetContactMailFlowSettings");
                 ExchangeContact ret = ES.GetContactMailFlowSettings(accountName);
                 LogEnd("GetContactMailFlowSettings");
-                return ret.Encrypt(settings.PublicKey);
+                return ret;
             }
             catch (Exception ex)
             {

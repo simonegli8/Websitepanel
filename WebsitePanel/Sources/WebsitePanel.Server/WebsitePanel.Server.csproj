@@ -354,7 +354,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Code\AutoDiscoveryHelper.cs" />
-    <Compile Include="Code\CheckPasswordNonWSE.cs" />
+    <Compile Include="Code\CheckAuthentication.cs" />
     <Compile Include="Code\ServerConfiguration.cs" />
     <Compile Include="Code\ServerUsernameTokenManager.cs" />
     <Compile Include="Code\UsernameAssertion.cs" />

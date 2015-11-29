@@ -215,7 +215,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetActivationPasswordWithExpirationTime", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time) {
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time) {
             object[] results = this.Invoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -224,7 +224,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -238,12 +238,12 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, EncryptedString password, int time) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time) {
             this.SetActivationPasswordWithExpirationTimeAsync(primaryEmailAddress, password, time, null);
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, EncryptedString password, int time, object userState) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time, object userState) {
             if ((this.SetActivationPasswordWithExpirationTimeOperationCompleted == null)) {
                 this.SetActivationPasswordWithExpirationTimeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetActivationPasswordWithExpirationTimeOperationCompleted);
             }
@@ -692,7 +692,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetActivationPasswordWithExpirationTime", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time) {
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time) {
             object[] results = this.Invoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -701,7 +701,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -715,12 +715,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, EncryptedString password, int time) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time) {
             this.SetActivationPasswordWithExpirationTimeAsync(primaryEmailAddress, password, time, null);
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, EncryptedString password, int time, object userState) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time, object userState) {
             if ((this.SetActivationPasswordWithExpirationTimeOperationCompleted == null)) {
                 this.SetActivationPasswordWithExpirationTimeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetActivationPasswordWithExpirationTimeOperationCompleted);
             }

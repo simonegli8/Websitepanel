@@ -75,5 +75,5 @@ WebsitePanel/Sources/_UpgradeReport_Files/UpgradeReport_Success.png
 WebsitePanel/Sources/packages
 WebsitePanel/Sources/Tools/packages
 WebsitePanel/Sources/Tools/WSPTransportAgent/*.dll*
-
-WSECache.data
+EncryptionKey.data
+ServerInfoCache.data

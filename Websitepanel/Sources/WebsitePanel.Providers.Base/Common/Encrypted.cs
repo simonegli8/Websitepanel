@@ -9,43 +9,48 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WebsitePanel.Providers {
 
+
+	/// <summary>
+	/// A generic class for encrypted xml serialization. Before serialization Encrypt(publicKey) has to be called, to encrypt the content.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class Encrypted<T> : IEncrypted {
 
-		T val;
-
 		[XmlIgnore]
-		public T Value {
-			get { Decrypt(); return val; }
-			set { val = value; }
-		}
+		public T Value { get; set; }
 
 		public string EncryptedValue;
-		[XmlAttribute]
-		public string KeyHash;
 
-		public void Decrypt() {
+		public void Decrypt(EncryptionSession decryptor) {
 			lock (this) {
-				if (!string.IsNullOrEmpty(EncryptedValue) && !string.IsNullOrEmpty(KeyHash)) {
-					if (KeyHash != AsymmetricEncryption.KeyHash()) throw new InvalidEncryptionKeyException("Invalid encryption key for this server.");
-					using (var r = new StreamReader(new DeflateStream(new MemoryStream(AsymmetricEncryption.DecryptBase64(EncryptedValue)), CompressionMode.Decompress), Encoding.UTF8)) {
-						var xs = new XmlSerializer(typeof(T));
-						Value = (T)xs.Deserialize(r);
+				if (!string.IsNullOrEmpty(EncryptedValue)) {
+					if (typeof(T) == typeof(byte[])) Value = (T)(object)decryptor.DecryptBase64(EncryptedValue);
+					else if (typeof(T) == typeof(string)) Value = (T)(object)Encoding.UTF8.GetString(decryptor.DecryptBase64(EncryptedValue));
+					else {
+						using (var r = new StreamReader(new DeflateStream(new MemoryStream(decryptor.DecryptBase64(EncryptedValue)), CompressionMode.Decompress), Encoding.UTF8)) {
+							var xs = new XmlSerializer(typeof(T));
+							Value = (T)xs.Deserialize(r);
+						}
 					}
+					EncryptedValue = null;
 				}
-				EncryptedValue = null;
-				KeyHash = null;
 			}
 		}
 
-		public void Encrypt(string publicKey) {
-			using (var m = new MemoryStream())
-			using (var w = new StreamWriter(new DeflateStream(m, CompressionMode.Compress))) {
-				var xs = new XmlSerializer(typeof(T));
-				xs.Serialize(w, val);
-				w.Close();
-				EncryptedValue = AsymmetricEncryption.EncryptBase64(m.ToArray(), publicKey);
+		public void Encrypt(EncryptionSession encryptor) {
+			byte[] data;
+			if (typeof(T) == typeof(byte[])) data = (byte[])(object)Value;
+			else if (typeof(T) == typeof(string)) data = Encoding.UTF8.GetBytes((string)(object)Value);
+			else {
+				using (var m = new MemoryStream())
+				using (var w = new StreamWriter(new DeflateStream(m, CompressionMode.Compress), Encoding.UTF8)) {
+					var xs = new XmlSerializer(typeof(T));
+					xs.Serialize(w, Value);
+					w.Close();
+					data = m.ToArray();
+				}
 			}
-			KeyHash = AsymmetricEncryption.PublicKeyHash(publicKey);
+			EncryptedValue = encryptor.EncryptBase64(data);
 			Value = default(T);
 		}
 
@@ -55,9 +60,8 @@ namespace WebsitePanel.Providers {
 
 	public static class EncryptedExtensions {
 
-		public static Encrypted<T> Encrypt<T>(this T data, string publicKey) {
+		public static Encrypted<T> Encrypt<T>(this T data) {
 			var e = new Encrypted<T> { Value = data };
-			e.Encrypt(publicKey);
 			return e;
 		}
 

@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.SchedulerServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Server.Client", "WebsitePanel.Server.Client\WebsitePanel.Server.Client.csproj", "{990C4A2A-34A5-4BE0-9546-E10ABDFFFD0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebsitePanel.Providers.Base", "WebsitePanel.Providers.Base\WebsitePanel.Providers.Base.csproj", "{684C932A-6C75-46AC-A327-F3689D89EB42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,18 @@ Global
 		{990C4A2A-34A5-4BE0-9546-E10ABDFFFD0E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{990C4A2A-34A5-4BE0-9546-E10ABDFFFD0E}.Release|x86.ActiveCfg = Release|Any CPU
 		{990C4A2A-34A5-4BE0-9546-E10ABDFFFD0E}.Release|x86.Build.0 = Release|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Debug|x86.Build.0 = Debug|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Release|x86.ActiveCfg = Release|Any CPU
+		{684C932A-6C75-46AC-A327-F3689D89EB42}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

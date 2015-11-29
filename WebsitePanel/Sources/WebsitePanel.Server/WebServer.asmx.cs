@@ -54,7 +54,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class WebServer : HostingServiceProviderWebService //, IWebServer
+    public class WebServer : HostingServiceProviderWebService, IWebServer
     {
         private IWebServer WebProvider
         {
@@ -484,7 +484,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void ChangeFrontPagePassword(string username, EncryptedString password)
+        public void ChangeFrontPagePassword(string username, Encrypted<string> password)
         {
             try
             {
@@ -1459,7 +1459,7 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public ResultObject CheckWebManagementPasswordComplexity(EncryptedString accountPassword)
+		public ResultObject CheckWebManagementPasswordComplexity(Encrypted<string> accountPassword)
 		{
 			try
 			{
@@ -1513,7 +1513,7 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public void ChangeWebManagementAccessPassword(string accountName, EncryptedString accountPassword)
+		public void ChangeWebManagementAccessPassword(string accountName, Encrypted<string> accountPassword)
 		{
 			try
 			{
@@ -1537,7 +1537,7 @@ namespace WebsitePanel.Server
 			try
 			{
 				Log.WriteStart("'{0}' generateCSR", ProviderSettings.ProviderName);
-				certificate = WebProvider.generateCSR(certificate).Encrypt(settings.PublicKey);
+				certificate = WebProvider.generateCSR(certificate);
 				Log.WriteEnd("'{0}' generateCSR", ProviderSettings.ProviderName);
 				return certificate;
 
@@ -1554,7 +1554,7 @@ namespace WebsitePanel.Server
 			try
 			{
 				Log.WriteStart("'{0}' generateCSR", ProviderSettings.ProviderName);
-				certificate = WebProvider.generateCSR(certificate).Encrypt(settings.PublicKey);
+				certificate = WebProvider.generateCSR(certificate);
 				Log.WriteEnd("'{0}' generateCSR", ProviderSettings.ProviderName);
 				return certificate;
 
@@ -1580,7 +1580,7 @@ namespace WebsitePanel.Server
 				Log.WriteStart("'{0}' installCertificate", ProviderSettings.ProviderName);
 				SSLCertificate result = WebProvider.installCertificate(certificate, website);
 				Log.WriteEnd("'{0}' installCertificate", ProviderSettings.ProviderName);
-				return result.Encrypt(settings.PublicKey);
+				return result;
 
 			}
 			catch (Exception ex)
@@ -1591,7 +1591,7 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public Encrypted<SSLCertificate> installPFX(byte[] certificate, EncryptedString password, WebSite website)
+		public Encrypted<SSLCertificate> installPFX(byte[] certificate, Encrypted<string> password, WebSite website)
 		{
 			try
 			{
@@ -1606,7 +1606,7 @@ namespace WebsitePanel.Server
 				{
 					Log.WriteEnd("'{0}' installPFX", ProviderSettings.ProviderName);
 				}
-				return response.Encrypt(settings.PublicKey);
+				return response;
 			}
 			catch (Exception ex)
 			{
@@ -1616,14 +1616,14 @@ namespace WebsitePanel.Server
 		}
 
 		[WebMethod, SoapHeader("settings")]
-		public Encrypted<byte[]> exportCertificate(string serialNumber, EncryptedString password)
+		public Encrypted<byte[]> exportCertificate(string serialNumber, Encrypted<string> password)
 		{
-			return WebProvider.exportCertificate(serialNumber, password).Encrypt(settings.PublicKey);
+			return WebProvider.exportCertificate(serialNumber, password);
 		}
 		[WebMethod, SoapHeader("settings")]
 		public Encrypted<List<SSLCertificate>> getServerCertificates()
 		{
-			return WebProvider.getServerCertificates().Encrypt(settings.PublicKey);
+			return WebProvider.getServerCertificates();
 		}
 		[WebMethod, SoapHeader("settings")]
 		public ResultObject DeleteCertificate(Encrypted<SSLCertificate> certificate, WebSite website)
@@ -1633,7 +1633,7 @@ namespace WebsitePanel.Server
 		[WebMethod, SoapHeader("settings")]
 		public Encrypted<SSLCertificate> ImportCertificate(WebSite website)
 		{
-			return WebProvider.ImportCertificate(website).Encrypt(settings.PublicKey);
+			return WebProvider.ImportCertificate(website);
 		}
 		[WebMethod, SoapHeader("settings")]
 		public bool CheckCertificate(WebSite webSite)
@@ -1656,6 +1656,54 @@ namespace WebsitePanel.Server
             WebProvider.SetDirectoryBrowseEnabled(siteId, enabled);
         }
 
-        #endregion
-    }
+		public void ChangeFrontPagePassword(string username, string password) {
+			WebProvider.ChangeFrontPagePassword(username, password);
+		}
+
+		public void ChangeWebManagementAccessPassword(string accountName, string accountPassword) {
+			WebProvider.ChangeWebManagementAccessPassword(accountName, accountPassword);
+		}
+
+		public ResultObject CheckWebManagementPasswordComplexity(string accountPassword) {
+			return WebProvider.CheckWebManagementPasswordComplexity(accountPassword);
+		}
+
+		public SSLCertificate generateCSR(SSLCertificate certificate) {
+			return WebProvider.generateCSR(certificate);
+		}
+
+		public SSLCertificate generateRenewalCSR(SSLCertificate certificate) {
+			return WebProvider.generateRenewalCSR(certificate);
+		}
+
+		public SSLCertificate installCertificate(SSLCertificate certificate, WebSite website) {
+			return WebProvider.installCertificate(certificate, website);
+		}
+
+		SSLCertificate IWebServer.getCertificate(WebSite site) {
+			return WebProvider.getCertificate(site);
+		}
+
+		public SSLCertificate installPFX(byte[] certificate, string password, WebSite website) {
+			return WebProvider.installPFX(certificate, password, website);
+		}
+
+		public byte[] exportCertificate(string serialNumber, string password) {
+			return WebProvider.exportCertificate(serialNumber, password);
+		}
+
+		List<SSLCertificate> IWebServer.getServerCertificates() {
+			return WebProvider.getServerCertificates();
+		}
+
+		public ResultObject DeleteCertificate(SSLCertificate certificate, WebSite website) {
+			return WebProvider.DeleteCertificate(certificate, website);
+		}
+
+		SSLCertificate IWebServer.ImportCertificate(WebSite website) {
+			return WebProvider.ImportCertificate(website);
+		}
+
+		#endregion
+	}
 }

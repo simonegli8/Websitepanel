@@ -16,8 +16,68 @@ using System.IO;
 using System.Text;
 using System.Security.Cryptography;
 using System.Web;
+using System.Xml.Serialization;
+using System.Web.Services.Protocols;
 
 namespace WebsitePanel.Providers {
+
+	public class EncryptionSession: SoapHeader, IDisposable {
+		public const int Timeout = 60000;
+		[XmlIgnore]
+		public string KeyFile { get; set; } = null;
+		[XmlIgnore]
+		public string RemoteKey { get; set; }
+		[XmlIgnore]
+		public bool StoreKeyHash { get; set; }
+		public string RemoteKeyHash => Encryption.PublicKeyHash(RemoteKey);
+		public string PublicKey { get; set; }
+		public string Key { get; set; }
+		public string Signature { get; set; }
+
+		public DateTime Expires { get; set; } = DateTime.Now.AddMilliseconds(Timeout);
+		public DateTime Created { get; set; } = DateTime.Now;
+
+		RijndaelManaged encrypt, decrypt;
+		internal ICryptoTransform Encryptor {
+			get {
+				if (encrypt == null) {
+					encrypt = new RijndaelManaged() { BlockSize = 128, KeySize = 256, Mode = CipherMode.CBC, Padding = PaddingMode.PKCS7 };
+					encrypt.GenerateKey();
+					encrypt.GenerateIV();
+					RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+					rsa.FromXmlString(RemoteKey);
+					var m = new MemoryStream();
+					using (var kw = new BinaryWriter(m)) {
+						kw.Write((Int16)encrypt.Key.Length); kw.Write(encrypt.Key); kw.Write((Int16)encrypt.IV.Length); kw.Write(encrypt.IV);
+						kw.Close();
+						Key = Convert.ToBase64String(rsa.Encrypt(m.ToArray(), true));
+					}
+				}
+				return encrypt.CreateEncryptor();
+			}
+		}
+		internal ICryptoTransform Decryptor {
+			get {
+				if (decrypt == null) {
+					decrypt = new RijndaelManaged() { BlockSize = 128, KeySize = 256, Mode = CipherMode.CBC, Padding = PaddingMode.PKCS7 };
+				}
+				var rsa = Encryption.ReadKey(KeyFile);
+				using (var r = new BinaryReader(new MemoryStream(rsa.Decrypt(Convert.FromBase64String(Key), true)))) {
+					decrypt.Key = r.ReadBytes(r.ReadInt16());
+					decrypt.IV = r.ReadBytes(r.ReadInt16());
+				}
+				return decrypt.CreateDecryptor();
+			}
+		}
+
+
+		public byte[] Encrypt(byte[] data) { return Encryption.Encrypt(data, this); }
+      public string EncryptBase64(byte[] data) => Convert.ToBase64String(Encrypt(data));
+		public byte[] Decrypt(byte[] data) { return Encryption.Decrypt(data, this); }
+      public byte[] DecryptBase64(string data) => Decrypt(Convert.FromBase64String(data));
+
+		public void Dispose() { encrypt = decrypt = null; }
+	}
 
 	/// <summary>
 	/// A class that provides asymmetric encryption of strings.
@@ -66,7 +126,7 @@ namespace WebsitePanel.Providers {
 		/// </summary>
 		/// <param name="algorithm">The encryption algorithm.</param>
 		/// <param name="keyFile">The filename of the key file.</param>
-		private static RSACryptoServiceProvider ReadKey(string keyFile = null) {
+		public static RSACryptoServiceProvider ReadKey(string keyFile = null) {
 			if (keyFile == null) {
 				keyFile = KeyFile;
 				if (!keyCreated && !File.Exists(keyFile)) {
@@ -103,28 +163,18 @@ namespace WebsitePanel.Providers {
 		/// <param name="data">The string to encrypt.</param>
 		/// <param name="publicKey">The public key.</param>
 		/// <returns>A byte array containing the encrypted data.</returns>
-		public static byte[] Encrypt(byte[] data, string publicKey) {
-			// Create the algorithm based on the key
-			RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-			RijndaelManaged sym = new RijndaelManaged();
-			sym.GenerateKey();
-			sym.GenerateIV();
-			rsa.FromXmlString(publicKey);
+		public static byte[] Encrypt(byte[] data, string publicKey) => Encrypt(data, new EncryptionSession() { RemoteKey = publicKey, StoreKeyHash = true });
+
+		public static byte[] Encrypt(byte[] data, EncryptionSession session) {
 			var m = new MemoryStream();
 			using (var w = new BinaryWriter(m)) {
-				var mk = new MemoryStream();
-				using (var kw = new BinaryWriter(mk)) {
-					kw.Write((Int16)sym.Key.Length); kw.Write(sym.Key); kw.Write((Int16)sym.IV.Length); kw.Write(sym.IV);
-					kw.Close();
-					var ekey = rsa.Encrypt(mk.ToArray(), true);
-					w.Write((Int16)ekey.Length); w.Write(ekey);
-				}
-				w.Flush();
+				var e = session.Encryptor;
+				if (session.StoreKeyHash) w.Write(session.RemoteKeyHash);
+				w.Write(session.Key);
+				w.Write((Int32)data.Length);
+				using (var we = new BinaryWriter(new CryptoStream(m, e, CryptoStreamMode.Write))) we.Write(data);
+				return m.ToArray();
 			}
-			using (var w = new BinaryWriter(new CryptoStream(m, sym.CreateEncryptor(), CryptoStreamMode.Write))) {
-				w.Write((Int32)data.Length); w.Write(data);
-			}
-			return m.ToArray();
 		}
 
 		public static string EncryptBase64(byte[] data, string publicKey) => Convert.ToBase64String(Encrypt(data, publicKey));
@@ -135,26 +185,21 @@ namespace WebsitePanel.Providers {
 		/// <param name="data">The byte array with the encrypted data.</param>
 		/// <param name="keyFile">The key file.</param>
 		/// <returns>The decrypted string.</returns>
-		public static byte[] Decrypt(byte[] data, string keyFile = null) {
-			RSACryptoServiceProvider rsa = ReadKey(keyFile);
-			RijndaelManaged sym = new RijndaelManaged();
-			byte[] symkey, symiv;
+		public static byte[] Decrypt(byte[] data, string keyFile = null) => Decrypt(data, new EncryptionSession { KeyFile = keyFile, StoreKeyHash = true });
+
+		public static byte[] Decrypt(byte[] data, EncryptionSession session) {
 			var m = new MemoryStream(data);
 			using (var r = new BinaryReader(m)) {
-				var ekey = r.ReadBytes(r.ReadInt16());
-				ekey = rsa.Decrypt(ekey, true);
-				var mk = new MemoryStream(ekey);
-				using (var kr = new BinaryReader(mk)) {
-					symkey = kr.ReadBytes(kr.ReadInt16());
-					symiv = kr.ReadBytes(kr.ReadInt16());
-				}
+				if (KeyHash(session.KeyFile) != (session.StoreKeyHash ? r.ReadString() : session.RemoteKeyHash)) throw new InvalidEncryptionKeyException();
+				session.Key = r.ReadString();
+				using (var re = new BinaryReader(new CryptoStream(m, session.Decryptor, CryptoStreamMode.Read))) return re.ReadBytes(r.ReadInt32());
 			}
-			using (var r = new BinaryReader(new CryptoStream(m, sym.CreateDecryptor(symkey, symiv), CryptoStreamMode.Read))) return r.ReadBytes(r.ReadInt32());
 		}
 
 		public static byte[] DecryptBase64(string data, string keyFile = null) => Decrypt(Convert.FromBase64String(data), keyFile);
 
 		public static string PublicKeyHash(string publicKey) => Convert.ToBase64String(MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(publicKey)));
 		public static string KeyHash(string keyFile = null) => PublicKeyHash(PublicKey(keyFile));
+
 	}
 }

@@ -98,8 +98,8 @@ namespace WebsitePanel.Server.Code {
 
 		public static Runtimes Runtime() => OS.Runtime;
 		public static Platforms Platform() => OS.Platform;
-		public static bool SupportsWSE() => OS.Runtime == Runtimes.Net;
-		public static string EncryptionPublicKey() => AsymmetricEncryption.PublicKey();
+		public static bool SupportsWSE() => false; // OS.Runtime == Runtimes.Net;
+		public static string EncryptionPublicKey() => Encryption.PublicKey();
 	}
 }
 

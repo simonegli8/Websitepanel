@@ -95,7 +95,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public int CreateUser(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled)
+        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled)
         {
             return Organization.CreateUser(organizationId, loginName, displayName, upn, password, enabled);
         }
@@ -155,12 +155,12 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void SetUserGeneralSettings(string organizationId, string accountName, string displayName, EncryptedString password,
+        public void SetUserGeneralSettings(string organizationId, string accountName, string displayName, Encrypted<string> password,
             bool hideFromAddressBook, bool disabled, bool locked, string firstName, string initials, string lastName,
-				EncryptedString address, EncryptedString city, EncryptedString state, EncryptedString zip, EncryptedString country, EncryptedString jobTitle,
+				Encrypted<string> address, Encrypted<string> city, Encrypted<string> state, Encrypted<string> zip, Encrypted<string> country, Encrypted<string> jobTitle,
             string company, string department, string office, string managerAccountName,
-				EncryptedString businessPhone, EncryptedString fax, EncryptedString homePhone, EncryptedString mobilePhone, EncryptedString pager,
-				EncryptedString webPage, string notes, string externalEmail, 
+				Encrypted<string> businessPhone, Encrypted<string> fax, Encrypted<string> homePhone, Encrypted<string> mobilePhone, Encrypted<string> pager,
+				Encrypted<string> webPage, string notes, string externalEmail, 
             bool userMustChangePassword)
         {
             Organization.SetUserGeneralSettings(organizationId, accountName, displayName, password, hideFromAddressBook,
@@ -171,7 +171,7 @@ namespace WebsitePanel.Server
 
 
         [WebMethod, SoapHeader("settings")]
-        public void SetUserPassword(string organizationId, string accountName, EncryptedString password)
+        public void SetUserPassword(string organizationId, string accountName, Encrypted<string> password)
         {
             Organization.SetUserPassword(organizationId, accountName, password);
         }

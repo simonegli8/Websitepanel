@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="AutoDiscoveryProxy.cs" />
     <Compile Include="BlackBerryProxy.cs" />
+    <Compile Include="Common\Authenticate.cs" />
     <Compile Include="Common\ServerInfoCache.cs" />
     <Compile Include="Common\ServerProxyConfigurator.cs" />
     <Compile Include="Common\ServerUsernameAssertion.cs" />

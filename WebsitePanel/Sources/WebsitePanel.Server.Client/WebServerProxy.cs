@@ -1608,14 +1608,14 @@ namespace WebsitePanel.Providers.Web {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeFrontPagePassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeFrontPagePassword(string username, EncryptedString password) {
+        public void ChangeFrontPagePassword(string username, Encrypted<string> password) {
             this.Invoke("ChangeFrontPagePassword", new object[] {
                         username,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeFrontPagePassword(string username, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeFrontPagePassword(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeFrontPagePassword", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -1627,12 +1627,12 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public void ChangeFrontPagePasswordAsync(string username, EncryptedString password) {
+        public void ChangeFrontPagePasswordAsync(string username, Encrypted<string> password) {
             this.ChangeFrontPagePasswordAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void ChangeFrontPagePasswordAsync(string username, EncryptedString password, object userState) {
+        public void ChangeFrontPagePasswordAsync(string username, Encrypted<string> password, object userState) {
             if ((this.ChangeFrontPagePasswordOperationCompleted == null)) {
                 this.ChangeFrontPagePasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeFrontPagePasswordOperationCompleted);
             }
@@ -4015,14 +4015,14 @@ namespace WebsitePanel.Providers.Web {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckWebManagementPasswordComplexity", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ResultObject CheckWebManagementPasswordComplexity(EncryptedString accountPassword) {
+        public ResultObject CheckWebManagementPasswordComplexity(Encrypted<string> accountPassword) {
             object[] results = this.Invoke("CheckWebManagementPasswordComplexity", new object[] {
                         accountPassword});
             return ((ResultObject)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckWebManagementPasswordComplexity(EncryptedString accountPassword, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckWebManagementPasswordComplexity(Encrypted<string> accountPassword, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckWebManagementPasswordComplexity", new object[] {
                         accountPassword}, callback, asyncState);
         }
@@ -4034,12 +4034,12 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public void CheckWebManagementPasswordComplexityAsync(EncryptedString accountPassword) {
+        public void CheckWebManagementPasswordComplexityAsync(Encrypted<string> accountPassword) {
             this.CheckWebManagementPasswordComplexityAsync(accountPassword, null);
         }
         
         /// <remarks/>
-        public void CheckWebManagementPasswordComplexityAsync(EncryptedString accountPassword, object userState) {
+        public void CheckWebManagementPasswordComplexityAsync(Encrypted<string> accountPassword, object userState) {
             if ((this.CheckWebManagementPasswordComplexityOperationCompleted == null)) {
                 this.CheckWebManagementPasswordComplexityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckWebManagementPasswordComplexityOperationCompleted);
             }
@@ -4146,14 +4146,14 @@ namespace WebsitePanel.Providers.Web {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeWebManagementAccessPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeWebManagementAccessPassword(string accountName, EncryptedString accountPassword) {
+        public void ChangeWebManagementAccessPassword(string accountName, Encrypted<string> accountPassword) {
             this.Invoke("ChangeWebManagementAccessPassword", new object[] {
                         accountName,
                         accountPassword});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeWebManagementAccessPassword(string accountName, EncryptedString accountPassword, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeWebManagementAccessPassword(string accountName, Encrypted<string> accountPassword, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeWebManagementAccessPassword", new object[] {
                         accountName,
                         accountPassword}, callback, asyncState);
@@ -4165,12 +4165,12 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public void ChangeWebManagementAccessPasswordAsync(string accountName, EncryptedString accountPassword) {
+        public void ChangeWebManagementAccessPasswordAsync(string accountName, Encrypted<string> accountPassword) {
             this.ChangeWebManagementAccessPasswordAsync(accountName, accountPassword, null);
         }
         
         /// <remarks/>
-        public void ChangeWebManagementAccessPasswordAsync(string accountName, EncryptedString accountPassword, object userState) {
+        public void ChangeWebManagementAccessPasswordAsync(string accountName, Encrypted<string> accountPassword, object userState) {
             if ((this.ChangeWebManagementAccessPasswordOperationCompleted == null)) {
                 this.ChangeWebManagementAccessPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeWebManagementAccessPasswordOperationCompleted);
             }
@@ -4360,7 +4360,7 @@ namespace WebsitePanel.Providers.Web {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/installPFX", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public SSLCertificate installPFX([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] certificate, EncryptedString password, WebSite website) {
+        public SSLCertificate installPFX([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] certificate, Encrypted<string> password, WebSite website) {
             object[] results = this.Invoke("installPFX", new object[] {
                         certificate,
                         password,
@@ -4369,7 +4369,7 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BegininstallPFX(byte[] certificate, EncryptedString password, WebSite website, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BegininstallPFX(byte[] certificate, Encrypted<string> password, WebSite website, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("installPFX", new object[] {
                         certificate,
                         password,
@@ -4383,12 +4383,12 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public void installPFXAsync(byte[] certificate, EncryptedString password, WebSite website) {
+        public void installPFXAsync(byte[] certificate, Encrypted<string> password, WebSite website) {
             this.installPFXAsync(certificate, password, website, null);
         }
         
         /// <remarks/>
-        public void installPFXAsync(byte[] certificate, EncryptedString password, WebSite website, object userState) {
+        public void installPFXAsync(byte[] certificate, Encrypted<string> password, WebSite website, object userState) {
             if ((this.installPFXOperationCompleted == null)) {
                 this.installPFXOperationCompleted = new System.Threading.SendOrPostCallback(this.OninstallPFXOperationCompleted);
             }
@@ -4408,7 +4408,7 @@ namespace WebsitePanel.Providers.Web {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/exportCertificate", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Byte[] exportCertificate(string serialNumber, EncryptedString password) {
+        public Byte[] exportCertificate(string serialNumber, Encrypted<string> password) {
             object[] results = this.Invoke("exportCertificate", new object[] {
                         serialNumber,
                         password});
@@ -4416,7 +4416,7 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginexportCertificate(string serialNumber, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginexportCertificate(string serialNumber, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("exportCertificate", new object[] {
                         serialNumber,
                         password}, callback, asyncState);
@@ -4429,12 +4429,12 @@ namespace WebsitePanel.Providers.Web {
         }
         
         /// <remarks/>
-        public void exportCertificateAsync(string serialNumber, EncryptedString password) {
+        public void exportCertificateAsync(string serialNumber, Encrypted<string> password) {
             this.exportCertificateAsync(serialNumber, password, null);
         }
         
         /// <remarks/>
-        public void exportCertificateAsync(string serialNumber, EncryptedString password, object userState) {
+        public void exportCertificateAsync(string serialNumber, Encrypted<string> password, object userState) {
             if ((this.exportCertificateOperationCompleted == null)) {
                 this.exportCertificateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnexportCertificateOperationCompleted);
             }
@@ -7952,14 +7952,14 @@ namespace WebsitePanel.Providers.Web.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeFrontPagePassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeFrontPagePassword(string username, EncryptedString password) {
+        public void ChangeFrontPagePassword(string username, Encrypted<string> password) {
             this.Invoke("ChangeFrontPagePassword", new object[] {
                         username,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeFrontPagePassword(string username, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeFrontPagePassword(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeFrontPagePassword", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -7971,12 +7971,12 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public void ChangeFrontPagePasswordAsync(string username, EncryptedString password) {
+        public void ChangeFrontPagePasswordAsync(string username, Encrypted<string> password) {
             this.ChangeFrontPagePasswordAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void ChangeFrontPagePasswordAsync(string username, EncryptedString password, object userState) {
+        public void ChangeFrontPagePasswordAsync(string username, Encrypted<string> password, object userState) {
             if ((this.ChangeFrontPagePasswordOperationCompleted == null)) {
                 this.ChangeFrontPagePasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeFrontPagePasswordOperationCompleted);
             }
@@ -10359,14 +10359,14 @@ namespace WebsitePanel.Providers.Web.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckWebManagementPasswordComplexity", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ResultObject CheckWebManagementPasswordComplexity(EncryptedString accountPassword) {
+        public ResultObject CheckWebManagementPasswordComplexity(Encrypted<string> accountPassword) {
             object[] results = this.Invoke("CheckWebManagementPasswordComplexity", new object[] {
                         accountPassword});
             return ((ResultObject)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckWebManagementPasswordComplexity(EncryptedString accountPassword, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckWebManagementPasswordComplexity(Encrypted<string> accountPassword, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckWebManagementPasswordComplexity", new object[] {
                         accountPassword}, callback, asyncState);
         }
@@ -10378,12 +10378,12 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public void CheckWebManagementPasswordComplexityAsync(EncryptedString accountPassword) {
+        public void CheckWebManagementPasswordComplexityAsync(Encrypted<string> accountPassword) {
             this.CheckWebManagementPasswordComplexityAsync(accountPassword, null);
         }
         
         /// <remarks/>
-        public void CheckWebManagementPasswordComplexityAsync(EncryptedString accountPassword, object userState) {
+        public void CheckWebManagementPasswordComplexityAsync(Encrypted<string> accountPassword, object userState) {
             if ((this.CheckWebManagementPasswordComplexityOperationCompleted == null)) {
                 this.CheckWebManagementPasswordComplexityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckWebManagementPasswordComplexityOperationCompleted);
             }
@@ -10490,14 +10490,14 @@ namespace WebsitePanel.Providers.Web.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeWebManagementAccessPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeWebManagementAccessPassword(string accountName, EncryptedString accountPassword) {
+        public void ChangeWebManagementAccessPassword(string accountName, Encrypted<string> accountPassword) {
             this.Invoke("ChangeWebManagementAccessPassword", new object[] {
                         accountName,
                         accountPassword});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeWebManagementAccessPassword(string accountName, EncryptedString accountPassword, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeWebManagementAccessPassword(string accountName, Encrypted<string> accountPassword, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeWebManagementAccessPassword", new object[] {
                         accountName,
                         accountPassword}, callback, asyncState);
@@ -10509,12 +10509,12 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public void ChangeWebManagementAccessPasswordAsync(string accountName, EncryptedString accountPassword) {
+        public void ChangeWebManagementAccessPasswordAsync(string accountName, Encrypted<string> accountPassword) {
             this.ChangeWebManagementAccessPasswordAsync(accountName, accountPassword, null);
         }
         
         /// <remarks/>
-        public void ChangeWebManagementAccessPasswordAsync(string accountName, EncryptedString accountPassword, object userState) {
+        public void ChangeWebManagementAccessPasswordAsync(string accountName, Encrypted<string> accountPassword, object userState) {
             if ((this.ChangeWebManagementAccessPasswordOperationCompleted == null)) {
                 this.ChangeWebManagementAccessPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeWebManagementAccessPasswordOperationCompleted);
             }
@@ -10704,7 +10704,7 @@ namespace WebsitePanel.Providers.Web.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/installPFX", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public SSLCertificate installPFX([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] certificate, EncryptedString password, WebSite website) {
+        public SSLCertificate installPFX([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] certificate, Encrypted<string> password, WebSite website) {
             object[] results = this.Invoke("installPFX", new object[] {
                         certificate,
                         password,
@@ -10713,7 +10713,7 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BegininstallPFX(byte[] certificate, EncryptedString password, WebSite website, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BegininstallPFX(byte[] certificate, Encrypted<string> password, WebSite website, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("installPFX", new object[] {
                         certificate,
                         password,
@@ -10727,12 +10727,12 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public void installPFXAsync(byte[] certificate, EncryptedString password, WebSite website) {
+        public void installPFXAsync(byte[] certificate, Encrypted<string> password, WebSite website) {
             this.installPFXAsync(certificate, password, website, null);
         }
         
         /// <remarks/>
-        public void installPFXAsync(byte[] certificate, EncryptedString password, WebSite website, object userState) {
+        public void installPFXAsync(byte[] certificate, Encrypted<string> password, WebSite website, object userState) {
             if ((this.installPFXOperationCompleted == null)) {
                 this.installPFXOperationCompleted = new System.Threading.SendOrPostCallback(this.OninstallPFXOperationCompleted);
             }
@@ -10752,7 +10752,7 @@ namespace WebsitePanel.Providers.Web.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/exportCertificate", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Byte[] exportCertificate(string serialNumber, EncryptedString password) {
+        public Byte[] exportCertificate(string serialNumber, Encrypted<string> password) {
             object[] results = this.Invoke("exportCertificate", new object[] {
                         serialNumber,
                         password});
@@ -10760,7 +10760,7 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginexportCertificate(string serialNumber, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginexportCertificate(string serialNumber, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("exportCertificate", new object[] {
                         serialNumber,
                         password}, callback, asyncState);
@@ -10773,12 +10773,12 @@ namespace WebsitePanel.Providers.Web.WSE {
         }
         
         /// <remarks/>
-        public void exportCertificateAsync(string serialNumber, EncryptedString password) {
+        public void exportCertificateAsync(string serialNumber, Encrypted<string> password) {
             this.exportCertificateAsync(serialNumber, password, null);
         }
         
         /// <remarks/>
-        public void exportCertificateAsync(string serialNumber, EncryptedString password, object userState) {
+        public void exportCertificateAsync(string serialNumber, Encrypted<string> password, object userState) {
             if ((this.exportCertificateOperationCompleted == null)) {
                 this.exportCertificateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnexportCertificateOperationCompleted);
             }

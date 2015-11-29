@@ -76,7 +76,7 @@ namespace WebsitePanel.Server
             try
             {
                 Log.WriteStart("'{0}' GetProviderDefaultSettings", ProviderSettings.ProviderName);
-                return Provider.GetProviderDefaultSettings().Encrypt(settings.PublicKey);
+                return Provider.GetProviderDefaultSettings();
             }
             catch (Exception ex)
             {

@@ -772,14 +772,14 @@ namespace WebsitePanel.Providers.SharePoint {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeUserPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeUserPassword(string username, EncryptedString password) {
+        public void ChangeUserPassword(string username, Encrypted<string> password) {
             this.Invoke("ChangeUserPassword", new object[] {
                         username,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeUserPassword(string username, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeUserPassword(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeUserPassword", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -791,12 +791,12 @@ namespace WebsitePanel.Providers.SharePoint {
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, EncryptedString password) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<string> password) {
             this.ChangeUserPasswordAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, EncryptedString password, object userState) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<string> password, object userState) {
             if ((this.ChangeUserPasswordOperationCompleted == null)) {
                 this.ChangeUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeUserPasswordOperationCompleted);
             }
@@ -2152,14 +2152,14 @@ namespace WebsitePanel.Providers.SharePoint.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeUserPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeUserPassword(string username, EncryptedString password) {
+        public void ChangeUserPassword(string username, Encrypted<string> password) {
             this.Invoke("ChangeUserPassword", new object[] {
                         username,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeUserPassword(string username, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeUserPassword(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeUserPassword", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -2171,12 +2171,12 @@ namespace WebsitePanel.Providers.SharePoint.WSE {
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, EncryptedString password) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<string> password) {
             this.ChangeUserPasswordAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, EncryptedString password, object userState) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<string> password, object userState) {
             if ((this.ChangeUserPasswordOperationCompleted == null)) {
                 this.ChangeUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeUserPasswordOperationCompleted);
             }

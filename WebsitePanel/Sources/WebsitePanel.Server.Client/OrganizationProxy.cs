@@ -345,7 +345,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int CreateUser(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled) {
+        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
             object[] results = this.Invoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -357,7 +357,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -374,12 +374,12 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
             this.CreateUserAsync(organizationId, loginName, displayName, upn, password, enabled, null);
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled, object userState) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, object userState) {
             if ((this.CreateUserOperationCompleted == null)) {
                 this.CreateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateUserOperationCompleted);
             }
@@ -811,29 +811,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -874,29 +874,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -944,29 +944,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -978,29 +978,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -1050,7 +1050,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserPassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void SetUserPassword(string organizationId, string accountName, EncryptedString password) {
+        public void SetUserPassword(string organizationId, string accountName, Encrypted<string> password) {
             this.Invoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -1058,7 +1058,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -1071,12 +1071,12 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, EncryptedString password) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password) {
             this.SetUserPasswordAsync(organizationId, accountName, password, null);
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, EncryptedString password, object userState) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password, object userState) {
             if ((this.SetUserPasswordOperationCompleted == null)) {
                 this.SetUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetUserPasswordOperationCompleted);
             }
@@ -2598,7 +2598,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int CreateUser(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled) {
+        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
             object[] results = this.Invoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -2610,7 +2610,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -2627,12 +2627,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
             this.CreateUserAsync(organizationId, loginName, displayName, upn, password, enabled, null);
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, EncryptedString password, bool enabled, object userState) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, object userState) {
             if ((this.CreateUserOperationCompleted == null)) {
                 this.CreateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateUserOperationCompleted);
             }
@@ -3064,29 +3064,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -3127,29 +3127,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -3197,29 +3197,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -3231,29 +3231,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    EncryptedString password, 
+                    Encrypted<string> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    EncryptedString address, 
-                    EncryptedString city, 
-                    EncryptedString state, 
-                    EncryptedString zip, 
-                    EncryptedString country, 
-                    EncryptedString jobTitle, 
+                    Encrypted<string> address, 
+                    Encrypted<string> city, 
+                    Encrypted<string> state, 
+                    Encrypted<string> zip, 
+                    Encrypted<string> country, 
+                    Encrypted<string> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    EncryptedString businessPhone, 
-                    EncryptedString fax, 
-                    EncryptedString homePhone, 
-                    EncryptedString mobilePhone, 
-                    EncryptedString pager, 
-                    EncryptedString webPage, 
+                    Encrypted<string> businessPhone, 
+                    Encrypted<string> fax, 
+                    Encrypted<string> homePhone, 
+                    Encrypted<string> mobilePhone, 
+                    Encrypted<string> pager, 
+                    Encrypted<string> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -3303,7 +3303,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserPassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void SetUserPassword(string organizationId, string accountName, EncryptedString password) {
+        public void SetUserPassword(string organizationId, string accountName, Encrypted<string> password) {
             this.Invoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -3311,7 +3311,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, EncryptedString password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -3324,12 +3324,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, EncryptedString password) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password) {
             this.SetUserPasswordAsync(organizationId, accountName, password, null);
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, EncryptedString password, object userState) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password, object userState) {
             if ((this.SetUserPasswordOperationCompleted == null)) {
                 this.SetUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetUserPasswordOperationCompleted);
             }

@@ -30,7 +30,7 @@ using System;
 
 namespace WebsitePanel.Providers
 {
-    public abstract class HostingServiceProviderWebService : System.Web.Services.WebService
+    public abstract class HostingServiceProviderWebService: System.Web.Services.WebService
     {
         public ServiceProviderSettingsSoapHeader settings = new ServiceProviderSettingsSoapHeader();
 

@@ -255,7 +255,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetUser", ProviderSettings.ProviderName);
                 SystemUser result = SPS.GetUser(username);
                 Log.WriteEnd("'{0}' GetUser", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -297,7 +297,7 @@ namespace WebsitePanel.Server
         }
 
         [WebMethod, SoapHeader("settings")]
-        public void ChangeUserPassword(string username, EncryptedString password)
+        public void ChangeUserPassword(string username, Encrypted<string> password)
         {
             try
             {

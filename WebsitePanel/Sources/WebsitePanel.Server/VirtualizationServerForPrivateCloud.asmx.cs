@@ -39,6 +39,7 @@ using WebsitePanel.Providers;
 using WebsitePanel.Providers.Virtualization;
 using WebsitePanel.Server.Utils;
 using System.Collections.Generic;
+using WebsitePanel.Providers.VirtualizationForPC;
 
 namespace WebsitePanel.Server
 {
@@ -49,7 +50,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-	public class VirtualizationServerForPrivateCloud : HostingServiceProviderWebService //, WebsitePanel.Providers.VirtualizationForPC.IVirtualizationServerForPC
+	public class VirtualizationServerForPrivateCloud : HostingServiceProviderWebService, WebsitePanel.Providers.VirtualizationForPC.IVirtualizationServerForPC
     {
 		private WebsitePanel.Providers.VirtualizationForPC.IVirtualizationServerForPC VirtualizationForPC
         {
@@ -66,7 +67,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
                 VMInfo result = VirtualizationForPC.GetVirtualMachine(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachine", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -83,7 +84,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
                 VirtualMachine result = VirtualizationForPC.GetVirtualMachineEx(vmId);
                 Log.WriteEnd("'{0}' GetVirtualMachineEx", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -100,7 +101,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
                 List<VirtualMachine> result = VirtualizationForPC.GetVirtualMachines();
                 Log.WriteEnd("'{0}' GetVirtualMachines", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -134,7 +135,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
                 VMInfo result = VirtualizationForPC.CreateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' CreateVirtualMachine", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -152,7 +153,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' CreateVMFromVM", ProviderSettings.ProviderName);
                 result = VirtualizationForPC.CreateVMFromVM(sourceName, vmTemplate, taskGuid);
                 Log.WriteEnd("'{0}' CreateVMFromVM", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (System.TimeoutException)
             {
@@ -174,7 +175,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
                 VMInfo result = VirtualizationForPC.UpdateVirtualMachine(vm);
                 Log.WriteEnd("'{0}' UpdateVirtualMachine", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -1068,6 +1069,30 @@ namespace WebsitePanel.Server
             }
         }
 
-        #endregion
-    }
+		VMInfo IVirtualizationServerForPC.GetVirtualMachine(string vmId) {
+			return VirtualizationForPC.GetVirtualMachine(vmId);
+		}
+
+		VirtualMachine IVirtualizationServerForPC.GetVirtualMachineEx(string vmId) {
+			return VirtualizationForPC.GetVirtualMachineEx(vmId);
+		}
+
+		List<VirtualMachine> IVirtualizationServerForPC.GetVirtualMachines() {
+			return VirtualizationForPC.GetVirtualMachines();
+		}
+
+		public VMInfo CreateVirtualMachine(VMInfo vm) {
+			return VirtualizationForPC.CreateVirtualMachine(vm);
+		}
+
+		public VMInfo CreateVMFromVM(string sourceName, VMInfo vmTemplate, Guid taskGuid) {
+			return VirtualizationForPC.CreateVMFromVM(sourceName, vmTemplate, taskGuid);
+		}
+
+		public VMInfo UpdateVirtualMachine(VMInfo vm) {
+			return VirtualizationForPC.UpdateVirtualMachine(vm);
+		}
+
+		#endregion
+	}
 }

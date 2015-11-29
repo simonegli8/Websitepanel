@@ -1752,7 +1752,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/InstallCertificate", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void InstallCertificate(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames) {
+        public void InstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
             this.Invoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -1760,7 +1760,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -1773,12 +1773,12 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
             this.InstallCertificateAsync(certificate, password, hostNames, null);
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames, object userState) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, object userState) {
             if ((this.InstallCertificateOperationCompleted == null)) {
                 this.InstallCertificateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnInstallCertificateOperationCompleted);
             }
@@ -4507,7 +4507,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/InstallCertificate", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void InstallCertificate(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames) {
+        public void InstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
             this.Invoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -4515,7 +4515,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -4528,12 +4528,12 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
             this.InstallCertificateAsync(certificate, password, hostNames, null);
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, EncryptedString password, string[] hostNames, object userState) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, object userState) {
             if ((this.InstallCertificateOperationCompleted == null)) {
                 this.InstallCertificateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnInstallCertificateOperationCompleted);
             }

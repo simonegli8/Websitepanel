@@ -131,7 +131,7 @@ namespace WebsitePanel.Providers.HostedSolution
                 else
                 {
                     throw new ApplicationException(
-                        string.Format("Excit code is not 0. {0}, ExitCode = {1}", output, exitCode));
+                        string.Format("Exit code is not 0. {0}, ExitCode = {1}", output, exitCode));
                 }
             }
             catch(Exception ex)
@@ -438,7 +438,7 @@ namespace WebsitePanel.Providers.HostedSolution
         }
 
 
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time)
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, string password, int time)
         {
             return SetActivationPasswordWithExpirationTimeInternal(primaryEmailAddress, password, time);                        
         }
@@ -593,5 +593,6 @@ namespace WebsitePanel.Providers.HostedSolution
                                 : BlackBerryUserDeleteState.None;
             
         }
-    }
+
+	}
 }

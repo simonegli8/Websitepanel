@@ -15,7 +15,7 @@
     <AssemblyName Condition=" '$(AssemblyName)' == '' ">WebsitePanel.Server</AssemblyName>
     <ServerPath>..\WebsitePanel.Server</ServerPath>
     <ServerProj>$(ServerPath)\WebsitePanel.Server.csproj</ServerProj>
-    <TargetFrameworkVersion>Mono v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>Mono v4.0</TargetFrameworkVersion>
     <FileUpgradeFlags>40</FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation>
@@ -68,9 +68,6 @@
     <Folder Include="NoWSE\" />
   </ItemGroup>
   <Import Project="$(ServerProj)" />
-  <PropertyGroup>
-    <TargetFrameworkVersion>Mono v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
   <Target Name="CopyFromServer">
     <ItemGroup>
       <ContentWithoutMono Include="@(Content)" Exclude="bin\WebsitePanel.Provider.DNS.Bind.*;bin\WebsitePanel.Providers.DNS.PowerDNS.*;bin\WebsitePanel.Providers.Database.MySQL.*;bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.*;bin\WebsitePanel.Providers.Mail.Merak.*;bin\WebsitePanel.Providers.Mail.Merak10.*;bin\WebsitePanel.Providers.FTP.ServU.*;bin\WebsitePanel.Providers.Statistics.AWStats.*;bin\WebsitePanel.Provider.Statistics.SmarterStats.*" />
@@ -94,6 +91,8 @@
     <RemoveDir Condition=" $(Configuration) != 'Debug' " Directories="Code;Properties;obj" />
   </Target>
   <Target Name="BuildMonoProviders" DependsOnTargets="CopyFromServer">
+    <MSBuild Projects="..\WebsitePanel.Providers.Base\WebsitePanel.Providers.Base.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+    <MSBuild Projects="..\WebsitePanel.Server.Utils\WebsitePanel.Server.Utils.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.DNS.Bind\WebsitePanel.Providers.DNS.Bind.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.DNS.PowerDNS\WebsitePanel.Providers.DNS.PowerDNS.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Database.MySQL\WebsitePanel.Providers.Database.MySQL.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />

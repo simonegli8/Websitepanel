@@ -39,7 +39,7 @@ namespace WebsitePanel.Providers.HostedSolution
 
         BlackBerryUserStatsResult GetBlackBerryUserStats(string primaryEmailAddress);
 
-        ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, EncryptedString password, int time);
+        ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, string password, int time);
 
         ResultObject SetEmailActivationPassword(string primaryEmailAddress);
 

@@ -51,7 +51,7 @@ namespace WebsitePanel.Server
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [Policy("ServerPolicy")]
     [ToolboxItem(false)]
-    public class MailServer : HostingServiceProviderWebService //, IMailServer
+    public class MailServer : HostingServiceProviderWebService, IMailServer
     {
         private IMailServer MailProvider
         {
@@ -253,7 +253,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetAccounts", ProviderSettings.ProviderName);
                 MailAccount[] result = MailProvider.GetAccounts(domainName);
                 Log.WriteEnd("'{0}' GetAccounts", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -270,7 +270,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetAccount", ProviderSettings.ProviderName);
                 MailAccount result = MailProvider.GetAccount(accountName);
                 Log.WriteEnd("'{0}' GetAccount", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -558,7 +558,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetLists", ProviderSettings.ProviderName);
                 MailList[] result = MailProvider.GetLists(domainName);
                 Log.WriteEnd("'{0}' GetLists", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -575,7 +575,7 @@ namespace WebsitePanel.Server
                 Log.WriteStart("'{0}' GetList", ProviderSettings.ProviderName);
                 MailList result = MailProvider.GetList(listName);
                 Log.WriteEnd("'{0}' GetList", ProviderSettings.ProviderName);
-                return result.Encrypt(settings.PublicKey);
+                return result;
             }
             catch (Exception ex)
             {
@@ -631,8 +631,40 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
-    }
+
+		MailAccount[] IMailServer.GetAccounts(string domainName) {
+			return MailProvider.GetAccounts(domainName);
+		}
+
+		MailAccount IMailServer.GetAccount(string mailboxName) {
+			return MailProvider.GetAccount(mailboxName);
+		}
+
+		public void CreateAccount(MailAccount mailbox) {
+			MailProvider.CreateAccount(mailbox);
+		}
+
+		public void UpdateAccount(MailAccount mailbox) {
+			MailProvider.UpdateAccount(mailbox);
+		}
+
+		MailList[] IMailServer.GetLists(string domainName) {
+			return MailProvider.GetLists(domainName);
+		}
+
+		MailList IMailServer.GetList(string maillistName) {
+			return MailProvider.GetList(maillistName);
+		}
+
+		public void CreateList(MailList maillist) {
+			MailProvider.CreateList(maillist);
+		}
+
+		public void UpdateList(MailList maillist) {
+			MailProvider.UpdateList(maillist);
+		}
+		#endregion
+	}
 }
 
 #endif

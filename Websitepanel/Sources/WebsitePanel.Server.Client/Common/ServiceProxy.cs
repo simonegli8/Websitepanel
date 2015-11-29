@@ -12,6 +12,9 @@ using System.IO;
 
 namespace WebsitePanel.Server.Client {
 
+	/// <summary>
+	/// Interface for all service proxies, so that the ServiceProxy class can access those otherwise protected methods of SoapHttpClientProtocol and WebServicesClientProtocol
+	/// </summary>
 	public interface IServiceProxy {
 
 		//public EndpointReference Destination { get; set; }
@@ -60,14 +63,23 @@ namespace WebsitePanel.Server.Client {
 		void Abort();
 	}
 
-	// TODO when Invoke et al fails with a not found 404 error, check if the ServerSupportsWSE.cache is outdated.
+	/// <summary>
+	/// Class that manages the WSE & non WSE proxies of the webservices. The class itself derives from SoapHttpClientProxy and thus implements also the IServiceProxy for the non WSE service. For the WSE service,
+	/// it creates an instance of the parent class in the *.WSE namespace, i.e. the WSE enabled proxy class.
+	/// </summary>
 	public class ServiceProxy : SoapHttpClientProtocol, IServiceProxy {
 
+		// relative path to the non WSE webservices.
 		const string NoWSEPath = "/NoWSE";
 
-		string BaseUrl => base.Url.Substring(0, base.Url.LastIndexOf('/')).Substring(0, base.Url.LastIndexOf(NoWSEPath));
-
-		string PublicKey => ServerInfo.Cache[BaseUrl].PublicKey;
+		string BaseUrl {
+			get {
+				var url = base.Url.Substring(0, base.Url.LastIndexOf('/'));
+				var nowse = url.LastIndexOf(NoWSEPath);
+				if (nowse >= 0) url = url.Substring(0, nowse);
+				return url;
+			}
+		}
 
 		void RefreshCache() => ServerInfo.Cache.Remove(BaseUrl);
 
@@ -93,19 +105,12 @@ namespace WebsitePanel.Server.Client {
 		public IServiceProxy Service => this;
 #endif
 
-		public bool NoWSE => Service == this; 
+		/// <summary>
+		/// False if this server proxy uses WSE. 
+		/// </summary>
+		public bool NoWSE => Service == this;
 
-		void EncryptSerializables(object[] parameters) {
-			var key = ServerInfo.Cache[Url].PublicKey;
-			var type = GetType();
-			var fields = type.GetFields().Where(f => f.FieldType.GetInterfaces().Any(i => i == typeof(Providers.IEncrypted)));
-			foreach (var field in fields) ((Providers.IEncrypted)field.GetValue(this)).Encrypt(key);
-			var props = type.GetProperties().Where(p => p.PropertyType.GetInterfaces().Any(i => i == typeof(Providers.IEncrypted)));
-			foreach (var prop in props) ((Providers.IEncrypted)prop.GetValue(this, null)).Encrypt(key);
-			foreach (var par in parameters) {
-				if (par is Providers.IEncrypted) ((Providers.IEncrypted)par).Encrypt(key);
-			}
-		}
+		public string Password { get; set; }
 
 		// Client Methods
 		protected bool RequireMtom { get { return Service.RequireMtom; } set { Service.RequireMtom = value; } }
@@ -125,7 +130,6 @@ namespace WebsitePanel.Server.Client {
 		public new string UserAgent { get { return Service.UserAgent; } set { Service.UserAgent = value; } }
 		public new void Abort() { Service.Abort(); }
 		public new IAsyncResult BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) {
-			EncryptSerializables(parameters);
 			try {
 				return Service.BeginInvoke(methodName, parameters, callback, asyncState);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
@@ -154,7 +158,6 @@ namespace WebsitePanel.Server.Client {
 		public new WebResponse GetWebResponse(WebRequest request) => Service.GetWebResponse(request);
 		public new XmlWriter GetWriterForMessage(SoapClientMessage message, int bufferSize) => Service.GetWriterForMessage(message, bufferSize);
 		public new object[] Invoke(string methodName, object[] parameters) {
-			EncryptSerializables(parameters);
 			try {
 				return Service.Invoke(methodName, parameters);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
@@ -167,7 +170,6 @@ namespace WebsitePanel.Server.Client {
 		}
 
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) {
-			EncryptSerializables(parameters);
 			try {
 				Service.InvokeAsync(methodName, parameters, callback);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
@@ -179,7 +181,6 @@ namespace WebsitePanel.Server.Client {
 			}
 		}
 		public new void InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) {
-			EncryptSerializables(parameters);
 			try {
 				Service.InvokeAsync(methodName, parameters, callback, userState);
 			} catch (WebException wex) when (wex.Status == WebExceptionStatus.ProtocolError && wex.Response != null && (((HttpWebResponse)wex.Response).StatusCode == HttpStatusCode.NotFound)) {
@@ -216,9 +217,7 @@ namespace WebsitePanel.Server.Client {
 		bool IServiceProxy.UseDefaultCredentials { get { return base.UseDefaultCredentials; } set { base.UseDefaultCredentials = value; } }
 		string IServiceProxy.UserAgent { get { return base.UserAgent; } set { base.UserAgent = value; } }
 		void IServiceProxy.Abort() { base.Abort(); }
-		IAsyncResult IServiceProxy.BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) {
-			return base.BeginInvoke(methodName, parameters, callback, asyncState);
-		}
+		IAsyncResult IServiceProxy.BeginInvoke(string methodName, object[] parameters, AsyncCallback callback, object asyncState) => base.BeginInvoke(methodName, parameters, callback, asyncState);
 		void IServiceProxy.CancelAsync(object userState) { base.CancelAsync(userState); }
 		void IServiceProxy.Discover() { base.Discover(); }
 		object[] IServiceProxy.EndInvoke(IAsyncResult asyncResult) => base.EndInvoke(asyncResult);
@@ -226,15 +225,9 @@ namespace WebsitePanel.Server.Client {
 		WebRequest IServiceProxy.GetWebRequest(Uri uri) => base.GetWebRequest(uri);
 		WebResponse IServiceProxy.GetWebResponse(WebRequest request) => base.GetWebResponse(request);
 		XmlWriter IServiceProxy.GetWriterForMessage(SoapClientMessage message, int bufferSize) => base.GetWriterForMessage(message, bufferSize);
-		object[] IServiceProxy.Invoke(string methodName, object[] parameters) {
-			return base.Invoke(methodName, parameters);
-		}
-		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) {
-			base.InvokeAsync(methodName, parameters, callback);
-		}
-		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) {
-			base.InvokeAsync(methodName, parameters, callback, userState);
-		}
+		object[] IServiceProxy.Invoke(string methodName, object[] parameters) => base.Invoke(methodName, parameters);
+		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) => base.InvokeAsync(methodName, parameters, callback);
+		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) => base.InvokeAsync(methodName, parameters, callback, userState);
 	}
 
 }
