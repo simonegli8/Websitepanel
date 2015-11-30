@@ -45,17 +45,18 @@ using System.ServiceModel;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-using System.Management;
 using System.Collections.Specialized;
 using WebsitePanel.Providers.Utils;
 using WebsitePanel.Server.Code;
 using WebsitePanel.Server.Utils;
 using WebsitePanel.Providers;
+#if Net
+using System.Management;
 using Microsoft.Web.PlatformInstaller;
 using Microsoft.Web.Services3;
 using Microsoft.Win32;
 using WebsitePanel.Server.WPIService;
-
+#endif
 
 namespace WebsitePanel.Server
 {
@@ -64,15 +65,22 @@ namespace WebsitePanel.Server
     /// </summary>
     [WebService(Namespace = "http://smbsaas/websitepanel/server/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [Policy("ServerPolicy")]
-    [ToolboxItem(false)]
+#if Net
+	[Policy("ServerPolicy")]
+#endif
+	 [ToolboxItem(false)]
     public class WindowsServer : System.Web.Services.WebService
     {
 
-		#region Terminal connections
-		[WebMethod]
+		public AuthenticationSoapHeader auth = new AuthenticationSoapHeader();
+		public EncryptionSession encryption = new EncryptionSession();
+
+#if Net
+#region Terminal connections
+		[WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public TerminalSession[] GetTerminalServicesSessions()
         {
+
             try
             {
                 Log.WriteStart("GetTerminalServicesSessions");
@@ -127,7 +135,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void CloseTerminalServicesSession(int sessionId)
         {
             try
@@ -142,10 +150,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Windows Processes
-        [WebMethod]
+#region Windows Processes
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WindowsProcess[] GetWindowsProcesses()
         {
             try
@@ -185,9 +193,10 @@ namespace WebsitePanel.Server
                 Log.WriteError("GetWindowsProcesses", ex);
                 throw;
             }
+
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void TerminateWindowsProcess(int pid)
         {
             try
@@ -209,10 +218,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Windows Services
-        [WebMethod]
+#region Windows Services
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WindowsService[] GetWindowsServices()
         {
             try
@@ -255,7 +264,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeWindowsServiceStatus(string id, WindowsServiceStatus status)
         {
             try
@@ -292,11 +301,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Web Platform Installer
+#region Web Platform Installer
 
-      
 
         private string Linkify(string value)
         {
@@ -403,10 +411,10 @@ namespace WebsitePanel.Server
             }
 
             return installedVersion;
-        }
+		}
 
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WPIProduct[] GetWPIProducts(string tabId, string keywordId)
         {
 
@@ -415,7 +423,6 @@ namespace WebsitePanel.Server
             {
                 Log.WriteStart("GetWPIProducts");
                 List<WPIProduct> wpiProducts = new List<WPIProduct>();
-
 
                 WpiHelper wpi = GetWpiFeed();
 
@@ -451,9 +458,7 @@ namespace WebsitePanel.Server
 
                 }
 
-               
-
-                Log.WriteEnd("GetWPIProducts");
+					Log.WriteEnd("GetWPIProducts");
                 return wpiProducts.ToArray();
             }
             catch (Exception ex)
@@ -464,7 +469,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WPIProduct[] GetWPIProductsFiltered(string filter)
         {
 
@@ -473,7 +478,6 @@ namespace WebsitePanel.Server
             {
                 Log.WriteStart("GetWPIProductsFiltered");
                 List<WPIProduct> wpiProducts = new List<WPIProduct>();
-
 
                 WpiHelper wpi = GetWpiFeed();
 
@@ -494,9 +498,7 @@ namespace WebsitePanel.Server
 
                 }
 
-
-
-                Log.WriteEnd("GetWPIProductsFiltered");
+					Log.WriteEnd("GetWPIProductsFiltered");
                 return wpiProducts.ToArray();
             }
             catch (Exception ex)
@@ -506,13 +508,13 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WPIProduct GetWPIProductById(string productdId)
         {
             try
             {
                 Log.WriteStart("GetWPIProductById");
-                WpiHelper wpi = GetWpiFeed();
+					WpiHelper wpi = GetWpiFeed();
 
                 Product product = wpi.GetWPIProductById(productdId);
                 WPIProduct wpiProduct = ProductToWPIProduct(product);
@@ -523,7 +525,7 @@ namespace WebsitePanel.Server
                     CheckProductForUpdate("", wpiProduct);
                 }
 
-                Log.WriteEnd("GetWPIProductById");
+					Log.WriteEnd("GetWPIProductById");
                 return wpiProduct;
             }
             catch (Exception ex)
@@ -533,13 +535,12 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WPITab[] GetWPITabs()
         {
             try
             {
                 Log.WriteStart("GetWPITabs");
-
                 WpiHelper wpi = GetWpiFeed();
 
                 List<WPITab> result = new List<WPITab>();
@@ -549,8 +550,7 @@ namespace WebsitePanel.Server
                     result.Add(new WPITab(tab.Id, tab.Name));
                 }
 
-
-                Log.WriteEnd("GetWPITabs");
+					Log.WriteEnd("GetWPITabs");
 
                 return result.ToArray();
             }
@@ -564,7 +564,7 @@ namespace WebsitePanel.Server
        
         static private string[] _feeds = new string[]{};
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void InitWPIFeeds(string feedUrls)
         {
             if (string.IsNullOrEmpty(feedUrls))
@@ -609,13 +609,12 @@ namespace WebsitePanel.Server
             return true;
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WPIKeyword[] GetWPIKeywords()
         {
             try
             {
                 Log.WriteStart("GetWPIKeywords");
-
                 WpiHelper wpi = GetWpiFeed();
 
                 List<WPIKeyword> result = new List<WPIKeyword>();
@@ -631,8 +630,7 @@ namespace WebsitePanel.Server
 
                 }
 
-
-                Log.WriteEnd("GetWPIKeywords");
+					Log.WriteEnd("GetWPIKeywords");
 
                 return result.ToArray();
             }
@@ -644,13 +642,12 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public WPIProduct[] GetWPIProductsWithDependencies(string[] products)
         {
             try
             {
                 Log.WriteStart("GetWPIProductsWithDependencies");
-
                 WpiHelper wpi = GetWpiFeed();
 
                 List<WPIProduct> result = new List<WPIProduct>();
@@ -659,7 +656,7 @@ namespace WebsitePanel.Server
                     result.Add(ProductToWPIProduct(product));
                 }
 
-                Log.WriteEnd("GetWPIProductsWithDependencies");
+					Log.WriteEnd("GetWPIProductsWithDependencies");
 
                 return result.ToArray();
             }
@@ -672,13 +669,12 @@ namespace WebsitePanel.Server
 
         static Process _WpiServiceExe = null;
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void InstallWPIProducts(string[] products)
         {
             try
             {
                 Log.WriteStart("InstallWPIProducts");
-
                 StartWpiService();
 
                 RegisterWpiService();
@@ -688,11 +684,7 @@ namespace WebsitePanel.Server
                 client.Initialize(_feeds);
                 client.BeginInstallation(products);
 
-                
-
-
-               
-                Log.WriteEnd("InstallWPIProducts");
+					Log.WriteEnd("InstallWPIProducts");
             }
             catch (Exception ex)
             {
@@ -704,7 +696,7 @@ namespace WebsitePanel.Server
      
         private void StartWpiService()
         {
-            string binFolder = HttpContext.Current.Server.MapPath("/bin/");
+			string binFolder = HttpContext.Current.Server.MapPath("/bin/");
             string workingDirectory = Path.Combine(Environment.ExpandEnvironmentVariables("%SystemRoot%"), "Temp\\zoo.wpi");
 
             //string newUserProfile = Path.Combine(Environment.ExpandEnvironmentVariables("%SystemRoot%"), "Temp\\zoo.wpi");
@@ -735,19 +727,18 @@ namespace WebsitePanel.Server
             {
                 _WpiServiceExe = wpiServiceExe;
             }
-        }
+		}
 
-        [WebMethod]
+		[WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void CancelInstallWPIProducts()
         {
             try
             {
                 Log.WriteStart("CancelInstallWPIProducts");
 
-                KillWpiService();
+					KillWpiService();
 
-
-                Log.WriteEnd("CancelInstallWPIProducts");
+					Log.WriteEnd("CancelInstallWPIProducts");
             }
             catch (Exception ex)
             {
@@ -756,10 +747,10 @@ namespace WebsitePanel.Server
             }
         }
 
-        private void KillWpiService()
+		private void KillWpiService()
         {
-            //kill own service
-            if (_WpiServiceExe != null && !_WpiServiceExe.HasExited)
+			//kill own service
+			if (_WpiServiceExe != null && !_WpiServiceExe.HasExited)
             {
                 _WpiServiceExe.Kill();
                 _WpiServiceExe = null;
@@ -773,56 +764,52 @@ namespace WebsitePanel.Server
                     p.Kill();
                 }
             }
-        }
 
-        [WebMethod]
+		}
+
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public string GetWPIStatus()
         {
             try
             {
                 Log.WriteStart("GetWPIStatus");
-
-                RegisterWpiService();
+				RegisterWpiService();
                 
                 WPIServiceContract client = new WPIServiceContract();
 
                 string status = client.GetStatus();
 
-                Log.WriteEnd("GetWPIStatus");
+					Log.WriteEnd("GetWPIStatus");
 
                 return status; //OK
             }
             catch (Exception ex)
             {
-                // done or error
-
-                if (_WpiServiceExe == null || _WpiServiceExe.HasExited)
+				// done or error
+				if (_WpiServiceExe == null || _WpiServiceExe.HasExited)
                 {
                     // reset WpiHelper for refresh status
                     wpi = null;
                     return ""; //OK
                 }
-
                 Log.WriteError("GetWPIStatus", ex);
 
                 return ex.ToString();
             }
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public string WpiGetLogFileDirectory()
         {
             try
             {
                 Log.WriteStart("WpiGetLogFileDirectory");
-
-                RegisterWpiService();
+					RegisterWpiService();
                 
                 WPIServiceContract client = new WPIServiceContract();
 
                 string result = client.GetLogFileDirectory();
-
-                Log.WriteEnd("WpiGetLogFileDirectory");
+					Log.WriteEnd("WpiGetLogFileDirectory");
 
                 return result; //OK
             }
@@ -836,7 +823,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public SettingPair[] WpiGetLogsInDirectory(string Path)
         {
             try
@@ -870,11 +857,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        
-      
-     
-
-        static WpiHelper wpi = null;
+		static WpiHelper wpi = null;
         WpiHelper GetWpiFeed()
         {
             if (_feeds.Length == 0)
@@ -927,14 +910,13 @@ namespace WebsitePanel.Server
              
 
             }
-
             
         }
-        #endregion GetWPIProducts
+#endregion GetWPIProducts
 
 
-        #region Event Viewer
-        [WebMethod]
+#region Event Viewer
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public List<string> GetLogNames()
         {
             List<string> logs = new List<string>();
@@ -946,7 +928,7 @@ namespace WebsitePanel.Server
             return logs;
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public List<SystemLogEntry> GetLogEntries(string logName)
         {
             // SystemLogEntriesPaged result = new SystemLogEntriesPaged();
@@ -966,7 +948,7 @@ namespace WebsitePanel.Server
             return entries;
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public SystemLogEntriesPaged GetLogEntriesPaged(string logName, int startRow, int maximumRows)
         {
             SystemLogEntriesPaged result = new SystemLogEntriesPaged();
@@ -998,7 +980,7 @@ namespace WebsitePanel.Server
             return result;
         }
 
-        [WebMethod]
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void ClearLog(string logName)
         {
 			EventLog log = new EventLog(logName);
@@ -1029,23 +1011,27 @@ namespace WebsitePanel.Server
 
             return entry;
         }
-        #endregion
-
-        #region Reboot
-        [WebMethod]
+#endregion
+#endif
+#region Reboot
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public void RebootSystem()
         {
             try
             {
                 Log.WriteStart("RebootSystem");
-                WmiHelper wmi = new WmiHelper("root\\cimv2");
+#if Net
+				WmiHelper wmi = new WmiHelper("root\\cimv2");
                 ManagementObjectCollection objOses = wmi.ExecuteQuery("SELECT * FROM Win32_OperatingSystem");
                 foreach (ManagementObject objOs in objOses)
                 {
                     objOs.Scope.Options.EnablePrivileges = true;
                     objOs.InvokeMethod("Reboot", null);
                 }
-                Log.WriteEnd("RebootSystem");
+#else
+				if (!OS.IsWindows) FileUtils.ExecuteSystemCommand("reboot", "");
+#endif
+				Log.WriteEnd("RebootSystem");
             }
             catch (Exception ex)
             {
@@ -1053,10 +1039,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region System Commands
-        [WebMethod]
+#region System Commands
+        [WebMethod, SoapHeader("auth"), SoapHeader("encryption")]
         public string ExecuteSystemCommand(string path, string args)
         {
             try
@@ -1072,8 +1058,7 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
     }
 
- 
 }

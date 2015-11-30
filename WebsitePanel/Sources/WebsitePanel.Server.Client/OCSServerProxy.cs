@@ -47,7 +47,12 @@ namespace WebsitePanel.Providers.OCS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="OCSServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class OCSServer : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -83,6 +88,8 @@ namespace WebsitePanel.Providers.OCS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string CreateUser(string userUpn, string userDistinguishedName) {
             object[] results = this.Invoke("CreateUser", new object[] {
@@ -128,6 +135,8 @@ namespace WebsitePanel.Providers.OCS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetUserGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OCSUser GetUserGeneralSettings(string instanceId) {
             object[] results = this.Invoke("GetUserGeneralSettings", new object[] {
@@ -170,6 +179,8 @@ namespace WebsitePanel.Providers.OCS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetUserGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserGeneralSettings(string instanceId, bool enabledForFederation, bool enabledForPublicIMConectivity, bool archiveInternalCommunications, bool archiveFederatedCommunications, bool enabledForEnhancedPresence) {
             this.Invoke("SetUserGeneralSettings", new object[] {
@@ -225,6 +236,8 @@ namespace WebsitePanel.Providers.OCS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteUser(string instanceId) {
             this.Invoke("DeleteUser", new object[] {
@@ -265,6 +278,8 @@ namespace WebsitePanel.Providers.OCS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetUserPrimaryUri", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserPrimaryUri(string instanceId, string userUpn) {
             this.Invoke("SetUserPrimaryUri", new object[] {
@@ -394,7 +409,12 @@ namespace WebsitePanel.Providers.OCS.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="OCSServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class OCSServer : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -430,6 +450,8 @@ namespace WebsitePanel.Providers.OCS.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string CreateUser(string userUpn, string userDistinguishedName) {
             object[] results = this.Invoke("CreateUser", new object[] {
@@ -475,6 +497,8 @@ namespace WebsitePanel.Providers.OCS.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetUserGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OCSUser GetUserGeneralSettings(string instanceId) {
             object[] results = this.Invoke("GetUserGeneralSettings", new object[] {
@@ -517,6 +541,8 @@ namespace WebsitePanel.Providers.OCS.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetUserGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserGeneralSettings(string instanceId, bool enabledForFederation, bool enabledForPublicIMConectivity, bool archiveInternalCommunications, bool archiveFederatedCommunications, bool enabledForEnhancedPresence) {
             this.Invoke("SetUserGeneralSettings", new object[] {
@@ -572,6 +598,8 @@ namespace WebsitePanel.Providers.OCS.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteUser(string instanceId) {
             this.Invoke("DeleteUser", new object[] {
@@ -612,6 +640,8 @@ namespace WebsitePanel.Providers.OCS.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetUserPrimaryUri", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserPrimaryUri(string instanceId, string userUpn) {
             this.Invoke("SetUserPrimaryUri", new object[] {

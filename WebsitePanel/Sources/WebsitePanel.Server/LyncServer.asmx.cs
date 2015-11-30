@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.ComponentModel;
@@ -55,7 +55,7 @@ namespace WebsitePanel.Server
 
 
         #region Organization
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string CreateOrganization(string organizationId, string sipDomain, bool enableConferencing, bool enableConferencingVideo, int maxConferenceSize, bool enabledFederation, bool enabledEnterpriseVoice)
         {
             try
@@ -72,7 +72,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string GetOrganizationTenantId(string organizationId)
         {
             try
@@ -89,7 +89,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool DeleteOrganization(string organizationId, string sipDomain)
         {
             try
@@ -109,7 +109,7 @@ namespace WebsitePanel.Server
 
         #region Users
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool CreateUser(string organizationId, string userUpn, LyncUserPlan plan)
         {
             try
@@ -126,7 +126,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public LyncUser GetLyncUserGeneralSettings(string organizationId, string userUpn)
         {
             try
@@ -143,7 +143,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool SetLyncUserGeneralSettings(string organizationId, string userUpn, LyncUser lyncUser)
         {
             try
@@ -161,7 +161,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool SetLyncUserPlan(string organizationId, string userUpn, LyncUserPlan plan)
         {
             try
@@ -178,7 +178,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool DeleteUser(string userUpn)
         {
             try
@@ -198,7 +198,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Federation
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public LyncFederationDomain[] GetFederationDomains(string organizationId)
         {
             try
@@ -215,7 +215,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool AddFederationDomain(string organizationId, string domainName, string proxyFqdn)
         {
             try
@@ -232,7 +232,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool RemoveFederationDomain(string organizationId, string domainName)
         {
             try
@@ -250,7 +250,7 @@ namespace WebsitePanel.Server
         }
         #endregion
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ReloadConfiguration()
         {
             try
@@ -266,7 +266,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetPolicyList(LyncPolicyType type, string name)
         {
             string[] ret = null;

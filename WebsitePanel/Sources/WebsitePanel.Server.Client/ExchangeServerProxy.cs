@@ -49,7 +49,12 @@ namespace WebsitePanel.Providers.Exchange {
     [System.Web.Services.WebServiceBindingAttribute(Name="ExchangeServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BaseStatistics))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class ExchangeServer : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -465,8 +470,10 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckAccountCredentials", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckAccountCredentials(string username, Encrypted<string> password) {
+        public bool CheckAccountCredentials(string username, Encrypted<String> password) {
             object[] results = this.Invoke("CheckAccountCredentials", new object[] {
                         username,
                         password});
@@ -474,7 +481,7 @@ namespace WebsitePanel.Providers.Exchange {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckAccountCredentials(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckAccountCredentials(string username, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckAccountCredentials", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -487,12 +494,12 @@ namespace WebsitePanel.Providers.Exchange {
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<String> password) {
             this.CheckAccountCredentialsAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password, object userState) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<String> password, object userState) {
             if ((this.CheckAccountCredentialsOperationCompleted == null)) {
                 this.CheckAccountCredentialsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckAccountCredentialsOperationCompleted);
             }
@@ -510,6 +517,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExtendToExchangeOrganization", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization ExtendToExchangeOrganization(string organizationId, string securityGroup, bool IsConsumer) {
             object[] results = this.Invoke("ExtendToExchangeOrganization", new object[] {
@@ -558,6 +567,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateMailEnableUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string CreateMailEnableUser(
                     string upn, 
@@ -789,6 +800,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationOfflineAddressBook", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization CreateOrganizationOfflineAddressBook(string organizationId, string securityGroup, string oabVirtualDir) {
             object[] results = this.Invoke("CreateOrganizationOfflineAddressBook", new object[] {
@@ -837,6 +850,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateOrganizationOfflineAddressBook", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void UpdateOrganizationOfflineAddressBook(string id) {
             this.Invoke("UpdateOrganizationOfflineAddressBook", new object[] {
@@ -877,6 +892,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetOABVirtualDirectory", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetOABVirtualDirectory() {
             object[] results = this.Invoke("GetOABVirtualDirectory", new object[0]);
@@ -916,6 +933,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationAddressBookPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization CreateOrganizationAddressBookPolicy(string organizationId, string gal, string addressBook, string roomList, string oab) {
             object[] results = this.Invoke("CreateOrganizationAddressBookPolicy", new object[] {
@@ -970,6 +989,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteOrganization", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool DeleteOrganization(string organizationId, string distinguishedName, string globalAddressList, string addressList, string roomList, string offlineAddressBook, string securityGroup, string addressBookPolicy, ExchangeDomainName[] acceptedDomains) {
             object[] results = this.Invoke("DeleteOrganization", new object[] {
@@ -1036,6 +1057,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetOrganizationStorageLimits", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetOrganizationStorageLimits(string organizationDistinguishedName, long issueWarningKB, long prohibitSendKB, long prohibitSendReceiveKB, int keepDeletedItemsDays) {
             this.Invoke("SetOrganizationStorageLimits", new object[] {
@@ -1088,6 +1111,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxesStatistics", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeItemStatistics[] GetMailboxesStatistics(string organizationDistinguishedName) {
             object[] results = this.Invoke("GetMailboxesStatistics", new object[] {
@@ -1130,6 +1155,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddAuthoritativeDomain", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddAuthoritativeDomain(string domain) {
             this.Invoke("AddAuthoritativeDomain", new object[] {
@@ -1170,6 +1197,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeAcceptedDomainType", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ChangeAcceptedDomainType(string domain, ExchangeAcceptedDomainType domainType) {
             this.Invoke("ChangeAcceptedDomainType", new object[] {
@@ -1213,6 +1242,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetAuthoritativeDomains", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetAuthoritativeDomains() {
             object[] results = this.Invoke("GetAuthoritativeDomains", new object[0]);
@@ -1252,6 +1283,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteAuthoritativeDomain", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteAuthoritativeDomain(string domain) {
             this.Invoke("DeleteAuthoritativeDomain", new object[] {
@@ -1292,6 +1325,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteMailbox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMailbox(string accountName) {
             this.Invoke("DeleteMailbox", new object[] {
@@ -1332,6 +1367,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DisableMailbox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DisableMailbox(string accountName) {
             this.Invoke("DisableMailbox", new object[] {
@@ -1372,6 +1409,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxGeneralSettings(string accountName) {
             object[] results = this.Invoke("GetMailboxGeneralSettings", new object[] {
@@ -1414,6 +1453,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxGeneralSettings(string accountName, bool hideFromAddressBook, bool disabled) {
             this.Invoke("SetMailboxGeneralSettings", new object[] {
@@ -1460,6 +1501,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxMailFlowSettings(string accountName) {
             object[] results = this.Invoke("GetMailboxMailFlowSettings", new object[] {
@@ -1502,6 +1545,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxMailFlowSettings(string accountName, bool enableForwarding, string forwardingAccountName, bool forwardToBoth, string[] sendOnBehalfAccounts, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication) {
             this.Invoke("SetMailboxMailFlowSettings", new object[] {
@@ -1563,6 +1608,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxAdvancedSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxAdvancedSettings(string accountName) {
             object[] results = this.Invoke("GetMailboxAdvancedSettings", new object[] {
@@ -1605,6 +1652,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxAdvancedSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxAdvancedSettings(
                     string organizationId, 
@@ -1778,6 +1827,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeEmailAddress[] GetMailboxEmailAddresses(string accountName) {
             object[] results = this.Invoke("GetMailboxEmailAddresses", new object[] {
@@ -1820,6 +1871,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxEmailAddresses(string accountName, string[] emailAddresses) {
             this.Invoke("SetMailboxEmailAddresses", new object[] {
@@ -1863,6 +1916,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxPrimaryEmailAddress", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxPrimaryEmailAddress(string accountName, string emailAddress) {
             this.Invoke("SetMailboxPrimaryEmailAddress", new object[] {
@@ -1906,6 +1961,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, ExchangeAccount[] calendarAccounts, ExchangeAccount[] contactAccounts) {
             this.Invoke("SetMailboxPermissions", new object[] {
@@ -1964,6 +2021,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxPermissions(string organizationId, string accountName) {
             object[] results = this.Invoke("GetMailboxPermissions", new object[] {
@@ -2009,6 +2068,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxStatistics", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailboxStatistics GetMailboxStatistics(string accountName) {
             object[] results = this.Invoke("GetMailboxStatistics", new object[] {
@@ -2051,6 +2112,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDefaultPublicFolderMailbox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] SetDefaultPublicFolderMailbox(string id, string organizationId, string organizationDistinguishedName) {
             object[] results = this.Invoke("SetDefaultPublicFolderMailbox", new object[] {
@@ -2099,6 +2162,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateContact", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateContact(string organizationId, string organizationDistinguishedName, string contactDisplayName, string contactAccountName, string contactEmail, string defaultOrganizationDomain) {
             this.Invoke("CreateContact", new object[] {
@@ -2154,6 +2219,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteContact", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteContact(string accountName) {
             this.Invoke("DeleteContact", new object[] {
@@ -2194,6 +2261,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetContactGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeContact GetContactGeneralSettings(string accountName) {
             object[] results = this.Invoke("GetContactGeneralSettings", new object[] {
@@ -2236,32 +2305,34 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetContactGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetContactGeneralSettings(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.Invoke("SetContactGeneralSettings", new object[] {
@@ -2296,29 +2367,29 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         public System.IAsyncResult BeginSetContactGeneralSettings(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     System.AsyncCallback callback, 
@@ -2360,29 +2431,29 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.SetContactGeneralSettingsAsync(accountName, displayName, email, hideFromAddressBook, firstName, initials, lastName, address, city, state, zip, country, jobTitle, company, department, office, managerAccountName, businessPhone, fax, homePhone, mobilePhone, pager, webPage, notes, useMapiRichTextFormat, defaultDomain, null);
@@ -2391,29 +2462,29 @@ namespace WebsitePanel.Providers.Exchange {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     object userState) {
@@ -2458,6 +2529,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetContactMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeContact GetContactMailFlowSettings(string accountName) {
             object[] results = this.Invoke("GetContactMailFlowSettings", new object[] {
@@ -2500,6 +2573,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetContactMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetContactMailFlowSettings(string accountName, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication) {
             this.Invoke("SetContactMailFlowSettings", new object[] {
@@ -2549,6 +2624,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateDistributionList", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateDistributionList(string organizationId, string organizationDistinguishedName, string displayName, string accountName, string name, string domain, string managedBy, string[] addressLists) {
             this.Invoke("CreateDistributionList", new object[] {
@@ -2610,6 +2687,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteDistributionList", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteDistributionList(string accountName) {
             this.Invoke("DeleteDistributionList", new object[] {
@@ -2650,6 +2729,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeDistributionList GetDistributionListGeneralSettings(string accountName) {
             object[] results = this.Invoke("GetDistributionListGeneralSettings", new object[] {
@@ -2692,6 +2773,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListGeneralSettings(string accountName, string displayName, bool hideFromAddressBook, string managedBy, string[] members, string notes, string[] addressLists) {
             this.Invoke("SetDistributionListGeneralSettings", new object[] {
@@ -2750,6 +2833,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeDistributionList GetDistributionListMailFlowSettings(string accountName) {
             object[] results = this.Invoke("GetDistributionListMailFlowSettings", new object[] {
@@ -2792,6 +2877,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListMailFlowSettings(string accountName, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication, string[] addressLists) {
             this.Invoke("SetDistributionListMailFlowSettings", new object[] {
@@ -2844,6 +2931,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeEmailAddress[] GetDistributionListEmailAddresses(string accountName) {
             object[] results = this.Invoke("GetDistributionListEmailAddresses", new object[] {
@@ -2886,6 +2975,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListEmailAddresses(string accountName, string[] emailAddresses, string[] addressLists) {
             this.Invoke("SetDistributionListEmailAddresses", new object[] {
@@ -2932,6 +3023,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListPrimaryEmailAddress", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListPrimaryEmailAddress(string accountName, string emailAddress, string[] addressLists) {
             this.Invoke("SetDistributionListPrimaryEmailAddress", new object[] {
@@ -2978,6 +3071,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] sendOnBehalfAccounts, string[] addressLists) {
             this.Invoke("SetDistributionListPermissions", new object[] {
@@ -3030,6 +3125,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeDistributionList GetDistributionListPermissions(string organizationId, string accountName) {
             object[] results = this.Invoke("GetDistributionListPermissions", new object[] {
@@ -3075,6 +3172,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDisclaimer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int SetDisclaimer(string name, string text) {
             object[] results = this.Invoke("SetDisclaimer", new object[] {
@@ -3120,6 +3219,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveDisclaimer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int RemoveDisclaimer(string name) {
             object[] results = this.Invoke("RemoveDisclaimer", new object[] {
@@ -3162,6 +3263,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddDisclamerMember", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int AddDisclamerMember(string name, string member) {
             object[] results = this.Invoke("AddDisclamerMember", new object[] {
@@ -3207,6 +3310,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveDisclamerMember", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int RemoveDisclamerMember(string name, string member) {
             object[] results = this.Invoke("RemoveDisclamerMember", new object[] {
@@ -3252,6 +3357,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreatePublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreatePublicFolder(string organizationDistinguishedName, string organizationId, string securityGroup, string parentFolder, string folderName, bool mailEnabled, string accountName, string name, string domain) {
             this.Invoke("CreatePublicFolder", new object[] {
@@ -3316,6 +3423,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeletePublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeletePublicFolder(string organizationId, string folder) {
             this.Invoke("DeletePublicFolder", new object[] {
@@ -3359,6 +3468,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/EnableMailPublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void EnableMailPublicFolder(string organizationId, string folder, string accountName, string name, string domain) {
             this.Invoke("EnableMailPublicFolder", new object[] {
@@ -3411,6 +3522,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DisableMailPublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DisableMailPublicFolder(string organizationId, string folder) {
             this.Invoke("DisableMailPublicFolder", new object[] {
@@ -3454,6 +3567,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangePublicFolder GetPublicFolderGeneralSettings(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderGeneralSettings", new object[] {
@@ -3499,6 +3614,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderGeneralSettings(string organizationId, string folder, string newFolderName, bool hideFromAddressBook, ExchangeAccount[] accounts) {
             this.Invoke("SetPublicFolderGeneralSettings", new object[] {
@@ -3551,6 +3668,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangePublicFolder GetPublicFolderMailFlowSettings(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderMailFlowSettings", new object[] {
@@ -3596,6 +3715,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderMailFlowSettings(string organizationId, string folder, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication) {
             this.Invoke("SetPublicFolderMailFlowSettings", new object[] {
@@ -3648,6 +3769,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeEmailAddress[] GetPublicFolderEmailAddresses(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderEmailAddresses", new object[] {
@@ -3693,6 +3816,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderEmailAddresses(string organizationId, string folder, string[] emailAddresses) {
             this.Invoke("SetPublicFolderEmailAddresses", new object[] {
@@ -3739,6 +3864,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderPrimaryEmailAddress", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderPrimaryEmailAddress(string organizationId, string folder, string emailAddress) {
             this.Invoke("SetPublicFolderPrimaryEmailAddress", new object[] {
@@ -3785,6 +3912,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFoldersStatistics", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeItemStatistics[] GetPublicFoldersStatistics(string organizationId, string[] folders) {
             object[] results = this.Invoke("GetPublicFoldersStatistics", new object[] {
@@ -3830,6 +3959,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFoldersRecursive", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetPublicFoldersRecursive(string organizationId, string parent) {
             object[] results = this.Invoke("GetPublicFoldersRecursive", new object[] {
@@ -3875,6 +4006,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderSize", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public long GetPublicFolderSize(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderSize", new object[] {
@@ -3920,6 +4053,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationRootPublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string CreateOrganizationRootPublicFolder(string organizationId, string organizationDistinguishedName, string securityGroup, string organizationDomain) {
             object[] results = this.Invoke("CreateOrganizationRootPublicFolder", new object[] {
@@ -3971,6 +4106,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationActiveSyncPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateOrganizationActiveSyncPolicy(string organizationId) {
             this.Invoke("CreateOrganizationActiveSyncPolicy", new object[] {
@@ -4011,6 +4148,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetActiveSyncPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeActiveSyncPolicy GetActiveSyncPolicy(string organizationId) {
             object[] results = this.Invoke("GetActiveSyncPolicy", new object[] {
@@ -4053,6 +4192,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetActiveSyncPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetActiveSyncPolicy(
                     string id, 
@@ -4212,6 +4353,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMobileDevices", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMobileDevice[] GetMobileDevices(string accountName) {
             object[] results = this.Invoke("GetMobileDevices", new object[] {
@@ -4254,6 +4397,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMobileDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMobileDevice GetMobileDevice(string id) {
             object[] results = this.Invoke("GetMobileDevice", new object[] {
@@ -4296,6 +4441,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/WipeDataFromDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void WipeDataFromDevice(string id) {
             this.Invoke("WipeDataFromDevice", new object[] {
@@ -4336,6 +4483,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CancelRemoteWipeRequest", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CancelRemoteWipeRequest(string id) {
             this.Invoke("CancelRemoteWipeRequest", new object[] {
@@ -4376,6 +4525,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveDevice(string id) {
             this.Invoke("RemoveDevice", new object[] {
@@ -4416,6 +4567,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExportMailBox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject ExportMailBox(string organizationId, string accountName, string storagePath) {
             object[] results = this.Invoke("ExportMailBox", new object[] {
@@ -4464,6 +4617,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailBoxArchiving", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetMailBoxArchiving(string organizationId, string accountName, bool archive, long archiveQuotaKB, long archiveWarningQuotaKB, string RetentionPolicy) {
             object[] results = this.Invoke("SetMailBoxArchiving", new object[] {
@@ -4521,6 +4676,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetRetentionPolicyTag", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetRetentionPolicyTag(string Identity, ExchangeRetentionPolicyTagType Type, int AgeLimitForRetention, ExchangeRetentionPolicyTagAction RetentionAction) {
             object[] results = this.Invoke("SetRetentionPolicyTag", new object[] {
@@ -4572,6 +4729,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRetentionPolicyTag", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject RemoveRetentionPolicyTag(string Identity) {
             object[] results = this.Invoke("RemoveRetentionPolicyTag", new object[] {
@@ -4614,6 +4773,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetRetentionPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetRetentionPolicy(string Identity, string[] RetentionPolicyTagLinks) {
             object[] results = this.Invoke("SetRetentionPolicy", new object[] {
@@ -4659,6 +4820,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRetentionPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject RemoveRetentionPolicy(string Identity) {
             object[] results = this.Invoke("RemoveRetentionPolicy", new object[] {
@@ -4701,6 +4864,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPicture", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetPicture(string accountName, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] picture) {
             object[] results = this.Invoke("SetPicture", new object[] {
@@ -4746,6 +4911,8 @@ namespace WebsitePanel.Providers.Exchange {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPicture", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public BytesResult GetPicture(string accountName) {
             object[] results = this.Invoke("GetPicture", new object[] {
@@ -6104,7 +6271,12 @@ namespace WebsitePanel.Providers.Exchange.WSE {
     [System.Web.Services.WebServiceBindingAttribute(Name="ExchangeServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(BaseStatistics))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class ExchangeServer : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -6520,8 +6692,10 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckAccountCredentials", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckAccountCredentials(string username, Encrypted<string> password) {
+        public bool CheckAccountCredentials(string username, Encrypted<String> password) {
             object[] results = this.Invoke("CheckAccountCredentials", new object[] {
                         username,
                         password});
@@ -6529,7 +6703,7 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckAccountCredentials(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckAccountCredentials(string username, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckAccountCredentials", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -6542,12 +6716,12 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<String> password) {
             this.CheckAccountCredentialsAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void CheckAccountCredentialsAsync(string username, Encrypted<string> password, object userState) {
+        public void CheckAccountCredentialsAsync(string username, Encrypted<String> password, object userState) {
             if ((this.CheckAccountCredentialsOperationCompleted == null)) {
                 this.CheckAccountCredentialsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckAccountCredentialsOperationCompleted);
             }
@@ -6565,6 +6739,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExtendToExchangeOrganization", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization ExtendToExchangeOrganization(string organizationId, string securityGroup, bool IsConsumer) {
             object[] results = this.Invoke("ExtendToExchangeOrganization", new object[] {
@@ -6613,6 +6789,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateMailEnableUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string CreateMailEnableUser(
                     string upn, 
@@ -6844,6 +7022,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationOfflineAddressBook", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization CreateOrganizationOfflineAddressBook(string organizationId, string securityGroup, string oabVirtualDir) {
             object[] results = this.Invoke("CreateOrganizationOfflineAddressBook", new object[] {
@@ -6892,6 +7072,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateOrganizationOfflineAddressBook", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void UpdateOrganizationOfflineAddressBook(string id) {
             this.Invoke("UpdateOrganizationOfflineAddressBook", new object[] {
@@ -6932,6 +7114,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetOABVirtualDirectory", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetOABVirtualDirectory() {
             object[] results = this.Invoke("GetOABVirtualDirectory", new object[0]);
@@ -6971,6 +7155,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationAddressBookPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization CreateOrganizationAddressBookPolicy(string organizationId, string gal, string addressBook, string roomList, string oab) {
             object[] results = this.Invoke("CreateOrganizationAddressBookPolicy", new object[] {
@@ -7025,6 +7211,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteOrganization", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool DeleteOrganization(string organizationId, string distinguishedName, string globalAddressList, string addressList, string roomList, string offlineAddressBook, string securityGroup, string addressBookPolicy, ExchangeDomainName[] acceptedDomains) {
             object[] results = this.Invoke("DeleteOrganization", new object[] {
@@ -7091,6 +7279,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetOrganizationStorageLimits", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetOrganizationStorageLimits(string organizationDistinguishedName, long issueWarningKB, long prohibitSendKB, long prohibitSendReceiveKB, int keepDeletedItemsDays) {
             this.Invoke("SetOrganizationStorageLimits", new object[] {
@@ -7143,6 +7333,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxesStatistics", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeItemStatistics[] GetMailboxesStatistics(string organizationDistinguishedName) {
             object[] results = this.Invoke("GetMailboxesStatistics", new object[] {
@@ -7185,6 +7377,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddAuthoritativeDomain", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddAuthoritativeDomain(string domain) {
             this.Invoke("AddAuthoritativeDomain", new object[] {
@@ -7225,6 +7419,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeAcceptedDomainType", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ChangeAcceptedDomainType(string domain, ExchangeAcceptedDomainType domainType) {
             this.Invoke("ChangeAcceptedDomainType", new object[] {
@@ -7268,6 +7464,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetAuthoritativeDomains", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetAuthoritativeDomains() {
             object[] results = this.Invoke("GetAuthoritativeDomains", new object[0]);
@@ -7307,6 +7505,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteAuthoritativeDomain", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteAuthoritativeDomain(string domain) {
             this.Invoke("DeleteAuthoritativeDomain", new object[] {
@@ -7347,6 +7547,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteMailbox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMailbox(string accountName) {
             this.Invoke("DeleteMailbox", new object[] {
@@ -7387,6 +7589,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DisableMailbox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DisableMailbox(string accountName) {
             this.Invoke("DisableMailbox", new object[] {
@@ -7427,6 +7631,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxGeneralSettings(string accountName) {
             object[] results = this.Invoke("GetMailboxGeneralSettings", new object[] {
@@ -7469,6 +7675,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxGeneralSettings(string accountName, bool hideFromAddressBook, bool disabled) {
             this.Invoke("SetMailboxGeneralSettings", new object[] {
@@ -7515,6 +7723,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxMailFlowSettings(string accountName) {
             object[] results = this.Invoke("GetMailboxMailFlowSettings", new object[] {
@@ -7557,6 +7767,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxMailFlowSettings(string accountName, bool enableForwarding, string forwardingAccountName, bool forwardToBoth, string[] sendOnBehalfAccounts, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication) {
             this.Invoke("SetMailboxMailFlowSettings", new object[] {
@@ -7618,6 +7830,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxAdvancedSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxAdvancedSettings(string accountName) {
             object[] results = this.Invoke("GetMailboxAdvancedSettings", new object[] {
@@ -7660,6 +7874,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxAdvancedSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxAdvancedSettings(
                     string organizationId, 
@@ -7833,6 +8049,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeEmailAddress[] GetMailboxEmailAddresses(string accountName) {
             object[] results = this.Invoke("GetMailboxEmailAddresses", new object[] {
@@ -7875,6 +8093,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxEmailAddresses(string accountName, string[] emailAddresses) {
             this.Invoke("SetMailboxEmailAddresses", new object[] {
@@ -7918,6 +8138,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxPrimaryEmailAddress", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxPrimaryEmailAddress(string accountName, string emailAddress) {
             this.Invoke("SetMailboxPrimaryEmailAddress", new object[] {
@@ -7961,6 +8183,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailboxPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetMailboxPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, ExchangeAccount[] calendarAccounts, ExchangeAccount[] contactAccounts) {
             this.Invoke("SetMailboxPermissions", new object[] {
@@ -8019,6 +8243,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailbox GetMailboxPermissions(string organizationId, string accountName) {
             object[] results = this.Invoke("GetMailboxPermissions", new object[] {
@@ -8064,6 +8290,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMailboxStatistics", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMailboxStatistics GetMailboxStatistics(string accountName) {
             object[] results = this.Invoke("GetMailboxStatistics", new object[] {
@@ -8106,6 +8334,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDefaultPublicFolderMailbox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] SetDefaultPublicFolderMailbox(string id, string organizationId, string organizationDistinguishedName) {
             object[] results = this.Invoke("SetDefaultPublicFolderMailbox", new object[] {
@@ -8154,6 +8384,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateContact", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateContact(string organizationId, string organizationDistinguishedName, string contactDisplayName, string contactAccountName, string contactEmail, string defaultOrganizationDomain) {
             this.Invoke("CreateContact", new object[] {
@@ -8209,6 +8441,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteContact", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteContact(string accountName) {
             this.Invoke("DeleteContact", new object[] {
@@ -8249,6 +8483,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetContactGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeContact GetContactGeneralSettings(string accountName) {
             object[] results = this.Invoke("GetContactGeneralSettings", new object[] {
@@ -8291,32 +8527,34 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetContactGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetContactGeneralSettings(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.Invoke("SetContactGeneralSettings", new object[] {
@@ -8351,29 +8589,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         public System.IAsyncResult BeginSetContactGeneralSettings(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     System.AsyncCallback callback, 
@@ -8415,29 +8653,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain) {
             this.SetContactGeneralSettingsAsync(accountName, displayName, email, hideFromAddressBook, firstName, initials, lastName, address, city, state, zip, country, jobTitle, company, department, office, managerAccountName, businessPhone, fax, homePhone, mobilePhone, pager, webPage, notes, useMapiRichTextFormat, defaultDomain, null);
@@ -8446,29 +8684,29 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         /// <remarks/>
         public void SetContactGeneralSettingsAsync(
                     string accountName, 
-                    Encrypted<string> displayName, 
-                    Encrypted<string> email, 
+                    Encrypted<String> displayName, 
+                    Encrypted<String> email, 
                     bool hideFromAddressBook, 
-                    Encrypted<string> firstName, 
-                    Encrypted<string> initials, 
-                    Encrypted<string> lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
-                    Encrypted<string> company, 
-                    Encrypted<string> department, 
-                    Encrypted<string> office, 
-                    Encrypted<string> managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
-                    Encrypted<string> notes, 
+                    Encrypted<String> firstName, 
+                    Encrypted<String> initials, 
+                    Encrypted<String> lastName, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
+                    Encrypted<String> company, 
+                    Encrypted<String> department, 
+                    Encrypted<String> office, 
+                    Encrypted<String> managerAccountName, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
+                    Encrypted<String> notes, 
                     int useMapiRichTextFormat, 
                     string defaultDomain, 
                     object userState) {
@@ -8513,6 +8751,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetContactMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeContact GetContactMailFlowSettings(string accountName) {
             object[] results = this.Invoke("GetContactMailFlowSettings", new object[] {
@@ -8555,6 +8795,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetContactMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetContactMailFlowSettings(string accountName, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication) {
             this.Invoke("SetContactMailFlowSettings", new object[] {
@@ -8604,6 +8846,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateDistributionList", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateDistributionList(string organizationId, string organizationDistinguishedName, string displayName, string accountName, string name, string domain, string managedBy, string[] addressLists) {
             this.Invoke("CreateDistributionList", new object[] {
@@ -8665,6 +8909,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteDistributionList", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteDistributionList(string accountName) {
             this.Invoke("DeleteDistributionList", new object[] {
@@ -8705,6 +8951,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeDistributionList GetDistributionListGeneralSettings(string accountName) {
             object[] results = this.Invoke("GetDistributionListGeneralSettings", new object[] {
@@ -8747,6 +8995,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListGeneralSettings(string accountName, string displayName, bool hideFromAddressBook, string managedBy, string[] members, string notes, string[] addressLists) {
             this.Invoke("SetDistributionListGeneralSettings", new object[] {
@@ -8805,6 +9055,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeDistributionList GetDistributionListMailFlowSettings(string accountName) {
             object[] results = this.Invoke("GetDistributionListMailFlowSettings", new object[] {
@@ -8847,6 +9099,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListMailFlowSettings(string accountName, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication, string[] addressLists) {
             this.Invoke("SetDistributionListMailFlowSettings", new object[] {
@@ -8899,6 +9153,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeEmailAddress[] GetDistributionListEmailAddresses(string accountName) {
             object[] results = this.Invoke("GetDistributionListEmailAddresses", new object[] {
@@ -8941,6 +9197,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListEmailAddresses(string accountName, string[] emailAddresses, string[] addressLists) {
             this.Invoke("SetDistributionListEmailAddresses", new object[] {
@@ -8987,6 +9245,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListPrimaryEmailAddress", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListPrimaryEmailAddress(string accountName, string emailAddress, string[] addressLists) {
             this.Invoke("SetDistributionListPrimaryEmailAddress", new object[] {
@@ -9033,6 +9293,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDistributionListPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDistributionListPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] sendOnBehalfAccounts, string[] addressLists) {
             this.Invoke("SetDistributionListPermissions", new object[] {
@@ -9085,6 +9347,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDistributionListPermissions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeDistributionList GetDistributionListPermissions(string organizationId, string accountName) {
             object[] results = this.Invoke("GetDistributionListPermissions", new object[] {
@@ -9130,6 +9394,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetDisclaimer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int SetDisclaimer(string name, string text) {
             object[] results = this.Invoke("SetDisclaimer", new object[] {
@@ -9175,6 +9441,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveDisclaimer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int RemoveDisclaimer(string name) {
             object[] results = this.Invoke("RemoveDisclaimer", new object[] {
@@ -9217,6 +9485,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddDisclamerMember", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int AddDisclamerMember(string name, string member) {
             object[] results = this.Invoke("AddDisclamerMember", new object[] {
@@ -9262,6 +9532,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveDisclamerMember", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int RemoveDisclamerMember(string name, string member) {
             object[] results = this.Invoke("RemoveDisclamerMember", new object[] {
@@ -9307,6 +9579,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreatePublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreatePublicFolder(string organizationDistinguishedName, string organizationId, string securityGroup, string parentFolder, string folderName, bool mailEnabled, string accountName, string name, string domain) {
             this.Invoke("CreatePublicFolder", new object[] {
@@ -9371,6 +9645,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeletePublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeletePublicFolder(string organizationId, string folder) {
             this.Invoke("DeletePublicFolder", new object[] {
@@ -9414,6 +9690,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/EnableMailPublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void EnableMailPublicFolder(string organizationId, string folder, string accountName, string name, string domain) {
             this.Invoke("EnableMailPublicFolder", new object[] {
@@ -9466,6 +9744,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DisableMailPublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DisableMailPublicFolder(string organizationId, string folder) {
             this.Invoke("DisableMailPublicFolder", new object[] {
@@ -9509,6 +9789,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangePublicFolder GetPublicFolderGeneralSettings(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderGeneralSettings", new object[] {
@@ -9554,6 +9836,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderGeneralSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderGeneralSettings(string organizationId, string folder, string newFolderName, bool hideFromAddressBook, ExchangeAccount[] accounts) {
             this.Invoke("SetPublicFolderGeneralSettings", new object[] {
@@ -9606,6 +9890,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangePublicFolder GetPublicFolderMailFlowSettings(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderMailFlowSettings", new object[] {
@@ -9651,6 +9937,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderMailFlowSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderMailFlowSettings(string organizationId, string folder, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication) {
             this.Invoke("SetPublicFolderMailFlowSettings", new object[] {
@@ -9703,6 +9991,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeEmailAddress[] GetPublicFolderEmailAddresses(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderEmailAddresses", new object[] {
@@ -9748,6 +10038,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderEmailAddresses", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderEmailAddresses(string organizationId, string folder, string[] emailAddresses) {
             this.Invoke("SetPublicFolderEmailAddresses", new object[] {
@@ -9794,6 +10086,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPublicFolderPrimaryEmailAddress", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetPublicFolderPrimaryEmailAddress(string organizationId, string folder, string emailAddress) {
             this.Invoke("SetPublicFolderPrimaryEmailAddress", new object[] {
@@ -9840,6 +10134,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFoldersStatistics", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeItemStatistics[] GetPublicFoldersStatistics(string organizationId, string[] folders) {
             object[] results = this.Invoke("GetPublicFoldersStatistics", new object[] {
@@ -9885,6 +10181,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFoldersRecursive", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetPublicFoldersRecursive(string organizationId, string parent) {
             object[] results = this.Invoke("GetPublicFoldersRecursive", new object[] {
@@ -9930,6 +10228,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPublicFolderSize", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public long GetPublicFolderSize(string organizationId, string folder) {
             object[] results = this.Invoke("GetPublicFolderSize", new object[] {
@@ -9975,6 +10275,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationRootPublicFolder", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string CreateOrganizationRootPublicFolder(string organizationId, string organizationDistinguishedName, string securityGroup, string organizationDomain) {
             object[] results = this.Invoke("CreateOrganizationRootPublicFolder", new object[] {
@@ -10026,6 +10328,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateOrganizationActiveSyncPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateOrganizationActiveSyncPolicy(string organizationId) {
             this.Invoke("CreateOrganizationActiveSyncPolicy", new object[] {
@@ -10066,6 +10370,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetActiveSyncPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeActiveSyncPolicy GetActiveSyncPolicy(string organizationId) {
             object[] results = this.Invoke("GetActiveSyncPolicy", new object[] {
@@ -10108,6 +10414,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetActiveSyncPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetActiveSyncPolicy(
                     string id, 
@@ -10267,6 +10575,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMobileDevices", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMobileDevice[] GetMobileDevices(string accountName) {
             object[] results = this.Invoke("GetMobileDevices", new object[] {
@@ -10309,6 +10619,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetMobileDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ExchangeMobileDevice GetMobileDevice(string id) {
             object[] results = this.Invoke("GetMobileDevice", new object[] {
@@ -10351,6 +10663,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/WipeDataFromDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void WipeDataFromDevice(string id) {
             this.Invoke("WipeDataFromDevice", new object[] {
@@ -10391,6 +10705,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CancelRemoteWipeRequest", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CancelRemoteWipeRequest(string id) {
             this.Invoke("CancelRemoteWipeRequest", new object[] {
@@ -10431,6 +10747,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveDevice(string id) {
             this.Invoke("RemoveDevice", new object[] {
@@ -10471,6 +10789,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExportMailBox", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject ExportMailBox(string organizationId, string accountName, string storagePath) {
             object[] results = this.Invoke("ExportMailBox", new object[] {
@@ -10519,6 +10839,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetMailBoxArchiving", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetMailBoxArchiving(string organizationId, string accountName, bool archive, long archiveQuotaKB, long archiveWarningQuotaKB, string RetentionPolicy) {
             object[] results = this.Invoke("SetMailBoxArchiving", new object[] {
@@ -10576,6 +10898,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetRetentionPolicyTag", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetRetentionPolicyTag(string Identity, ExchangeRetentionPolicyTagType Type, int AgeLimitForRetention, ExchangeRetentionPolicyTagAction RetentionAction) {
             object[] results = this.Invoke("SetRetentionPolicyTag", new object[] {
@@ -10627,6 +10951,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRetentionPolicyTag", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject RemoveRetentionPolicyTag(string Identity) {
             object[] results = this.Invoke("RemoveRetentionPolicyTag", new object[] {
@@ -10669,6 +10995,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetRetentionPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetRetentionPolicy(string Identity, string[] RetentionPolicyTagLinks) {
             object[] results = this.Invoke("SetRetentionPolicy", new object[] {
@@ -10714,6 +11042,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRetentionPolicy", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject RemoveRetentionPolicy(string Identity) {
             object[] results = this.Invoke("RemoveRetentionPolicy", new object[] {
@@ -10756,6 +11086,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetPicture", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetPicture(string accountName, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] picture) {
             object[] results = this.Invoke("SetPicture", new object[] {
@@ -10801,6 +11133,8 @@ namespace WebsitePanel.Providers.Exchange.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetPicture", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public BytesResult GetPicture(string accountName) {
             object[] results = this.Invoke("GetPicture", new object[] {

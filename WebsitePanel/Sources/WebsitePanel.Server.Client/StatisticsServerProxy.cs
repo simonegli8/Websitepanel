@@ -48,7 +48,12 @@ namespace WebsitePanel.Providers.Statistics {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="StatisticsServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class StatisticsServer : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -94,6 +99,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetServers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public StatsServer[] GetServers() {
             object[] results = this.Invoke("GetServers", new object[0]);
@@ -133,6 +140,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetSiteId", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetSiteId(string siteName) {
             object[] results = this.Invoke("GetSiteId", new object[] {
@@ -175,6 +184,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetSites", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetSites() {
             object[] results = this.Invoke("GetSites", new object[0]);
@@ -214,6 +225,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public StatsSite GetSite(string siteId) {
             object[] results = this.Invoke("GetSite", new object[] {
@@ -256,6 +269,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string AddSite(StatsSite site) {
             object[] results = this.Invoke("AddSite", new object[] {
@@ -298,6 +313,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void UpdateSite(StatsSite site) {
             this.Invoke("UpdateSite", new object[] {
@@ -338,6 +355,8 @@ namespace WebsitePanel.Providers.Statistics {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteSite(string siteId) {
             this.Invoke("DeleteSite", new object[] {
@@ -539,7 +558,12 @@ namespace WebsitePanel.Providers.Statistics.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="StatisticsServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class StatisticsServer : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -585,6 +609,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetServers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public StatsServer[] GetServers() {
             object[] results = this.Invoke("GetServers", new object[0]);
@@ -624,6 +650,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetSiteId", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetSiteId(string siteName) {
             object[] results = this.Invoke("GetSiteId", new object[] {
@@ -666,6 +694,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetSites", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetSites() {
             object[] results = this.Invoke("GetSites", new object[0]);
@@ -705,6 +735,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public StatsSite GetSite(string siteId) {
             object[] results = this.Invoke("GetSite", new object[] {
@@ -747,6 +779,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string AddSite(StatsSite site) {
             object[] results = this.Invoke("AddSite", new object[] {
@@ -789,6 +823,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void UpdateSite(StatsSite site) {
             this.Invoke("UpdateSite", new object[] {
@@ -829,6 +865,8 @@ namespace WebsitePanel.Providers.Statistics.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteSite", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteSite(string siteId) {
             this.Invoke("DeleteSite", new object[] {

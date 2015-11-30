@@ -49,7 +49,12 @@ namespace WebsitePanel.Providers.Database {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="DatabaseServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class DatabaseServer : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -175,8 +180,10 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckConnectivity", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckConnectivity(string databaseName, string username, Encrypted<string> password) {
+        public bool CheckConnectivity(string databaseName, string username, Encrypted<String> password) {
             object[] results = this.Invoke("CheckConnectivity", new object[] {
                         databaseName,
                         username,
@@ -185,7 +192,7 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckConnectivity(string databaseName, string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckConnectivity(string databaseName, string username, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckConnectivity", new object[] {
                         databaseName,
                         username,
@@ -199,12 +206,12 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<string> password) {
+        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<String> password) {
             this.CheckConnectivityAsync(databaseName, username, password, null);
         }
         
         /// <remarks/>
-        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<string> password, object userState) {
+        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<String> password, object userState) {
             if ((this.CheckConnectivityOperationCompleted == null)) {
                 this.CheckConnectivityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckConnectivityOperationCompleted);
             }
@@ -223,6 +230,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlQuery", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet ExecuteSqlQuery(string databaseName, string commandText) {
             object[] results = this.Invoke("ExecuteSqlQuery", new object[] {
@@ -268,6 +277,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlNonQuery", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ExecuteSqlNonQuery(string databaseName, string commandText) {
             this.Invoke("ExecuteSqlNonQuery", new object[] {
@@ -311,8 +322,10 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlQuerySafe", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet ExecuteSqlQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public System.Data.DataSet ExecuteSqlQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText) {
             object[] results = this.Invoke("ExecuteSqlQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -322,7 +335,7 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginExecuteSqlQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginExecuteSqlQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ExecuteSqlQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -337,12 +350,12 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText) {
             this.ExecuteSqlQuerySafeAsync(databaseName, username, password, commandText, null);
         }
         
         /// <remarks/>
-        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText, object userState) {
+        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText, object userState) {
             if ((this.ExecuteSqlQuerySafeOperationCompleted == null)) {
                 this.ExecuteSqlQuerySafeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExecuteSqlQuerySafeOperationCompleted);
             }
@@ -362,8 +375,10 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlNonQuerySafe", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public void ExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText) {
             this.Invoke("ExecuteSqlNonQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -372,7 +387,7 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ExecuteSqlNonQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -386,12 +401,12 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText) {
             this.ExecuteSqlNonQuerySafeAsync(databaseName, username, password, commandText, null);
         }
         
         /// <remarks/>
-        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText, object userState) {
+        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText, object userState) {
             if ((this.ExecuteSqlNonQuerySafeOperationCompleted == null)) {
                 this.ExecuteSqlNonQuerySafeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExecuteSqlNonQuerySafeOperationCompleted);
             }
@@ -411,6 +426,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DatabaseExists", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool DatabaseExists(string databaseName) {
             object[] results = this.Invoke("DatabaseExists", new object[] {
@@ -453,6 +470,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDatabases", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetDatabases() {
             object[] results = this.Invoke("GetDatabases", new object[0]);
@@ -492,6 +511,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public SqlDatabase GetDatabase(string databaseName) {
             object[] results = this.Invoke("GetDatabase", new object[] {
@@ -534,6 +555,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateDatabase(SqlDatabase database) {
             this.Invoke("CreateDatabase", new object[] {
@@ -574,6 +597,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void UpdateDatabase(SqlDatabase database) {
             this.Invoke("UpdateDatabase", new object[] {
@@ -614,6 +639,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteDatabase(string databaseName) {
             this.Invoke("DeleteDatabase", new object[] {
@@ -654,6 +681,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/TruncateDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void TruncateDatabase(string databaseName) {
             this.Invoke("TruncateDatabase", new object[] {
@@ -694,6 +723,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetTempFileBinaryChunk", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
         public byte[] GetTempFileBinaryChunk(string path, int offset, int length) {
@@ -743,6 +774,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AppendTempFileBinaryChunk", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string AppendTempFileBinaryChunk(string fileName, string path, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] chunk) {
             object[] results = this.Invoke("AppendTempFileBinaryChunk", new object[] {
@@ -791,6 +824,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/BackupDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string BackupDatabase(string databaseName, string backupName, bool zipBackup) {
             object[] results = this.Invoke("BackupDatabase", new object[] {
@@ -839,6 +874,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RestoreDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RestoreDatabase(string databaseName, string[] fileNames) {
             this.Invoke("RestoreDatabase", new object[] {
@@ -882,6 +919,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UserExists", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool UserExists(string userName) {
             object[] results = this.Invoke("UserExists", new object[] {
@@ -924,6 +963,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetUsers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetUsers() {
             object[] results = this.Invoke("GetUsers", new object[0]);
@@ -963,6 +1004,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public SqlUser GetUser(string username, string[] databases) {
             object[] results = this.Invoke("GetUser", new object[] {
@@ -1008,15 +1051,17 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void CreateUser(SqlUser user, Encrypted<string> password) {
+        public void CreateUser(Encrypted<SqlUser> user, Encrypted<String> password) {
             this.Invoke("CreateUser", new object[] {
                         user,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCreateUser(SqlUser user, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCreateUser(Encrypted<SqlUser> user, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CreateUser", new object[] {
                         user,
                         password}, callback, asyncState);
@@ -1028,12 +1073,12 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public void CreateUserAsync(SqlUser user, Encrypted<string> password) {
+        public void CreateUserAsync(Encrypted<SqlUser> user, Encrypted<String> password) {
             this.CreateUserAsync(user, password, null);
         }
         
         /// <remarks/>
-        public void CreateUserAsync(SqlUser user, Encrypted<string> password, object userState) {
+        public void CreateUserAsync(Encrypted<SqlUser> user, Encrypted<String> password, object userState) {
             if ((this.CreateUserOperationCompleted == null)) {
                 this.CreateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateUserOperationCompleted);
             }
@@ -1051,15 +1096,17 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void UpdateUser(SqlUser user, string[] databases) {
+        public void UpdateUser(Encrypted<SqlUser> user, string[] databases) {
             this.Invoke("UpdateUser", new object[] {
                         user,
                         databases});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginUpdateUser(SqlUser user, string[] databases, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginUpdateUser(Encrypted<SqlUser> user, string[] databases, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("UpdateUser", new object[] {
                         user,
                         databases}, callback, asyncState);
@@ -1071,12 +1118,12 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public void UpdateUserAsync(SqlUser user, string[] databases) {
+        public void UpdateUserAsync(Encrypted<SqlUser> user, string[] databases) {
             this.UpdateUserAsync(user, databases, null);
         }
         
         /// <remarks/>
-        public void UpdateUserAsync(SqlUser user, string[] databases, object userState) {
+        public void UpdateUserAsync(Encrypted<SqlUser> user, string[] databases, object userState) {
             if ((this.UpdateUserOperationCompleted == null)) {
                 this.UpdateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateUserOperationCompleted);
             }
@@ -1094,6 +1141,8 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteUser(string username, string[] databases) {
             this.Invoke("DeleteUser", new object[] {
@@ -1137,15 +1186,17 @@ namespace WebsitePanel.Providers.Database {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeUserPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeUserPassword(string username, Encrypted<string> password) {
+        public void ChangeUserPassword(string username, Encrypted<String> password) {
             this.Invoke("ChangeUserPassword", new object[] {
                         username,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeUserPassword(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeUserPassword(string username, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeUserPassword", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -1157,12 +1208,12 @@ namespace WebsitePanel.Providers.Database {
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, Encrypted<string> password) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<String> password) {
             this.ChangeUserPasswordAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, Encrypted<string> password, object userState) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<String> password, object userState) {
             if ((this.ChangeUserPasswordOperationCompleted == null)) {
                 this.ChangeUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeUserPasswordOperationCompleted);
             }
@@ -1560,7 +1611,12 @@ namespace WebsitePanel.Providers.Database.WSE {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="DatabaseServerSoap", Namespace="http://smbsaas/websitepanel/server/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class DatabaseServer : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -1686,8 +1742,10 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckConnectivity", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool CheckConnectivity(string databaseName, string username, Encrypted<string> password) {
+        public bool CheckConnectivity(string databaseName, string username, Encrypted<String> password) {
             object[] results = this.Invoke("CheckConnectivity", new object[] {
                         databaseName,
                         username,
@@ -1696,7 +1754,7 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCheckConnectivity(string databaseName, string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCheckConnectivity(string databaseName, string username, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CheckConnectivity", new object[] {
                         databaseName,
                         username,
@@ -1710,12 +1768,12 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<string> password) {
+        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<String> password) {
             this.CheckConnectivityAsync(databaseName, username, password, null);
         }
         
         /// <remarks/>
-        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<string> password, object userState) {
+        public void CheckConnectivityAsync(string databaseName, string username, Encrypted<String> password, object userState) {
             if ((this.CheckConnectivityOperationCompleted == null)) {
                 this.CheckConnectivityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckConnectivityOperationCompleted);
             }
@@ -1734,6 +1792,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlQuery", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet ExecuteSqlQuery(string databaseName, string commandText) {
             object[] results = this.Invoke("ExecuteSqlQuery", new object[] {
@@ -1779,6 +1839,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlNonQuery", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ExecuteSqlNonQuery(string databaseName, string commandText) {
             this.Invoke("ExecuteSqlNonQuery", new object[] {
@@ -1822,8 +1884,10 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlQuerySafe", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet ExecuteSqlQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public System.Data.DataSet ExecuteSqlQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText) {
             object[] results = this.Invoke("ExecuteSqlQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -1833,7 +1897,7 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginExecuteSqlQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginExecuteSqlQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ExecuteSqlQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -1848,12 +1912,12 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText) {
             this.ExecuteSqlQuerySafeAsync(databaseName, username, password, commandText, null);
         }
         
         /// <remarks/>
-        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText, object userState) {
+        public void ExecuteSqlQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText, object userState) {
             if ((this.ExecuteSqlQuerySafeOperationCompleted == null)) {
                 this.ExecuteSqlQuerySafeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExecuteSqlQuerySafeOperationCompleted);
             }
@@ -1873,8 +1937,10 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ExecuteSqlNonQuerySafe", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public void ExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText) {
             this.Invoke("ExecuteSqlNonQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -1883,7 +1949,7 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<String> password, string commandText, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ExecuteSqlNonQuerySafe", new object[] {
                         databaseName,
                         username,
@@ -1897,12 +1963,12 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText) {
+        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText) {
             this.ExecuteSqlNonQuerySafeAsync(databaseName, username, password, commandText, null);
         }
         
         /// <remarks/>
-        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<string> password, string commandText, object userState) {
+        public void ExecuteSqlNonQuerySafeAsync(string databaseName, string username, Encrypted<String> password, string commandText, object userState) {
             if ((this.ExecuteSqlNonQuerySafeOperationCompleted == null)) {
                 this.ExecuteSqlNonQuerySafeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExecuteSqlNonQuerySafeOperationCompleted);
             }
@@ -1922,6 +1988,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DatabaseExists", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool DatabaseExists(string databaseName) {
             object[] results = this.Invoke("DatabaseExists", new object[] {
@@ -1964,6 +2032,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDatabases", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetDatabases() {
             object[] results = this.Invoke("GetDatabases", new object[0]);
@@ -2003,6 +2073,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public SqlDatabase GetDatabase(string databaseName) {
             object[] results = this.Invoke("GetDatabase", new object[] {
@@ -2045,6 +2117,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateDatabase(SqlDatabase database) {
             this.Invoke("CreateDatabase", new object[] {
@@ -2085,6 +2159,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void UpdateDatabase(SqlDatabase database) {
             this.Invoke("UpdateDatabase", new object[] {
@@ -2125,6 +2201,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteDatabase(string databaseName) {
             this.Invoke("DeleteDatabase", new object[] {
@@ -2165,6 +2243,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/TruncateDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void TruncateDatabase(string databaseName) {
             this.Invoke("TruncateDatabase", new object[] {
@@ -2205,6 +2285,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetTempFileBinaryChunk", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
         public byte[] GetTempFileBinaryChunk(string path, int offset, int length) {
@@ -2254,6 +2336,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AppendTempFileBinaryChunk", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string AppendTempFileBinaryChunk(string fileName, string path, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] chunk) {
             object[] results = this.Invoke("AppendTempFileBinaryChunk", new object[] {
@@ -2302,6 +2386,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/BackupDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string BackupDatabase(string databaseName, string backupName, bool zipBackup) {
             object[] results = this.Invoke("BackupDatabase", new object[] {
@@ -2350,6 +2436,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RestoreDatabase", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RestoreDatabase(string databaseName, string[] fileNames) {
             this.Invoke("RestoreDatabase", new object[] {
@@ -2393,6 +2481,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UserExists", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool UserExists(string userName) {
             object[] results = this.Invoke("UserExists", new object[] {
@@ -2435,6 +2525,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetUsers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetUsers() {
             object[] results = this.Invoke("GetUsers", new object[0]);
@@ -2474,6 +2566,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public SqlUser GetUser(string username, string[] databases) {
             object[] results = this.Invoke("GetUser", new object[] {
@@ -2519,15 +2613,17 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void CreateUser(SqlUser user, Encrypted<string> password) {
+        public void CreateUser(Encrypted<SqlUser> user, Encrypted<String> password) {
             this.Invoke("CreateUser", new object[] {
                         user,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCreateUser(SqlUser user, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCreateUser(Encrypted<SqlUser> user, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CreateUser", new object[] {
                         user,
                         password}, callback, asyncState);
@@ -2539,12 +2635,12 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public void CreateUserAsync(SqlUser user, Encrypted<string> password) {
+        public void CreateUserAsync(Encrypted<SqlUser> user, Encrypted<String> password) {
             this.CreateUserAsync(user, password, null);
         }
         
         /// <remarks/>
-        public void CreateUserAsync(SqlUser user, Encrypted<string> password, object userState) {
+        public void CreateUserAsync(Encrypted<SqlUser> user, Encrypted<String> password, object userState) {
             if ((this.CreateUserOperationCompleted == null)) {
                 this.CreateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateUserOperationCompleted);
             }
@@ -2562,15 +2658,17 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/UpdateUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void UpdateUser(SqlUser user, string[] databases) {
+        public void UpdateUser(Encrypted<SqlUser> user, string[] databases) {
             this.Invoke("UpdateUser", new object[] {
                         user,
                         databases});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginUpdateUser(SqlUser user, string[] databases, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginUpdateUser(Encrypted<SqlUser> user, string[] databases, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("UpdateUser", new object[] {
                         user,
                         databases}, callback, asyncState);
@@ -2582,12 +2680,12 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public void UpdateUserAsync(SqlUser user, string[] databases) {
+        public void UpdateUserAsync(Encrypted<SqlUser> user, string[] databases) {
             this.UpdateUserAsync(user, databases, null);
         }
         
         /// <remarks/>
-        public void UpdateUserAsync(SqlUser user, string[] databases, object userState) {
+        public void UpdateUserAsync(Encrypted<SqlUser> user, string[] databases, object userState) {
             if ((this.UpdateUserOperationCompleted == null)) {
                 this.UpdateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateUserOperationCompleted);
             }
@@ -2605,6 +2703,8 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteUser(string username, string[] databases) {
             this.Invoke("DeleteUser", new object[] {
@@ -2648,15 +2748,17 @@ namespace WebsitePanel.Providers.Database.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ChangeUserPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void ChangeUserPassword(string username, Encrypted<string> password) {
+        public void ChangeUserPassword(string username, Encrypted<String> password) {
             this.Invoke("ChangeUserPassword", new object[] {
                         username,
                         password});
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginChangeUserPassword(string username, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginChangeUserPassword(string username, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("ChangeUserPassword", new object[] {
                         username,
                         password}, callback, asyncState);
@@ -2668,12 +2770,12 @@ namespace WebsitePanel.Providers.Database.WSE {
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, Encrypted<string> password) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<String> password) {
             this.ChangeUserPasswordAsync(username, password, null);
         }
         
         /// <remarks/>
-        public void ChangeUserPasswordAsync(string username, Encrypted<string> password, object userState) {
+        public void ChangeUserPasswordAsync(string username, Encrypted<String> password, object userState) {
             if ((this.ChangeUserPasswordOperationCompleted == null)) {
                 this.ChangeUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChangeUserPasswordOperationCompleted);
             }

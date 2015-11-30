@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.ComponentModel;
@@ -57,7 +57,7 @@ namespace WebsitePanel.Server
 
 		#region Users
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string CreateUser(string userUpn, string userDistinguishedName)
 		{
 			try
@@ -74,7 +74,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public OCSUser GetUserGeneralSettings(string instanceId)
 		{
 			try
@@ -91,7 +91,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void SetUserGeneralSettings(string instanceId, bool enabledForFederation, bool enabledForPublicIMConectivity, bool archiveInternalCommunications, bool archiveFederatedCommunications, bool enabledForEnhancedPresence)
 		{
 			try
@@ -108,7 +108,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void DeleteUser(string instanceId)
 		{
 			try
@@ -125,7 +125,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void SetUserPrimaryUri(string instanceId, string userUpn)
 		{
 			try

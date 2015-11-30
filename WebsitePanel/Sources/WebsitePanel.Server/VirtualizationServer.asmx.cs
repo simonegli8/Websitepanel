@@ -26,6 +26,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#if Net
+
 using System;
 using System.Data;
 using System.Web;
@@ -58,7 +60,7 @@ namespace WebsitePanel.Server
 
         #region Virtual Machines
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<VirtualMachine> GetVirtualMachine(string vmId)
         {
             try
@@ -75,7 +77,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<VirtualMachine> GetVirtualMachineEx(string vmId)
         {
             try
@@ -92,7 +94,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<List<VirtualMachine>> GetVirtualMachines()
         {
             try
@@ -109,7 +111,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public byte[] GetVirtualMachineThumbnailImage(string vmId, ThumbnailSize size)
         {
             try
@@ -126,7 +128,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<VirtualMachine> CreateVirtualMachine(Encrypted<VirtualMachine> vm)
         {
             try
@@ -143,7 +145,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<VirtualMachine> UpdateVirtualMachine(Encrypted<VirtualMachine> vm)
         {
             try
@@ -160,7 +162,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult ChangeVirtualMachineState(string vmId, VirtualMachineRequestedState newState)
         {
             try
@@ -177,7 +179,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ReturnCode ShutDownVirtualMachine(string vmId, bool force, string reason)
         {
             try
@@ -194,7 +196,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<ConcreteJob> GetVirtualMachineJobs(string vmId)
         {
             try
@@ -211,7 +213,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult RenameVirtualMachine(string vmId, string name)
         {
             try
@@ -228,7 +230,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult DeleteVirtualMachine(string vmId)
         {
             try
@@ -245,7 +247,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult ExportVirtualMachine(string vmId, string exportPath)
         {
             try
@@ -264,7 +266,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Snapshots
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<VirtualMachineSnapshot> GetVirtualMachineSnapshots(string vmId)
         {
             try
@@ -281,7 +283,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public VirtualMachineSnapshot GetSnapshot(string snapshotId)
         {
             try
@@ -298,7 +300,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult CreateSnapshot(string vmId)
         {
             try
@@ -315,7 +317,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult RenameSnapshot(string vmId, string snapshotId, string name)
         {
             try
@@ -332,7 +334,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult ApplySnapshot(string vmId, string snapshotId)
         {
             try
@@ -349,7 +351,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult DeleteSnapshot(string snapshotId)
         {
             try
@@ -366,7 +368,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult DeleteSnapshotSubtree(string snapshotId)
         {
             try
@@ -383,7 +385,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public byte[] GetSnapshotThumbnailImage(string snapshotId, ThumbnailSize size)
         {
             try
@@ -402,7 +404,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Virtual Switches
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<VirtualSwitch> GetExternalSwitches(string computerName)
         {
             try
@@ -419,7 +421,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<VirtualSwitch> GetSwitches()
         {
             try
@@ -436,7 +438,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool SwitchExists(string switchId)
         {
             try
@@ -453,7 +455,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public VirtualSwitch CreateSwitch(string name)
         {
             try
@@ -470,7 +472,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ReturnCode DeleteSwitch(string switchId)
         {
             try
@@ -489,7 +491,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region DVD operations
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string GetInsertedDVD(string vmId)
         {
             try
@@ -506,7 +508,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult InsertDVD(string vmId, string isoPath)
         {
             try
@@ -523,7 +525,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult EjectDVD(string vmId)
         {
             try
@@ -542,7 +544,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Library
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public LibraryItem[] GetLibraryItems(string path)
         {
             try
@@ -561,7 +563,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region KVP items
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<KvpExchangeDataItem> GetKVPItems(string vmId)
         {
             try
@@ -578,7 +580,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<KvpExchangeDataItem> GetStandardKVPItems(string vmId)
         {
             try
@@ -595,7 +597,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult AddKVPItems(string vmId, KvpExchangeDataItem[] items)
         {
             try
@@ -612,7 +614,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult RemoveKVPItems(string vmId, string[] itemNames)
         {
             try
@@ -629,7 +631,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult ModifyKVPItems(string vmId, KvpExchangeDataItem[] items)
         {
             try
@@ -648,7 +650,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Storage
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public VirtualHardDiskInfo GetVirtualHardDiskInfo(string vhdPath)
         {
             try
@@ -665,7 +667,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public MountedDiskInfo MountVirtualHardDisk(string vhdPath)
         {
             try
@@ -682,7 +684,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ReturnCode UnmountVirtualHardDisk(string vhdPath)
         {
             try
@@ -699,7 +701,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult ExpandVirtualHardDisk(string vhdPath, UInt64 sizeGB)
         {
             try
@@ -716,7 +718,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public JobResult ConvertVirtualHardDisk(string sourcePath, string destinationPath, VirtualHardDiskType diskType)
         {
             try
@@ -733,7 +735,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteRemoteFile(string path)
         {
             try
@@ -749,7 +751,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ExpandDiskVolume(string diskAddress, string volumeName)
         {
             try
@@ -765,7 +767,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string ReadRemoteFile(string path)
         {
             try
@@ -782,7 +784,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void WriteRemoteFile(string path, string content)
         {
             try
@@ -800,7 +802,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Jobs
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ConcreteJob GetJob(string jobId)
         {
             try
@@ -817,7 +819,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<ConcreteJob> GetAllJobs()
         {
             try
@@ -834,7 +836,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ChangeJobStateReturnCode ChangeJobState(string jobId, ConcreteJobRequestedState newState)
         {
             try
@@ -853,7 +855,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Configuration
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public int GetProcessorCoresNumber()
         {
             try
@@ -892,3 +894,5 @@ namespace WebsitePanel.Server
 		#endregion
 	}
 }
+
+#endif

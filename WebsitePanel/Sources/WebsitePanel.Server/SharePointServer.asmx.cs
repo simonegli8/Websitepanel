@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Data;
@@ -59,7 +59,7 @@ namespace WebsitePanel.Server
         }
 
         #region Sites
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ExtendVirtualServer(SharePointSite site)
         {
             try
@@ -75,7 +75,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UnextendVirtualServer(string url, bool deleteContent)
         {
             try
@@ -93,7 +93,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Backup/Restore
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string BackupVirtualServer(string url, string fileName, bool zipBackup)
         {
             try
@@ -110,7 +110,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void RestoreVirtualServer(string url, string fileName)
         {
             try
@@ -126,7 +126,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public byte[] GetTempFileBinaryChunk(string path, int offset, int length)
         {
             try
@@ -143,7 +143,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string AppendTempFileBinaryChunk(string fileName, string path, byte[] chunk)
         {
             try
@@ -162,7 +162,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Web Parts
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetInstalledWebParts(string url)
         {
             try
@@ -179,7 +179,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void InstallWebPartsPackage(string url, string packageName)
         {
             try
@@ -195,7 +195,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteWebPartsPackage(string url, string packageName)
         {
             try
@@ -213,7 +213,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Users
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool UserExists(string username)
         {
             try
@@ -230,7 +230,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetUsers()
         {
             try
@@ -247,7 +247,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<SystemUser> GetUser(string username)
         {
             try
@@ -264,7 +264,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateUser(Encrypted<SystemUser> user)
         {
             try
@@ -280,7 +280,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateUser(Encrypted<SystemUser> user)
         {
             try
@@ -296,7 +296,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeUserPassword(string username, Encrypted<string> password)
         {
             try
@@ -312,7 +312,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteUser(string username)
         {
             try
@@ -330,7 +330,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Groups
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool GroupExists(string groupName)
         {
             try
@@ -347,7 +347,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetGroups()
         {
             try
@@ -364,7 +364,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemGroup GetGroup(string groupName)
         {
             try
@@ -381,7 +381,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateGroup(SystemGroup group)
         {
             try
@@ -397,7 +397,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateGroup(SystemGroup group)
         {
             try
@@ -413,7 +413,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteGroup(string groupName)
         {
             try

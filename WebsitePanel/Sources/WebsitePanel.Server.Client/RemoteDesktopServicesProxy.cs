@@ -47,8 +47,13 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="RemoteDesktopServicesSoap", Namespace="http://smbsaas/websitepanel/server/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RdsCollectionSetting[]))]
     public partial class RemoteDesktopServices : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -269,6 +274,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CreateCollection(string organizationId, RdsCollection collection) {
             object[] results = this.Invoke("CreateCollection", new object[] {
@@ -314,6 +321,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/EditRdsCollectionSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void EditRdsCollectionSettings(RdsCollection collection) {
             this.Invoke("EditRdsCollectionSettings", new object[] {
@@ -354,6 +363,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsUserSessions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RdsUserSession[] GetRdsUserSessions(string collectionName) {
             object[] results = this.Invoke("GetRdsUserSessions", new object[] {
@@ -396,6 +407,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddRdsServersToDeployment", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddRdsServersToDeployment(RdsServer[] servers) {
             object[] results = this.Invoke("AddRdsServersToDeployment", new object[] {
@@ -438,6 +451,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RdsCollection GetCollection(string collectionName) {
             object[] results = this.Invoke("GetCollection", new object[] {
@@ -480,6 +495,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool RemoveCollection(string organizationId, string collectionName, RdsServer[] servers) {
             object[] results = this.Invoke("RemoveCollection", new object[] {
@@ -528,6 +545,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetUsersInCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool SetUsersInCollection(string organizationId, string collectionName, string[] users) {
             object[] results = this.Invoke("SetUsersInCollection", new object[] {
@@ -576,6 +595,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSessionHostServerToCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddSessionHostServerToCollection(string organizationId, string collectionName, RdsServer server) {
             this.Invoke("AddSessionHostServerToCollection", new object[] {
@@ -622,6 +643,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSessionHostServersToCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddSessionHostServersToCollection(string organizationId, string collectionName, RdsServer[] servers) {
             this.Invoke("AddSessionHostServersToCollection", new object[] {
@@ -668,6 +691,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveSessionHostServerFromCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveSessionHostServerFromCollection(string organizationId, string collectionName, RdsServer server) {
             this.Invoke("RemoveSessionHostServerFromCollection", new object[] {
@@ -714,6 +739,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveSessionHostServersFromCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveSessionHostServersFromCollection(string organizationId, string collectionName, RdsServer[] servers) {
             this.Invoke("RemoveSessionHostServersFromCollection", new object[] {
@@ -760,6 +787,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetRDServerNewConnectionAllowed", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetRDServerNewConnectionAllowed(bool newConnectionAllowed, RdsServer server) {
             this.Invoke("SetRDServerNewConnectionAllowed", new object[] {
@@ -803,6 +832,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetAvailableRemoteApplications", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public StartMenuApp[] GetAvailableRemoteApplications(string collectionName) {
             object[] results = this.Invoke("GetAvailableRemoteApplications", new object[] {
@@ -845,6 +876,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetCollectionRemoteApplications", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RemoteApplication[] GetCollectionRemoteApplications(string collectionName) {
             object[] results = this.Invoke("GetCollectionRemoteApplications", new object[] {
@@ -887,6 +920,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddRemoteApplication", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddRemoteApplication(string collectionName, RemoteApplication remoteApp) {
             object[] results = this.Invoke("AddRemoteApplication", new object[] {
@@ -932,6 +967,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddRemoteApplications", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddRemoteApplications(string collectionName, RemoteApplication[] remoteApps) {
             object[] results = this.Invoke("AddRemoteApplications", new object[] {
@@ -977,6 +1014,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRemoteApplication", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool RemoveRemoteApplication(string collectionName, RemoteApplication remoteApp) {
             object[] results = this.Invoke("RemoveRemoteApplication", new object[] {
@@ -1022,6 +1061,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSessionHostFeatureToServer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddSessionHostFeatureToServer(string hostName) {
             object[] results = this.Invoke("AddSessionHostFeatureToServer", new object[] {
@@ -1064,6 +1105,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckSessionHostFeatureInstallation", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckSessionHostFeatureInstallation(string hostName) {
             object[] results = this.Invoke("CheckSessionHostFeatureInstallation", new object[] {
@@ -1106,6 +1149,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckServerAvailability", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckServerAvailability(string hostName) {
             object[] results = this.Invoke("CheckServerAvailability", new object[] {
@@ -1148,6 +1193,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetApplicationUsers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetApplicationUsers(string collectionName, string applicationName) {
             object[] results = this.Invoke("GetApplicationUsers", new object[] {
@@ -1193,6 +1240,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetApplicationUsers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool SetApplicationUsers(string collectionName, RemoteApplication remoteApp, string[] users) {
             object[] results = this.Invoke("SetApplicationUsers", new object[] {
@@ -1241,6 +1290,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckRDSServerAvaliable", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckRDSServerAvaliable(string hostname) {
             object[] results = this.Invoke("CheckRDSServerAvaliable", new object[] {
@@ -1283,6 +1334,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetServersExistingInCollections", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetServersExistingInCollections() {
             object[] results = this.Invoke("GetServersExistingInCollections", new object[0]);
@@ -1322,6 +1375,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/LogOffRdsUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void LogOffRdsUser(string unifiedSessionId, string hostServer) {
             this.Invoke("LogOffRdsUser", new object[] {
@@ -1365,6 +1420,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsCollectionSessionHosts", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetRdsCollectionSessionHosts(string collectionName) {
             object[] results = this.Invoke("GetRdsCollectionSessionHosts", new object[] {
@@ -1407,6 +1464,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsServerInfo", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RdsServerInfo GetRdsServerInfo(string serverName) {
             object[] results = this.Invoke("GetRdsServerInfo", new object[] {
@@ -1449,6 +1508,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsServerStatus", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetRdsServerStatus(string serverName) {
             object[] results = this.Invoke("GetRdsServerStatus", new object[] {
@@ -1491,6 +1552,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ShutDownRdsServer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ShutDownRdsServer(string serverName) {
             this.Invoke("ShutDownRdsServer", new object[] {
@@ -1531,6 +1594,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RestartRdsServer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RestartRdsServer(string serverName) {
             this.Invoke("RestartRdsServer", new object[] {
@@ -1571,6 +1636,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SaveRdsCollectionLocalAdmins", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SaveRdsCollectionLocalAdmins(string[] users, string[] hosts, string organizationId, string collectionName) {
             this.Invoke("SaveRdsCollectionLocalAdmins", new object[] {
@@ -1620,6 +1687,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsCollectionLocalAdmins", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetRdsCollectionLocalAdmins(string organizationId, string collectionName) {
             object[] results = this.Invoke("GetRdsCollectionLocalAdmins", new object[] {
@@ -1665,6 +1734,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/MoveRdsServerToTenantOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void MoveRdsServerToTenantOU(string hostName, string organizationId) {
             this.Invoke("MoveRdsServerToTenantOU", new object[] {
@@ -1708,6 +1779,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRdsServerFromTenantOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveRdsServerFromTenantOU(string hostName, string organizationId) {
             this.Invoke("RemoveRdsServerFromTenantOU", new object[] {
@@ -1751,8 +1824,10 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/InstallCertificate", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void InstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
+        public void InstallCertificate(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames) {
             this.Invoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -1760,7 +1835,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -1773,12 +1848,12 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames) {
             this.InstallCertificateAsync(certificate, password, hostNames, null);
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, object userState) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames, object userState) {
             if ((this.InstallCertificateOperationCompleted == null)) {
                 this.InstallCertificateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnInstallCertificateOperationCompleted);
             }
@@ -1797,6 +1872,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/MoveSessionHostToRdsOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void MoveSessionHostToRdsOU(string hostName) {
             this.Invoke("MoveSessionHostToRdsOU", new object[] {
@@ -1837,6 +1914,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ApplyGPO", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ApplyGPO(string organizationId, string collectionName, RdsServerSettings serverSettings) {
             this.Invoke("ApplyGPO", new object[] {
@@ -1883,6 +1962,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ShadowSession", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ShadowSession(string sessionId, string fqdName, bool control) {
             this.Invoke("ShadowSession", new object[] {
@@ -1929,6 +2010,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/MoveSessionHostsToCollectionOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void MoveSessionHostsToCollectionOU(RdsServer[] servers, string collectionName, string organizationId) {
             this.Invoke("MoveSessionHostsToCollectionOU", new object[] {
@@ -1975,6 +2058,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetExistingCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ImportedRdsCollection GetExistingCollection(string collectionName) {
             object[] results = this.Invoke("GetExistingCollection", new object[] {
@@ -2017,6 +2102,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ImportCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ImportCollection(string organizationId, RdsCollection collection, string[] users) {
             this.Invoke("ImportCollection", new object[] {
@@ -2063,6 +2150,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SendMessage", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SendMessage(RdsMessageRecipient[] recipients, string text) {
             this.Invoke("SendMessage", new object[] {
@@ -2802,8 +2891,13 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="RemoteDesktopServicesSoap", Namespace="http://smbsaas/websitepanel/server/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RdsCollectionSetting[]))]
     public partial class RemoteDesktopServices : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -3024,6 +3118,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CreateCollection(string organizationId, RdsCollection collection) {
             object[] results = this.Invoke("CreateCollection", new object[] {
@@ -3069,6 +3165,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/EditRdsCollectionSettings", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void EditRdsCollectionSettings(RdsCollection collection) {
             this.Invoke("EditRdsCollectionSettings", new object[] {
@@ -3109,6 +3207,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsUserSessions", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RdsUserSession[] GetRdsUserSessions(string collectionName) {
             object[] results = this.Invoke("GetRdsUserSessions", new object[] {
@@ -3151,6 +3251,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddRdsServersToDeployment", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddRdsServersToDeployment(RdsServer[] servers) {
             object[] results = this.Invoke("AddRdsServersToDeployment", new object[] {
@@ -3193,6 +3295,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RdsCollection GetCollection(string collectionName) {
             object[] results = this.Invoke("GetCollection", new object[] {
@@ -3235,6 +3339,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool RemoveCollection(string organizationId, string collectionName, RdsServer[] servers) {
             object[] results = this.Invoke("RemoveCollection", new object[] {
@@ -3283,6 +3389,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetUsersInCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool SetUsersInCollection(string organizationId, string collectionName, string[] users) {
             object[] results = this.Invoke("SetUsersInCollection", new object[] {
@@ -3331,6 +3439,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSessionHostServerToCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddSessionHostServerToCollection(string organizationId, string collectionName, RdsServer server) {
             this.Invoke("AddSessionHostServerToCollection", new object[] {
@@ -3377,6 +3487,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSessionHostServersToCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddSessionHostServersToCollection(string organizationId, string collectionName, RdsServer[] servers) {
             this.Invoke("AddSessionHostServersToCollection", new object[] {
@@ -3423,6 +3535,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveSessionHostServerFromCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveSessionHostServerFromCollection(string organizationId, string collectionName, RdsServer server) {
             this.Invoke("RemoveSessionHostServerFromCollection", new object[] {
@@ -3469,6 +3583,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveSessionHostServersFromCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveSessionHostServersFromCollection(string organizationId, string collectionName, RdsServer[] servers) {
             this.Invoke("RemoveSessionHostServersFromCollection", new object[] {
@@ -3515,6 +3631,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetRDServerNewConnectionAllowed", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetRDServerNewConnectionAllowed(bool newConnectionAllowed, RdsServer server) {
             this.Invoke("SetRDServerNewConnectionAllowed", new object[] {
@@ -3558,6 +3676,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetAvailableRemoteApplications", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public StartMenuApp[] GetAvailableRemoteApplications(string collectionName) {
             object[] results = this.Invoke("GetAvailableRemoteApplications", new object[] {
@@ -3600,6 +3720,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetCollectionRemoteApplications", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RemoteApplication[] GetCollectionRemoteApplications(string collectionName) {
             object[] results = this.Invoke("GetCollectionRemoteApplications", new object[] {
@@ -3642,6 +3764,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddRemoteApplication", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddRemoteApplication(string collectionName, RemoteApplication remoteApp) {
             object[] results = this.Invoke("AddRemoteApplication", new object[] {
@@ -3687,6 +3811,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddRemoteApplications", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddRemoteApplications(string collectionName, RemoteApplication[] remoteApps) {
             object[] results = this.Invoke("AddRemoteApplications", new object[] {
@@ -3732,6 +3858,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRemoteApplication", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool RemoveRemoteApplication(string collectionName, RemoteApplication remoteApp) {
             object[] results = this.Invoke("RemoveRemoteApplication", new object[] {
@@ -3777,6 +3905,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/AddSessionHostFeatureToServer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddSessionHostFeatureToServer(string hostName) {
             object[] results = this.Invoke("AddSessionHostFeatureToServer", new object[] {
@@ -3819,6 +3949,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckSessionHostFeatureInstallation", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckSessionHostFeatureInstallation(string hostName) {
             object[] results = this.Invoke("CheckSessionHostFeatureInstallation", new object[] {
@@ -3861,6 +3993,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckServerAvailability", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckServerAvailability(string hostName) {
             object[] results = this.Invoke("CheckServerAvailability", new object[] {
@@ -3903,6 +4037,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetApplicationUsers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetApplicationUsers(string collectionName, string applicationName) {
             object[] results = this.Invoke("GetApplicationUsers", new object[] {
@@ -3948,6 +4084,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetApplicationUsers", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool SetApplicationUsers(string collectionName, RemoteApplication remoteApp, string[] users) {
             object[] results = this.Invoke("SetApplicationUsers", new object[] {
@@ -3996,6 +4134,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CheckRDSServerAvaliable", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckRDSServerAvaliable(string hostname) {
             object[] results = this.Invoke("CheckRDSServerAvaliable", new object[] {
@@ -4038,6 +4178,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetServersExistingInCollections", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetServersExistingInCollections() {
             object[] results = this.Invoke("GetServersExistingInCollections", new object[0]);
@@ -4077,6 +4219,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/LogOffRdsUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void LogOffRdsUser(string unifiedSessionId, string hostServer) {
             this.Invoke("LogOffRdsUser", new object[] {
@@ -4120,6 +4264,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsCollectionSessionHosts", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetRdsCollectionSessionHosts(string collectionName) {
             object[] results = this.Invoke("GetRdsCollectionSessionHosts", new object[] {
@@ -4162,6 +4308,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsServerInfo", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public RdsServerInfo GetRdsServerInfo(string serverName) {
             object[] results = this.Invoke("GetRdsServerInfo", new object[] {
@@ -4204,6 +4352,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsServerStatus", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetRdsServerStatus(string serverName) {
             object[] results = this.Invoke("GetRdsServerStatus", new object[] {
@@ -4246,6 +4396,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ShutDownRdsServer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ShutDownRdsServer(string serverName) {
             this.Invoke("ShutDownRdsServer", new object[] {
@@ -4286,6 +4438,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RestartRdsServer", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RestartRdsServer(string serverName) {
             this.Invoke("RestartRdsServer", new object[] {
@@ -4326,6 +4480,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SaveRdsCollectionLocalAdmins", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SaveRdsCollectionLocalAdmins(string[] users, string[] hosts, string organizationId, string collectionName) {
             this.Invoke("SaveRdsCollectionLocalAdmins", new object[] {
@@ -4375,6 +4531,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetRdsCollectionLocalAdmins", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string[] GetRdsCollectionLocalAdmins(string organizationId, string collectionName) {
             object[] results = this.Invoke("GetRdsCollectionLocalAdmins", new object[] {
@@ -4420,6 +4578,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/MoveRdsServerToTenantOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void MoveRdsServerToTenantOU(string hostName, string organizationId) {
             this.Invoke("MoveRdsServerToTenantOU", new object[] {
@@ -4463,6 +4623,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/RemoveRdsServerFromTenantOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void RemoveRdsServerFromTenantOU(string hostName, string organizationId) {
             this.Invoke("RemoveRdsServerFromTenantOU", new object[] {
@@ -4506,8 +4668,10 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/InstallCertificate", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void InstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
+        public void InstallCertificate(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames) {
             this.Invoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -4515,7 +4679,7 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginInstallCertificate(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("InstallCertificate", new object[] {
                         certificate,
                         password,
@@ -4528,12 +4692,12 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames) {
             this.InstallCertificateAsync(certificate, password, hostNames, null);
         }
         
         /// <remarks/>
-        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<string> password, string[] hostNames, object userState) {
+        public void InstallCertificateAsync(Encrypted<Byte[]> certificate, Encrypted<String> password, string[] hostNames, object userState) {
             if ((this.InstallCertificateOperationCompleted == null)) {
                 this.InstallCertificateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnInstallCertificateOperationCompleted);
             }
@@ -4552,6 +4716,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/MoveSessionHostToRdsOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void MoveSessionHostToRdsOU(string hostName) {
             this.Invoke("MoveSessionHostToRdsOU", new object[] {
@@ -4592,6 +4758,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ApplyGPO", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ApplyGPO(string organizationId, string collectionName, RdsServerSettings serverSettings) {
             this.Invoke("ApplyGPO", new object[] {
@@ -4638,6 +4806,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ShadowSession", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ShadowSession(string sessionId, string fqdName, bool control) {
             this.Invoke("ShadowSession", new object[] {
@@ -4684,6 +4854,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/MoveSessionHostsToCollectionOU", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void MoveSessionHostsToCollectionOU(RdsServer[] servers, string collectionName, string organizationId) {
             this.Invoke("MoveSessionHostsToCollectionOU", new object[] {
@@ -4730,6 +4902,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetExistingCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ImportedRdsCollection GetExistingCollection(string collectionName) {
             object[] results = this.Invoke("GetExistingCollection", new object[] {
@@ -4772,6 +4946,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/ImportCollection", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ImportCollection(string organizationId, RdsCollection collection, string[] users) {
             this.Invoke("ImportCollection", new object[] {
@@ -4818,6 +4994,8 @@ namespace WebsitePanel.Providers.RemoteDesktopServices.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SendMessage", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SendMessage(RdsMessageRecipient[] recipients, string text) {
             this.Invoke("SendMessage", new object[] {

@@ -26,6 +26,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#if Net
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,11 +36,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+
 using Microsoft.Web.Deployment;
 using Microsoft.Web.PlatformInstaller;
 using Installer = Microsoft.Web.PlatformInstaller.Installer;
 using DeploymentParameterWPI = Microsoft.Web.PlatformInstaller.DeploymentParameter;
-
 
 namespace WebsitePanel.Server.Code
 {
@@ -53,7 +55,7 @@ namespace WebsitePanel.Server.Code
     {
         public const string DeafultLanguage = "en";
 
-        #region private fields
+#region private fields
 
         private List<string> _feeds;
         private string _webPIinstallersFolder;
@@ -71,9 +73,9 @@ namespace WebsitePanel.Server.Code
                     DeploymentWellKnownTag.VistaDB |
                     DeploymentWellKnownTag.FlatFile;
 
-        #endregion private fields
+#endregion private fields
 
-        #region Public interface
+#region Public interface
 
         public WpiHelper(IEnumerable<string> feeds)
         {
@@ -98,7 +100,7 @@ namespace WebsitePanel.Server.Code
 
 
         
-        #region Languages
+#region Languages
         public List<Language> GetLanguages()
         {
             List<Language> languages = new List<Language>();
@@ -127,9 +129,9 @@ namespace WebsitePanel.Server.Code
             _productManager.SetResourceLanguage(resourceLanguage);
         }
 
-        #endregion
+#endregion
 
-        #region Tabs
+#region Tabs
         public ReadOnlyCollection<Tab> GetTabs()
         {
             return _productManager.Tabs;
@@ -139,9 +141,9 @@ namespace WebsitePanel.Server.Code
         {
             return _productManager.GetTab(tabId);
         }
-       #endregion
+#endregion
 
-        #region Keywords
+#region Keywords
         public ReadOnlyCollection<Keyword> GetKeywords()
         {
             return _productManager.Keywords;
@@ -171,9 +173,9 @@ namespace WebsitePanel.Server.Code
 
             return false;
         }
-        #endregion
+#endregion
 
-        #region Products
+#region Products
         public List<Product> GetProductsToInstall(string FeedLocation, string keywordId)
         {
             Keyword keyword = null;
@@ -445,9 +447,9 @@ namespace WebsitePanel.Server.Code
             }
         }
 
-        #endregion
+#endregion
 
-        #region Applications
+#region Applications
         public List<Product> GetApplications(string keywordId)
         {
 
@@ -605,12 +607,12 @@ namespace WebsitePanel.Server.Code
             return installer;
         }
 
-        #endregion
+#endregion
 
-        #endregion Public interface
+#endregion Public interface
 
 
-        #region private members
+#region private members
 
         private void Initialize()
         {
@@ -853,11 +855,11 @@ namespace WebsitePanel.Server.Code
         {
             return parameter.HasTags((long)databaseEngineTags) && !parameter.HasTags((long)dbTag);
 /*
-#pragma warning disable 612,618
+#pragma warning disable 612, 618
             return (parameter.Tags & databaseEngineTags) != DeploymentWellKnownTag.None 
                    && 
                    (parameter.Tags & dbTag) == DeploymentWellKnownTag.None;
-#pragma warning restore 612,618
+#pragma warning restore 612, 618
 */
         }
 
@@ -905,7 +907,7 @@ namespace WebsitePanel.Server.Code
         }
 
 
-        #endregion private members
+#endregion private members
     }
 
     class WpiAppInstallLogger
@@ -980,3 +982,5 @@ namespace WebsitePanel.Server.Code
         }
     }
 }
+
+#endif

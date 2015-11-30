@@ -49,7 +49,12 @@ namespace WebsitePanel.Providers.HostedSolution {
     [System.Web.Services.WebServiceBindingAttribute(Name="OrganizationsSoap", Namespace="http://tempuri.org/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ResultObject))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class Organizations : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -219,6 +224,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         public event GetOrganizationUserWithExtraDataCompletedEventHandler GetOrganizationUserWithExtraDataCompleted;
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/OrganizationExists", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool OrganizationExists(string organizationId) {
@@ -261,6 +268,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateOrganization", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization CreateOrganization(string organizationId) {
@@ -303,6 +312,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteOrganization", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteOrganization(string organizationId) {
@@ -343,9 +354,11 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
+        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled) {
             object[] results = this.Invoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -357,7 +370,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -374,12 +387,12 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled) {
             this.CreateUserAsync(organizationId, loginName, displayName, upn, password, enabled, null);
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, object userState) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled, object userState) {
             if ((this.CreateUserOperationCompleted == null)) {
                 this.CreateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateUserOperationCompleted);
             }
@@ -400,6 +413,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DisableUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DisableUser(string loginName, string organizationId) {
@@ -443,6 +458,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteUser(string loginName, string organizationId) {
@@ -486,6 +503,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationUser GetUserGeneralSettings(string loginName, string organizationId) {
@@ -531,6 +550,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateSecurityGroup(string organizationId, string groupName) {
@@ -576,6 +597,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetSecurityGroupGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationSecurityGroup GetSecurityGroupGeneralSettings(string groupName, string organizationId) {
@@ -621,6 +644,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteSecurityGroup(string groupName, string organizationId) {
@@ -664,6 +689,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetSecurityGroupGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetSecurityGroupGeneralSettings(string organizationId, string groupName, string[] memberAccounts, string notes) {
@@ -713,6 +740,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddObjectToSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddObjectToSecurityGroup(string organizationId, string accountName, string groupName) {
@@ -759,6 +788,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteObjectFromSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteObjectFromSecurityGroup(string organizationId, string accountName, string groupName) {
@@ -805,35 +836,37 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserGeneralSettings(
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -874,29 +907,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -944,29 +977,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -978,29 +1011,29 @@ namespace WebsitePanel.Providers.HostedSolution {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -1048,9 +1081,11 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserPassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void SetUserPassword(string organizationId, string accountName, Encrypted<string> password) {
+        public void SetUserPassword(string organizationId, string accountName, Encrypted<String> password) {
             this.Invoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -1058,7 +1093,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -1071,12 +1106,12 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<String> password) {
             this.SetUserPasswordAsync(organizationId, accountName, password, null);
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password, object userState) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<String> password, object userState) {
             if ((this.SetUserPasswordOperationCompleted == null)) {
                 this.SetUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetUserPasswordOperationCompleted);
             }
@@ -1094,6 +1129,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserPrincipalName", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserPrincipalName(string organizationId, string accountName, string userPrincipalName) {
@@ -1140,6 +1177,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteOrganizationDomain", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteOrganizationDomain(string organizationDistinguishedName, string domain) {
@@ -1183,6 +1222,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateOrganizationDomain", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateOrganizationDomain(string organizationDistinguishedName, string domain) {
@@ -1226,6 +1267,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetPasswordPolicy", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public PasswordPolicyResult GetPasswordPolicy() {
@@ -1265,6 +1308,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetSamAccountNameByUserPrincipalName", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetSamAccountNameByUserPrincipalName(string organizationId, string userPrincipalName) {
@@ -1310,6 +1355,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DoesSamAccountNameExist", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool DoesSamAccountNameExist(string accountName) {
@@ -1352,6 +1399,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetDriveMaps", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public MappedDrive[] GetDriveMaps(string organizationId) {
@@ -1394,6 +1443,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateMappedDrive", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateMappedDrive(string organizationId, string drive, string labelAs, string path) {
@@ -1445,6 +1496,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteMappedDrive", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMappedDrive(string organizationId, string drive) {
@@ -1488,6 +1541,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteMappedDriveByPath", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMappedDriveByPath(string organizationId, string path) {
@@ -1531,6 +1586,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteMappedDrivesGPO", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMappedDrivesGPO(string organizationId) {
@@ -1571,6 +1628,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetDriveMapsTargetingFilter", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDriveMapsTargetingFilter(string organizationId, ExchangeAccount[] accounts, string folderName) {
@@ -1617,6 +1676,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ChangeDriveMapFolderPath", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ChangeDriveMapFolderPath(string organizationId, string oldFolder, string newFolder) {
@@ -1663,6 +1724,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetOrganizationUsersWithExpiredPassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationUser[] GetOrganizationUsersWithExpiredPassword(string organizationId, int daysBeforeExpiration) {
@@ -1708,6 +1771,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ApplyPasswordSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ApplyPasswordSettings(string organizationId, OrganizationPasswordSettings passwordSettings) {
@@ -1751,6 +1816,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckPhoneNumberIsInUse", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckPhoneNumberIsInUse(string phoneNumber, string userSamAccountName) {
@@ -1796,6 +1863,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetOrganizationUserWithExtraData", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationUser GetOrganizationUserWithExtraData(string loginName, string organizationId) {
@@ -2302,7 +2371,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
     [System.Web.Services.WebServiceBindingAttribute(Name="OrganizationsSoap", Namespace="http://tempuri.org/")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ResultObject))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServiceProviderItem))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class Organizations : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -2472,6 +2546,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         public event GetOrganizationUserWithExtraDataCompletedEventHandler GetOrganizationUserWithExtraDataCompleted;
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/OrganizationExists", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool OrganizationExists(string organizationId) {
@@ -2514,6 +2590,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateOrganization", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Organization CreateOrganization(string organizationId) {
@@ -2556,6 +2634,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteOrganization", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteOrganization(string organizationId) {
@@ -2596,9 +2676,11 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
+        public int CreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled) {
             object[] results = this.Invoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -2610,7 +2692,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginCreateUser(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("CreateUser", new object[] {
                         organizationId,
                         loginName,
@@ -2627,12 +2709,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled) {
             this.CreateUserAsync(organizationId, loginName, displayName, upn, password, enabled, null);
         }
         
         /// <remarks/>
-        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<string> password, bool enabled, object userState) {
+        public void CreateUserAsync(string organizationId, string loginName, string displayName, string upn, Encrypted<String> password, bool enabled, object userState) {
             if ((this.CreateUserOperationCompleted == null)) {
                 this.CreateUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCreateUserOperationCompleted);
             }
@@ -2653,6 +2735,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DisableUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DisableUser(string loginName, string organizationId) {
@@ -2696,6 +2780,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteUser(string loginName, string organizationId) {
@@ -2739,6 +2825,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationUser GetUserGeneralSettings(string loginName, string organizationId) {
@@ -2784,6 +2872,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateSecurityGroup(string organizationId, string groupName) {
@@ -2829,6 +2919,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetSecurityGroupGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationSecurityGroup GetSecurityGroupGeneralSettings(string groupName, string organizationId) {
@@ -2874,6 +2966,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteSecurityGroup(string groupName, string organizationId) {
@@ -2917,6 +3011,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetSecurityGroupGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetSecurityGroupGeneralSettings(string organizationId, string groupName, string[] memberAccounts, string notes) {
@@ -2966,6 +3062,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddObjectToSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void AddObjectToSecurityGroup(string organizationId, string accountName, string groupName) {
@@ -3012,6 +3110,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteObjectFromSecurityGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteObjectFromSecurityGroup(string organizationId, string accountName, string groupName) {
@@ -3058,35 +3158,37 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserGeneralSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserGeneralSettings(
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -3127,29 +3229,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -3197,29 +3299,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword) {
@@ -3231,29 +3333,29 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
                     string organizationId, 
                     string accountName, 
                     string displayName, 
-                    Encrypted<string> password, 
+                    Encrypted<String> password, 
                     bool hideFromAddressBook, 
                     bool disabled, 
                     bool locked, 
                     string firstName, 
                     string initials, 
                     string lastName, 
-                    Encrypted<string> address, 
-                    Encrypted<string> city, 
-                    Encrypted<string> state, 
-                    Encrypted<string> zip, 
-                    Encrypted<string> country, 
-                    Encrypted<string> jobTitle, 
+                    Encrypted<String> address, 
+                    Encrypted<String> city, 
+                    Encrypted<String> state, 
+                    Encrypted<String> zip, 
+                    Encrypted<String> country, 
+                    Encrypted<String> jobTitle, 
                     string company, 
                     string department, 
                     string office, 
                     string managerAccountName, 
-                    Encrypted<string> businessPhone, 
-                    Encrypted<string> fax, 
-                    Encrypted<string> homePhone, 
-                    Encrypted<string> mobilePhone, 
-                    Encrypted<string> pager, 
-                    Encrypted<string> webPage, 
+                    Encrypted<String> businessPhone, 
+                    Encrypted<String> fax, 
+                    Encrypted<String> homePhone, 
+                    Encrypted<String> mobilePhone, 
+                    Encrypted<String> pager, 
+                    Encrypted<String> webPage, 
                     string notes, 
                     string externalEmail, 
                     bool userMustChangePassword, 
@@ -3301,9 +3403,11 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserPassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void SetUserPassword(string organizationId, string accountName, Encrypted<string> password) {
+        public void SetUserPassword(string organizationId, string accountName, Encrypted<String> password) {
             this.Invoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -3311,7 +3415,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, Encrypted<string> password, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetUserPassword(string organizationId, string accountName, Encrypted<String> password, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetUserPassword", new object[] {
                         organizationId,
                         accountName,
@@ -3324,12 +3428,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<String> password) {
             this.SetUserPasswordAsync(organizationId, accountName, password, null);
         }
         
         /// <remarks/>
-        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<string> password, object userState) {
+        public void SetUserPasswordAsync(string organizationId, string accountName, Encrypted<String> password, object userState) {
             if ((this.SetUserPasswordOperationCompleted == null)) {
                 this.SetUserPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetUserPasswordOperationCompleted);
             }
@@ -3347,6 +3451,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetUserPrincipalName", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetUserPrincipalName(string organizationId, string accountName, string userPrincipalName) {
@@ -3393,6 +3499,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteOrganizationDomain", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteOrganizationDomain(string organizationDistinguishedName, string domain) {
@@ -3436,6 +3544,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateOrganizationDomain", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void CreateOrganizationDomain(string organizationDistinguishedName, string domain) {
@@ -3479,6 +3589,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetPasswordPolicy", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public PasswordPolicyResult GetPasswordPolicy() {
@@ -3518,6 +3630,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetSamAccountNameByUserPrincipalName", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetSamAccountNameByUserPrincipalName(string organizationId, string userPrincipalName) {
@@ -3563,6 +3677,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DoesSamAccountNameExist", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool DoesSamAccountNameExist(string accountName) {
@@ -3605,6 +3721,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetDriveMaps", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public MappedDrive[] GetDriveMaps(string organizationId) {
@@ -3647,6 +3765,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CreateMappedDrive", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public int CreateMappedDrive(string organizationId, string drive, string labelAs, string path) {
@@ -3698,6 +3818,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteMappedDrive", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMappedDrive(string organizationId, string drive) {
@@ -3741,6 +3863,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteMappedDriveByPath", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMappedDriveByPath(string organizationId, string path) {
@@ -3784,6 +3908,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteMappedDrivesGPO", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DeleteMappedDrivesGPO(string organizationId) {
@@ -3824,6 +3950,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SetDriveMapsTargetingFilter", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void SetDriveMapsTargetingFilter(string organizationId, ExchangeAccount[] accounts, string folderName) {
@@ -3870,6 +3998,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ChangeDriveMapFolderPath", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ChangeDriveMapFolderPath(string organizationId, string oldFolder, string newFolder) {
@@ -3916,6 +4046,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetOrganizationUsersWithExpiredPassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationUser[] GetOrganizationUsersWithExpiredPassword(string organizationId, int daysBeforeExpiration) {
@@ -3961,6 +4093,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ApplyPasswordSettings", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void ApplyPasswordSettings(string organizationId, OrganizationPasswordSettings passwordSettings) {
@@ -4004,6 +4138,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckPhoneNumberIsInUse", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool CheckPhoneNumberIsInUse(string phoneNumber, string userSamAccountName) {
@@ -4049,6 +4185,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetOrganizationUserWithExtraData", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public OrganizationUser GetOrganizationUserWithExtraData(string loginName, string organizationId) {

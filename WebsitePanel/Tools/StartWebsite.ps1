@@ -21,13 +21,15 @@ Database Password: Password12
 WebsitePanel Server:
 URL: http://localhost:9003
 Password: Password12
+
+
+WebsitePanel Server Mono:
+URL: http://localhost:9004
+Password: Password12
 "
 
 start http://localhost:9001
 
-Read-Host "Press a key"
+start MonoServer.bat
 
-
-	
-	
 	

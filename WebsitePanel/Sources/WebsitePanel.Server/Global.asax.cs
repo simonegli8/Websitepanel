@@ -36,8 +36,6 @@ using System.Web.SessionState;
 using System.Net;
 using System.Timers;
 using System.Security.Permissions;
-using System.Security.Principal;
-using System.IdentityModel.Tokens;
 
 namespace WebsitePanel.Server {
 
@@ -45,32 +43,10 @@ namespace WebsitePanel.Server {
 		private int keepAliveMinutes = 10;
 		private static string keepAliveUrl = "";
 		private static Timer timer = null;
-		private static WindowsImpersonationContext impersonatedUser = null;
-		private object Lock = new object();
 
-		// If you incorporate this code into a DLL, be sure to demand FullTrust.
-		[PermissionSetAttribute(SecurityAction.Demand, Name = "FullTrust")]
-		public void Impersonate(string user, string password) {
-			var id = new WindowsIdentity(user);
-         impersonatedUser = id.Impersonate();
-		}
+		protected void Application_Start(object sender, EventArgs e) { }
 
-		protected void Application_Start(object sender, EventArgs e) {
-			lock (Lock)
-			if (ServerConfiguration.Security.ImpersonateUser != null) {
-				lock (Lock)
-				if (impersonatedUser == null) Impersonate(ServerConfiguration.Security.ImpersonateUser, ServerConfiguration.Security.ImpersonatePassword);
-			}
-		}
-
-		protected void Application_End(object sender, EventArgs e) {
-			lock (Lock)
-			if (impersonatedUser != null) {
-				impersonatedUser.Undo();
-				impersonatedUser.Dispose();
-				impersonatedUser = null;
-			}
-		}
+		protected void Application_End(object sender, EventArgs e) { }
 
 		protected void Application_BeginRequest(object sender, EventArgs e) {
 			// ASP.NET Integration Mode workaround
@@ -85,9 +61,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		public override void Init() {
-
-		}
+		// public override void Init() { }
 
 		private void KeepAlive(Object sender, System.Timers.ElapsedEventArgs e) {
 			using (HttpWebRequest.Create(keepAliveUrl).GetResponse()) { }

@@ -47,7 +47,12 @@ namespace WebsitePanel.Providers.HostedSolution {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="BlackBerrySoap", Namespace="http://smbsaas/websitepanel/server/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class BlackBerry : WebsitePanel.Server.Client.ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -88,6 +93,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateBlackBerryUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject CreateBlackBerryUser(string primaryEmailAddress) {
             object[] results = this.Invoke("CreateBlackBerryUser", new object[] {
@@ -130,6 +137,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteBlackBerryUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject DeleteBlackBerryUser(string primaryEmailAddress) {
             object[] results = this.Invoke("DeleteBlackBerryUser", new object[] {
@@ -172,6 +181,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetBlackBerryUserStats", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public BlackBerryUserStatsResult GetBlackBerryUserStats(string primaryEmailAddress) {
             object[] results = this.Invoke("GetBlackBerryUserStats", new object[] {
@@ -214,8 +225,10 @@ namespace WebsitePanel.Providers.HostedSolution {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetActivationPasswordWithExpirationTime", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time) {
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<String> password, int time) {
             object[] results = this.Invoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -224,7 +237,7 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<String> password, int time, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -238,12 +251,12 @@ namespace WebsitePanel.Providers.HostedSolution {
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<String> password, int time) {
             this.SetActivationPasswordWithExpirationTimeAsync(primaryEmailAddress, password, time, null);
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time, object userState) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<String> password, int time, object userState) {
             if ((this.SetActivationPasswordWithExpirationTimeOperationCompleted == null)) {
                 this.SetActivationPasswordWithExpirationTimeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetActivationPasswordWithExpirationTimeOperationCompleted);
             }
@@ -262,6 +275,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetEmailActivationPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetEmailActivationPassword(string primaryEmailAddress) {
             object[] results = this.Invoke("SetEmailActivationPassword", new object[] {
@@ -304,6 +319,8 @@ namespace WebsitePanel.Providers.HostedSolution {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteDataFromBlackBerryDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject DeleteDataFromBlackBerryDevice(string primaryEmailAddress) {
             object[] results = this.Invoke("DeleteDataFromBlackBerryDevice", new object[] {
@@ -524,7 +541,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="BlackBerrySoap", Namespace="http://smbsaas/websitepanel/server/")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(SecureSoapHeader))]
     public partial class BlackBerry : WebsitePanel.Server.Client.WSE3ServiceProxy {
+        
+        public AuthenticationSoapHeader AuthenticationSoapHeaderValue;
+        
+        public EncryptionSession EncryptionSessionValue;
         
         public ServiceProviderSettingsSoapHeader ServiceProviderSettingsSoapHeaderValue;
         
@@ -565,6 +587,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/CreateBlackBerryUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject CreateBlackBerryUser(string primaryEmailAddress) {
             object[] results = this.Invoke("CreateBlackBerryUser", new object[] {
@@ -607,6 +631,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteBlackBerryUser", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject DeleteBlackBerryUser(string primaryEmailAddress) {
             object[] results = this.Invoke("DeleteBlackBerryUser", new object[] {
@@ -649,6 +675,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/GetBlackBerryUserStats", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public BlackBerryUserStatsResult GetBlackBerryUserStats(string primaryEmailAddress) {
             object[] results = this.Invoke("GetBlackBerryUserStats", new object[] {
@@ -691,8 +719,10 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetActivationPasswordWithExpirationTime", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time) {
+        public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<String> password, int time) {
             object[] results = this.Invoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -701,7 +731,7 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<String> password, int time, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("SetActivationPasswordWithExpirationTime", new object[] {
                         primaryEmailAddress,
                         password,
@@ -715,12 +745,12 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<String> password, int time) {
             this.SetActivationPasswordWithExpirationTimeAsync(primaryEmailAddress, password, time, null);
         }
         
         /// <remarks/>
-        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<string> password, int time, object userState) {
+        public void SetActivationPasswordWithExpirationTimeAsync(string primaryEmailAddress, Encrypted<String> password, int time, object userState) {
             if ((this.SetActivationPasswordWithExpirationTimeOperationCompleted == null)) {
                 this.SetActivationPasswordWithExpirationTimeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSetActivationPasswordWithExpirationTimeOperationCompleted);
             }
@@ -739,6 +769,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/SetEmailActivationPassword", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject SetEmailActivationPassword(string primaryEmailAddress) {
             object[] results = this.Invoke("SetEmailActivationPassword", new object[] {
@@ -781,6 +813,8 @@ namespace WebsitePanel.Providers.HostedSolution.WSE {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("ServiceProviderSettingsSoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("EncryptionSessionValue")]
+        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationSoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://smbsaas/websitepanel/server/DeleteDataFromBlackBerryDevice", RequestNamespace="http://smbsaas/websitepanel/server/", ResponseNamespace="http://smbsaas/websitepanel/server/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public ResultObject DeleteDataFromBlackBerryDevice(string primaryEmailAddress) {
             object[] results = this.Invoke("DeleteDataFromBlackBerryDevice", new object[] {

@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.ComponentModel;
@@ -54,7 +54,7 @@ namespace WebsitePanel.Server
 		}
 
 		#region Domains
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void AddDomain(string domainName)
 		{
 			try
@@ -70,7 +70,7 @@ namespace WebsitePanel.Server
 				throw;
 			}
 		}
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void DeleteDomain(string domainName)
 		{
 			try

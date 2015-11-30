@@ -4,6 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Runtime Condition=" '$(Runtime)' == '' ">Mono</Runtime>
+	 <Engine Condition=" '$(Engine)' == '' ">XBuild</Engine>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{370A7A89-828E-41FE-A018-BEE1D9AB7C2A}</ProjectGuid>
@@ -62,7 +63,7 @@
     <XBuildExe>xbuilt.bat</XBuildExe>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Web.config" />
+    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NoWSE\" />
@@ -71,11 +72,13 @@
   <Target Name="CopyFromServer">
     <ItemGroup>
       <ContentWithoutMono Include="@(Content)" Exclude="bin\WebsitePanel.Provider.DNS.Bind.*;bin\WebsitePanel.Providers.DNS.PowerDNS.*;bin\WebsitePanel.Providers.Database.MySQL.*;bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.*;bin\WebsitePanel.Providers.Mail.Merak.*;bin\WebsitePanel.Providers.Mail.Merak10.*;bin\WebsitePanel.Providers.FTP.ServU.*;bin\WebsitePanel.Providers.Statistics.AWStats.*;bin\WebsitePanel.Provider.Statistics.SmarterStats.*" />
-    </ItemGroup>
+     	<DllImports Include="..\..\Lib\References\MySql\MySql.Data.dll" />
+	 </ItemGroup>
     <Message Text="Copy WebsitePanel.Server" />
     <Copy SourceFiles="@(Compile -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(Compile -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
     <Copy SourceFiles="@(ContentWithoutMono -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(ContentWithoutMono -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
     <Copy SourceFiles="@(EmbeddedResource -> '$(ServerPath)\%(RelativeDir)%(Filename)%(Extension)')" DestinationFiles="@(EmbeddedResource -> '%(RelativeDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+  	<Copy SourceFiles="@(DllImports)" DestinationFolder="bin" />
   </Target>
   <Target Name="Cleanup">
     <ItemGroup>
@@ -83,6 +86,7 @@
       <AsmxServicesCode Include="**\*.asmx.cs" Exclude="NoWSE\**\*.asmx.cs" />
       <CodeFiles Include="**\*.cs" Exclude="@(AsmxServicesCode)" />
       <CodeFiles Condition=" $(Configuration) != 'Debug' " Include="AutoDiscovery.asmx.cs" />
+		<FilesToDelete Include="bin\Microsoft.Web.Administration.dll;bin\Microsoft.Web.Management.dll;bin\WpiServiceContract.dll" />
       <FilesToDelete Include="@(AsmxServices)" Exclude="AutoDiscovery.asmx" />
       <FilesToDelete Include="@(AsmxServicesCode)" Exclude="AutoDiscovery.asmx.cs" />
       <FilesToDelete Condition=" $(Configuration) != 'Debug' " Include="@(CodeFiles)" />
@@ -97,8 +101,8 @@
     <MSBuild Projects="..\WebsitePanel.Providers.DNS.PowerDNS\WebsitePanel.Providers.DNS.PowerDNS.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Database.MySQL\WebsitePanel.Providers.Database.MySQL.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
  	 <MSBuild Projects="..\WebsitePanel.Providers.DNS.Nettica\WebsitePanel.Providers.DNS.Nettica.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
+<!-- vbproj somehow don't seem to work with xbuild ??? And anyway, the current IceWarp provider uses COM and doesn't work on Linux.
     <MSBuild Projects="..\WebsitePanel.Providers.Mail.IceWarp\WebsitePanel.Providers.Mail.IceWarp.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
-<!-- vbproj somehow don't seem to work with xbuild ???
     <MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak\WebsitePanel.Providers.Mail.Merak.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Mail.Merak10\WebsitePanel.Providers.Mail.Merak10.vbproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
 -->
@@ -106,7 +110,7 @@
     <MSBuild Projects="..\WebsitePanel.Providers.Statistics.AWStats\WebsitePanel.Providers.Statistics.AWStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.Statistics.SmarterStats\WebsitePanel.Providers.Statistics.SmarterStats.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" />
     <MSBuild Projects="..\WebsitePanel.Providers.OS.Unix\WebsitePanel.Providers.OS.Unix.csproj" Properties="Runtime=$(Runtime);OutputPath=..\WebsitePanel.Server.Mono\bin;BaseIntermediateOutputPath=obj\mono\" /> </Target>
-  <Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEService;BuildMonoProviders" />
+  <Target Name="BeforeBuild" DependsOnTargets="CopyFromServer;BuildNoWSEServices;BuildMonoProviders" />
   <Target Name="AfterBuild" DependsOnTargets="Cleanup" />
   <ProjectExtensions>
     <VisualStudio>

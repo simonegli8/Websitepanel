@@ -62,6 +62,8 @@ namespace WebsitePanel.AutoDiscovery {
         
         private System.Threading.SendOrPostCallback EncryptionPublicKeyOperationCompleted;
         
+        private System.Threading.SendOrPostCallback EncryptedOperationCompleted;
+        
         /// <remarks/>
         public AutoDiscovery() {
             this.Url = "http://localhost:9003/AutoDiscovery.asmx";
@@ -84,6 +86,9 @@ namespace WebsitePanel.AutoDiscovery {
         
         /// <remarks/>
         public event EncryptionPublicKeyCompletedEventHandler EncryptionPublicKeyCompleted;
+        
+        /// <remarks/>
+        public event EncryptedCompletedEventHandler EncryptedCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IsInstalled", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -317,6 +322,44 @@ namespace WebsitePanel.AutoDiscovery {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Encrypted", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool Encrypted() {
+            object[] results = this.Invoke("Encrypted", new object[0]);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginEncrypted(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Encrypted", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndEncrypted(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void EncryptedAsync() {
+            this.EncryptedAsync(null);
+        }
+        
+        /// <remarks/>
+        public void EncryptedAsync(object userState) {
+            if ((this.EncryptedOperationCompleted == null)) {
+                this.EncryptedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnEncryptedOperationCompleted);
+            }
+            this.InvokeAsync("Encrypted", new object[0], this.EncryptedOperationCompleted, userState);
+        }
+        
+        private void OnEncryptedOperationCompleted(object arg) {
+            if ((this.EncryptedCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.EncryptedCompleted(this, new EncryptedCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -474,6 +517,32 @@ namespace WebsitePanel.AutoDiscovery {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
+    public delegate void EncryptedCompletedEventHandler(object sender, EncryptedCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class EncryptedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal EncryptedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }
@@ -511,6 +580,8 @@ namespace WebsitePanel.AutoDiscovery.WSE {
         
         private System.Threading.SendOrPostCallback EncryptionPublicKeyOperationCompleted;
         
+        private System.Threading.SendOrPostCallback EncryptedOperationCompleted;
+        
         /// <remarks/>
         public AutoDiscovery() {
             this.Url = "http://localhost:9003/AutoDiscovery.asmx";
@@ -533,6 +604,9 @@ namespace WebsitePanel.AutoDiscovery.WSE {
         
         /// <remarks/>
         public event EncryptionPublicKeyCompletedEventHandler EncryptionPublicKeyCompleted;
+        
+        /// <remarks/>
+        public event EncryptedCompletedEventHandler EncryptedCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IsInstalled", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -766,6 +840,44 @@ namespace WebsitePanel.AutoDiscovery.WSE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Encrypted", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool Encrypted() {
+            object[] results = this.Invoke("Encrypted", new object[0]);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginEncrypted(System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Encrypted", new object[0], callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndEncrypted(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void EncryptedAsync() {
+            this.EncryptedAsync(null);
+        }
+        
+        /// <remarks/>
+        public void EncryptedAsync(object userState) {
+            if ((this.EncryptedOperationCompleted == null)) {
+                this.EncryptedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnEncryptedOperationCompleted);
+            }
+            this.InvokeAsync("Encrypted", new object[0], this.EncryptedOperationCompleted, userState);
+        }
+        
+        private void OnEncryptedOperationCompleted(object arg) {
+            if ((this.EncryptedCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.EncryptedCompleted(this, new EncryptedCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -923,6 +1035,32 @@ namespace WebsitePanel.AutoDiscovery.WSE {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
+    public delegate void EncryptedCompletedEventHandler(object sender, EncryptedCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("wsdl", "2.0.50727.42")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class EncryptedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal EncryptedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }

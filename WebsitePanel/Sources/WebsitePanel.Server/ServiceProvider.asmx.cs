@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Data;
@@ -51,7 +51,7 @@ namespace WebsitePanel.Server
     [ToolboxItem(false)]
     public class ServiceProvider : HostingServiceProviderWebService
     {
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] Install()
         {
             try
@@ -70,7 +70,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<SettingPair[]> GetProviderDefaultSettings()
         {
             try
@@ -89,7 +89,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void Uninstall()
         {
             try
@@ -105,7 +105,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool IsInstalled()
         {
             try
@@ -124,7 +124,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeServiceItemsState(SoapServiceProviderItem[] items, bool enabled)
         {
             try
@@ -140,7 +140,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteServiceItems(SoapServiceProviderItem[] items)
         {
             try
@@ -156,7 +156,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ServiceProviderItemDiskSpace[] GetServiceItemsDiskSpace(SoapServiceProviderItem[] items)
         {
             try
@@ -177,7 +177,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ServiceProviderItemBandwidth[] GetServiceItemsBandwidth(SoapServiceProviderItem[] items, DateTime since)
         {
             try

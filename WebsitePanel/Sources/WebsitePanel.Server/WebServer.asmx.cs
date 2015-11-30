@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.ComponentModel;
-using Microsoft.Web.Services3;
 
 using WebsitePanel.Providers;
 using WebsitePanel.Providers.Web;
@@ -42,8 +41,11 @@ using WebsitePanel.Server.Utils;
 using WebsitePanel.Providers.ResultObjects;
 using WebsitePanel.Providers.WebAppGallery;
 using WebsitePanel.Providers.Common;
+#if Net
 using Microsoft.Web.Administration;
 using Microsoft.Web.Management.Server;
+using Microsoft.Web.Services3;
+#endif
 
 namespace WebsitePanel.Server
 {
@@ -52,8 +54,10 @@ namespace WebsitePanel.Server
     /// </summary>
     [WebService(Namespace = "http://smbsaas/websitepanel/server/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [Policy("ServerPolicy")]
-    [ToolboxItem(false)]
+#if Net
+	 [Policy("ServerPolicy")]
+#endif
+	[ToolboxItem(false)]
     public class WebServer : HostingServiceProviderWebService, IWebServer
     {
         private IWebServer WebProvider
@@ -61,8 +65,8 @@ namespace WebsitePanel.Server
             get { return (IWebServer)Provider; }
         }
 
-        #region Web Sites
-        [WebMethod, SoapHeader("settings")]
+#region Web Sites
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeSiteState(string siteId, ServerState state)
         {
             try
@@ -78,7 +82,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ServerState GetSiteState(string siteId)
         {
             try
@@ -95,7 +99,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string GetSiteId(string siteName)
         {
             try
@@ -112,7 +116,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetSitesAccounts(string[] siteIds)
         {
             try
@@ -129,7 +133,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool SiteExists(string siteId)
         {
             try
@@ -146,7 +150,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetSites()
         {
             try
@@ -163,7 +167,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebSite GetSite(string siteId)
         {
             try
@@ -180,7 +184,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ServerBinding[] GetSiteBindings(string siteId)
         {
             try
@@ -197,7 +201,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string CreateSite(WebSite site)
         {
             try
@@ -214,7 +218,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateSite(WebSite site)
         {
             try
@@ -230,7 +234,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateSiteBindings(string siteId, ServerBinding[] bindings, bool emptyBindingsAllowed)
         {
             try
@@ -246,7 +250,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteSite(string siteId)
         {
             try
@@ -263,7 +267,7 @@ namespace WebsitePanel.Server
         }
 
         // AppPool
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeAppPoolState(string siteId, AppPoolState state)
         {
             try
@@ -279,7 +283,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public AppPoolState GetAppPoolState(string siteId)
         {
             try
@@ -296,10 +300,10 @@ namespace WebsitePanel.Server
             }
         }
 
-        #endregion
+#endregion
 
-        #region Virtual Directories
-        [WebMethod, SoapHeader("settings")]
+#region Virtual Directories
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool VirtualDirectoryExists(string siteId, string directoryName)
         {
             try
@@ -316,7 +320,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebVirtualDirectory[] GetVirtualDirectories(string siteId)
         {
             try
@@ -333,7 +337,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebVirtualDirectory GetVirtualDirectory(string siteId, string directoryName)
         {
             try
@@ -350,7 +354,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateVirtualDirectory(string siteId, WebVirtualDirectory directory)
         {
             try
@@ -366,7 +370,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateEnterpriseStorageVirtualDirectory(string siteId, WebVirtualDirectory directory)
         {
             try
@@ -382,7 +386,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateVirtualDirectory(string siteId, WebVirtualDirectory directory)
         {
             try
@@ -398,7 +402,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteVirtualDirectory(string siteId, string directoryName)
         {
             try
@@ -413,10 +417,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region FrontPage
-        [WebMethod, SoapHeader("settings")]
+#region FrontPage
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool IsFrontPageSystemInstalled()
         {
             try
@@ -433,7 +437,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool IsFrontPageInstalled(string siteId)
         {
             try
@@ -450,7 +454,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool InstallFrontPage(string siteId, string username, string password)
         {
             try
@@ -467,7 +471,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UninstallFrontPage(string siteId, string username)
         {
             try
@@ -483,7 +487,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeFrontPagePassword(string username, Encrypted<string> password)
         {
             try
@@ -498,10 +502,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region ColdFusion
-        [WebMethod, SoapHeader("settings")]
+#region ColdFusion
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool IsColdFusionSystemInstalled()
         {
             try
@@ -517,10 +521,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Permissions
-        [WebMethod, SoapHeader("settings")]
+#region Permissions
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void GrantWebSiteAccess(string path, string siteId, NTFSPermission permission)
         {
             try
@@ -535,10 +539,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Secured Folders
-        [WebMethod, SoapHeader("settings")]
+#region Secured Folders
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void InstallSecuredFolders(string siteId)
         {
             try
@@ -554,7 +558,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UninstallSecuredFolders(string siteId)
         {
             try
@@ -570,7 +574,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<WebFolder> GetFolders(string siteId)
         {
             try
@@ -587,7 +591,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebFolder GetFolder(string siteId, string folderPath)
         {
             try
@@ -604,7 +608,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateFolder(string siteId, WebFolder folder)
         {
             try
@@ -620,7 +624,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteFolder(string siteId, string folderPath)
         {
             try
@@ -635,10 +639,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Secured Users
-        [WebMethod, SoapHeader("settings")]
+#region Secured Users
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<WebUser> GetUsers(string siteId)
         {
             try
@@ -655,7 +659,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebUser GetUser(string siteId, string userName)
         {
             try
@@ -672,7 +676,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateUser(string siteId, WebUser user)
         {
             try
@@ -688,7 +692,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteUser(string siteId, string userName)
         {
             try
@@ -703,10 +707,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Secured Groups
-        [WebMethod, SoapHeader("settings")]
+#region Secured Groups
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<WebGroup> GetGroups(string siteId)
         {
             try
@@ -723,7 +727,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebGroup GetGroup(string siteId, string groupName)
         {
             try
@@ -740,7 +744,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateGroup(string siteId, WebGroup group)
         {
             try
@@ -756,7 +760,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteGroup(string siteId, string groupName)
         {
             try
@@ -772,10 +776,10 @@ namespace WebsitePanel.Server
             }
         }
 
-        #endregion
+#endregion
 
-        #region Helicon Ape
-        [WebMethod, SoapHeader("settings")]
+#region Helicon Ape
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public HeliconApeStatus GetHeliconApeStatus(string siteId)
         {
             HeliconApeStatus status;
@@ -795,7 +799,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void InstallHeliconApe(string ServiceId)
         {
             try
@@ -812,7 +816,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void EnableHeliconApe(string siteId)
         {
             try
@@ -828,7 +832,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DisableHeliconApe(string siteId)
         {
             try
@@ -844,7 +848,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<HtaccessFolder> GetHeliconApeFolders(string siteId)
         {
             try
@@ -861,7 +865,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public HtaccessFolder GetHeliconApeHttpdFolder()
         {
             try
@@ -879,7 +883,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public HtaccessFolder GetHeliconApeFolder(string siteId, string folderPath)
         {
             try
@@ -896,7 +900,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateHeliconApeFolder(string siteId, HtaccessFolder folder)
         {
             try
@@ -912,7 +916,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateHeliconApeHttpdFolder(HtaccessFolder folder)
         {
             try
@@ -928,7 +932,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteHeliconApeFolder(string siteId, string folderPath)
         {
             try
@@ -943,10 +947,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Helicon Ape Users
-        [WebMethod, SoapHeader("settings")]
+#region Helicon Ape Users
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<HtaccessUser> GetHeliconApeUsers(string siteId)
         {
             try
@@ -963,7 +967,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public HtaccessUser GetHeliconApeUser(string siteId, string userName)
         {
             try
@@ -980,7 +984,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateHeliconApeUser(string siteId, HtaccessUser user)
         {
             try
@@ -996,7 +1000,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteHeliconApeUser(string siteId, string userName)
         {
             try
@@ -1011,10 +1015,10 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        #endregion
+#endregion
 
-        #region Helicon Ape Groups
-        [WebMethod, SoapHeader("settings")]
+#region Helicon Ape Groups
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public List<WebGroup> GetHeliconApeGroups(string siteId)
         {
             try
@@ -1031,7 +1035,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebGroup GetHeliconApeGroup(string siteId, string groupName)
         {
             try
@@ -1048,7 +1052,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateHeliconApeGroup(string siteId, WebGroup group)
         {
             try
@@ -1064,7 +1068,7 @@ namespace WebsitePanel.Server
             }
         }
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void GrantWebDeployPublishingAccess(string siteId, string accountName, string accountPassword)
 		{
 			try
@@ -1080,7 +1084,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RevokeWebDeployPublishingAccess(string siteId, string accountName)
 		{
 			try
@@ -1096,7 +1100,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteHeliconApeGroup(string siteId, string groupName)
         {
             try
@@ -1114,11 +1118,11 @@ namespace WebsitePanel.Server
 
     
 
-        #endregion
+#endregion
 
-        #region Helicon Zoo
+#region Helicon Zoo
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public WebVirtualDirectory[] GetZooApplications(string siteId)
         {
             try
@@ -1135,7 +1139,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public StringResultObject SetZooEnvironmentVariable(string siteId, string appName, string envName, string envValue)
         {
             try
@@ -1152,7 +1156,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public StringResultObject SetZooConsoleEnabled(string siteId, string appName)
         {
             try
@@ -1170,7 +1174,7 @@ namespace WebsitePanel.Server
             
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public StringResultObject SetZooConsoleDisabled(string siteId, string appName)
         {
             try
@@ -1187,11 +1191,11 @@ namespace WebsitePanel.Server
             }
         }
 
-        #endregion
+#endregion
 
-        #region Web Application Gallery
+#region Web Application Gallery
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool CheckLoadUserProfile()
         {
             try
@@ -1211,7 +1215,7 @@ namespace WebsitePanel.Server
             }
         }
         
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void EnableLoadUserProfile()
         {
             try
@@ -1228,7 +1232,7 @@ namespace WebsitePanel.Server
                 throw;
             }
         }
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void InitFeeds(int UserId, string[] feeds)
         {
             try
@@ -1244,7 +1248,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetResourceLanguage(int UserId, string resourceLanguage)
         {
             try
@@ -1261,7 +1265,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public GalleryLanguagesResult GetGalleryLanguages(int UserId)
         {
             try
@@ -1278,7 +1282,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public GalleryCategoriesResult GetGalleryCategories(int UserId)
 		{
 			try
@@ -1295,7 +1299,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public GalleryApplicationsResult GetGalleryApplications(int UserId, string categoryId)
 		{
 			try
@@ -1312,7 +1316,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public GalleryApplicationsResult GetGalleryApplicationsFiltered(int UserId, string pattern)
         {
             try
@@ -1330,7 +1334,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool IsMsDeployInstalled()
 		{
 			try
@@ -1347,7 +1351,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public GalleryApplicationResult GetGalleryApplication(int UserId, string id)
 		{
 			try
@@ -1364,7 +1368,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public GalleryWebAppStatus GetGalleryApplicationStatus(int UserId, string id)
 		{
 			try
@@ -1381,7 +1385,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public GalleryWebAppStatus DownloadGalleryApplication(int UserId, string id)
 		{
 			try
@@ -1398,7 +1402,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public DeploymentParametersResult GetGalleryApplicationParameters(int UserId, string id)
 		{
 			try
@@ -1415,7 +1419,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public StringResultObject InstallGalleryApplication(int UserId, string id, List<DeploymentParameter> updatedValues, string languageId)
 		{
 			try
@@ -1432,11 +1436,11 @@ namespace WebsitePanel.Server
 			}
 		}
 	
-		#endregion
+#endregion
 
-		#region WebManagement Access
+#region WebManagement Access
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckWebManagementAccountExists(string accountName)
 		{
 			try
@@ -1458,7 +1462,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public ResultObject CheckWebManagementPasswordComplexity(Encrypted<string> accountPassword)
 		{
 			try
@@ -1480,7 +1484,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void GrantWebManagementAccess(string siteId, string accountName, string accountPassword)
 		{
 			try
@@ -1496,7 +1500,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RevokeWebManagementAccess(string siteId, string accountName)
 		{
 			try
@@ -1512,7 +1516,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ChangeWebManagementAccessPassword(string accountName, Encrypted<string> accountPassword)
 		{
 			try
@@ -1528,10 +1532,10 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region SSL Management
-		[WebMethod, SoapHeader("settings")]
+#region SSL Management
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SSLCertificate> generateCSR(Encrypted<SSLCertificate> certificate)
 		{
 			try
@@ -1548,7 +1552,7 @@ namespace WebsitePanel.Server
 				throw;
 			}
 		}
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SSLCertificate> generateRenewalCSR(Encrypted<SSLCertificate> certificate)
 		{
 			try
@@ -1566,13 +1570,13 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SSLCertificate> getCertificate(WebSite site)
 		{
 			throw new NotImplementedException();
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SSLCertificate> installCertificate(Encrypted<SSLCertificate> certificate, WebSite website)
 		{
 			try
@@ -1590,7 +1594,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SSLCertificate> installPFX(byte[] certificate, Encrypted<string> password, WebSite website)
 		{
 			try
@@ -1615,42 +1619,42 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<byte[]> exportCertificate(string serialNumber, Encrypted<string> password)
 		{
 			return WebProvider.exportCertificate(serialNumber, password);
 		}
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<List<SSLCertificate>> getServerCertificates()
 		{
 			return WebProvider.getServerCertificates();
 		}
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public ResultObject DeleteCertificate(Encrypted<SSLCertificate> certificate, WebSite website)
 		{
 			return WebProvider.DeleteCertificate(certificate, website);
 		}
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SSLCertificate> ImportCertificate(WebSite website)
 		{
 			return WebProvider.ImportCertificate(website);
 		}
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckCertificate(WebSite webSite)
 		{
 			return WebProvider.CheckCertificate(webSite);
 		} 
-		#endregion
+#endregion
 
-        #region Directory Browsing
+#region Directory Browsing
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool GetDirectoryBrowseEnabled(string siteId)
         {
             return WebProvider.GetDirectoryBrowseEnabled(siteId);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public  void SetDirectoryBrowseEnabled(string siteId, bool enabled)
         {
             WebProvider.SetDirectoryBrowseEnabled(siteId, enabled);
@@ -1704,6 +1708,6 @@ namespace WebsitePanel.Server
 			return WebProvider.ImportCertificate(website);
 		}
 
-		#endregion
+#endregion
 	}
 }

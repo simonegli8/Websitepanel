@@ -77,7 +77,7 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Common\AuthenticationSoapHeader.cs" />
+    <Compile Include="Common\Authentication.cs" />
     <Compile Include="Common\Encryption.cs" />
     <Compile Include="Common\AutoDiscoveryAttributes.cs" />
     <Compile Include="Common\Encrypted.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="Common\ErrorCodes.cs" />
     <Compile Include="Common\PasswdHelper.cs" />
     <Compile Include="Common\EncryptAndSignSoapExtension.cs" />
+    <Compile Include="Common\SecureSoapHeader.cs" />
     <Compile Include="Common\WPIEntries.cs" />
     <Compile Include="DomainLookup\DnsRecordInfo.cs" />
     <Compile Include="DomainLookup\DnsRecordInfoChange.cs" />

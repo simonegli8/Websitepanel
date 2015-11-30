@@ -56,9 +56,6 @@
     <Reference Include="Microsoft.Web.PlatformInstaller">
       <HintPath>bin\Microsoft.Web.PlatformInstaller.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Services3">
-      <HintPath>bin\Microsoft.Web.Services3.dll</HintPath>
-    </Reference>
     <Reference Include="WebsitePanel.Providers.Base">
       <HintPath>bin\WebsitePanel.Providers.Base.dll</HintPath>
     </Reference>
@@ -74,7 +71,7 @@
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
-        <XspParameters Port="8080" Address="0.0.0.0" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+        <XspParameters Port="9004" Address="0.0.0.0" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
@@ -213,6 +210,7 @@
     <Compile Include="Code\ServerUsernameTokenManager.cs" />
     <Compile Include="Code\UsernameAssertion.cs" />
     <Compile Include="Code\WPIHelper.cs" />
+    <Compile Include="Code\CheckAuthenticationSoapExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NoWSE\.gitignore" />

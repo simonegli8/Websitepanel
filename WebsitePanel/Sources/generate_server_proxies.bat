@@ -87,6 +87,6 @@ REM %WSE_CLEAN% .\WebsitePanel.Server.Client\ExchangeServerHostedEditionProxy.cs
 %WSDL% %SERVER_URL%/WindowsServer.asmx /out:.\WebsitePanel.Server.Client\WindowsServerProxy.cs /namespace:WebsitePanel.Server /type:webClient /fields
 %WSE_CLEAN% .\WebsitePanel.Server.Client\WindowsServerProxy.cs
 
-"%ProgramFiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" .\WebsitePanel.Server.Client\WebsitePanel.Server.Client.csproj /target:BuildNonWSEProxies /p:BuildConfiguration=Debug /p:Version="2.1.0" /p:FileVersion="2.1.0.1" /p:VersionLabel="2.1.0.1" /v:n /fileLogger /m
+"%ProgramFiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" .\WebsitePanel.Server.Client\WebsitePanel.Server.Client.csproj /target:BuildProxies /p:BuildConfiguration=Debug /p:Version="2.1.0" /p:FileVersion="2.1.0.1" /p:VersionLabel="2.1.0.1" /v:n /fileLogger /m
 
 PAUSE

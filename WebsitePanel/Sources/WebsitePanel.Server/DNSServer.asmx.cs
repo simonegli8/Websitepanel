@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.ComponentModel;
@@ -62,7 +62,7 @@ namespace WebsitePanel.Server
         }
 
         #region Zones
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool ZoneExists(string zoneName)
         {
             try
@@ -79,7 +79,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetZones()
         {
             try
@@ -96,7 +96,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void AddPrimaryZone(string zoneName, string[] secondaryServers)
         {
             try
@@ -112,7 +112,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void AddSecondaryZone(string zoneName, string[] masterServers)
         {
             try
@@ -128,7 +128,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteZone(string zoneName)
         {
             try
@@ -144,7 +144,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateSoaRecord(string zoneName, string host, string primaryNsServer, string primaryPerson)
         {
             try
@@ -162,7 +162,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Records
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public DnsRecord[] GetZoneRecords(string zoneName)
         {
             try
@@ -179,7 +179,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void AddZoneRecord(string zoneName, DnsRecord record)
         {
             try
@@ -195,7 +195,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteZoneRecord(string zoneName, DnsRecord record)
         {
             try
@@ -211,7 +211,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void AddZoneRecords(string zoneName, DnsRecord[] records)
         {
             try
@@ -227,7 +227,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteZoneRecords(string zoneName, DnsRecord[] records)
         {
             try

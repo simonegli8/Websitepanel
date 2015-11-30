@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Collections.Generic;
@@ -61,7 +61,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemFile[] GetFolders(string organizationId, WebDavSetting[] settings)
         {
             try
@@ -78,7 +78,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemFile[] GetFoldersWithoutFrsm(string organizationId, WebDavSetting[] settings)
         {
             try
@@ -95,7 +95,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemFile GetFolder(string organizationId, string folder, WebDavSetting setting)
         {
             try
@@ -112,7 +112,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateFolder(string organizationId, string folder, WebDavSetting setting)
         {
             try
@@ -128,7 +128,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteFolder(string organizationId, string folder, WebDavSetting setting)
         {
             try
@@ -144,7 +144,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool SetFolderWebDavRules(string organizationId, string folder, WebDavSetting setting, Providers.Web.WebDavFolderRule[] rules)
         {
             try
@@ -161,7 +161,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Providers.Web.WebDavFolderRule[] GetFolderWebDavRules(string organizationId, string folder, WebDavSetting setting)
         {
             try
@@ -178,7 +178,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool CheckFileServicesInstallation()
         {
             try
@@ -195,7 +195,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemFile[] Search(string organizationId, string[] searchPaths, string searchText, string userPrincipalName, bool recursive)
         {
             try
@@ -212,7 +212,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemFile RenameFolder(string organizationId, string originalFolder, string newFolder, WebDavSetting setting)
         {
             try
@@ -229,7 +229,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public SystemFile[] GetQuotasForOrganization(SystemFile[] folders)
         {
             try
@@ -246,7 +246,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void MoveFolder(string oldPath, string newPath)
         {
             try

@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Data;
@@ -65,7 +65,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public HeliconZooEngine[] GetEngines()
         {
 
@@ -73,44 +73,44 @@ namespace WebsitePanel.Server
 
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetEngines(HeliconZooEngine[] userEngines)
         {
             ZooProvider.SetEngines(userEngines);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool IsEnginesEnabled()
         {
             return ZooProvider.IsEnginesEnabled();
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SwithEnginesEnabled(bool enabled)
         {
             ZooProvider.SwithEnginesEnabled(enabled);
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetEnabledEnginesForSite(string siteId)
         {
             return ZooProvider.GetEnabledEnginesForSite(siteId);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetEnabledEnginesForSite(string siteId, string[] engineNames)
         {
             ZooProvider.SetEnabledEnginesForSite(siteId, engineNames);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool IsWebCosoleEnabled()
         {
             return ZooProvider.IsWebCosoleEnabled();
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetWebCosoleEnabled(bool enabled)
         {
             ZooProvider.SetWebCosoleEnabled(enabled);

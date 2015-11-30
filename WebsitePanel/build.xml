@@ -180,6 +180,7 @@
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\Release\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\Debug\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\App_Cache\**" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\App_Data\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\Images\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\LogParser\**" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.pdb" Condition="'$(BuildConfiguration)' == 'Release'" />
@@ -192,6 +193,7 @@
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.csproj" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vb" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.vbproj" />
+			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\*.bat" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Administration.*" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\bin\Microsoft.Web.Management.*" />
 			<ServerMonoBuildExclude Include="$(ServerMonoSrc)\**\.gitignore" />
@@ -471,9 +473,7 @@
 
 	<Target Name="CreateServerMonoInstall" DependsOnTargets="CreateServerInstall">
 		<ItemGroup>
-			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\SDNSAPI.dll" />
-			<ServerDeployExclude Include="$(ServerMonoBuild)\bin\MySql.Data.dll" />
-			<ServerDeployFiles Include="$(ServerMonoBuild)\**\*.*" Exclude="@(ServerDeployExclude)" />
+			<ServerDeployFiles Include="$(ServerMonoBuild)\**\*.*" />
 		</ItemGroup>
 		<RemoveDir Directories="$(ServerMonoInstall)" />
 		<MakeDir Directories="$(ServerMonoInstall)" />

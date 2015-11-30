@@ -9,10 +9,14 @@ using System.Threading;
 using System.Web.Services.Protocols;
 using System.Xml;
 using Microsoft.Web.Services3;
+using WebsitePanel.Providers;
 
 namespace WebsitePanel.Server.Client {
 
 	public class WSE3ServiceProxy : WebServicesClientProtocol, IServiceProxy {
+
+		string BaseUrl => base.Url.Substring(0, base.Url.LastIndexOf('/'));
+
 		bool IServiceProxy.AllowAutoRedirect { get { return base.AllowAutoRedirect; } set { base.AllowAutoRedirect = value; } }
 		string IServiceProxy.ConnectionGroupName { get { return base.ConnectionGroupName; } set { base.ConnectionGroupName = value; } }
 		CookieContainer IServiceProxy.CookieContainer { get { return base.CookieContainer; } set { base.CookieContainer = value; } }

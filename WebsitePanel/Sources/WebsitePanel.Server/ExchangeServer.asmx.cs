@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.ComponentModel;
@@ -56,7 +56,7 @@ namespace WebsitePanel.Server
 			get { return (IExchangeServer)Provider; }
 		}
          
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckAccountCredentials(string username, Encrypted<string> password)
 		{
 			try
@@ -75,7 +75,7 @@ namespace WebsitePanel.Server
 
         #region Organizations
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Organization ExtendToExchangeOrganization(string organizationId, string securityGroup, bool IsConsumer)
         {
             try
@@ -92,7 +92,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string CreateMailEnableUser(string upn, string organizationId, string organizationDistinguishedName,
             string securityGroup, string organizationDomain,
             ExchangeAccountType accountType,
@@ -131,7 +131,7 @@ namespace WebsitePanel.Server
         /// <param name="securityGroup"></param>
         /// <param name="oabVirtualDir"></param>
         /// <returns></returns>
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Organization CreateOrganizationOfflineAddressBook(string organizationId, string securityGroup, string oabVirtualDir)
         {
             try
@@ -152,7 +152,7 @@ namespace WebsitePanel.Server
         /// Updates organization OAB
         /// </summary>
         /// <param name="id"></param>
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateOrganizationOfflineAddressBook(string id)
         {
             try
@@ -169,7 +169,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string GetOABVirtualDirectory()
         {
             try
@@ -186,7 +186,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Organization CreateOrganizationAddressBookPolicy(string organizationId, string gal, string addressBook, string roomList, string oab)
         {
             try
@@ -204,7 +204,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool DeleteOrganization(string organizationId, string distinguishedName, string globalAddressList, string addressList, string roomList, string offlineAddressBook, string securityGroup, string addressBookPolicy, List<ExchangeDomainName> acceptedDomains)
         {
             try
@@ -223,7 +223,7 @@ namespace WebsitePanel.Server
 
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetOrganizationStorageLimits(string organizationDistinguishedName, long issueWarningKB, long prohibitSendKB, long prohibitSendReceiveKB, int keepDeletedItemsDays)
         {
             try
@@ -239,7 +239,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeItemStatistics[] GetMailboxesStatistics(string organizationDistinguishedName)
         {
             try
@@ -258,7 +258,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Domains
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void AddAuthoritativeDomain(string domain)
         {
             try
@@ -274,7 +274,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void ChangeAcceptedDomainType(string domain, ExchangeAcceptedDomainType domainType)
         {
             try
@@ -290,7 +290,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetAuthoritativeDomains()
         {
             try
@@ -307,7 +307,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteAuthoritativeDomain(string domain)
         {
             try
@@ -325,7 +325,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Mailboxes
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteMailbox(string accountName)
         {
             try
@@ -342,7 +342,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DisableMailbox(string accountName)
         {
             try
@@ -358,7 +358,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<ExchangeMailbox> GetMailboxGeneralSettings(string accountName)
         {
             try
@@ -375,7 +375,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetMailboxGeneralSettings(string accountName, bool hideFromAddressBook, bool disabled)
         {
             try
@@ -391,7 +391,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<ExchangeMailbox> GetMailboxMailFlowSettings(string accountName)
         {
             try
@@ -408,7 +408,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetMailboxMailFlowSettings(string accountName, bool enableForwarding, string forwardingAccountName, bool forwardToBoth, string[] sendOnBehalfAccounts, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication)
         {
             try
@@ -424,7 +424,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<ExchangeMailbox> GetMailboxAdvancedSettings(string accountName)
         {
             try
@@ -441,7 +441,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetMailboxAdvancedSettings(string organizationId, string accountName, bool enablePOP, bool enableIMAP, bool enableOWA, bool enableMAPI, bool enableActiveSync,
             long issueWarningKB, long prohibitSendKB, long prohibitSendReceiveKB, int keepDeletedItemsDays, int maxRecipients, int maxSendMessageSizeKB, int maxReceiveMessageSizeKB
             , bool enabledLitigationHold, long recoverabelItemsSpace, long recoverabelItemsWarning, string litigationHoldUrl, string litigationHoldMsg)
@@ -461,7 +461,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeEmailAddress[] GetMailboxEmailAddresses(string accountName)
         {
             try
@@ -478,7 +478,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetMailboxEmailAddresses(string accountName, string[] emailAddresses)
         {
             try
@@ -494,7 +494,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetMailboxPrimaryEmailAddress(string accountName, string emailAddress)
         {
             try
@@ -511,7 +511,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetMailboxPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] fullAccessAccounts, string[] onBehalfOfAccounts, ExchangeAccount[] calendarAccounts, ExchangeAccount[] contactAccounts)
         {
             try
@@ -529,7 +529,7 @@ namespace WebsitePanel.Server
 
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<ExchangeMailbox> GetMailboxPermissions(string organizationId, string accountName)
         {
             try
@@ -546,7 +546,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeMailboxStatistics GetMailboxStatistics(string accountName)
         {
             try
@@ -563,7 +563,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] SetDefaultPublicFolderMailbox(string id, string organizationId, string organizationDistinguishedName)
         {
             try
@@ -584,7 +584,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Contacts
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateContact(string organizationId, string organizationDistinguishedName, string contactDisplayName, string contactAccountName, string contactEmail, string defaultOrganizationDomain)
         {
             try
@@ -600,7 +600,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteContact(string accountName)
         {
             try
@@ -616,7 +616,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<ExchangeContact> GetContactGeneralSettings(string accountName)
         {
             try
@@ -633,7 +633,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetContactGeneralSettings(string accountName, Encrypted<string> displayName, Encrypted<string> email, bool hideFromAddressBook, Encrypted<string> firstName, Encrypted<string> initials, Encrypted<string> lastName, Encrypted<string> address, Encrypted<string> city, Encrypted<string> state, Encrypted<string> zip, Encrypted<string> country, Encrypted<string> jobTitle, Encrypted<string> company, Encrypted<string> department, Encrypted<string> office, Encrypted<string> managerAccountName, Encrypted<string> businessPhone, Encrypted<string> fax, Encrypted<string> homePhone, Encrypted<string> mobilePhone, Encrypted<string> pager, Encrypted<string> webPage, Encrypted<string> notes, int useMapiRichTextFormat, string defaultDomain)
         {
             try
@@ -649,7 +649,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<ExchangeContact> GetContactMailFlowSettings(string accountName)
         {
             try
@@ -666,7 +666,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetContactMailFlowSettings(string accountName, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication)
         {
             try
@@ -684,7 +684,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Distribution Lists
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateDistributionList(string organizationId, string organizationDistinguishedName, string displayName, string accountName, string name, string domain, string managedBy, string[] addressLists)
         {
             try
@@ -700,7 +700,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteDistributionList(string accountName)
         {
             try
@@ -716,7 +716,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeDistributionList GetDistributionListGeneralSettings(string accountName)
         {
             try
@@ -733,7 +733,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetDistributionListGeneralSettings(string accountName, string displayName, bool hideFromAddressBook, string managedBy, string[] members, string notes, string[] addressLists)
         {
             try
@@ -749,7 +749,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeDistributionList GetDistributionListMailFlowSettings(string accountName)
         {
             try
@@ -766,7 +766,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetDistributionListMailFlowSettings(string accountName, string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication, string[] addressLists)
         {
             try
@@ -782,7 +782,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeEmailAddress[] GetDistributionListEmailAddresses(string accountName)
         {
             try
@@ -799,7 +799,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetDistributionListEmailAddresses(string accountName, string[] emailAddresses, string[] addressLists)
         {
             try
@@ -815,7 +815,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetDistributionListPrimaryEmailAddress(string accountName, string emailAddress, string[] addressLists)
         {
             try
@@ -831,13 +831,13 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetDistributionListPermissions(string organizationId, string accountName, string[] sendAsAccounts, string[] sendOnBehalfAccounts, string[] addressLists)
         {
             ES.SetDistributionListPermissions(organizationId, accountName, sendAsAccounts, sendOnBehalfAccounts, addressLists);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeDistributionList GetDistributionListPermissions(string organizationId, string accountName)
         {
             return ES.GetDistributionListPermissions(organizationId, accountName);
@@ -847,25 +847,25 @@ namespace WebsitePanel.Server
 
         #region Disclaimers
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public int SetDisclaimer(string name, string text)
         {
             return ES.SetDisclaimer(name, text);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public int RemoveDisclaimer(string name)
         {
             return ES.RemoveDisclaimer(name);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public int AddDisclamerMember(string name, string member)
         {
             return ES.AddDisclamerMember(name, member);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public int RemoveDisclamerMember(string name, string member)
         {
             return ES.RemoveDisclamerMember(name, member);
@@ -874,7 +874,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Public Folders
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void CreatePublicFolder(string organizationDistinguishedName, string organizationId, string securityGroup, string parentFolder,
 			string folderName, bool mailEnabled, string accountName, string name, string domain)
 		{
@@ -893,7 +893,7 @@ namespace WebsitePanel.Server
 			}
 		}
 		
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeletePublicFolder(string organizationId, string folder)
 		{
 			try
@@ -909,7 +909,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void EnableMailPublicFolder(string organizationId, string folder, string accountName,
 			string name, string domain)
 		{
@@ -926,7 +926,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DisableMailPublicFolder(string organizationId, string folder)
 		{
 			try
@@ -942,7 +942,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangePublicFolder GetPublicFolderGeneralSettings(string organizationId, string folder)
 		{
 			try
@@ -959,7 +959,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetPublicFolderGeneralSettings(string organizationId, string folder, string newFolderName,
 			 bool hideFromAddressBook, ExchangeAccount[] accounts)
 		{
@@ -976,7 +976,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangePublicFolder GetPublicFolderMailFlowSettings(string organizationId, string folder)
 		{
 			try
@@ -993,7 +993,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetPublicFolderMailFlowSettings(string organizationId, string folder,
 			string[] acceptAccounts, string[] rejectAccounts, bool requireSenderAuthentication)
 		{
@@ -1010,7 +1010,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeEmailAddress[] GetPublicFolderEmailAddresses(string organizationId, string folder)
 		{
 			try
@@ -1027,7 +1027,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetPublicFolderEmailAddresses(string organizationId, string folder, string[] emailAddresses)
 		{
 			try
@@ -1043,7 +1043,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetPublicFolderPrimaryEmailAddress(string organizationId, string folder, string emailAddress)
 		{
 			try
@@ -1059,7 +1059,7 @@ namespace WebsitePanel.Server
 			}
 		}
 		
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeItemStatistics[] GetPublicFoldersStatistics(string organizationId, string[] folders)
 		{
 			try
@@ -1076,7 +1076,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetPublicFoldersRecursive(string organizationId, string parent)
 		{
 			try
@@ -1093,7 +1093,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public long GetPublicFolderSize(string organizationId, string folder)
 		{
 			try
@@ -1110,7 +1110,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string CreateOrganizationRootPublicFolder(string organizationId, string organizationDistinguishedName, string securityGroup, string organizationDomain)
         {
             try
@@ -1131,7 +1131,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region ActiveSync
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateOrganizationActiveSyncPolicy(string organizationId)
         {
             try
@@ -1147,7 +1147,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeActiveSyncPolicy GetActiveSyncPolicy(string organizationId)
         {
             try
@@ -1164,7 +1164,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void SetActiveSyncPolicy(string id, bool allowNonProvisionableDevices, bool attachmentsEnabled,
             int maxAttachmentSizeKB, bool uncAccessEnabled, bool wssAccessEnabled, bool devicePasswordEnabled,
             bool alphanumericPasswordRequired, bool passwordRecoveryEnabled, bool deviceEncryptionEnabled,
@@ -1189,7 +1189,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Mobile devices
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeMobileDevice[] GetMobileDevices(string accountName)
         {
             try
@@ -1206,7 +1206,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ExchangeMobileDevice GetMobileDevice(string id)
         {
             try
@@ -1223,7 +1223,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void WipeDataFromDevice(string id)
         {
             try
@@ -1239,7 +1239,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CancelRemoteWipeRequest(string id)
         {
             try
@@ -1256,7 +1256,7 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void RemoveDevice(string id)
         {
             try
@@ -1275,7 +1275,7 @@ namespace WebsitePanel.Server
 
         #region Archiving
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject ExportMailBox(string organizationId, string accountName, string storagePath)
         {
             ResultObject res = null;
@@ -1296,7 +1296,7 @@ namespace WebsitePanel.Server
             return res;
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject SetMailBoxArchiving(string organizationId, string accountName, bool archive, long archiveQuotaKB, long archiveWarningQuotaKB, string RetentionPolicy)
         {
             ResultObject res = null;
@@ -1318,7 +1318,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Retention policy
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject SetRetentionPolicyTag(string Identity, ExchangeRetentionPolicyTagType Type, int AgeLimitForRetention, ExchangeRetentionPolicyTagAction RetentionAction)
         {
             ResultObject res = null;
@@ -1336,7 +1336,7 @@ namespace WebsitePanel.Server
             return res;
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject RemoveRetentionPolicyTag(string Identity)
         {
             ResultObject res = null;
@@ -1354,7 +1354,7 @@ namespace WebsitePanel.Server
             return res;
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject SetRetentionPolicy(string Identity, string[] RetentionPolicyTagLinks)
         {
             ResultObject res = null;
@@ -1372,7 +1372,7 @@ namespace WebsitePanel.Server
             return res;
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject RemoveRetentionPolicy(string Identity)
         {
             ResultObject res = null;
@@ -1394,7 +1394,7 @@ namespace WebsitePanel.Server
 
         #region Picture
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject SetPicture(string accountName, byte[] picture)
         {
             ResultObject res = null;
@@ -1412,7 +1412,7 @@ namespace WebsitePanel.Server
             return res;
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public BytesResult GetPicture(string accountName)
         {
             BytesResult res = null;

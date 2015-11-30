@@ -6,8 +6,8 @@ using System.Text;
 namespace WebsitePanel.Providers {
 
    public interface IEncrypted {
-      void Decrypt(EncryptionSession session);
-      void Encrypt(EncryptionSession session);
+      void Decrypt(EncryptionSession decryptor);
+      void Encrypt(EncryptionSession encryptor);
    }
 
 }

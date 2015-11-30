@@ -73,6 +73,13 @@ namespace WebsitePanel.Server.Client {
 			set { this.timeout = value; }
 		}
 
+		private string SHA1(string plainText) {
+			byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+			System.Security.Cryptography.HashAlgorithm hash = new System.Security.Cryptography.SHA1Managed(); ;
+			byte[] hashBytes = hash.ComputeHash(plainTextBytes);
+			return Convert.ToBase64String(hashBytes);
+		}
+
 		public void Configure(SoapHttpClientProtocol proxy) {
 			ServiceProxy service = proxy as ServiceProxy;
 			SoapHttpClientProtocol wservice = null;
@@ -103,8 +110,6 @@ namespace WebsitePanel.Server.Client {
 			ServiceProviderSettingsSoapHeader settingsHeader = new ServiceProviderSettingsSoapHeader();
 			List<string> settings = new List<string>();
 
-			if (!String.IsNullOrEmpty(serverPassword) && service != null) service.Password = serverPassword;
-
 			// AD Settings
 			settings.Add("AD:Enabled=" + ServerSettings.ADEnabled.ToString());
 			settings.Add("AD:AuthenticationType=" + ServerSettings.ADAuthenticationType.ToString());
@@ -127,11 +132,21 @@ namespace WebsitePanel.Server.Client {
 				settings.Add(settingName + "=" + ProviderSettings.Settings[settingName]);
 			}
 
-			// set header
+			// set headers
 			settingsHeader.Settings = settings.ToArray();
 			FieldInfo field = proxy.GetType().GetField("ServiceProviderSettingsSoapHeaderValue");
 			if (field != null) {
 				field.SetValue(proxy, settingsHeader);
+			}
+			field = proxy.GetType().GetField("AuthenticationSoapHeaderValue");
+			if (field != null) {
+				var authHeader = new AuthenticationSoapHeader() { Password = SHA1(serverPassword), Username = ServerSettings.ServerId.ToString() };
+				field.SetValue(proxy, authHeader);
+			}
+			field = proxy.GetType().GetField("EncryptionSessionValue");
+			if (field != null) {
+				var encryption= new EncryptionSession() { RemoteKey = ServerInfo.Cache[ServerUrl].PublicKey, Disabled = !ServerInfo.Cache[ServerUrl].Encrypted };
+				field.SetValue(proxy, encryption);
 			}
 
 			// configure proxy URL
@@ -141,6 +156,7 @@ namespace WebsitePanel.Server.Client {
 				if (service != null) service.Url = serverUrl + service.Url.Substring(service.Url.LastIndexOf('/'));
 				else proxy.Url = serverUrl + proxy.Url.Substring(proxy.Url.LastIndexOf('/'));
 			}
+
 
 		}
 	}

@@ -5,6 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Runtime Condition=" '$(Runtime)' == '' ">Net</Runtime>
+    <Engine Condition=" '$(Engine)' == '' ">MSBuild</Engine>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{38C6047C-E447-4CC2-891F-ABE54D4659F3}</ProjectGuid>
@@ -54,29 +55,29 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <NoWSEPath>NoWSE</NoWSEPath>
+    <NoWSEPath>NoWSE\</NoWSEPath>
     <RootFolder>..\..\..</RootFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Administration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Deployment.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Management, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.Management, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.Management.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.PlatformInstaller, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.PlatformInstaller, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\References\Microsoft\Microsoft.Web.PlatformInstaller.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Web.Services3.dll</HintPath>
       <Private>True</Private>
@@ -86,19 +87,16 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Management" />
+    <Reference Condition=" '$(Runtime)' == 'Net' " Include="System.Management" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
@@ -146,8 +144,8 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\HyperV2012R2\WebsitePanel.Providers.Virtualization.HyperV2012R2.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\HyperV2012R2\WebsitePanel.Server.Utils.pdb" />
-    <Content Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
-    <Content Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\IIs80\WebsitePanel.Providers.Web.IIs80.pdb" />
     <Content Include="bin\Ionic.Zip.Reduced.dll" />
@@ -164,32 +162,32 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Practices.ObjectBuilder.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.SharePoint.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Storage.Vds.dll" />
-    <Content Include="bin\Microsoft.Web.Administration.dll" />
-    <Content Include="bin\Microsoft.Web.Delegation.dll" />
-    <Content Include="bin\Microsoft.Web.Deployment.dll" />
-    <Content Include="bin\Microsoft.Web.Deployment.Tracing.dll" />
-    <Content Include="bin\Microsoft.Web.Management.dll" />
-    <Content Include="bin\Microsoft.Web.PlatformInstaller.dll" />
-    <Content Include="bin\Microsoft.Web.Services3.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.Administration.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.Delegation.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.Deployment.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.Deployment.Tracing.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.Management.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.PlatformInstaller.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Microsoft.Web.Services3.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\Sharepoint2013\WebsitePanel.Providers.HostedSolution.SharePoint2013Ent.pdb" />
-    <Content Include="bin\System.Management.Automation.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Base.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Base.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Database.MySQL.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Database.MySQL.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\System.Management.Automation.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Base.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Base.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Database.MySQL.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Database.MySQL.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Database.SqlServer.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Database.SqlServer.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.Bind.dll" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.Bind.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.Bind.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.Bind.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.MsDNS.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.MsDNS.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.Nettica.dll" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.Nettica.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.PowerDNS.dll" />
-    <Content Include="bin\WebsitePanel.Providers.DNS.PowerDNS.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.Nettica.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.Nettica.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.PowerDNS.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.PowerDNS.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.DNS.SimpleDNS50.dll" />
@@ -206,8 +204,8 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.FTP.IIs70.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.FTP.IIs80.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.FTP.IIs80.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
-    <Content Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.FTP.ServU.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.FTP.ServU.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.HostedSolution.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.HostedSolution.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.AbilityMailServer.dll" />
@@ -224,10 +222,10 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.MailEnable.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.MDaemon.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.MDaemon.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.Merak.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.Merak.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.Merak10.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.Merak10.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail10.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Mail.SmarterMail2.dll" />
@@ -252,10 +250,10 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.OS.Windows2012.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.RemoteDesktopServices.Windows2012.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.RemoteDesktopServices.Windows2012.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Statistics.AWStats.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Statistics.AWStats.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Statistics.AWStats.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Statistics.AWStats.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Statistics.SmarterStats.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.StorageSpaces.Windows2012.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.StorageSpaces.Windows2012.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Virtualization.HyperV.dll" />
@@ -270,14 +268,14 @@
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Web.IIs70.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Web.IIs80.dll" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Web.IIs80.pdb" />
-    <Content Include="bin\WebsitePanel.Providers.Web.WebDav.dll" />
-    <Content Include="bin\WebsitePanel.Providers.Web.WebDav.pdb" />
-    <Content Include="bin\WebsitePanel.Server.Utils.dll" />
-    <Content Include="bin\WebsitePanel.Server.Utils.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Web.WebDav.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Providers.Web.WebDav.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Server.Utils.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Server.Utils.pdb" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Server.WPIService.exe" />
     <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Server.WPIService.pdb" />
-    <Content Include="bin\WpiServiceContract.dll" />
-    <Content Include="bin\WpiServiceContract.pdb" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WpiServiceContract.dll" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WpiServiceContract.pdb" />
     <Content Include="BlackBerry.asmx" />
     <EmbeddedResource Include="Images\logo.png" />
     <Content Include="EnterpriseStorage.asmx" />
@@ -332,7 +330,7 @@
     <Content Include="VirtualizationServer2012.asmx" />
     <Content Include="VirtualizationServer.asmx" />
     <Content Include="VirtualizationServerForPrivateCloud.asmx" />
-    <Content Include="bin\WebsitePanel.Server.WPIService.exe.config" />
+    <Content Condition=" '$(Runtime)' == 'Net' " Include="bin\WebsitePanel.Server.WPIService.exe.config" />
     <Content Include="NoWSE\.gitignore" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
@@ -354,7 +352,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Code\AutoDiscoveryHelper.cs" />
-    <Compile Include="Code\CheckAuthentication.cs" />
+    <Compile Include="Code\CheckAuthenticationSoapExtension.cs" />
     <Compile Include="Code\ServerConfiguration.cs" />
     <Compile Include="Code\ServerUsernameTokenManager.cs" />
     <Compile Include="Code\UsernameAssertion.cs" />
@@ -600,43 +598,44 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-  <Import Condition=" '$(Runtime)' == 'Net' " Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.targets" />
+  <Import Condition=" '$(Engine)' == 'MSBuild' " Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.targets" />
   <!-- generate non WSE versions of all services -->
   <Target Name="BeforeBuildNoWSEService" />
-  <ItemGroup>
-    <AsmxServices Include="**\*.asmx" Exclude="$(NoWSEPath)\**\*.asmx">
+  <ItemGroup Condition=" '$(Engine)' == 'MSBuild' ">
+    <AsmxServices Include="**\*.asmx" Exclude="$(NoWSEPath)**\*.asmx">
       <InProject>false</InProject>
     </AsmxServices>
-    <AsmxServicesCode Include="**\*.asmx.cs" Exclude="$(NoWSEPath)\**\*.asmx.cs">
+    <AsmxServicesCode Include="**\*.asmx.cs" Exclude="$(NoWSEPath)**\*.asmx.cs">
       <InProject>false</InProject>
     </AsmxServicesCode>
-    <AsmxServicesNoWSE Include="$(NoWSEPath)\**\*.asmx">
+    <AsmxServicesNoWSE Include="@(AsmxServices -> '$(NoWSEPath)%(RecursiveDir)%(Filename)%(Extension)')">
       <InProject>false</InProject>
     </AsmxServicesNoWSE>
-    <AsmxServicesNoWSECode Include="$(NoWSEPath)\**\*.asmx.cs">
+    <AsmxServicesNoWSECode Include="@(AsmxServicesCode -> '$(NoWSEPath)%(RecursiveDir)%(Filename)%(Extension)')">
       <InProject>false</InProject>
     </AsmxServicesNoWSECode>
   </ItemGroup>
-  <Target Condition=" '$(Runtime)' == 'Net' " Name="BuildNoWSEService" DependsOnTargets="BeforeBuildNoWSEService" Inputs="@(AsmxServices);@(AsmxServiceCode)" Outputs="@(AsmxServicesNoWSE);@(AsmxServicesCodeNoWSE)">
+  <Target Condition=" '$(Engine)' == 'MSBuild' " Name="BuildNoWSEServices" Inputs="@(AsmxServices);@(AsmxServicesCode)" Outputs="@(AsmxServicesNoWSE);@(AsmxServicesNoWSECode)">
+    <Message Text="Build non WSE services." />
     <MakeDir Directories="$(NoWSEPath)" />
     <!-- copy all services to NoWSE folder -->
-    <Copy SourceFiles="@(AsmxServices)" DestinationFiles="@(AsmxServices -> 'NoWSE\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(AsmxServicesCode)" DestinationFiles="@(AsmxServicesCode -> 'NoWSE\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(AsmxServices)" DestinationFiles="@(AsmxServices -> '$(NoWSEPath)%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(AsmxServicesCode)" DestinationFiles="@(AsmxServicesCode -> '$(NoWSEPath)%(RecursiveDir)%(Filename)%(Extension)')" />
     <!-- change namespace of non WSE services -->
     <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([\n]?)([ \t]*)(namespace[ \t\r\n]*)([a-zA-Z0-9.]+)" ReplacementText="$1// This file is auto generated, do not edit.&#xD;&#xA;&#xD;&#xA;$2$3$4.NoWSE" />
     <!-- comment out reference to Microsoft.Web.Service and [Policy(...)] -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="([ \t]*using[ \t]*Microsoft.Web.Services[23]?[ \t.a-zA-Z0-9]*;([ \t]*[\n])?)|(\[Policy.*\])" ReplacementText="/* $0 */" />
+    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="((?&lt;=^|[ \t\r\n])using[ \t\r\n]+Microsoft.Web.Services[23]?[^;]*;)|(\[Policy[^\]]*\])" ReplacementText="/* $0 */" />
     <!-- change namespace in .asmx files -->
     <FileUpdate Files="@(AsmxServicesNoWSE)" Regex="([ \t]Class=[&quot;'])(([a-zA-Z0-9]+[.])*)([a-zA-Z0-9]+)([&quot;'])" ReplacementText="$1$2NoWSE.$4$5" />
     <!-- remove outer #if Net condition -->
-    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="^([ \t\n\r]*(//[^\n\r]*[ \t\r\n]*)*)(#if Net[ \t]+// machine generated[\r\n]{1,2})(.*)(#endif[ \t\r\n]*)$" ReplacementText="$1$4" Singleline="true" />
+    <FileUpdate Files="@(AsmxServicesNoWSECode)" Regex="^(?&lt;head&gt;[ \t\n\r]*(((//[^\n\r]*)|(/\*.*\*/))[ \t\r\n]*)*)(#if Net[ \t]*[\r\n]{1,2})(?&lt;body&gt;.*)(#endif[ \t\r\n]*)$" ReplacementText="${head}${body}" Singleline="true" />
     <!-- embrace regular services with #if Net when needed -->
-    <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t/].*$)(?&lt;head&gt;[ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(?&lt;body&gt;.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="${head}#if Net // machine generated&#xD;&#xA;&#xD;&#xA;${body}&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
+    <FileUpdate Files="@(AsmxServicesCode)" Regex="^(?!.*#if[ \t]+Net[ \n\r\t].*$)(?&lt;head&gt;[ \t\n\r]*((//[^\n\r]*[ \t\r\n]*)|(/\*.*\*/[ \t\r\n]*))*)(?&lt;body&gt;.*Microsoft\.Web\.Services([ \t\n\r]*[^ \t\r\n]+)*)([ \t\n\r]*)$" ReplacementText="${head}#if Net&#xD;&#xA;&#xD;&#xA;${body}&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
   </Target>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	Other similar extension points exist, see Microsoft.Common.targets. -->
-  <Target Name="BeforeBuild" DependsOnTargets="BuildNoWSEService" />
+  <Target Name="BeforeBuild" DependsOnTargets="BuildNoWSEServices" />
   <!--
 		<Target Name="AfterBuild">
 			

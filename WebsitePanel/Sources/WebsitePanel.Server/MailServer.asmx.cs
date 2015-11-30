@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Data;
@@ -59,7 +59,7 @@ namespace WebsitePanel.Server
         }
 
         #region Domains
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool DomainExists(string domainName)
         {
             try
@@ -76,7 +76,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public MailDomain GetDomain(string domainName)
         {
             try
@@ -93,7 +93,7 @@ namespace WebsitePanel.Server
             }
         }
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string[] GetDomains()
 		{
 			try
@@ -110,7 +110,7 @@ namespace WebsitePanel.Server
 			}
 		}
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateDomain(MailDomain domain)
         {
             try
@@ -126,7 +126,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateDomain(MailDomain domain)
         {
             try
@@ -142,7 +142,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteDomain(string domainName)
         {
             try
@@ -160,7 +160,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Domain Aliases
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool DomainAliasExists(string domainName, string aliasName)
         {
             try
@@ -177,7 +177,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public string[] GetDomainAliases(string domainName)
         {
             try
@@ -194,7 +194,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void AddDomainAlias(string domainName, string aliasName)
         {
             try
@@ -210,7 +210,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteDomainAlias(string domainName, string aliasName)
         {
             try
@@ -228,7 +228,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Accounts
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool AccountExists(string accountName)
         {
             try
@@ -245,7 +245,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<MailAccount[]> GetAccounts(string domainName)
         {
             try
@@ -262,7 +262,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<MailAccount> GetAccount(string accountName)
         {
             try
@@ -279,7 +279,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateAccount(Encrypted<MailAccount> account)
         {
             try
@@ -295,7 +295,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateAccount(Encrypted<MailAccount> account)
         {
             try
@@ -311,7 +311,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteAccount(string accountName)
         {
             try
@@ -330,7 +330,7 @@ namespace WebsitePanel.Server
 
         #region Mail Aliases
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool MailAliasExists(string mailAliasName)
         {
             try
@@ -347,7 +347,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public MailAlias[] GetMailAliases(string domainName)
         {
             try
@@ -364,7 +364,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public MailAlias GetMailAlias(string mailAliasName)
         {
             try
@@ -381,7 +381,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateMailAlias(MailAlias mailAlias)
         {
             try
@@ -397,7 +397,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateMailAlias(MailAlias mailAlias)
         {
             try
@@ -413,7 +413,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteMailAlias(string mailAliasName)
         {
             try
@@ -432,7 +432,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Groups
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool GroupExists(string groupName)
         {
             try
@@ -449,7 +449,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public MailGroup[] GetGroups(string domainName)
         {
             try
@@ -466,7 +466,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public MailGroup GetGroup(string groupName)
         {
             try
@@ -483,7 +483,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateGroup(MailGroup group)
         {
             try
@@ -499,7 +499,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateGroup(MailGroup group)
         {
             try
@@ -515,7 +515,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteGroup(string groupName)
         {
             try
@@ -533,7 +533,7 @@ namespace WebsitePanel.Server
         #endregion
 
         #region Lists
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public bool ListExists(string listName)
         {
             try
@@ -550,7 +550,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<MailList[]> GetLists(string domainName)
         {
             try
@@ -567,7 +567,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public Encrypted<MailList> GetList(string listName)
         {
             try
@@ -584,7 +584,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void CreateList(Encrypted<MailList> list)
         {
             try
@@ -600,7 +600,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void UpdateList(Encrypted<MailList> list)
         {
             try
@@ -616,7 +616,7 @@ namespace WebsitePanel.Server
             }
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public void DeleteList(string listName)
         {
             try

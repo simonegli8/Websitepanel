@@ -86,8 +86,7 @@ namespace WebsitePanel.Server {
 				set { this.password = value; }
 			}
 
-			public string ImpersonateUser { get; set; }
-			public string ImpersonatePassword { get; set; }
+			public bool Encryption { get; set; }
 
 			public void ParseSection(XmlNode section) {
 				// enabled
@@ -111,14 +110,15 @@ namespace WebsitePanel.Server {
 
 				password = nodePassword.Attributes["value"].Value;
 
-
-				// impersonation user
-				ImpersonateUser = ImpersonatePassword = null;
-				XmlNode nodeImpersonation = section.SelectSingleNode("impersonation");
-				if (nodeImpersonation != null) {
-					if (nodeImpersonation.Attributes["user"] == null) throw new Exception("'websitepanel/security/impersonation/@user' attribute is missing");
-					ImpersonateUser = nodeImpersonation.Attributes["user"].Value;
-					if (nodeImpersonation.Attributes["password"] != null) ImpersonatePassword = nodeImpersonation.Attributes["password"].Value;
+				// encryption
+				Encryption = true;
+				XmlNode nodeEncryption = section.SelectSingleNode("encryption");
+				if (nodeEncryption != null) {
+					if (nodeEncryption.Attributes["value"] == null)
+						throw new Exception("'websitepanel/security/encryption/@value' attribute is missing");
+					bool encryption;
+					Boolean.TryParse(nodeEncryption.Attributes["value"].Value, out encryption);
+					Encryption = encryption;
 				}
 		
 			}

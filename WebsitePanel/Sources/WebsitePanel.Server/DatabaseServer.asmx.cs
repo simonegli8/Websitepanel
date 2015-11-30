@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Data;
@@ -55,7 +55,7 @@ namespace WebsitePanel.Server {
 		}
 
 		#region General methods
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckConnectivity(string databaseName, string username, Encrypted<string> password) {
 			try {
 				Log.WriteStart("'{0}' CheckConnectivity", ProviderSettings.ProviderName);
@@ -68,7 +68,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public DataSet ExecuteSqlQuery(string databaseName, string commandText) {
 			try {
 				Log.WriteStart("'{0}' ExecuteSqlQuery", ProviderSettings.ProviderName);
@@ -81,7 +81,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ExecuteSqlNonQuery(string databaseName, string commandText) {
 			try {
 				Log.WriteStart("'{0}' ExecuteSqlNonQuery", ProviderSettings.ProviderName);
@@ -93,7 +93,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public DataSet ExecuteSqlQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText) {
 			try {
 				Log.WriteStart("'{0}' ExecuteSqlQuerySafe", ProviderSettings.ProviderName);
@@ -106,7 +106,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ExecuteSqlNonQuerySafe(string databaseName, string username, Encrypted<string> password, string commandText) {
 			try {
 				Log.WriteStart("'{0}' ExecuteSqlNonQuerySafe", ProviderSettings.ProviderName);
@@ -120,7 +120,7 @@ namespace WebsitePanel.Server {
 		#endregion
 
 		#region Databases
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool DatabaseExists(string databaseName) {
 			try {
 				Log.WriteStart("'{0}' DatabaseExists", ProviderSettings.ProviderName);
@@ -133,7 +133,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string[] GetDatabases() {
 			try {
 				Log.WriteStart("'{0}' GetDatabases", ProviderSettings.ProviderName);
@@ -146,7 +146,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public SqlDatabase GetDatabase(string databaseName) {
 			try {
 				Log.WriteStart("'{0}' GetDatabase", ProviderSettings.ProviderName);
@@ -159,7 +159,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void CreateDatabase(SqlDatabase database) {
 			try {
 				Log.WriteStart("'{0}' CreateDatabase", ProviderSettings.ProviderName);
@@ -171,7 +171,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void UpdateDatabase(SqlDatabase database) {
 			try {
 				Log.WriteStart("'{0}' UpdateDatabase", ProviderSettings.ProviderName);
@@ -183,7 +183,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void DeleteDatabase(string databaseName) {
 			try {
 				Log.WriteStart("'{0}' DeleteDatabase", ProviderSettings.ProviderName);
@@ -195,7 +195,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void TruncateDatabase(string databaseName) {
 			try {
 				Log.WriteStart("'{0}' TruncateDatabase", ProviderSettings.ProviderName);
@@ -207,7 +207,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public byte[] GetTempFileBinaryChunk(string path, int offset, int length) {
 			try {
 				Log.WriteStart("'{0}' GetTempFileBinaryChunk", ProviderSettings.ProviderName);
@@ -220,7 +220,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string AppendTempFileBinaryChunk(string fileName, string path, byte[] chunk) {
 			try {
 				Log.WriteStart("'{0}' AppendTempFileBinaryChunk", ProviderSettings.ProviderName);
@@ -233,7 +233,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string BackupDatabase(string databaseName, string backupName, bool zipBackup) {
 			try {
 				Log.WriteStart("'{0}' BackupDatabase", ProviderSettings.ProviderName);
@@ -246,7 +246,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RestoreDatabase(string databaseName, string[] fileNames) {
 			try {
 				Log.WriteStart("'{0}' RestoreDatabase", ProviderSettings.ProviderName);
@@ -260,7 +260,7 @@ namespace WebsitePanel.Server {
 		#endregion
 
 		#region Users
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool UserExists(string userName) {
 			try {
 				Log.WriteStart("'{0}' UserExists", ProviderSettings.ProviderName);
@@ -273,7 +273,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string[] GetUsers() {
 			try {
 				Log.WriteStart("'{0}' GetUsers", ProviderSettings.ProviderName);
@@ -286,7 +286,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public Encrypted<SqlUser> GetUser(string username, string[] databases) {
 			try {
 				Log.WriteStart("'{0}' GetUser", ProviderSettings.ProviderName);
@@ -299,7 +299,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void CreateUser(Encrypted<SqlUser> user, Encrypted<string> password) {
 			try {
 				Log.WriteStart("'{0}' CreateUser", ProviderSettings.ProviderName);
@@ -311,7 +311,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void UpdateUser(Encrypted<SqlUser> user, string[] databases) {
 			try {
 				Log.WriteStart("'{0}' UpdateUser", ProviderSettings.ProviderName);
@@ -323,7 +323,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void DeleteUser(string username, string[] databases) {
 			try {
 				Log.WriteStart("'{0}' DeleteUser", ProviderSettings.ProviderName);
@@ -335,7 +335,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ChangeUserPassword(string username, Encrypted<string> password) {
 			try {
 				Log.WriteStart("'{0}' ChangeUserPassword", ProviderSettings.ProviderName);

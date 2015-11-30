@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System;
 using System.Collections.Generic;
@@ -61,7 +61,7 @@ namespace WebsitePanel.Server {
 			get { return (IRemoteDesktopServices)Provider; }
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CreateCollection(string organizationId, RdsCollection collection) {
 			try {
 				Log.WriteStart("'{0}' CreateCollection", ProviderSettings.ProviderName);
@@ -74,7 +74,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void EditRdsCollectionSettings(RdsCollection collection) {
 			try {
 				Log.WriteStart("'{0}' EditRdsCollectionSettings", ProviderSettings.ProviderName);
@@ -86,7 +86,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public List<RdsUserSession> GetRdsUserSessions(string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetRdsUserSessions", ProviderSettings.ProviderName);
@@ -100,7 +100,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool AddRdsServersToDeployment(RdsServer[] servers) {
 			try {
 				Log.WriteStart("'{0}' AddRdsServersToDeployment", ProviderSettings.ProviderName);
@@ -113,7 +113,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public RdsCollection GetCollection(string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetCollection", ProviderSettings.ProviderName);
@@ -126,7 +126,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool RemoveCollection(string organizationId, string collectionName, List<RdsServer> servers) {
 			try {
 				Log.WriteStart("'{0}' RemoveCollection", ProviderSettings.ProviderName);
@@ -139,7 +139,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool SetUsersInCollection(string organizationId, string collectionName, List<string> users) {
 			try {
 				Log.WriteStart("'{0}' UpdateUsersInCollection", ProviderSettings.ProviderName);
@@ -152,7 +152,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void AddSessionHostServerToCollection(string organizationId, string collectionName, RdsServer server) {
 			try {
 				Log.WriteStart("'{0}' AddSessionHostServersToCollection", ProviderSettings.ProviderName);
@@ -164,7 +164,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void AddSessionHostServersToCollection(string organizationId, string collectionName, List<RdsServer> servers) {
 			try {
 				Log.WriteStart("'{0}' AddSessionHostServersToCollection", ProviderSettings.ProviderName);
@@ -176,7 +176,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RemoveSessionHostServerFromCollection(string organizationId, string collectionName, RdsServer server) {
 			try {
 				Log.WriteStart("'{0}' RemoveSessionHostServerFromCollection", ProviderSettings.ProviderName);
@@ -188,7 +188,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RemoveSessionHostServersFromCollection(string organizationId, string collectionName, List<RdsServer> servers) {
 			try {
 				Log.WriteStart("'{0}' RemoveSessionHostServersFromCollection", ProviderSettings.ProviderName);
@@ -200,7 +200,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void SetRDServerNewConnectionAllowed(bool newConnectionAllowed, RdsServer server) {
 			try {
 				Log.WriteStart("'{0}' SetRDServerNewConnectionAllowed", ProviderSettings.ProviderName);
@@ -212,7 +212,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public List<StartMenuApp> GetAvailableRemoteApplications(string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetAvailableRemoteApplications", ProviderSettings.ProviderName);
@@ -225,7 +225,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public List<RemoteApplication> GetCollectionRemoteApplications(string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetCollectionRemoteApplications", ProviderSettings.ProviderName);
@@ -238,7 +238,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool AddRemoteApplication(string collectionName, RemoteApplication remoteApp) {
 			try {
 				Log.WriteStart("'{0}' AddRemoteApplication", ProviderSettings.ProviderName);
@@ -251,7 +251,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool AddRemoteApplications(string collectionName, List<RemoteApplication> remoteApps) {
 			try {
 				Log.WriteStart("'{0}' AddRemoteApplications", ProviderSettings.ProviderName);
@@ -264,7 +264,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool RemoveRemoteApplication(string collectionName, RemoteApplication remoteApp) {
 			try {
 				Log.WriteStart("'{0}' RemoveRemoteApplication", ProviderSettings.ProviderName);
@@ -277,7 +277,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool AddSessionHostFeatureToServer(string hostName) {
 			try {
 				Log.WriteStart("'{0}' AddSessionHostFeatureToServer", ProviderSettings.ProviderName);
@@ -290,7 +290,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckSessionHostFeatureInstallation(string hostName) {
 			try {
 				Log.WriteStart("'{0}' CheckSessionHostFeatureInstallation", ProviderSettings.ProviderName);
@@ -303,7 +303,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckServerAvailability(string hostName) {
 			try {
 				Log.WriteStart("'{0}' CheckServerAvailability", ProviderSettings.ProviderName);
@@ -316,7 +316,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string[] GetApplicationUsers(string collectionName, string applicationName) {
 			try {
 				Log.WriteStart("'{0}' GetApplicationUsers", ProviderSettings.ProviderName);
@@ -329,7 +329,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool SetApplicationUsers(string collectionName, RemoteApplication remoteApp, string[] users) {
 			try {
 				Log.WriteStart("'{0}' SetApplicationUsers", ProviderSettings.ProviderName);
@@ -342,7 +342,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public bool CheckRDSServerAvaliable(string hostname) {
 			try {
 				Log.WriteStart("'{0}' CheckRDSServerAvaliable", ProviderSettings.ProviderName);
@@ -355,7 +355,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public List<string> GetServersExistingInCollections() {
 			try {
 				Log.WriteStart("'{0}' GetServersExistingInCollections", ProviderSettings.ProviderName);
@@ -368,7 +368,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void LogOffRdsUser(string unifiedSessionId, string hostServer) {
 			try {
 				Log.WriteStart("'{0}' LogOffRdsUser", ProviderSettings.ProviderName);
@@ -380,7 +380,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public List<string> GetRdsCollectionSessionHosts(string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetRdsCollectionSessionHosts", ProviderSettings.ProviderName);
@@ -394,7 +394,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public RdsServerInfo GetRdsServerInfo(string serverName) {
 			try {
 				Log.WriteStart("'{0}' GetRdsServerInfo", ProviderSettings.ProviderName);
@@ -408,7 +408,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public string GetRdsServerStatus(string serverName) {
 			try {
 				Log.WriteStart("'{0}' GetRdsServerStatus", ProviderSettings.ProviderName);
@@ -422,7 +422,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ShutDownRdsServer(string serverName) {
 			try {
 				Log.WriteStart("'{0}' ShutDownRdsServer", ProviderSettings.ProviderName);
@@ -434,7 +434,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RestartRdsServer(string serverName) {
 			try {
 				Log.WriteStart("'{0}' RestartRdsServer", ProviderSettings.ProviderName);
@@ -446,7 +446,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void SaveRdsCollectionLocalAdmins(List<string> users, List<string> hosts, string organizationId, string collectionName) {
 			try {
 				Log.WriteStart("'{0}' SaveRdsCollectionLocalAdmins", ProviderSettings.ProviderName);
@@ -458,7 +458,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public List<string> GetRdsCollectionLocalAdmins(string organizationId, string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetRdsCollectionLocalAdmins", ProviderSettings.ProviderName);
@@ -472,7 +472,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void MoveRdsServerToTenantOU(string hostName, string organizationId) {
 			try {
 				Log.WriteStart("'{0}' MoveRdsServerToTenantOU", ProviderSettings.ProviderName);
@@ -484,7 +484,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void RemoveRdsServerFromTenantOU(string hostName, string organizationId) {
 			try {
 				Log.WriteStart("'{0}' RemoveRdsServerFromTenantOU", ProviderSettings.ProviderName);
@@ -496,7 +496,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void InstallCertificate(Encrypted<byte[]> certificate, Encrypted<string> password, List<string> hostNames) {
 			try {
 				Log.WriteStart("'{0}' InstallCertificate", ProviderSettings.ProviderName);
@@ -508,7 +508,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void MoveSessionHostToRdsOU(string hostName) {
 			try {
 				Log.WriteStart("'{0}' MoveSessionHostToRdsOU", ProviderSettings.ProviderName);
@@ -520,7 +520,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ApplyGPO(string organizationId, string collectionName, RdsServerSettings serverSettings) {
 			try {
 				Log.WriteStart("'{0}' ApplyGPO", ProviderSettings.ProviderName);
@@ -532,7 +532,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ShadowSession(string sessionId, string fqdName, bool control) {
 			try {
 				Log.WriteStart("'{0}' ShadowSession", ProviderSettings.ProviderName);
@@ -544,7 +544,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void MoveSessionHostsToCollectionOU(List<RdsServer> servers, string collectionName, string organizationId) {
 			try {
 				Log.WriteStart("'{0}' MoveSessionHostsToCollectionOU", ProviderSettings.ProviderName);
@@ -556,7 +556,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public ImportedRdsCollection GetExistingCollection(string collectionName) {
 			try {
 				Log.WriteStart("'{0}' GetExistingCollection", ProviderSettings.ProviderName);
@@ -569,7 +569,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void ImportCollection(string organizationId, RdsCollection collection, List<string> users) {
 			try {
 				Log.WriteStart("'{0}' ImportCollection", ProviderSettings.ProviderName);
@@ -581,7 +581,7 @@ namespace WebsitePanel.Server {
 			}
 		}
 
-		[WebMethod, SoapHeader("settings")]
+		[WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
 		public void SendMessage(List<RdsMessageRecipient> recipients, string text) {
 			try {
 				Log.WriteStart("'{0}' SendMessage", ProviderSettings.ProviderName);

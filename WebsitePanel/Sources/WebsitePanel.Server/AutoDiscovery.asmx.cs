@@ -32,6 +32,7 @@ using WebsitePanel.Providers.Common;
 using WebsitePanel.Server.Code;
 using WebsitePanel.Server.Utils;
 using WebsitePanel.Providers.OS;
+using WebsitePanel.Server;
 
 
 namespace WebsitePanel.Server
@@ -42,6 +43,7 @@ namespace WebsitePanel.Server
 	[WebService(Namespace = "http://tempuri.org/")]
 	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 	[ToolboxItem(false)]
+	[PublicService]
 	public class AutoDiscovery : WebService {
 			
       [WebMethod]
@@ -51,7 +53,7 @@ namespace WebsitePanel.Server
       public string GetServerVersion() => AutoDiscoveryHelper.GetServerVersion();
 
 		[WebMethod]
-		public bool SupportsWSE() => false; // AutoDiscoveryHelper.SupportsWSE();
+		public bool SupportsWSE() => AutoDiscoveryHelper.SupportsWSE();
 
 		[WebMethod]
 		public Runtimes Runtime() => AutoDiscoveryHelper.Runtime();
@@ -61,6 +63,9 @@ namespace WebsitePanel.Server
 
 		[WebMethod]
 		public string EncryptionPublicKey() => AutoDiscoveryHelper.EncryptionPublicKey();
+
+		[WebMethod]
+		public bool Encrypted() => AutoDiscoveryHelper.Encrypted();
 
 	}
 

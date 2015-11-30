@@ -26,7 +26,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING  IN  ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#if Net // machine generated
+#if Net
 
 using System.ComponentModel;
 using System.Web.Services;
@@ -52,37 +52,37 @@ namespace WebsitePanel.Server
         }
 
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject CreateBlackBerryUser(string primaryEmailAddress)
         {
             return BlackBerryProvider.CreateBlackBerryUser(primaryEmailAddress);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject DeleteBlackBerryUser(string primaryEmailAddress)
         {
             return BlackBerryProvider.DeleteBlackBerryUser(primaryEmailAddress);
         }
 
-        [WebMethod, SoapHeader("settings")] 
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")] 
         public BlackBerryUserStatsResult GetBlackBerryUserStats(string primaryEmailAddress)
         {
             return BlackBerryProvider.GetBlackBerryUserStats(primaryEmailAddress);
         }
 
-        [WebMethod, SoapHeader("settings")] 
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")] 
         public ResultObject SetActivationPasswordWithExpirationTime(string primaryEmailAddress, Encrypted<string> password, int time)
         {
             return BlackBerryProvider.SetActivationPasswordWithExpirationTime(primaryEmailAddress, password, time);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject SetEmailActivationPassword(string primaryEmailAddress)
         {
             return BlackBerryProvider.SetEmailActivationPassword(primaryEmailAddress);
         }
 
-        [WebMethod, SoapHeader("settings")]
+        [WebMethod, SoapHeader("settings"), SoapHeader("auth"), SoapHeader("encryption")]
         public ResultObject DeleteDataFromBlackBerryDevice(string primaryEmailAddress)
         {
             return BlackBerryProvider.DeleteDataFromBlackBerryDevice(primaryEmailAddress);

@@ -60,10 +60,11 @@ namespace WebsitePanel.Providers.DNS
         //name servers
         const string NameServers = "NameServers";
 
-        #endregion
+		  #endregion
 
-		#region Static ctor
+#region Static ctor
 
+#if Net
 		static PowerDNS()
 		{
 			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
@@ -109,10 +110,10 @@ namespace WebsitePanel.Providers.DNS
 			//
 			return Assembly.LoadFrom(assemblyFile);
 		}
+#endif
+#endregion
 
-		#endregion
-
-        #region Provider Properties
+#region Provider Properties
 
         public string SOARefreshInterval
         {
@@ -164,9 +165,9 @@ namespace WebsitePanel.Providers.DNS
             get { return ProviderSettings[PDNSDbPassword]; }
         }
 
-        #endregion
+#endregion
 
-        #region IDnsServer Members
+#region IDnsServer Members
 
         /// <summary>
         /// Used to check whether the particular zone exits.
@@ -440,9 +441,9 @@ namespace WebsitePanel.Providers.DNS
             PDNSUpdateSoaRecord(zoneName);
         }
 
-        #endregion
+#endregion
 
-        #region Zone
+#region Zone
 
         /// <summary>
         /// Adds zone in Power DNS domains table and creates a SOA record for it.
@@ -490,9 +491,9 @@ namespace WebsitePanel.Providers.DNS
             }
         }
 
-        #endregion
+#endregion
 
-        #region Zone Record
+#region Zone Record
 
         protected void PDNSAddZoneRecord(string zoneName, DnsRecord record, bool isNeedToUpdateSOA)
         {
@@ -562,9 +563,9 @@ namespace WebsitePanel.Providers.DNS
             }
         }
 
-        #endregion
+#endregion
 
-        #region SOA Record
+#region SOA Record
 
         /// <summary>
         /// Updates SOA record of the corresponding zone
@@ -618,9 +619,9 @@ namespace WebsitePanel.Providers.DNS
             }
         }
 
-        #endregion
+#endregion
 
-        #region Database Helper Methods
+#region Database Helper Methods
 
         protected string GetConnectionString()
         {
@@ -675,9 +676,9 @@ namespace WebsitePanel.Providers.DNS
         }
 
 
-        #endregion
+#endregion
 
-        #region Record Helper Methods
+#region Record Helper Methods
 
 
         /// <summary>
@@ -934,9 +935,9 @@ namespace WebsitePanel.Providers.DNS
             }
         }
 
-        #endregion
+#endregion
 
-        #region Domain Record Helpers
+#region Domain Record Helpers
 
         /// <summary>
         /// Determines domain id by its name.
@@ -1046,9 +1047,9 @@ namespace WebsitePanel.Providers.DNS
             }
         }
 
-        #endregion
+#endregion
 
-        #region Conversion Methods
+#region Conversion Methods
 
         public DnsRecordType ConvertStringToDnsRecordType(string recordType)
         {
@@ -1134,7 +1135,7 @@ namespace WebsitePanel.Providers.DNS
             return result;
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// If zoneName stored in Power DNS is the same as record name (host) for this zone the the return value is string.Empty.
@@ -1178,10 +1179,8 @@ namespace WebsitePanel.Providers.DNS
 			if (Server.Utils.OS.IsNet) // Windows
 				return false;
 			else { // Mono
-
 				var txt = FileUtils.ExecuteSystemCommand ("pdns_control", "version");
 				return System.Text.RegularExpressions.Regex.IsMatch(txt, "(^$)|[0-9.]+)");
-
 			}
         }
 

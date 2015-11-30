@@ -9,6 +9,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using System.Threading;
 using System.IO;
+using WebsitePanel.Providers;
 
 namespace WebsitePanel.Server.Client {
 
@@ -70,7 +71,7 @@ namespace WebsitePanel.Server.Client {
 	public class ServiceProxy : SoapHttpClientProtocol, IServiceProxy {
 
 		// relative path to the non WSE webservices.
-		const string NoWSEPath = "/NoWSE";
+		public const string NoWSEPath = "/NoWSE";
 
 		string BaseUrl {
 			get {
@@ -109,8 +110,6 @@ namespace WebsitePanel.Server.Client {
 		/// False if this server proxy uses WSE. 
 		/// </summary>
 		public bool NoWSE => Service == this;
-
-		public string Password { get; set; }
 
 		// Client Methods
 		protected bool RequireMtom { get { return Service.RequireMtom; } set { Service.RequireMtom = value; } }
@@ -197,7 +196,7 @@ namespace WebsitePanel.Server.Client {
 		string IServiceProxy.Url {
 			get { return base.Url; }
 			set {
-				if (!value.Contains(NoWSEPath)) {
+				if (!value.Contains(NoWSEPath) && !(this is AutoDiscovery.AutoDiscovery)) { // AutoDiscovery doesn't need WSE.
 					var i = value.LastIndexOf('/');
 					base.Url = value.Substring(0, i) + NoWSEPath + value.Substring(i);
 				} else base.Url = value;

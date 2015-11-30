@@ -12,6 +12,7 @@ namespace WebsitePanel.Server.Client {
 		public string Url;
 		public bool SupportsWSE;
 		public string PublicKey;
+		public bool Encrypted;
 
 		public static ServerInfoCache Cache = new ServerInfoCache();
 	}
@@ -22,8 +23,16 @@ namespace WebsitePanel.Server.Client {
 		const string CacheFileName = "~/App_Data/ServerInfoCache.data";
 		static string CacheFile => HttpContext.Current.Server.MapPath(CacheFileName);
 
+		string BaseUrl(string url) {
+			if (url.EndsWith(".asmx") || url.EndsWith(".svc")) url = url.Substring(0, url.LastIndexOf('/'));
+			var nowse = url.LastIndexOf(ServiceProxy.NoWSEPath);
+			if (nowse >= 0) url = url.Substring(0, nowse);
+			return url;
+		}
+
 		public new ServerInfo this[string url] {
 			get {
+				url = BaseUrl(url);
 				if (!Contains(url)) {
 					var info = new ServerInfo() { Url = url, SupportsWSE = true, PublicKey = null };
 					var ad = new WebsitePanel.AutoDiscovery.AutoDiscovery();
@@ -31,6 +40,7 @@ namespace WebsitePanel.Server.Client {
 					ad.Timeout = 10000;
 					info.SupportsWSE = ad.SupportsWSE();
 					info.PublicKey = ad.EncryptionPublicKey();
+					info.Encrypted = ad.Encrypted();
 					Add(info);
 					Save();
 				}
@@ -47,6 +57,7 @@ namespace WebsitePanel.Server.Client {
 						info.Url = r.ReadString();
 						info.PublicKey = r.ReadString();
 						info.SupportsWSE = r.ReadBoolean();
+						info.Encrypted = r.ReadBoolean();
 						ServerInfo.Cache.Add(info);
 					}
 				}
@@ -63,6 +74,7 @@ namespace WebsitePanel.Server.Client {
 					w.Write(info.Url);
 					w.Write(info.PublicKey);
 					w.Write(info.SupportsWSE);
+					w.Write(info.Encrypted);
 				}
 			}
 		}

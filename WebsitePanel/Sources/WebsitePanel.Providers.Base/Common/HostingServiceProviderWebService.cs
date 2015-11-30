@@ -28,65 +28,53 @@
 
 using System;
 
-namespace WebsitePanel.Providers
-{
-    public abstract class HostingServiceProviderWebService: System.Web.Services.WebService
-    {
-        public ServiceProviderSettingsSoapHeader settings = new ServiceProviderSettingsSoapHeader();
+namespace WebsitePanel.Providers {
+	public abstract class HostingServiceProviderWebService : System.Web.Services.WebService {
+		public ServiceProviderSettingsSoapHeader settings = new ServiceProviderSettingsSoapHeader();
+		public AuthenticationSoapHeader auth = new AuthenticationSoapHeader();
+		public EncryptionSession encryption = new EncryptionSession();
 
-        private RemoteServerSettings serverSettings;
-        private ServiceProviderSettings providerSettings;
+		private RemoteServerSettings serverSettings;
+		private ServiceProviderSettings providerSettings;
 
-        private IHostingServiceProvider provider;
-        protected IHostingServiceProvider Provider
-        {
-            get
-            {
-                if (provider == null)
-                {
-                    // try to create provider class
-                    Type providerType = Type.GetType(ProviderSettings.ProviderType);
-                    try
-                    {
-                        provider = (IHostingServiceProvider)Activator.CreateInstance(providerType);
+		private IHostingServiceProvider provider;
+		protected IHostingServiceProvider Provider {
+			get {
+				if (provider == null) {
+					// try to create provider class
+					Type providerType = Type.GetType(ProviderSettings.ProviderType);
+					try {
+						provider = (IHostingServiceProvider)Activator.CreateInstance(providerType);
 
-                        ((HostingServiceProviderBase)provider).ServerSettings = ServerSettings;
-                        ((HostingServiceProviderBase)provider).ProviderSettings = ProviderSettings;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception(String.Format("Can not create '{0}' provider instance with '{1}' type",
-                            ProviderSettings.ProviderName, ProviderSettings.ProviderType), ex);
-                    }
-                }
-                return provider;
-            }
-        }
+						((HostingServiceProviderBase)provider).ServerSettings = ServerSettings;
+						((HostingServiceProviderBase)provider).ProviderSettings = ProviderSettings;
+					} catch (Exception ex) {
+						throw new Exception(String.Format("Can not create '{0}' provider instance with '{1}' type",
+							 ProviderSettings.ProviderName, ProviderSettings.ProviderType), ex);
+					}
+				}
+				return provider;
+			}
+		}
 
-        protected RemoteServerSettings ServerSettings
-        {
-            get
-            {
-                if (serverSettings == null)
-                {
-                    // parse server settings
-                    serverSettings = new RemoteServerSettings(settings.Settings);
-                }
-                return serverSettings;
-            }
-        }
+		protected RemoteServerSettings ServerSettings {
+			get {
+				if (serverSettings == null) {
+					// parse server settings
+					serverSettings = new RemoteServerSettings(settings.Settings);
+				}
+				return serverSettings;
+			}
+		}
 
-        protected ServiceProviderSettings ProviderSettings
-        {
-            get
-            {
-                if (providerSettings == null)
-                {
-                    // parse provider settings
-                    providerSettings = new ServiceProviderSettings(settings.Settings);
-                }
-                return providerSettings;
-            }
-        }
-    }
+		protected ServiceProviderSettings ProviderSettings {
+			get {
+				if (providerSettings == null) {
+					// parse provider settings
+					providerSettings = new ServiceProviderSettings(settings.Settings);
+				}
+				return providerSettings;
+			}
+		}
+	}
 }

@@ -81,7 +81,6 @@
     </Compile>
     <Compile Include="AutoDiscoveryProxy.cs" />
     <Compile Include="BlackBerryProxy.cs" />
-    <Compile Include="Common\Authenticate.cs" />
     <Compile Include="Common\ServerInfoCache.cs" />
     <Compile Include="Common\ServerProxyConfigurator.cs" />
     <Compile Include="Common\ServerUsernameAssertion.cs" />
@@ -151,15 +150,13 @@
   </ItemGroup>
   <Import Project="$(RootFolder)\tools\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
   <Import Project="$(RootFolder)\tools\MSBuildExtensionPack\MSBuild.ExtensionPack.tasks" />
-  <Target Name="BuildNonWSEProxies">
+  <Target Name="BuildProxies">
     <ItemGroup>
       <CodeFiles Include="*.cs" />
     </ItemGroup>
     <MSBuild.ExtensionPack.FileSystem.File TaskAction="FilterByContent" RegexPattern="^(?!.*#if[ \t]+Net[ \n\r\t/])(?=.*(WebsitePanel\.Server\.Client\.(ServiceProxy|WSE3ServiceProxy)|Microsoft\.Web\.Services[23]?\.WebServicesClientProtocol|System.Web.Services.Protocols.SoapHttpClientProtocol))" Files="@(CodeFiles)" RegexOptionList="Singleline">
       <Output TaskParameter="IncludedFiles" ItemName="OriginalCodeFiles" />
     </MSBuild.ExtensionPack.FileSystem.File>
-    <!-- clone proxy classes to support both WSE and non WSE and add usings-->
-    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;head&gt;[ \t\n\r]*(((//[^\n\r]*)|(/\*.*\*/)|(using[ \t\r\na-zA-Z0-9.=]+;))[ \t\r\n]*)*)(?&lt;body&gt;(?&lt;nshead&gt;namespace[ \t\r\n]+)(?&lt;ns&gt;[a-zA-Z0-9.]+)(?&lt;classhead&gt;.*class[ \t\r\n]+)(?&lt;class&gt;[a-zA-Z0-9]+)(?&lt;inherits&gt;[ \t\r\n]*:[ \t\r\n]*)(?&lt;subclass&gt;(Microsoft\.Web\.Services[23]?\.WebServicesClientProtocol|System.Web.Services.Protocols.SoapHttpClientProtocol))(?&lt;classbegin&gt;[ \t\n\ra-zA-Z0-9,]*[\{])(?&lt;rest&gt;.*))(?&lt;footer&gt;[ \t\n\r]*)$" ReplacementText="${head}using System.Collections.Generic;&#xD;&#xA;using WebsitePanel.Providers;&#xD;&#xA;using WebsitePanel.Providers.Common;&#xD;&#xA;using WebsitePanel.Providers.Database;&#xD;&#xA;using WebsitePanel.EnterpriseServer.Base.RDS;&#xD;&#xA;using WebsitePanel.Providers.DNS;&#xD;&#xA;using WebsitePanel.Providers.DomainLookup;&#xD;&#xA;using WebsitePanel.Providers.EnterpriseStorage;&#xD;&#xA;using WebsitePanel.Providers.FTP;&#xD;&#xA;using WebsitePanel.Providers.HeliconZoo;&#xD;&#xA;using WebsitePanel.Providers.HostedSolution;&#xD;&#xA;using WebsitePanel.Providers.Mail;&#xD;&#xA;using WebsitePanel.Providers.OS;&#xD;&#xA;using WebsitePanel.Providers.RemoteDesktopServices;&#xD;&#xA;using WebsitePanel.Providers.ResultObjects;&#xD;&#xA;using WebsitePanel.Providers.SharePoint;&#xD;&#xA;using WebsitePanel.Providers.Statistics;&#xD;&#xA;using WebsitePanel.Providers.StorageSpaces;&#xD;&#xA;using WebsitePanel.Providers.Virtualization;&#xD;&#xA;using WebsitePanel.Providers.Web;&#xD;&#xA;using WebsitePanel.Providers.WebAppGallery;&#xD;&#xA;&#xD;&#xA;${nshead}${ns}${classhead}${class}${inherits}WebsitePanel.Server.Client.ServiceProxy${classbegin}${rest}&#xD;&#xA;&#xD;&#xA;#if Net&#xD;&#xA;&#xD;&#xA;${nshead}${ns}.WSE${classhead}${class}${inherits}WebsitePanel.Server.Client.WSE3ServiceProxy${classbegin}${rest}&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
     <!-- replace EncryptedOfArrayOfXXX parameters with Encrypted<XXX[]> -->
     <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;=[(,][ \t\r\n]*)EncryptedOfArrayOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]+[^,)])" ReplacementText="Encrypted&lt;${type}[]&gt;" Singleline="true" />
     <!-- replace EncryptedOfListOfXXX parameters with Encrypted<List<XXX>> -->
@@ -167,11 +164,13 @@
     <!-- replace EncryptedOfXXX parameters with Encrypted<XXX> -->
     <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;=[(,][ \t\r\n]*)EncryptedOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]+[^,)])" ReplacementText="Encrypted&lt;${type}&gt;" Singleline="true" />
     <!-- replace EncryptedOfArrayOfXXX return types and type casts with XXX[] -->
-    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(((?&lt;![(,][ \t\r\n]+)(?&lt;=[ \t\r\n])EncryptedOfArrayOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]))|(?&lt;=\([ \t\r\n]*)EncryptedOfArrayOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]*\)))" ReplacementText="${type}[]" Singleline="true" />
+    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;![,][ \t\r\n]*)(?&lt;=[ \t\r\n(])EncryptedOfArrayOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=([ \t\r\n]+[a-zA-Z0-9)])|\))" ReplacementText="${type}[]" Singleline="true" />
     <!-- replace EncryptedOfListOfXXX return types and type casts with List<XXX> -->
-    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(((?&lt;![(,][ \t\r\n]+)(?&lt;=[ \t\r\n])EncryptedOfListOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]))|(?&lt;=\([ \t\r\n]*)EncryptedOfListOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]*\)))" ReplacementText="List&lt;${type}&gt;" Singleline="true" />
+    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;![,][ \t\r\n]*)(?&lt;=[ \t\r\n(])EncryptedOfListOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=([ \t\r\n]+[a-zA-Z0-9)])|\))" ReplacementText="List&lt;${type}&gt;" Singleline="true" />
     <!-- replace EncryptedOfXXX return types and type casts with XXX -->
-    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(((?&lt;![(,][ \t\r\n]+)(?&lt;=[ \t\r\n])EncryptedOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]))|(?&lt;=\([ \t\r\n]*)EncryptedOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=[ \t\r\n]*\)))" ReplacementText="${type}" Singleline="true" />
+    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;![,][ \t\r\n]*)(?&lt;=[ \t\r\n(])EncryptedOf(?&lt;type&gt;[a-zA-Z0-9]+)(?=([ \t\r\n]+[a-zA-Z0-9)])|\))" ReplacementText="${type}" Singleline="true" />
+    <!-- clone proxy classes to support both WSE and non WSE and add usings-->
+    <FileUpdate Files="@(OriginalCodeFiles)" Regex="(?&lt;head&gt;[ \t\n\r]*(((//[^\n\r]*)|(/\*.*\*/)|(using[ \t\r\na-zA-Z0-9.=]+;))[ \t\r\n]*)*)(?&lt;body&gt;(?&lt;nshead&gt;namespace[ \t\r\n]+)(?&lt;ns&gt;[a-zA-Z0-9.]+)(?&lt;classhead&gt;.*class[ \t\r\n]+)(?&lt;class&gt;[a-zA-Z0-9]+)(?&lt;inherits&gt;[ \t\r\n]*:[ \t\r\n]*)(?&lt;subclass&gt;(Microsoft\.Web\.Services[23]?\.WebServicesClientProtocol|System.Web.Services.Protocols.SoapHttpClientProtocol))(?&lt;classbegin&gt;[ \t\n\ra-zA-Z0-9,]*[\{])(?&lt;rest&gt;.*))(?&lt;footer&gt;[ \t\n\r]*)$" ReplacementText="${head}using System.Collections.Generic;&#xD;&#xA;using WebsitePanel.Providers;&#xD;&#xA;using WebsitePanel.Providers.Common;&#xD;&#xA;using WebsitePanel.Providers.Database;&#xD;&#xA;using WebsitePanel.EnterpriseServer.Base.RDS;&#xD;&#xA;using WebsitePanel.Providers.DNS;&#xD;&#xA;using WebsitePanel.Providers.DomainLookup;&#xD;&#xA;using WebsitePanel.Providers.EnterpriseStorage;&#xD;&#xA;using WebsitePanel.Providers.FTP;&#xD;&#xA;using WebsitePanel.Providers.HeliconZoo;&#xD;&#xA;using WebsitePanel.Providers.HostedSolution;&#xD;&#xA;using WebsitePanel.Providers.Mail;&#xD;&#xA;using WebsitePanel.Providers.OS;&#xD;&#xA;using WebsitePanel.Providers.RemoteDesktopServices;&#xD;&#xA;using WebsitePanel.Providers.ResultObjects;&#xD;&#xA;using WebsitePanel.Providers.SharePoint;&#xD;&#xA;using WebsitePanel.Providers.Statistics;&#xD;&#xA;using WebsitePanel.Providers.StorageSpaces;&#xD;&#xA;using WebsitePanel.Providers.Virtualization;&#xD;&#xA;using WebsitePanel.Providers.Web;&#xD;&#xA;using WebsitePanel.Providers.WebAppGallery;&#xD;&#xA;&#xD;&#xA;${nshead}${ns}${classhead}${class}${inherits}WebsitePanel.Server.Client.ServiceProxy${classbegin}${rest}&#xD;&#xA;&#xD;&#xA;#if Net&#xD;&#xA;&#xD;&#xA;${nshead}${ns}.WSE${classhead}${class}${inherits}WebsitePanel.Server.Client.WSE3ServiceProxy${classbegin}${rest}&#xD;&#xA;&#xD;&#xA;#endif" Singleline="true" />
   </Target>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

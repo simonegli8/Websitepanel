@@ -45,7 +45,9 @@ namespace WebsitePanel.Providers
 	/// <summary>
 	/// Summary description for ServiceProviderSettings.
 	/// </summary>
-	public class ServiceProviderSettingsSoapHeader : EncryptionSession, IEncrypted {
+	public class ServiceProviderSettingsSoapHeader: SecureSoapHeader {
+
+		public ServiceProviderSettingsSoapHeader() : base() { }
 
 		bool serialized = false;
 
@@ -61,20 +63,20 @@ namespace WebsitePanel.Providers
 		[XmlAttribute("SecureHeader", Namespace = "http://smbsaas/websitepanel/server/")]
 		public bool SecureHeader;
 
-		public void Decrypt(EncryptionSession decryptor) {
+		public override void Decrypt(EncryptionSession decryptor) {
 			lock (this)
 			if (!serialized && EncryptedSettings != null) {
-				EncryptedSettings.Decrypt(decryptor);
+				base.Decrypt(decryptor);
 				Settings = EncryptedSettings;
 				EncryptedSettings = null;
 			}
 		}
 
-		public void Encrypt(EncryptionSession encryptor) {
+		public override void Encrypt(EncryptionSession encryptor) {
 			lock (this)
 			if (SecureHeader) {
 				EncryptedSettings = Settings;
-				EncryptedSettings.Encrypt(encryptor);
+				base.Encrypt(encryptor);
 				Settings = null;
 				serialized = true;
 			} else EncryptedSettings = null;
