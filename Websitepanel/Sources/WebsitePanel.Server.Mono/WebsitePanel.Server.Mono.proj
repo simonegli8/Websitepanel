@@ -71,7 +71,7 @@
   <Import Project="$(ServerProj)" />
   <Target Name="CopyFromServer">
     <ItemGroup>
-      <ContentWithoutMono Include="@(Content)" Exclude="bin\WebsitePanel.Provider.DNS.Bind.*;bin\WebsitePanel.Providers.DNS.PowerDNS.*;bin\WebsitePanel.Providers.Database.MySQL.*;bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.*;bin\WebsitePanel.Providers.Mail.Merak.*;bin\WebsitePanel.Providers.Mail.Merak10.*;bin\WebsitePanel.Providers.FTP.ServU.*;bin\WebsitePanel.Providers.Statistics.AWStats.*;bin\WebsitePanel.Provider.Statistics.SmarterStats.*" />
+      <ContentWithoutMono Include="@(Content)" Exclude="bin\WebsitePanel.Provider.DNS.Bind.*;bin\WebsitePanel.Providers.DNS.PowerDNS.*;bin\WebsitePanel.Providers.Database.MySQL.*;bin\IceWarp\WebsitePanel.Providers.Mail.IceWarp.*;bin\WebsitePanel.Providers.Mail.Merak.*;bin\WebsitePanel.Providers.Mail.Merak10.*;bin\WebsitePanel.Providers.FTP.ServU.*;bin\WebsitePanel.Providers.Statistics.AWStats.*;bin\WebsitePanel.Provider.Statistics.SmarterStats.*;Web.config" />
      	<DllImports Include="..\..\Lib\References\MySql\MySql.Data.dll" />
 	 </ItemGroup>
     <Message Text="Copy WebsitePanel.Server" />

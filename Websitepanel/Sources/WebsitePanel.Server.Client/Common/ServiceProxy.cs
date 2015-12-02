@@ -224,7 +224,9 @@ namespace WebsitePanel.Server.Client {
 		WebRequest IServiceProxy.GetWebRequest(Uri uri) => base.GetWebRequest(uri);
 		WebResponse IServiceProxy.GetWebResponse(WebRequest request) => base.GetWebResponse(request);
 		XmlWriter IServiceProxy.GetWriterForMessage(SoapClientMessage message, int bufferSize) => base.GetWriterForMessage(message, bufferSize);
-		object[] IServiceProxy.Invoke(string methodName, object[] parameters) => base.Invoke(methodName, parameters);
+		object[] IServiceProxy.Invoke(string methodName, object[] parameters) {
+			System.Diagnostics.Debug.WriteLine(methodName + $"{parameters.FirstOrDefault()}, {parameters.Skip(1).FirstOrDefault()}");
+			base.Invoke(methodName, parameters);
 		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback) => base.InvokeAsync(methodName, parameters, callback);
 		void IServiceProxy.InvokeAsync(string methodName, object[] parameters, SendOrPostCallback callback, object userState) => base.InvokeAsync(methodName, parameters, callback, userState);
 	}

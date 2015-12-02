@@ -1,0 +1,218 @@
+[2015-11-30 19:23:05] Notice : xsp4
+[2015-11-30 19:23:05] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:23:05] Notice : Root directory: ..\Sources\WebsitePanel.Server.Mono
+[2015-11-30 19:23:05] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:24:28] Notice : xsp4
+[2015-11-30 19:24:28] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:24:28] Notice : Root directory: ..\Sources\WebsitePanel.Server.Mono
+[2015-11-30 19:24:28] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 19:24:28] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x60e0fe0 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 19:24:28] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x60df020 + 0x00067> in <filename unknown>:0 
+[2015-11-30 19:24:28] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x60debc8 + 0x000da> in <filename unknown>:0 
+[2015-11-30 19:24:28] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 19:24:28] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4fa4e38 + 0x00ab3> in <filename unknown>:0 
+[2015-11-30 19:25:09] Notice : xsp4
+[2015-11-30 19:25:09] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:25:09] Notice : Root directory: ..\Sources\WebsitePanel.Server.Mono
+[2015-11-30 19:25:09] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:28:16.603932] Notice : Adding applications '/:.'...
+[2015-11-30 19:28:16.652812] Notice : Registering application:
+[2015-11-30 19:28:16.652812] Notice :     Host:          any
+[2015-11-30 19:28:16.652812] Notice :     Port:          any
+[2015-11-30 19:28:16.652812] Notice :     Virtual path:  /
+[2015-11-30 19:28:16.652812] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Tools\
+[2015-11-30 19:28:17.115225] Notice : xsp4
+[2015-11-30 19:28:17.145531] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:28:17.145531] Notice : Root directory: ..\Sources\WebsitePanel.Server.Mono
+[2015-11-30 19:28:17.153354] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:29:30.263551] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:29:30.301678] Notice : Registering application:
+[2015-11-30 19:29:30.301678] Notice :     Host:          any
+[2015-11-30 19:29:30.301678] Notice :     Port:          any
+[2015-11-30 19:29:30.301678] Notice :     Virtual path:  /
+[2015-11-30 19:29:30.301678] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:29:30.687848] Notice : xsp4
+[2015-11-30 19:29:30.715220] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:29:30.715220] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:29:30.721092] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 19:29:30.724024] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x6274da8 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 19:29:30.724024] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x6272de8 + 0x00067> in <filename unknown>:0 
+[2015-11-30 19:29:30.724024] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x62729a0 + 0x000da> in <filename unknown>:0 
+[2015-11-30 19:29:30.724024] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 19:29:30.725002] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4f96e98 + 0x00ab3> in <filename unknown>:0 
+[2015-11-30 19:30:11.812085] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:30:11.850211] Notice : Registering application:
+[2015-11-30 19:30:11.850211] Notice :     Host:          any
+[2015-11-30 19:30:11.850211] Notice :     Port:          any
+[2015-11-30 19:30:11.850211] Notice :     Virtual path:  /
+[2015-11-30 19:30:11.850211] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:30:12.254946] Notice : xsp4
+[2015-11-30 19:30:12.289163] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:30:12.289163] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:30:12.297960] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:31:37.764379] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:31:37.808372] Notice : Registering application:
+[2015-11-30 19:31:37.808372] Notice :     Host:          any
+[2015-11-30 19:31:37.808372] Notice :     Port:          any
+[2015-11-30 19:31:37.808372] Notice :     Virtual path:  /
+[2015-11-30 19:31:37.809349] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:31:38.231679] Notice : xsp4
+[2015-11-30 19:31:38.261985] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:31:38.261985] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:31:38.268829] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:35:50.605196] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:35:50.646256] Notice : Registering application:
+[2015-11-30 19:35:50.646256] Notice :     Host:          any
+[2015-11-30 19:35:50.646256] Notice :     Port:          any
+[2015-11-30 19:35:50.646256] Notice :     Virtual path:  /
+[2015-11-30 19:35:50.646256] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:35:51.058811] Notice : xsp4
+[2015-11-30 19:35:51.086185] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:35:51.086185] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:35:51.093028] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 19:35:51.094984] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x6275038 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 19:35:51.094984] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x6273078 + 0x00067> in <filename unknown>:0 
+[2015-11-30 19:35:51.095975] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x6272c30 + 0x000da> in <filename unknown>:0 
+[2015-11-30 19:35:51.095975] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 19:35:51.095975] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4f96e98 + 0x00ab3> in <filename unknown>:0 
+[2015-11-30 19:36:41.699579] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:36:41.739663] Notice : Registering application:
+[2015-11-30 19:36:41.739663] Notice :     Host:          any
+[2015-11-30 19:36:41.739663] Notice :     Port:          any
+[2015-11-30 19:36:41.739663] Notice :     Virtual path:  /
+[2015-11-30 19:36:41.739663] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:36:42.169812] Notice : xsp4
+[2015-11-30 19:36:42.199142] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:36:42.200119] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:36:42.207940] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:54:34.372918] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:54:34.419794] Notice : Registering application:
+[2015-11-30 19:54:34.419794] Notice :     Host:          any
+[2015-11-30 19:54:34.419794] Notice :     Port:          any
+[2015-11-30 19:54:34.419794] Notice :     Virtual path:  /
+[2015-11-30 19:54:34.419794] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:54:34.810434] Notice : xsp4
+[2015-11-30 19:54:34.841685] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:54:34.841685] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:54:34.841685] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:54:43.103432] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:54:43.141516] Notice : Registering application:
+[2015-11-30 19:54:43.141516] Notice :     Host:          any
+[2015-11-30 19:54:43.141516] Notice :     Port:          any
+[2015-11-30 19:54:43.141516] Notice :     Virtual path:  /
+[2015-11-30 19:54:43.141516] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:54:43.485431] Notice : xsp4
+[2015-11-30 19:54:43.509449] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:54:43.509449] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:54:43.510513] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 19:54:56.382021] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 19:54:56.419047] Notice : Registering application:
+[2015-11-30 19:54:56.419047] Notice :     Host:          any
+[2015-11-30 19:54:56.419047] Notice :     Port:          any
+[2015-11-30 19:54:56.419047] Notice :     Virtual path:  /
+[2015-11-30 19:54:56.419047] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 19:54:56.824334] Notice : xsp4
+[2015-11-30 19:54:56.857358] Notice : Listening on address: 0.0.0.0
+[2015-11-30 19:54:56.858360] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 19:54:56.865365] Notice : Listening on port: 9004 (non-secure)
+[2015-11-30 20:24:32.786260] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 20:24:32.824271] Notice : Registering application:
+[2015-11-30 20:24:32.824271] Notice :     Host:          any
+[2015-11-30 20:24:32.824271] Notice :     Port:          any
+[2015-11-30 20:24:32.824271] Notice :     Virtual path:  /
+[2015-11-30 20:24:32.825282] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 20:24:33.212548] Notice : xsp4
+[2015-11-30 20:24:33.242569] Notice : Listening on address: 0.0.0.0
+[2015-11-30 20:24:33.242569] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 20:24:33.249574] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 20:24:33.251575] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x62a4da8 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 20:24:33.252576] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x62a2de8 + 0x00067> in <filename unknown>:0 
+[2015-11-30 20:24:33.252576] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x62a29a0 + 0x000da> in <filename unknown>:0 
+[2015-11-30 20:24:33.252576] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 20:24:33.252576] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4fc6e98 + 0x00ab3> in <filename unknown>:0 
+[2015-11-30 20:24:44.501712] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 20:24:44.532965] Notice : Registering application:
+[2015-11-30 20:24:44.532965] Notice :     Host:          any
+[2015-11-30 20:24:44.532965] Notice :     Port:          any
+[2015-11-30 20:24:44.532965] Notice :     Virtual path:  /
+[2015-11-30 20:24:44.532965] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 20:24:44.907975] Notice : xsp4
+[2015-11-30 20:24:44.939231] Notice : Listening on address: 0.0.0.0
+[2015-11-30 20:24:44.939231] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 20:24:44.939231] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 20:24:44.939231] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x6284da8 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 20:24:44.939231] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x6282de8 + 0x00067> in <filename unknown>:0 
+[2015-11-30 20:24:44.939231] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x62829a0 + 0x000da> in <filename unknown>:0 
+[2015-11-30 20:24:44.939231] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 20:24:44.939231] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4fa6e98 + 0x00ab3> in <filename unknown>:0 
+[2015-11-30 20:24:47.251762] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 20:24:47.283006] Notice : Registering application:
+[2015-11-30 20:24:47.298623] Notice :     Host:          any
+[2015-11-30 20:24:47.298623] Notice :     Port:          any
+[2015-11-30 20:24:47.298623] Notice :     Virtual path:  /
+[2015-11-30 20:24:47.298623] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 20:24:47.673628] Notice : xsp4
+[2015-11-30 20:24:47.704879] Notice : Listening on address: 0.0.0.0
+[2015-11-30 20:24:47.704879] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 20:24:47.704879] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 20:24:47.704879] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x6284da8 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 20:24:47.704879] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x6282de8 + 0x00067> in <filename unknown>:0 
+[2015-11-30 20:24:47.704879] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x62829a0 + 0x000da> in <filename unknown>:0 
+[2015-11-30 20:24:47.720505] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 20:24:47.720505] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4fa6e98 + 0x00ab3> in <filename unknown>:0 
+[2015-11-30 20:24:49.622050] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-11-30 20:24:49.653301] Notice : Registering application:
+[2015-11-30 20:24:49.653301] Notice :     Host:          any
+[2015-11-30 20:24:49.653301] Notice :     Port:          any
+[2015-11-30 20:24:49.653301] Notice :     Virtual path:  /
+[2015-11-30 20:24:49.653301] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-11-30 20:24:50.043936] Notice : xsp4
+[2015-11-30 20:24:50.075187] Notice : Listening on address: 0.0.0.0
+[2015-11-30 20:24:50.075187] Notice : Root directory: C:\Code\WebsitePanel\Linux\Websitepanel\Tools
+[2015-11-30 20:24:50.075187] Error  : Normalerweise darf jede Socketadresse (Protokoll, Netzwerkadresse oder Anschluss) nur jeweils einmal verwendet werden.
+
+[2015-11-30 20:24:50.075187] Error  :   at System.Net.Sockets.Socket.Bind (System.Net.EndPoint local_end) <0x62a5038 + 0x000c3> in <filename unknown>:0 
+[2015-11-30 20:24:50.075187] Error  :   at Mono.WebServer.XSPWebSource.CreateSocket () <0x62a3078 + 0x00067> in <filename unknown>:0 
+[2015-11-30 20:24:50.075187] Error  :   at Mono.WebServer.ApplicationServer.Start (Boolean bgThread, Int32 backlog) <0x62a2c30 + 0x000da> in <filename unknown>:0 
+[2015-11-30 20:24:50.075187] Error  :   at (wrapper remoting-invoke-with-check) Mono.WebServer.ApplicationServer:Start (bool,int)
+[2015-11-30 20:24:50.075187] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x4fc6e98 + 0x00ab3> in <filename unknown>:0 
+[2015-12-02 00:19:38.467842] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-12-02 00:19:38.611944] Notice : Registering application:
+[2015-12-02 00:19:38.611944] Notice :     Host:          any
+[2015-12-02 00:19:38.612944] Notice :     Port:          any
+[2015-12-02 00:19:38.612944] Notice :     Virtual path:  /
+[2015-12-02 00:19:38.612944] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-12-02 00:19:39.743748] Error  : Handling exception type XmlException
+[2015-12-02 00:19:39.745749] Error  : Message is The '=' character, hexadecimal value 0x3D, cannot be included in a name. Line 54, position 17.
+[2015-12-02 00:19:39.745749] Error  : IsTerminating is set to True
+[2015-12-02 00:19:39.750753] Error  : The '=' character, hexadecimal value 0x3D, cannot be included in a name. Line 54, position 17.
+[2015-12-02 00:19:39.757758] Error  :   at (wrapper xdomain-invoke) System.AppDomain:DoCallBack (System.CrossAppDomainDelegate)
+[2015-12-02 00:19:39.757758] Error  :   at (wrapper remoting-invoke-with-check) System.AppDomain:DoCallBack (System.CrossAppDomainDelegate)
+[2015-12-02 00:19:39.758759] Error  :   at System.Web.Hosting.ApplicationHost.CreateApplicationHost (System.Type hostType, System.String virtualDir, System.String physicalDir) <0x3a78a60 + 0x00807> in <filename unknown>:0 
+[2015-12-02 00:19:39.759759] Error  :   at Mono.WebServer.VPathToHost.CreateHost (Mono.WebServer.ApplicationServer server, Mono.WebServer.WebSource webSource) <0x3a77ed0 + 0x0007f> in <filename unknown>:0 
+[2015-12-02 00:19:39.760760] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x39c1888 + 0x0078b> in <filename unknown>:0 
+[2015-12-02 00:19:39.761761] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args) <0x39c12c8 + 0x000eb> in <filename unknown>:0 
+[2015-12-02 00:19:39.761761] Error  :   at Mono.WebServer.XSP.Server.Main (System.String[] args) <0x39c0f70 + 0x0002f> in <filename unknown>:0 
+[2015-12-02 19:44:55.151980] Notice : Adding applications '/:..\Sources\WebsitePanel.Server.Mono'...
+[2015-12-02 19:44:55.206018] Notice : Registering application:
+[2015-12-02 19:44:55.206018] Notice :     Host:          any
+[2015-12-02 19:44:55.206018] Notice :     Port:          any
+[2015-12-02 19:44:55.206018] Notice :     Virtual path:  /
+[2015-12-02 19:44:55.206018] Notice :     Physical path: C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\
+[2015-12-02 19:44:55.546261] Error  : Handling exception type ConfigurationErrorsException
+[2015-12-02 19:44:55.547261] Error  : Message is Unrecognized configuration section <cachingConfiguration> (C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\Web.config line 29)
+[2015-12-02 19:44:55.547261] Error  : IsTerminating is set to True
+[2015-12-02 19:44:55.548261] Error  : Unrecognized configuration section <cachingConfiguration> (C:\Code\WebsitePanel\Linux\Websitepanel\Sources\WebsitePanel.Server.Mono\Web.config line 29)
+[2015-12-02 19:44:55.551264] Error  :   at (wrapper xdomain-invoke) System.AppDomain:DoCallBack (System.CrossAppDomainDelegate)
+[2015-12-02 19:44:55.551264] Error  :   at (wrapper remoting-invoke-with-check) System.AppDomain:DoCallBack (System.CrossAppDomainDelegate)
+[2015-12-02 19:44:55.551264] Error  :   at System.Web.Hosting.ApplicationHost.CreateApplicationHost (System.Type hostType, System.String virtualDir, System.String physicalDir) <0x3a78a60 + 0x00807> in <filename unknown>:0 
+[2015-12-02 19:44:55.552265] Error  :   at Mono.WebServer.VPathToHost.CreateHost (Mono.WebServer.ApplicationServer server, Mono.WebServer.WebSource webSource) <0x3a77ed0 + 0x0007f> in <filename unknown>:0 
+[2015-12-02 19:44:55.552265] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args, Boolean root, IApplicationHost ext_apphost, Boolean quiet) <0x39c1888 + 0x0078b> in <filename unknown>:0 
+[2015-12-02 19:44:55.552265] Error  :   at Mono.WebServer.XSP.Server.DebugMain (System.String[] args) <0x39c12c8 + 0x000eb> in <filename unknown>:0 
+[2015-12-02 19:44:55.552265] Error  :   at Mono.WebServer.XSP.Server.Main (System.String[] args) <0x39c0f70 + 0x0002f> in <filename unknown>:0 
