@@ -54,7 +54,7 @@ namespace WebsitePanel.Server
                 litVersion.Text = ((AssemblyFileVersionAttribute)attrs[0]).Version;
 
 				// asp.net runtime
-				litRuntime.Text = (Utils.OS.IsMono ? "Mono " : "Microsoft.Net ") + Environment.Version.ToString();
+				litRuntime.Text = (Utils.OS.IsMono ? "Mono " : "Microsoft.Net ") + Environment.Version.ToString() + ", " + Utils.OS.Platform.ToString();
 
             // asp.net mode
             litAspNetMode.Text = (IntPtr.Size == 8) ? "64-bit" : "32-bit";

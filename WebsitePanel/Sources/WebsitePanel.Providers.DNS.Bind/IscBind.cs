@@ -70,15 +70,15 @@ namespace WebsitePanel.Providers.DNS {
       protected string BindReloadBatch {
          get { return ProviderSettings["BindReloadBatch"]; }
       }
-		#endregion
 
 		public override SettingPair[] GetProviderDefaultSettings() {
 			return new SettingPair[] {
-				new SettingPair("BindConfigPath", Server.Utils.OS.IsNet ? @"c:\Windows\sysWOW64\dns\etc" : "/etc/bind"),
-				new SettingPair("ZonesFolderPath", Server.Utils.OS.IsNet ? @"c:\Windows\sysWOW64\dns\etc\zones" : "/etc/bind/zones"),
-				new SettingPair("BindReloadBatch", Server.Utils.OS.IsNet ? @"c:\Windows\sysWOW64\dns\rndc.exe" : "rndc")
+				new SettingPair("BindConfigPath", Server.Utils.OS.IsWindows ? @"c:\Windows\sysWOW64\dns\etc" : "/etc/bind"),
+				new SettingPair("ZonesFolderPath", Server.Utils.OS.IsWindows ? @"c:\Windows\sysWOW64\dns\etc\zones" : "/etc/bind/zones"),
+				new SettingPair("BindReloadBatch", Server.Utils.OS.IsWindows ? @"c:\Windows\sysWOW64\dns\rndc.exe" : "rndc")
 			};
 		}
+		#endregion
 
 		#region Zones
 		public virtual bool ZoneExists(string zoneName) {

@@ -595,7 +595,7 @@
 	<PropertyGroup>
 		<UpdateFolder>$(DeployFolder)\Update</UpdateFolder>
 		<ServerUpdate>$(UpdateFolder)\Server</ServerUpdate>
-		<ServerUpdate>$(UpdateFolder)\ServerMono</ServerUpdate>
+		<ServerMonoUpdate>$(UpdateFolder)\ServerMono</ServerMonoUpdate>
 		<EnterpriseServerUpdate>$(UpdateFolder)\EnterpriseServer</EnterpriseServerUpdate>
 		<PortalUpdate>$(UpdateFolder)\Portal</PortalUpdate>
 	</PropertyGroup>
